@@ -48,8 +48,18 @@
                  <div class="form-group">
                   <label>Department</label>
                   <select class="form-control select2bs4" name="department" style="width: 100%;">
-                    <option selected="selected" value="1">Medical</option>
-                    <option value="2">Eye Specialist</option>
+                  <option disabled selected>Select Property Type</option>
+                    <?php
+                      $dept = 'SELECT `DEPARTMENT_ID`,`DEPARTMENT_NAME` FROM `department` WHERE `DEPARTMENT_STATUS` = "active"';
+                      $result = mysqli_query($db, $dept) or die (mysqli_error($db));
+                        while ($row = mysqli_fetch_array($result)) {
+                          $id = $row['DEPARTMENT_ID'];  
+                          $name = $row['DEPARTMENT_NAME'];
+                          echo '<option value="'.$id.'">'.$name.'</option>'; 
+                      }
+                    ?>    
+                    <!-- <option selected="selected" value="1">Medical</option> -->
+                    <!-- <option value="2">Eye Specialist</option> -->
                   </select>
                 </div>
                 <!-- /.form-group -->
@@ -58,15 +68,15 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Education</label>
-                  <select class="select2bs4" multiple="multiple" name="education" data-placeholder="Select a State"
+                  <select class="select2bs4" multiple="multiple" name="education[]" data-placeholder="Select a State"
                           style="width: 100%;">
-                    <option>Alabama</option>
-                    <option>Alaska</option>
-                    <option>California</option>
-                    <option>Delaware</option>
-                    <option>Tennessee</option>
-                    <option>Texas</option>
-                    <option>Washington</option>
+                    <option value="1 One">Alabama</option>
+                    <option value="2 Two">Alaska</option>
+                    <option value="3 Three">California</option>
+                    <option value="4 Four">Delaware</option>
+                    <option value="5 Five">Tennessee</option>
+                    <option value="6 Six">Texas</option>
+                    <option value="7 Seven">Washington</option>
                   </select>
                 </div>
                 <!-- /.form-group -->

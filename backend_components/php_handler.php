@@ -147,7 +147,7 @@
         
         $mobile =  $_POST['mobile'];
         $department =  $_POST['department'];
-        $education =  $_POST['education'];
+        $education = implode(', ', $_POST['education']);
         $experience =  $_POST['experience'];
         // $saveBy = $_POST[''];
         echo '<script> console.log('.$name.' '.$mobile.' '.$department.' '.$education.' '.$experience.' '.$status.' '.$saveOn.');</script>';
