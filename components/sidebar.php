@@ -102,6 +102,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="patient_type.php" class="nav-link">
+                        <i class="nav-icon fas fa-procedures"></i>
+                        <p>Patient Type</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="logout.php" class="nav-link">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
                         <p>Logout</p>

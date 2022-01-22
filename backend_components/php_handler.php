@@ -2,11 +2,10 @@
     require 'connection.php';
 
     $name = $_POST['name'];
-    $status =  $_POST['status'];
     $saveOn = date("Y-m-d H:i:s");
 
     if (isset($_POST['user-submit'])) {
-        
+        $status =  $_POST['status'];
         $loginId = $_POST['loginId'];
         $email = $_POST['email'];
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -54,7 +53,7 @@
         mysqli_close($db);
     }
     if (isset($_POST['dept-submit'])) {
-        
+        $status =  $_POST['status'];
         $description =  $_POST['description'];
         // $saveBy = $_POST[''];
         echo '<script> console.log('.$name.' '.$description.' '.$status.' '.$saveOn.');</script>';
@@ -99,7 +98,7 @@
         mysqli_close($db);
     }
     if (isset($_POST['service-submit'])) {
-        
+        $status =  $_POST['status'];
         $amount =  $_POST['amount'];
         // $saveBy = $_POST[''];
         echo '<script> console.log('.$name.' '.$amount.' '.$status.' '.$saveOn.');</script>';
@@ -144,7 +143,7 @@
         mysqli_close($db);
     }
     if (isset($_POST['doctor-submit'])) {
-        
+        $status =  $_POST['status'];
         $mobile =  $_POST['mobile'];
         $department =  $_POST['department'];
         $education = implode(', ', $_POST['education']);
@@ -183,6 +182,116 @@
                                 mysqli_stmt_execute($stmt);
                             
                                 echo '<script type="text/javascript">alert("New Doctor is Successfully Added");window.location = "../add_doctor.php";</script>';								
+                                exit();
+                            }			
+                        }
+                }
+            }
+        mysqli_stmt_close($stmt);
+        mysqli_close($db);
+    }
+    if (isset($_POST['patient-type-submit'])) {
+        $status =  $_POST['status'];
+        $alais = $_POST['type-alais'];
+      // $saveBy = $_POST[''];
+        echo '<script> console.log('.$name.' '.$alais.' '.$saveOn.' '.$status.');</script>';
+    
+        if (empty($name)) {
+            header("Location: ../add_patient_type.php?error=emptyfields&typeName=".$name);
+            exit();
+        }else{
+            $sql = "SELECT * FROM `patient_type` WHERE `PATIENT_TYPE_ALAIS` = ?";
+            $stmt = mysqli_stmt_init($db);
+            
+            if (!mysqli_stmt_prepare($stmt,$sql)) {
+                header("Location: ../add_patient_type.php?error=sqlerror");
+                exit();
+            }else{
+                mysqli_stmt_bind_param($stmt,"s",$name);
+                mysqli_stmt_execute($stmt);
+                mysqli_stmt_store_result($stmt);
+                $resultCheck = mysqli_stmt_num_rows($stmt);
+                    
+                    if ($resultCheck > 0) {
+                        header("Location: ../add_patient_type.php?error=patientTypeNameAlreadyTaken");
+                        exit();
+                    }else{
+                            $sql = "INSERT INTO `patient_type`(`PATIENT_TYPE_NAME`,`PATIENT_TYPE_ALAIS`, `TYPE_SAVE_TIME`, `PATIENT_TYPE_STATUS`) VALUES (?,?,?,?)";
+                            mysqli_stmt_execute($stmt);
+                        
+                            if (!mysqli_stmt_prepare($stmt,$sql)) {
+                                header("Location: ../add_patient_type.php?error=sqlerror");
+                                exit();
+                            }else{
+                                mysqli_stmt_bind_param($stmt,"ssss",$name,$alais,$saveOn,$status);
+                                mysqli_stmt_execute($stmt);
+                            
+                                echo '<script type="text/javascript">alert("New Patient Type is Successfully Added");window.location = "../add_patient_type.php";</script>';								
+                                exit();
+                            }			
+                        }
+                }
+            }
+        mysqli_stmt_close($stmt);
+        mysqli_close($db);
+    }
+    if (isset($_POST['patient-submit'])) {
+        
+        $mrid = $_POST['mrid'];
+        $phone = $_POST['phone'];
+        $gender = $_POST['gender'];
+        $doctor = $_POST['doctor'];
+        $type = $_POST['type'];
+        $cnic = $_POST['cnic'];
+        $age = $_POST['age'];
+        $address = $_POST['address'];
+        
+      // $saveBy = $_POST[''];
+        echo '<script> alert('.$name.' '.$mrid.' '.$saveOn.' '.$phone.' '.$gender.' '.$doctor.' '.$type.' '.$cnic.' '.$age.' '.$address.');</script>';
+    
+        if (empty($name)) {
+            header("Location: ../add_patient.php?error=emptyfields&patientMrId=".$mrid);
+            exit();
+        }else{
+            $sql = "SELECT * FROM `patient` WHERE `PATIENT_NAME` = ?";
+            $stmt = mysqli_stmt_init($db);
+            
+            if (!mysqli_stmt_prepare($stmt,$sql)) {
+                header("Location: ../add_patient.php?error=sqlerror");
+                exit();
+            }else{
+                mysqli_stmt_bind_param($stmt,"s",$name);
+                mysqli_stmt_execute($stmt);
+                mysqli_stmt_store_result($stmt);
+                $resultCheck = mysqli_stmt_num_rows($stmt);
+                    
+                    if ($resultCheck > 0) {
+                        header("Location: ../add_patient.php?error=patientNameAlreadyTaken");
+                        exit();
+                    }else{
+                            $sql = "INSERT INTO `patient`
+                            (`PATIENT_MR_ID`,
+                              `PATIENT_NAME`,
+                               `PATIENT_TYPE`,
+                                `PATIENT_MOBILE`,
+                                 `PATIENT_CNIC`,
+                                  `PATIENT_GENDER`,
+                                   `PATIENT_AGE`,
+                                    `PATIENT_ADDRESS`,
+                                     `DOCTOR_ID`,
+                                       `ADMISSION_DATE_TIME`,
+                                        `DISCHARGE_DATE_TIME`
+                                        ) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                            mysqli_stmt_execute($stmt);
+                        
+                            if (!mysqli_stmt_prepare($stmt,$sql)) {
+                                header("Location: ../add_patient.php?error=sqlerror");
+                                exit();
+                            }else{
+                                mysqli_stmt_bind_param($stmt,"sssssssssss", $mrid,$name,$type,$phone,$cnic,$gender,$age,$address,$doctor,$saveOn,$saveOn);
+                                mysqli_stmt_execute($stmt);
+                            
+                                echo '<script type="text/javascript">alert("New Patient Record is Successfully Added");window.location = "../add_patient.php";</script>';								
                                 exit();
                             }			
                         }

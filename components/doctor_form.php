@@ -48,7 +48,7 @@
                  <div class="form-group">
                   <label>Department</label>
                   <select class="form-control select2bs4" name="department" style="width: 100%;">
-                  <option disabled selected>Select Property Type</option>
+                  <option disabled selected>Select Department</option>
                     <?php
                       $dept = 'SELECT `DEPARTMENT_ID`,`DEPARTMENT_NAME` FROM `department` WHERE `DEPARTMENT_STATUS` = "active"';
                       $result = mysqli_query($db, $dept) or die (mysqli_error($db));

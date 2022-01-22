@@ -1,7 +1,6 @@
   <!-- Header Form -->
-  <?php include('backend_components/connection.php'); ?>
-  <!-- Header Form -->
   <?php include('components/form_header.php'); ?>
+
   <!-- Navbar -->
   <?php include('components/navbar.php'); ?>
   <!-- /.navbar -->
@@ -11,7 +10,7 @@
   <!-- /.Main Sidebar Container-->
 
   <!-- Content Wrapper. Contains page content -->
-  <?php include('components/patient_form.php');?>
+  <?php include('components/patient_type_form.php');?>
   <!-- /.content-wrapper -->
 
   <!-- Main Footer -->
@@ -21,4 +20,4 @@
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
-<?php include('components/form_script.php'); ?>
+  <?php include('components/form_script.php'); ?>
