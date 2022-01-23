@@ -8,61 +8,54 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>Serial No#</th>
-                    <th>User Name</th>
-                    <th>User Type</th>
+                    <th>S.No#</th>
+                    <th>Full Name</th>
+                    <th>Permissions</th>
+                    <th>Email</th>
                     <th>Username</th>
                     <th>Password</th>
-                    <th>User Status</th>
+                    <th>Status</th>
+                    <th>Created at</th>
                     <th>Options</th>
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>Gecko</td>
-                    <td>Firefox 1.5</td>
-                    <td>Win 98+ / OSX.2+</td>
-                    <td>1.8</td>
-                    <td>Gecko</td>
-                    <td>Firefox 1.5</td>
-                    <td>Win 98+ / OSX.2+</td>
-                  </tr>
-                  <tr>
-                    <td>Gecko</td>
-                    <td>Firefox 2.0</td>
-                    <td>Win 98+ / OSX.2+</td>
-                    <td>1.8</td>
-                    <td>Gecko</td>
-                    <td>Firefox 1.5</td>
-                    <td>Win 98+ / OSX.2+</td>
-                  </tr>
-                  <tr>
-                    <td>Gecko</td>
-                    <td>Firefox 3.0</td>
-                    <td>Win 2k+ / OSX.3+</td>
-                    <td>1.9</td>
-                    <td>Gecko</td>
-                    <td>Firefox 1.5</td>
-                    <td>Win 98+ / OSX.2+</td>
-                  </tr>
-                  <tr>
-                    <td>Other browsers</td>
-                    <td>All others</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>Gecko</td>
-                    <td>Firefox 1.5</td>
-                    <td>Win 98+ / OSX.2+</td>
-                  </tr>
+                  <?php
+                      $sql ="SELECT * FROM `admin`";
+                      $qsql = mysqli_query($db,$sql);
+                      while($rs = mysqli_fetch_array($qsql))
+                      {
+                        echo "<tr>
+                        <td>$rs[ADMIN_ID]</td>
+                        <td>$rs[ADMIN_NAME]</td>
+                        <td>$rs[ADMIN_TYPE]</td>
+                        <td>$rs[ADMIN_EMAIL]</td>
+                        <td>$rs[ADMIN_USERNAME]</td>
+                        <td>$rs[ADMIN_PASSWORD]</td>
+                        <td>$rs[ADMIN_STATUS]</td>
+                        <td>$rs[ADMIN_SAVE_TIME]</td>
+                        <td></td>
+                        </tr>"; 
+                        
+                        // if(isset($_SESSION[adminid]))
+                        // {
+                        //       echo "<a href='patient.php?editid=$rs[patientid]'>Edit</a> | <a href='viewpatient.php?delid=$rs[patientid]'>Delete</a> <hr>
+                        // <a href='patientreport.php?patientid=$rs[patientid]'>View Report</a>";
+                        // }
+                          
+                      }
+                  ?>
                   </tbody>
                   <tfoot>
                   <tr>
-                    <th>Serial No#</th>
-                    <th>User Name</th>
-                    <th>User Type</th>
+                    <th>S.No#</th>
+                    <th>Full Name</th>
+                    <th>Permissions</th>
+                    <th>Email</th>
                     <th>Username</th>
                     <th>Password</th>
-                    <th>User Status</th>
+                    <th>Status</th>
+                    <th>Created at</th>
                     <th>Options</th>
                   </tr>
                   </tfoot>

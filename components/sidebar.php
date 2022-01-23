@@ -108,6 +108,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="education.php" class="nav-link">
+                        <i class="nav-icon fas fa-user-graduate"></i>
+                        <p>Doctor Education</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="logout.php" class="nav-link">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
                         <p>Logout</p>

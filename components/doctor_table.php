@@ -8,67 +8,53 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>Serial No#</th>
-                    <th>Doctor Name</th>
-                    <th>Doctor Mobile</th>
+                    <th>S.No#</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
                     <th>Department</th>
-                    <th>Doctor Education</th>
-                    <th>Doctor Experience</th>
-                    <th>Doctor Status</th>
+                    <th>Education</th>
+                    <th>Experience</th>
+                    <th>Created at</th>
+                    <th>Status</th>
                     <th>Options</th>
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>Gecko</td>
-                    <td>Firefox 1.5</td>
-                    <td>Win 98+ / OSX.2+</td>
-                    <td>1.8</td>
-                    <td>A</td>
-                    <td>Firefox 1.5</td>
-                    <td>Win 98+ / OSX.2+</td>
-                    <td>1.8</td>
-                  </tr>
-                  <tr>
-                    <td>Gecko</td>
-                    <td>Firefox 2.0</td>
-                    <td>Win 98+ / OSX.2+</td>
-                    <td>1.8</td>
-                    <td>A</td>
-                    <td>Firefox 1.5</td>
-                    <td>Win 98+ / OSX.2+</td>
-                    <td>1.8</td>
-                  </tr>
-                  <tr>
-                    <td>Gecko</td>
-                    <td>Firefox 3.0</td>
-                    <td>Win 2k+ / OSX.3+</td>
-                    <td>1.9</td>
-                    <td>A</td>
-                    <td>Firefox 1.5</td>
-                    <td>Win 98+ / OSX.2+</td>
-                    <td>1.8</td>
-                  </tr>
-                  <tr>
-                    <td>Other browsers</td>
-                    <td>All others</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>U</td>
-                    <td>Firefox 1.5</td>
-                    <td>Win 98+ / OSX.2+</td>
-                    <td>1.8</td>
-                  </tr>
+                  <?php
+                      $sql ="SELECT * FROM `doctor`";
+                      $qsql = mysqli_query($db,$sql);
+                      while($rs = mysqli_fetch_array($qsql))
+                      { 
+                        echo "<tr>
+                        <td>$rs[DOCTOR_ID]</td>
+                        <td>$rs[DOCTOR_NAME]</td>
+                        <td>$rs[DOCTOR_MOBILE]</td>
+                        <td>$rs[DOCTOR_EDUCATION]</td>
+                        <td>$rs[DOCTOR_EXPERIENCE]</td>
+                        <td>$rs[DOCTOR_STATUS]</td>
+                        <td>$rs[DOCTOR_SAVE_TIME]</td>
+                        <td></td>
+                        </tr>"; 
+                        
+                        // if(isset($_SESSION[adminid]))
+                        // {
+                        //       echo "<a href='patient.php?editid=$rs[patientid]'>Edit</a> | <a href='viewpatient.php?delid=$rs[patientid]'>Delete</a> <hr>
+                        // <a href='patientreport.php?patientid=$rs[patientid]'>View Report</a>";
+                        // }
+                          
+                      }
+                  ?>
                   </tbody>
                   <tfoot>
                   <tr>
-                    <th>Serial No#</th>
-                    <th>Doctor Name</th>
-                    <th>Doctor Mobile</th>
+                    <th>S.No#</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
                     <th>Department</th>
-                    <th>Doctor Education</th>
-                    <th>Doctor Experience</th>
-                    <th>Doctor Status</th>
+                    <th>Education</th>
+                    <th>Experience</th>
+                    <th>Created at</th>
+                    <th>Status</th>
                     <th>Options</th>
                   </tr>
                   </tfoot>

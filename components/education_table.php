@@ -9,8 +9,8 @@
                   <thead>
                   <tr>
                     <th>S.No#</th>
-                    <th>Name</th>
-                    <th>Description</th>
+                    <th>Degree</th>
+                    <th>Alais</th>
                     <th>Status</th>
                     <th>Created at</th>
                     <th>Options</th>
@@ -18,16 +18,16 @@
                   </thead>
                   <tbody>
                   <?php
-                      $sql ="SELECT * FROM `department`";
+                      $sql ="SELECT * FROM `education`";
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
-                      { 
+                      {
                         echo "<tr>
-                        <td>$rs[DEPARTMENT_ID]</td>
-                        <td>$rs[DEPARTMENT_NAME]</td>
-                        <td>$rs[DEPARTMENT_DESC]</td>
-                        <td>$rs[DEPARTMENT_STATUS]</td>
-                        <td>$rs[DEPARTMENT_SAVE_TIME]</td>
+                        <td>$rs[EDUCATION_ID]</td>
+                        <td>$rs[EDUCATION_NAME]</td>
+                        <td>$rs[EDUCATION_ALAIS]</td>
+                        <td>$rs[EDUCATION_STATUS]</td>
+                        <td>$rs[EDUCATION_DATE_TIME]</td>
                         <td></td>
                         </tr>"; 
                         
@@ -43,8 +43,8 @@
                   <tfoot>
                   <tr>
                     <th>S.No#</th>
-                    <th>Name</th>
-                    <th>Description</th>
+                    <th>Degree</th>
+                    <th>Alais</th>
                     <th>Status</th>
                     <th>Created at</th>
                     <th>Options</th>

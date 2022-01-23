@@ -10,24 +10,24 @@
                   <tr>
                     <th>S.No#</th>
                     <th>Name</th>
-                    <th>Description</th>
-                    <th>Status</th>
+                    <th>Alais</th>
                     <th>Created at</th>
+                    <th>Status</th>
                     <th>Options</th>
                   </tr>
                   </thead>
                   <tbody>
                   <?php
-                      $sql ="SELECT * FROM `department`";
+                      $sql ="SELECT * FROM `patient_type`";
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
                         echo "<tr>
-                        <td>$rs[DEPARTMENT_ID]</td>
-                        <td>$rs[DEPARTMENT_NAME]</td>
-                        <td>$rs[DEPARTMENT_DESC]</td>
-                        <td>$rs[DEPARTMENT_STATUS]</td>
-                        <td>$rs[DEPARTMENT_SAVE_TIME]</td>
+                        <td>$rs[PATIENT_TYPE_ID]</td>
+                        <td>$rs[PATIENT_TYPE_NAME]</td>
+                        <td>$rs[PATIENT_TYPE_ALAIS]</td>
+                        <td>$rs[TYPE_SAVE_TIME]</td>
+                        <td>$rs[PATIENT_TYPE_STATUS]</td>
                         <td></td>
                         </tr>"; 
                         

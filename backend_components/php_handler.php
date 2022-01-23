@@ -171,7 +171,7 @@
                         header("Location: ../add_doctor.php?error=doctorNameAlreadyTaken");
                         exit();
                     }else{
-                            $sql = "INSERT INTO `doctor`(`DOCTOR_NAME`, `DOCTOR_MOBILE`, `DEPARTMENT_ID`, `DOCTOR EDUCATION`, `DOCTOR_EXPERIENCE`, `DOCTOR_STATUS`, `DOCTOR_SAVE_TIME`) VALUES (?,?,?,?,?,?,?)";
+                            $sql = "INSERT INTO `doctor`(`DOCTOR_NAME`, `DOCTOR_MOBILE`, `DEPARTMENT_ID`, `DOCTOR_EDUCATION`, `DOCTOR_EXPERIENCE`, `DOCTOR_STATUS`, `DOCTOR_SAVE_TIME`) VALUES (?,?,?,?,?,?,?)";
                             mysqli_stmt_execute($stmt);
                         
                             if (!mysqli_stmt_prepare($stmt,$sql)) {
@@ -292,6 +292,58 @@
                                 mysqli_stmt_execute($stmt);
                             
                                 echo '<script type="text/javascript">alert("New Patient Record is Successfully Added");window.location = "../add_patient.php";</script>';								
+                                exit();
+                            }			
+                        }
+                }
+            }
+        mysqli_stmt_close($stmt);
+        mysqli_close($db);
+    }
+    if (isset($_POST['education-submit'])) {
+        
+        $alais = $_POST['alais'];
+        $status = $_POST['status'];
+        
+      // $saveBy = $_POST[''];
+        echo '<script> alert('.$name.' '.$alais.' '.$saveOn.' '.$status.');</script>';
+    
+        if (empty($name)) {
+            header("Location: ../add_education.php?error=emptyfields&patientMrId=".$alais);
+            exit();
+        }else{
+            $sql = "SELECT * FROM `education` WHERE `EDUCATION_ALAIS` = ?";
+            $stmt = mysqli_stmt_init($db);
+            
+            if (!mysqli_stmt_prepare($stmt,$sql)) {
+                header("Location: ../add_education.php?error=sqlerror");
+                exit();
+            }else{
+                mysqli_stmt_bind_param($stmt,"s",$alais);
+                mysqli_stmt_execute($stmt);
+                mysqli_stmt_store_result($stmt);
+                $resultCheck = mysqli_stmt_num_rows($stmt);
+                    
+                    if ($resultCheck > 0) {
+                        header("Location: ../add_education.php?error=educationNameAlreadyTaken");
+                        exit();
+                    }else{
+                            $sql = "INSERT INTO `education`(
+                                `EDUCATION_NAME`,
+                                 `EDUCATION_ALAIS`,
+                                  `EDUCATION_STATUS`,
+                                   `EDUCATION_DATE_TIME`
+                                   ) VALUES (?,?,?,?)";
+                            mysqli_stmt_execute($stmt);
+                        
+                            if (!mysqli_stmt_prepare($stmt,$sql)) {
+                                header("Location: ../add_education.php?error=sqlerror");
+                                exit();
+                            }else{
+                                mysqli_stmt_bind_param($stmt,"ssss", $name,$alais,$status,$saveOn);
+                                mysqli_stmt_execute($stmt);
+                            
+                                echo '<script type="text/javascript">alert("New Education is Successfully Added");window.location = "../add_education.php";</script>';								
                                 exit();
                             }			
                         }

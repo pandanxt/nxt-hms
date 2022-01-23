@@ -1,6 +1,5 @@
   <!-- Connection -->
   <?php include('backend_components/connection.php'); ?>
-
   <!-- table-header -->
   <?php include('components/table_header.php'); ?>
    <!-- Navbar -->
@@ -18,13 +17,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <!-- <div class="col-sm-2">
-            <h1>Departments</h1>
+            <h1>Users</h1> 
           </div> -->
-          <div class="col-sm-2"><a type="submit" class="btn btn-block btn-primary btn-sm" href="add_patient_type.php"><i class="fas fa-plus"></i> New Patient Type</a></div>
+          <div class="col-sm-2"><a type="submit" class="btn btn-block btn-primary btn-sm" href="add_education.php"><i class="fas fa-plus"></i> New Education</a></div>
           <div class="col-sm-10">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Patient Type</li>
+              <li class="breadcrumb-item active">Doctor Education</li>
             </ol>
           </div>
         </div>
@@ -32,7 +31,7 @@
     </section>
 
     <!-- Main content -->
-    <?php include('components/patient_type_table.php'); ?>
+    <?php include('components/education_table.php'); ?>
     <!-- /.content -->
   </div>
   <!-- /.Footer -->
