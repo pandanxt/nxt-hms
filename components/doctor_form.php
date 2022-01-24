@@ -58,8 +58,6 @@
                           echo '<option value="'.$id.'">'.$name.'</option>'; 
                       }
                     ?>    
-                    <!-- <option selected="selected" value="1">Medical</option> -->
-                    <!-- <option value="2">Eye Specialist</option> -->
                   </select>
                 </div>
                 <!-- /.form-group -->
@@ -70,19 +68,21 @@
                   <label>Education</label>
                   <select class="select2bs4" multiple="multiple" name="education[]" data-placeholder="Select a State"
                           style="width: 100%;">
-                    <option value="1 One">Alabama</option>
-                    <option value="2 Two">Alaska</option>
-                    <option value="3 Three">California</option>
-                    <option value="4 Four">Delaware</option>
-                    <option value="5 Five">Tennessee</option>
-                    <option value="6 Six">Texas</option>
-                    <option value="7 Seven">Washington</option>
+                          <?php
+                      $edu = 'SELECT `EDUCATION_NAME`,`EDUCATION_ALAIS` FROM `education` WHERE `EDUCATION_STATUS` = "active"';
+                      $result = mysqli_query($db, $edu) or die (mysqli_error($db));
+                        while ($row = mysqli_fetch_array($result)) {
+                          $id = $row['EDUCATION_ALAIS'];  
+                          $name = $row['EDUCATION_NAME'];
+                          echo '<option value="'.$id.'">'.$id.' | '.$name.'</option>'; 
+                      }
+                    ?>    
                   </select>
                 </div>
                 <!-- /.form-group -->
                 <div class="form-group">
                   <label>Experience</label>
-                  <input type="text" class="form-control" name="experience" id="inputPassword1" placeholder="Enter Password Here ..." required>
+                  <input type="text" class="form-control" name="experience" id="inputPassword1" placeholder="Enter Experience Here ..." required>
                 </div>
                 <!-- /.form-group -->
                 <div class="form-group">

@@ -26,12 +26,6 @@
             <h3 class="card-title"><i class="nav-icon fas fa-hand-holding-medical"></i> MedEast Services</h3>
 
             <div class="card-tools">
-              <!-- <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-              </button> -->
-              <!-- <button type="button" class="btn btn-tool" data-card-widget="remove">
-                <i class="fas fa-times"></i>
-              </button> -->
               <span id='clockDT'></span>
             </div>
           </div>

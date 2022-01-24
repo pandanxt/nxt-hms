@@ -19,15 +19,15 @@
                     <th>Address</th>
                     <th>Doctor</th>
                     <!-- <th>Patient Bill</th> -->
-                    <th>Admission Date | Time</th>
-                    <th>Discharge Date | Time</th>
+                    <th>Admission</th>
+                    <th>Discharge</th>
                     <!-- <th>User Name</th> -->
                     <th>Options</th>
                   </tr>
                   </thead>
                   <tbody>
                   <?php
-                      $sql ="SELECT * FROM `patient`";
+                      $sql ="SELECT *,`DOCTOR_NAME` FROM `patient` INNER JOIN `doctor` WHERE `patient`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID`";
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
@@ -42,9 +42,10 @@
                         <td>$rs[PATIENT_GENDER]</td>
                         <td>$rs[PATIENT_AGE]</td>
                         <td>$rs[PATIENT_ADDRESS]</td>
-                        <td>$rs[DOCTOR_ID]</td>
+                        <td>$rs[DOCTOR_NAME]</td>
                         <td>$rs[ADMISSION_DATE_TIME]</td> 
                         <td>$rs[DISCHARGE_DATE_TIME]</td>
+                        <td></td>
                         </tr>"; 
                         
                         // if(isset($_SESSION[adminid]))
@@ -56,25 +57,6 @@
                       }
                   ?>
                   </tbody>
-                  <tfoot>
-                  <tr>
-                    <th>S.No#</th>
-                    <th>MR-ID</th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Mobile</th>
-                    <th>CNIC</th>
-                    <th>Gender</th>
-                    <th>Age</th>
-                    <th>Address</th>
-                    <th>Doctor</th>
-                    <!-- <th>Patient Bill</th> -->
-                    <th>Admission Date | Time</th>
-                    <th>Discharge Date | Time</th>
-                    <!-- <th>User Name</th> -->
-                    <th>Options</th>
-                  </tr>
-                  </tfoot>
                 </table>
               </div>
               <!-- /.card-body -->

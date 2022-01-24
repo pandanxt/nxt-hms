@@ -46,19 +46,6 @@
                       }
                   ?>
                   </tbody>
-                  <tfoot>
-                  <tr>
-                    <th>S.No#</th>
-                    <th>Full Name</th>
-                    <th>Permissions</th>
-                    <th>Email</th>
-                    <th>Username</th>
-                    <th>Password</th>
-                    <th>Status</th>
-                    <th>Created at</th>
-                    <th>Options</th>
-                  </tr>
-                  </tfoot>
                 </table>
               </div>
               <!-- /.card-body -->

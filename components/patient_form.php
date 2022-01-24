@@ -69,8 +69,6 @@
                           echo '<option value="'.$id.'">'.$name.'</option>'; 
                       }
                     ?>
-                    <!-- <option selected="selected" value="sohaib">Dr Sohaib</option>
-                    <option value="second">Dr Second</option> -->
                   </select>
                 </div>
               </div>
@@ -89,9 +87,6 @@
                           echo '<option value="'.$id.'">'.$name.'</option>'; 
                       }
                     ?>
-                    <!-- <option value="indoor" selected>Indoor Patient</option>  
-                    <option value="outdoor">OPD Patient</option>
-                    <option value="other">Other</option> -->
                   </select>
                 </div>
                 <!-- /.form-group -->
@@ -109,18 +104,6 @@
                   <label>Patient Address</label>
                   <textarea style="height: 120px;" name="address" type="text" class="form-control" id="inputAddress" placeholder="Enter Patient Address Here ..." required></textarea>
                 </div>
-                
-                  <!-- <input type="text" class="form-control" id="inputDT" readonly> -->
-                 <!-- Date and time -->
-                 <!-- <div class="form-group" id="discharge">
-                 <label>Discharge Date | Time</label>
-                    <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
-                        <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </div>
-                    </div>
-                </div> -->
               </div>
               <!-- /.col -->
             </div>

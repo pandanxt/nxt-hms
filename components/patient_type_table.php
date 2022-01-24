@@ -40,16 +40,6 @@
                       }
                   ?>
                   </tbody>
-                  <tfoot>
-                  <tr>
-                    <th>S.No#</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Status</th>
-                    <th>Created at</th>
-                    <th>Options</th>
-                  </tr>
-                  </tfoot>
                 </table>
               </div>
               <!-- /.card-body -->

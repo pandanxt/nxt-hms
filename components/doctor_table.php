@@ -21,7 +21,7 @@
                   </thead>
                   <tbody>
                   <?php
-                      $sql ="SELECT * FROM `doctor`";
+                      $sql ="SELECT *,`DEPARTMENT_NAME` FROM `doctor` INNER JOIN `department` WHERE `doctor`.`DEPARTMENT_ID` = `department`.`DEPARTMENT_ID`";
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
@@ -29,6 +29,7 @@
                         <td>$rs[DOCTOR_ID]</td>
                         <td>$rs[DOCTOR_NAME]</td>
                         <td>$rs[DOCTOR_MOBILE]</td>
+                        <td>$rs[DEPARTMENT_NAME]</td>
                         <td>$rs[DOCTOR_EDUCATION]</td>
                         <td>$rs[DOCTOR_EXPERIENCE]</td>
                         <td>$rs[DOCTOR_STATUS]</td>
@@ -45,19 +46,6 @@
                       }
                   ?>
                   </tbody>
-                  <tfoot>
-                  <tr>
-                    <th>S.No#</th>
-                    <th>Name</th>
-                    <th>Mobile</th>
-                    <th>Department</th>
-                    <th>Education</th>
-                    <th>Experience</th>
-                    <th>Created at</th>
-                    <th>Status</th>
-                    <th>Options</th>
-                  </tr>
-                  </tfoot>
                 </table>
               </div>
               <!-- /.card-body -->
