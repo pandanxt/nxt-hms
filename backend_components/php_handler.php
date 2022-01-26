@@ -279,24 +279,33 @@
                                    `PATIENT_AGE`,
                                     `PATIENT_ADDRESS`,
                                      `DOCTOR_ID`,
-                                       `ADMISSION_DATE_TIME`,
-                                        `DISCHARGE_DATE_TIME`
-                                        ) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                                      `PATIENT_DATE_TIME`
+                                        ) VALUES (?,?,?,?,?,?,?,?,?,?)";
                             mysqli_stmt_execute($stmt);
                         
                             if (!mysqli_stmt_prepare($stmt,$sql)) {
                                 header("Location: ../add_patient.php?error=sqlerror");
                                 exit();
                             }else{
-                                mysqli_stmt_bind_param($stmt,"sssssssssss", $mrid,$name,$type,$phone,$cnic,$gender,$age,$address,$doctor,$saveOn,$saveOn);
+                                mysqli_stmt_bind_param($stmt,"ssssssssss", $mrid,$name,$type,$phone,$cnic,$gender,$age,$address,$doctor,$saveOn);
                                 mysqli_stmt_execute($stmt);
-                            
-                                echo '<script type="text/javascript">alert("New Patient Record is Successfully Added");window.location = "../add_patient.php";</script>';								
+                                $recordUpdate = "INSERT INTO `patient_record`(
+                                    `PATIENT_MR_ID`,
+                                     `PATIENT_ADMISSION_DATE_TIME`
+                                      ) VALUES ('$mrid','$saveOn')";
+                                  
+                                  if ($query_sql = mysqli_query($db, $recordUpdate))
+                                    {
+                                        echo '<script type="text/javascript">alert("New Patient Record is Successfully Added");window.location = "../add_patient.php";</script>';								
+                                    }else
+                                        {
+                                            echo mysqli_error($db);
+                                        }
                                 exit();
                             }			
                         }
-                }
             }
+        }
         mysqli_stmt_close($stmt);
         mysqli_close($db);
     }

@@ -19,8 +19,8 @@
                     <th>Address</th>
                     <th>Doctor</th>
                     <!-- <th>Patient Bill</th> -->
-                    <th>Admission</th>
-                    <th>Discharge</th>
+                    <th>Created On</th>
+                    <!-- <th>Discharge</th> -->
                     <!-- <th>User Name</th> -->
                     <th>Options</th>
                   </tr>
@@ -33,7 +33,11 @@
                       { 
                   
                         echo "<tr>
-                        <td>$rs[PATIENT_ID]</td>
+                        <td>$rs[PATIENT_ID]
+                           <br> <a href='add_bill.php?id=$rs[PATIENT_ID]' style='color:green;'>
+                              <i class='fas fa-wallet'></i> Bill
+                            </a>
+                        </td>
                         <td>$rs[PATIENT_MR_ID]</td>
                         <td>$rs[PATIENT_NAME]</td>
                         <td>$rs[PATIENT_TYPE]</td>
@@ -43,9 +47,18 @@
                         <td>$rs[PATIENT_AGE]</td>
                         <td>$rs[PATIENT_ADDRESS]</td>
                         <td>$rs[DOCTOR_NAME]</td>
-                        <td>$rs[ADMISSION_DATE_TIME]</td> 
-                        <td>$rs[DISCHARGE_DATE_TIME]</td>
-                        <td></td>
+                        <td>$rs[PATIENT_DATE_TIME]</td> 
+                        <td style='display:flex;'>
+                            <a href='view_patient.php?id=$rs[PATIENT_ID]' style='color:green;'>
+                              <i class='fas fa-info-circle'></i> Details
+                            </a><br>
+                            <a href='backend_components/update_handler.php?id=$rs[PATIENT_ID]'>
+                              <i class='fas fa-edit'></i> Edit
+                            </a><br>
+                            <a href='backend_components/delete_handler.php?id=$rs[PATIENT_ID]' style='color:red;'>
+                              <i class='fas fa-trash'></i> Delete
+                            </a>
+                        </td>
                         </tr>"; 
                         
                         // if(isset($_SESSION[adminid]))

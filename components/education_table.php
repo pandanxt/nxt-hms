@@ -28,7 +28,17 @@
                         <td>$rs[EDUCATION_ALAIS]</td>
                         <td>$rs[EDUCATION_STATUS]</td>
                         <td>$rs[EDUCATION_DATE_TIME]</td>
-                        <td></td>
+                        <td style='display:flex;'>
+                        <a href='view_education.php?id=$rs[EDUCATION_ID]' style='color:green;'>
+                          <i class='fas fa-info-circle'></i> Details
+                        </a><br>
+                        <a href='backend_components/update_handler.php?id=$rs[EDUCATION_ID]'>
+                          <i class='fas fa-edit'></i> Edit
+                        </a><br>
+                        <a href='backend_components/delete_handler.php?id=$rs[EDUCATION_ID]' style='color:red;'>
+                          <i class='fas fa-trash'></i> Delete
+                        </a>
+                    </td>
                         </tr>"; 
                         
                         // if(isset($_SESSION[adminid]))

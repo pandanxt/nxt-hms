@@ -20,64 +20,42 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>Gecko</td>
-                    <td>Firefox 1.5</td>
-                    <td>Win 98+ / OSX.2+</td>
-                    <td>1.8</td>
-                    <td>A</td>
-                    <td>Firefox 1.5</td>
-                    <td>Win 98+ / OSX.2+</td>
-                    <td>1.8</td>
-                    <td>A</td>
-                  </tr>
-                  <tr>
-                    <td>Gecko</td>
-                    <td>Firefox 2.0</td>
-                    <td>Win 98+ / OSX.2+</td>
-                    <td>1.8</td>
-                    <td>A</td>
-                    <td>Firefox 1.5</td>
-                    <td>Win 98+ / OSX.2+</td>
-                    <td>1.8</td>
-                    <td>A</td>
-                  </tr>
-                  <tr>
-                    <td>Gecko</td>
-                    <td>Firefox 3.0</td>
-                    <td>Win 2k+ / OSX.3+</td>
-                    <td>1.9</td>
-                    <td>A</td>
-                    <td>Firefox 1.5</td>
-                    <td>Win 98+ / OSX.2+</td>
-                    <td>1.8</td>
-                    <td>A</td>
-                  </tr>
-                  <tr>
-                    <td>Other browsers</td>
-                    <td>All others</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>U</td>
-                    <td>Firefox 1.5</td>
-                    <td>Win 98+ / OSX.2+</td>
-                    <td>1.8</td>
-                    <td>A</td>
-                  </tr>
+                  <?php
+                      $sql ="SELECT *,`DEPARTMENT_NAME` FROM `doctor` INNER JOIN `department` WHERE `doctor`.`DEPARTMENT_ID` = `department`.`DEPARTMENT_ID`";
+                      $qsql = mysqli_query($db,$sql);
+                      while($rs = mysqli_fetch_array($qsql))
+                      { 
+                        echo "<tr>
+                        <td>$rs[DOCTOR_ID]</td>
+                        <td>$rs[DOCTOR_NAME]</td>
+                        <td>$rs[DOCTOR_MOBILE]</td>
+                        <td>$rs[DEPARTMENT_NAME]</td>
+                        <td>$rs[DOCTOR_EDUCATION]</td>
+                        <td>$rs[DOCTOR_EXPERIENCE]</td>
+                        <td>$rs[DOCTOR_STATUS]</td>
+                        <td>$rs[DOCTOR_SAVE_TIME]</td>
+                        <td style='display:flex;'>
+                            <a href='view_bill.php?id=$rs[DOCTOR_ID]' style='color:green;'>
+                              <i class='fas fa-info-circle'></i> Details
+                            </a><br>
+                            <a href='backend_components/update_handler.php?id=$rs[DOCTOR_ID]'>
+                              <i class='fas fa-edit'></i> Edit
+                            </a><br>
+                            <a href='backend_components/delete_handler.php?id=$rs[DOCTOR_ID]' style='color:red;'>
+                              <i class='fas fa-trash'></i> Delete
+                            </a>
+                        </td>
+                        </tr>"; 
+                        
+                        // if(isset($_SESSION[adminid]))
+                        // {
+                        //       echo "<a href='patient.php?editid=$rs[patientid]'>Edit</a> | <a href='viewpatient.php?delid=$rs[patientid]'>Delete</a> <hr>
+                        // <a href='patientreport.php?patientid=$rs[patientid]'>View Report</a>";
+                        // }
+                          
+                      }
+                  ?>
                   </tbody>
-                  <tfoot>
-                  <tr>
-                    <th>Serial No#</th>
-                    <th>Patient Name</th>
-                    <th>Created By</th>
-                    <th>Discharge Data | Time</th>
-                    <th>Bill Date | Time</th>
-                    <th>Bill Service</th>
-                    <th>Bill Total Amount</th>
-                    <th>Bill Discount</th>
-                    <th>Option</th>
-                  </tr>
-                  </tfoot>
                 </table>
               </div>
               <!-- /.card-body -->

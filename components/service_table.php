@@ -28,7 +28,17 @@
                         <td>$rs[BILL_SERVICE_AMOUNT]</td>
                         <td>$rs[SERVICE_STATUS]</td>
                         <td>$rs[SERVICE_SAVE_TIME]</td>
-                        <td></td>
+                        <td style='display:flex;'>
+                            <a href='view_service.php?id=$rs[BILL_SERVICE_ID]' style='color:green;'>
+                              <i class='fas fa-info-circle'></i> Details
+                            </a><br>
+                            <a href='backend_components/update_handler.php?id=$rs[BILL_SERVICE_ID]'>
+                              <i class='fas fa-edit'></i> Edit
+                            </a><br>
+                            <a href='backend_components/delete_handler.php?id=$rs[BILL_SERVICE_ID]' style='color:red;'>
+                              <i class='fas fa-trash'></i> Delete
+                            </a>
+                        </td>
                         </tr>"; 
                         
                         // if(isset($_SESSION[adminid]))
