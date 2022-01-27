@@ -74,6 +74,8 @@
               </div>
               <!-- /.col -->
               <div class="col-md-6">
+              <input type="text" name="addDate" id="addDate" hidden/>
+              <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
               <div class="form-group">
                   <label>Patient Type</label>
                   <select class="form-control select2bs4" name="type" onchange="typeFun();" id="typeSelect" style="width: 100%;" required>
@@ -142,7 +144,7 @@
       // console.log(MR_ID+" | "+unid+" | "+currentDT);
       document.getElementById('inputMR1').value = MR_ID;
       // document.getElementById('inputDT').value = currentDT; 
-
+      var currentDT;
     function display_ct7() {
       var x = new Date();
       var ampm = x.getHours( ) >= 12 ? ' PM' : ' AM';
@@ -164,7 +166,8 @@
 
       var x1=month + "/" + dt + "/" + x.getFullYear(); 
       x1 = x1 + " - " +  hours + ":" +  minutes + ":" +  seconds + " " + ampm;
-      document.getElementById('clockDT').innerHTML = x1;
+      currentDT = x1;
+      document.getElementById('clockDT').innerHTML = currentDT;
       display_c7();
     }
     function display_c7(){
@@ -172,4 +175,5 @@
       mytime=setTimeout('display_ct7()',refresh)
       }
     display_c7();
+    console.log(currentDT);
 </script>

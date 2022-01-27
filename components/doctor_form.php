@@ -64,6 +64,8 @@
               </div>
               <!-- /.col -->
               <div class="col-md-6">
+              <input type="text" name="addDate" id="addDate" hidden/>
+              <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
                 <div class="form-group">
                   <label>Education</label>
                   <select class="select2bs4" multiple="multiple" name="education[]" data-placeholder="Select a State"

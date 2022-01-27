@@ -50,6 +50,8 @@
               </div>
               <!-- /.col -->
               <div class="col-md-6">
+              <input type="text" name="addDate" id="addDate" hidden/>
+              <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
                <!-- /.form-group -->
                <div class="form-group">
                   <label>Department Description</label>

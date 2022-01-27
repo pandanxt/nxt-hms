@@ -50,6 +50,8 @@
               </div>
               <!-- /.col -->
               <div class="col-md-6">
+              <input type="text" name="addDate" id="addDate" hidden/>
+              <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
               <div class="form-group">
                   <label>Type Alais</label>
                   <input type="text" name="type-alais" class="form-control" id="inputText2" placeholder="Enter Alais Here ..." required>

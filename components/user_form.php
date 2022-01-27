@@ -56,6 +56,8 @@
               </div>
               <!-- /.col -->
               <div class="col-md-6">
+              <input type="text" name="addDate" id="addDate" hidden/>
+              <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
                 <div class="form-group">
                   <label>Email Address</label>
                   <input type="email" class="form-control" name="email" id="inputEmail1" placeholder="Enter Valid Email Here ..." pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$" required>

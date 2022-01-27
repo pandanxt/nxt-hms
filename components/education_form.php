@@ -49,6 +49,8 @@
               </div>
               <!-- /.col -->
               <div class="col-md-6">
+              <input type="text" name="addDate" id="addDate" hidden/>
+              <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
                 <div class="form-group">
                   <label>Degree Alais</label>
                   <input type="text" class="form-control" name="alais" id="inputText1" placeholder="Enter Degree Alais Here ...(MBBS) " required>

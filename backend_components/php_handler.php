@@ -1,8 +1,11 @@
 <?php
     require 'connection.php';
-
-    $name = $_POST['name'];
-    $saveOn = date("Y-m-d H:i:s");
+    if (isset($_POST['bill-submit'])) {
+    
+    }else{
+        $name = $_POST['name'];
+        $saveOn = $_POST['addDate'];
+    }
 
     if (isset($_POST['user-submit'])) {
         $status =  $_POST['status'];
@@ -313,7 +316,6 @@
         
         $alais = $_POST['alais'];
         $status = $_POST['status'];
-        
       // $saveBy = $_POST[''];
         echo '<script> alert('.$name.' '.$alais.' '.$saveOn.' '.$status.');</script>';
     
@@ -353,6 +355,76 @@
                                 mysqli_stmt_execute($stmt);
                             
                                 echo '<script type="text/javascript">alert("New Education is Successfully Added");window.location = "../add_education.php";</script>';								
+                                exit();
+                            }			
+                        }
+                }
+            }
+        mysqli_stmt_close($stmt);
+        mysqli_close($db);
+    }
+    if (isset($_POST['bill-submit'])) {
+        
+        $serviceBox=$_POST['service'];  
+        $serv="";  
+        foreach($serviceBox as $serv1)  
+        {  
+            $serv .= $serv1.",";  
+        }  
+        $type = $_POST['type'];
+        $mrid = $_POST['mrid'];
+        $phone = $_POST['phone'];
+         if ($type == 'indoor') {
+            $cnic = $_POST['cnic'];
+         }
+        $dischargeTime = $_POST['dischargeTime'];
+        $admitDay = $_POST['admitDay'];
+        $totalBill = $_POST['totalBill'];
+        $discount = $_POST['discount'];
+        $finalBill = $_POST['finalBill'];
+     
+        echo '<script>alert("'.$serv.'|'.$type.'|'.$mrid.'|'.$phone.'|'.$cnic.'|'.$dischargeTime.'|'.$admitDay.'|'.$totalBill.'|'.$discount.'|'.$finalBill.'");</script>';
+    
+        if (empty($mrid)) {
+            header("Location: ../add_bill.php?error=emptyfields&patientMrId=".$mrid);
+            exit();
+        }else{
+            $sql = "SELECT * FROM `patient_bill` WHERE `PATIENT_MR_ID` = ?";
+            $stmt = mysqli_stmt_init($db);
+            
+            if (!mysqli_stmt_prepare($stmt,$sql)) {
+                header("Location: ../add_bill.php?error=sqlerror");
+                exit();
+            }else{
+                mysqli_stmt_bind_param($stmt,"s",$mrid);
+                mysqli_stmt_execute($stmt);
+                mysqli_stmt_store_result($stmt);
+                $resultCheck = mysqli_stmt_num_rows($stmt);
+                    
+                    if ($resultCheck > 0) {
+                        header("Location: ../add_bill.php?error=billMridAlreadyTaken");
+                        exit();
+                    }else{                         
+                            $sql = "INSERT INTO `patient_bill`(
+                                `PATIENT_MR_ID`, 
+                                `PATIENT_MOBILE`, 
+                                `PATIENT_CNIC`, 
+                                `DISCHARGE_DATE_TIME`, 
+                                `BILL_DATE_TIME`, 
+                                `BILL_SERVICE_ID`, 
+                                `BILL_TOTAL_AMOUNT`, 
+                                `BILL_DISCOUNT`,
+                                `BILL_FINAL_TOTAL`) VALUES (?,?,?,?,?,?,?,?,?)";
+                            mysqli_stmt_execute($stmt);
+                        
+                            if (!mysqli_stmt_prepare($stmt,$sql)) {
+                                header("Location: ../add_bill.php?error=sqlerror");
+                                exit();
+                            }else{                                
+                                mysqli_stmt_bind_param($stmt,"sssssssss", $mrid,$phone,$cnic,$dischargeTime,$dischargeTime,$serv,$totalBill,$discount,$finalBill);
+                                mysqli_stmt_execute($stmt);
+                            
+                                echo '<script type="text/javascript">alert("New Patient Bill is Successfully Saved");window.location = "../bill.php";</script>';								
                                 exit();
                             }			
                         }
