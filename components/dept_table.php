@@ -36,7 +36,7 @@
                             <a href='backend_components/update_handler.php?id=$rs[DEPARTMENT_ID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
-                            <a href='backend_components/delete_handler.php?id=$rs[DEPARTMENT_ID]' style='color:red;'>
+                            <a href='backend_components/delete_handler.php?deptId=$rs[DEPARTMENT_ID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
                             </a>
                         </td>

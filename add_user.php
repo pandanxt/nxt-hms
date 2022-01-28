@@ -13,7 +13,13 @@
   <!-- /.Main Sidebar Container-->
 
   <!-- Content Wrapper. Contains page content -->
-  <?php include('components/user_form.php');?>
+  <?php 
+   if (empty($_GET['userId'])) {
+    include('backend_components/update_user.php');
+   }else {
+    include('components/user_form.php'); 
+   }
+  ?>
   <!-- /.content-wrapper -->
 
   <!-- Main Footer -->

@@ -39,21 +39,14 @@
                             <a href='view_user.php?id=$rs[ADMIN_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
                             </a><br>
-                            <a href='backend_components/update_handler.php?id=$rs[ADMIN_ID]'>
+                            <a href='add_user.php?userId=$rs[ADMIN_ID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
-                            <a href='backend_components/delete_handler.php?id=$rs[ADMIN_ID]' style='color:red;'>
+                            <a href='backend_components/delete_handler.php?userId=$rs[ADMIN_ID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
                             </a>
                         </td>
                         </tr>"; 
-                        
-                        // if(isset($_SESSION[adminid]))
-                        // {
-                        //       echo "<a href='patient.php?editid=$rs[patientid]'>Edit</a> | <a href='viewpatient.php?delid=$rs[patientid]'>Delete</a> <hr>
-                        // <a href='patientreport.php?patientid=$rs[patientid]'>View Report</a>";
-                        // }
-                          
                       }
                   ?>
                   </tbody>
