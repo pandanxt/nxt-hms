@@ -10,7 +10,13 @@
   <!-- /.Main Sidebar Container-->
 
   <!-- Content Wrapper. Contains page content -->
-  <?php include('components/service_form.php');?>
+  <?php 
+   if (empty($_GET['id'])) {
+      include('components/service_form.php');
+   }else {
+      include('backend_components/update_service.php');
+   }
+  ?>
   <!-- /.content-wrapper -->
 
   <!-- Main Footer -->

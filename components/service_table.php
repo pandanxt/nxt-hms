@@ -33,7 +33,7 @@
                             <a href='view_service.php?id=$rs[BILL_SERVICE_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
                             </a><br>
-                            <a href='backend_components/update_handler.php?id=$rs[BILL_SERVICE_ID]'>
+                            <a href='add_service.php?id=$rs[BILL_SERVICE_ID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
                             <a href='backend_components/delete_handler.php?serId=$rs[BILL_SERVICE_ID]' style='color:red;'>

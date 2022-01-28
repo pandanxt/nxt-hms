@@ -51,7 +51,7 @@
                             <a href='view_patient.php?id=$rs[PATIENT_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
                             </a><br>
-                            <a href='backend_components/update_handler.php?id=$rs[PATIENT_ID]'>
+                            <a href='add_patient.php?id=$rs[PATIENT_ID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
                             <a href='backend_components/delete_handler.php?patId=$rs[PATIENT_ID]' style='color:red;'>

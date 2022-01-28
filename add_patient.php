@@ -11,7 +11,13 @@
   <!-- /.Main Sidebar Container-->
 
   <!-- Content Wrapper. Contains page content -->
-  <?php include('components/patient_form.php');?>
+  <?php 
+  if (empty($_GET['id'])) {
+    include('components/patient_form.php');
+  }else{
+    include('backend_components/update_patient.php');
+  }  
+  ?>
   <!-- /.content-wrapper -->
 
   <!-- Main Footer -->

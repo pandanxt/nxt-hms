@@ -14,10 +14,10 @@
 
   <!-- Content Wrapper. Contains page content -->
   <?php 
-   if (empty($_GET['userId'])) {
-    include('backend_components/update_user.php');
-   }else {
+   if (empty($_GET['id'])) {
     include('components/user_form.php'); 
+   }else {
+    include('backend_components/update_user.php');
    }
   ?>
   <!-- /.content-wrapper -->

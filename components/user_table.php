@@ -39,7 +39,7 @@
                             <a href='view_user.php?id=$rs[ADMIN_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
                             </a><br>
-                            <a href='add_user.php?userId=$rs[ADMIN_ID]'>
+                            <a href='add_user.php?id=$rs[ADMIN_ID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
                             <a href='backend_components/delete_handler.php?userId=$rs[ADMIN_ID]' style='color:red;'>

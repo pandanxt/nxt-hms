@@ -10,7 +10,13 @@
   <!-- /.Main Sidebar Container-->
 
   <!-- Content Wrapper. Contains page content -->
-  <?php include('components/dept_form.php');?>
+  <?php 
+  if (empty($_GET['id'])) {
+    include('components/dept_form.php');
+  }else{
+    include('backend_components/update_dept.php');
+  }  
+  ?>
   <!-- /.content-wrapper -->
 
   <!-- Main Footer -->
