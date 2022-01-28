@@ -14,8 +14,8 @@
                     <th>Department</th>
                     <th>Education</th>
                     <th>Experience</th>
-                    <th>Created at</th>
                     <th>Status</th>
+                    <th>Created</th>
                     <th>Options</th>
                   </tr>
                   </thead>
@@ -25,6 +25,7 @@
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
+                        $date = substr($rs['DOCTOR_SAVE_TIME'],0, 21);
                         echo "<tr>
                         <td>$rs[DOCTOR_ID]</td>
                         <td>$rs[DOCTOR_NAME]</td>
@@ -33,7 +34,7 @@
                         <td>$rs[DOCTOR_EDUCATION]</td>
                         <td>$rs[DOCTOR_EXPERIENCE]</td>
                         <td>$rs[DOCTOR_STATUS]</td>
-                        <td>$rs[DOCTOR_SAVE_TIME]</td>
+                        <td>$date</td>
                         <td style='display:flex;'>
                             <a href='view_doctor.php?id=$rs[DOCTOR_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details

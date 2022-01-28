@@ -1,22 +1,10 @@
-<?php
-      $sql="SELECT *, `DOCTOR_NAME`, `PATIENT_ADMISSION_DATE_TIME` 
-            FROM `patient` 
-            INNER JOIN `doctor` 
-            INNER JOIN `patient_record` 
-            WHERE 
-            `PATIENT_ID` = " .$_GET['id']. " AND 
-            `patient`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID` AND 
-            `patient`.`PATIENT_MR_ID` = `patient_record`.`PATIENT_MR_ID`";
-      $qsql = mysqli_query($db,$sql);
-      $patdata = mysqli_fetch_array($qsql);
-?>
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Generate Bill for <?php echo $patdata['PATIENT_NAME'] ; ?></h1>
+            <h1>Generate Bill</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -47,9 +35,9 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="col-md-12 clearfix">
-                  <div style="line-height: 5px;" class="row "><label>MR-ID: </label>&nbsp; <p><?php echo $patdata['PATIENT_MR_ID'] ; ?></p></div>
-                  <div style="line-height: 5px;" class="row"><label>Name: </label>&nbsp; <p><?php echo $patdata['PATIENT_NAME'] ; ?></p></div>
-                  <div style="line-height: 5px;" class="row"><label>Mobile: </label>&nbsp; <p><?php echo $patdata['PATIENT_MOBILE'] ; ?></p></div>
+                  <div style="line-height: 5px;" class="row "><label>MR-ID: </label>&nbsp; <p></p></div>
+                  <div style="line-height: 5px;" class="row"><label>Name: </label>&nbsp; <p></p></div>
+                  <div style="line-height: 5px;" class="row"><label>Mobile: </label>&nbsp; <p></p></div>
                 </div>
                 
                 <label>Bill Services</label>
@@ -73,29 +61,29 @@
               <div class="col-md-6">
                 
                 <div class="col-md-12 clearfix" style="margin-left:7px;">
-                  <div style="line-height: 5px;" class="row"><label>Gender: </label>&nbsp; <p><?php echo $patdata['PATIENT_GENDER'] ; ?></p></div>                
-                  <?php if ($patdata['PATIENT_TYPE'] == 'indoor') { ?>
-                    <div style="line-height: 5px;" class="row"><label>CNIC: </label>&nbsp; <p><?php echo $patdata['PATIENT_CNIC'] ; ?></p></div>
-                    <div style="line-height: 5px;" class="row"><label>Doctor: </label>&nbsp; <p><?php echo $patdata['DOCTOR_NAME'] ; ?></p></div>
-                  <?php }else{ ?>
-                    <div style="line-height: 5px;" class="row"><label>Consultant Name</label>&nbsp; <p><?php echo $patdata['DOCTOR_NAME'] ; ?></p></div>
-                  <?php } ?>
+                  <div style="line-height: 5px;" class="row"><label>Gender: </label>&nbsp; <p></p></div>                
+                  <?php //if ($patdata['PATIENT_TYPE'] == 'indoor') { ?>
+                    <div style="line-height: 5px;" class="row"><label>CNIC: </label>&nbsp; <p></p></div>
+                    <div style="line-height: 5px;" class="row"><label>Doctor: </label>&nbsp; <p></p></div>
+                  <?php //}else{ ?>
+                    <div style="line-height: 5px;" class="row"><label>Consultant Name</label>&nbsp; <p></p></div>
+                  <?php //} ?>
                 </div>
-                <input type="text" name="phone" value="<?php echo $patdata['PATIENT_MOBILE'] ; ?>" hidden readonly>
-                <input type="text" name="mrid" value="<?php echo $patdata['PATIENT_MR_ID'] ; ?>" hidden readonly>
-                <input type="text" name="name" value="<?php echo $patdata['PATIENT_NAME'] ; ?>" hidden readonly>
-                <input type="text" name="gender" value="<?php echo $patdata['PATIENT_GENDER'] ; ?>" hidden readonly>
-                <input type="text" name="type" value="<?php echo $patdata['PATIENT_TYPE'] ; ?>" hidden readonly>
-                <?php if ($patdata['PATIENT_TYPE'] == 'indoor') { ?>
-                <input type="text" name="cnic" value="<?php echo $patdata['PATIENT_CNIC'] ; ?>" hidden readonly>
-                <?php } ?>
-                <input type="text" name="doctor" value="<?php echo $patdata['DOCTOR_NAME'] ; ?>" hidden readonly>
+                <input type="text" name="phone" value="" hidden readonly>
+                <input type="text" name="mrid" value="" hidden readonly>
+                <input type="text" name="name" value="" hidden readonly>
+                <input type="text" name="gender" value="" hidden readonly>
+                <input type="text" name="type" value="" hidden readonly>
+                <?php //if ($patdata['PATIENT_TYPE'] == 'indoor') { ?>
+                <input type="text" name="cnic" value="" hidden readonly>
+                <?php //} ?>
+                <input type="text" name="doctor" value="" hidden readonly>
                  
                 <!-- Date and time -->
                 <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                   <div class="form-group col-md-6">
                     <label>Admission Date | Time</label>
-                    <input type="text" name="admissionTime" value="<?php echo $patdata['PATIENT_ADMISSION_DATE_TIME'] ; ?>" id="admissionTime" class="form-control"/>
+                    <input type="text" name="admissionTime" value="" id="admissionTime" class="form-control"/>
                   </div>
                   <div class="form-group col-md-6">
                     <label>Discharge Date | Time</label>

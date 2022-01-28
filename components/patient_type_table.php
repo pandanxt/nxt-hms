@@ -22,11 +22,12 @@
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
+                        $date = substr($rs['TYPE_SAVE_TIME'],0, 21);
                         echo "<tr>
                         <td>$rs[PATIENT_TYPE_ID]</td>
                         <td>$rs[PATIENT_TYPE_NAME]</td>
                         <td>$rs[PATIENT_TYPE_ALAIS]</td>
-                        <td>$rs[TYPE_SAVE_TIME]</td>
+                        <td>$date</td>
                         <td>$rs[PATIENT_TYPE_STATUS]</td>
                         <td style='display:flex;'>
                             <a href='view_patient_type.php?id=$rs[PATIENT_TYPE_ID]' style='color:green;'>

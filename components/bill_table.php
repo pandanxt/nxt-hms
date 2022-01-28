@@ -8,16 +8,16 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>Serial No#</th>
-                    <th>MRID</th>
+                    <th>S.No#</th>
+                    <th>MR-ID</th>
                     <th>Mobile</th>
-                    <th>CNIC</th>
-                    <th>Discharge Date | Time</th>
-                    <th>Bill Date | Time</th>
-                    <th>Bill Services</th>
-                    <th>Bill Total Amount</th>
-                    <th>Bill Discount</th>
-                    <th>Bill Final Total</th>
+                    <!-- <th>CNIC</th> -->
+                    <!-- <th>Discharge Date | Time</th> -->
+                    <th>Date</th>
+                    <!-- <th>Bill Services</th> -->
+                    <!-- <th>Bill Total Amount</th> -->
+                    <th>Discount</th>
+                    <th>Total</th>
                     <th>Option</th>
                   </tr>
                   </thead>
@@ -27,15 +27,12 @@
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
+                        $date = substr($rs['BILL_DATE_TIME'],0, 21);
                         echo "<tr>
                         <td>$rs[BILL_ID]</td>
                         <td>$rs[PATIENT_MR_ID]</td>
                         <td>$rs[PATIENT_MOBILE]</td>
-                        <td>$rs[PATIENT_CNIC]</td>
-                        <td>$rs[DISCHARGE_DATE_TIME]</td>
-                        <td>$rs[BILL_DATE_TIME]</td>
-                        <td>$rs[BILL_SERVICE_ID]</td>
-                        <td>$rs[BILL_TOTAL_AMOUNT]</td>
+                        <td>$date</td>
                         <td>$rs[BILL_DISCOUNT]</td>
                         <td>$rs[BILL_FINAL_TOTAL]</td>
                         <td style='display:flex;'>

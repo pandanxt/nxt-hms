@@ -12,7 +12,7 @@
                     <th>Name</th>
                     <th>Description</th>
                     <th>Status</th>
-                    <th>Created at</th>
+                    <th>Created</th>
                     <th>Options</th>
                   </tr>
                   </thead>
@@ -22,12 +22,13 @@
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
+                        $date = substr($rs['DEPARTMENT_SAVE_TIME'],0, 21);
                         echo "<tr>
                         <td>$rs[DEPARTMENT_ID]</td>
                         <td>$rs[DEPARTMENT_NAME]</td>
                         <td>$rs[DEPARTMENT_DESC]</td>
                         <td>$rs[DEPARTMENT_STATUS]</td>
-                        <td>$rs[DEPARTMENT_SAVE_TIME]</td>
+                        <td>$date</td>
                         <td style='display:flex;'>
                             <a href='view_dept.php?id=$rs[DEPARTMENT_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details

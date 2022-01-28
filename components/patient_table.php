@@ -13,13 +13,13 @@
                     <th>Name</th>
                     <th>Type</th>
                     <th>Mobile</th>
-                    <th>CNIC</th>
+                    <!-- <th>CNIC</th> -->
                     <th>Gender</th>
                     <th>Age</th>
                     <th>Address</th>
                     <th>Doctor</th>
                     <!-- <th>Patient Bill</th> -->
-                    <th>Created On</th>
+                    <th>Created</th>
                     <!-- <th>Discharge</th> -->
                     <!-- <th>User Name</th> -->
                     <th>Options</th>
@@ -31,7 +31,7 @@
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
-                  
+                       $date = substr($rs['PATIENT_DATE_TIME'],0, 21);
                         echo "<tr>
                         <td>$rs[PATIENT_ID]
                            <br> <a href='add_bill.php?id=$rs[PATIENT_ID]' style='color:green;'>
@@ -42,12 +42,11 @@
                         <td>$rs[PATIENT_NAME]</td>
                         <td>$rs[PATIENT_TYPE]</td>
                         <td>$rs[PATIENT_MOBILE]</td>
-                        <td>$rs[PATIENT_CNIC]</td>
                         <td>$rs[PATIENT_GENDER]</td>
                         <td>$rs[PATIENT_AGE]</td>
                         <td>$rs[PATIENT_ADDRESS]</td>
                         <td>$rs[DOCTOR_NAME]</td>
-                        <td>$rs[PATIENT_DATE_TIME]</td> 
+                        <td>$date</td> 
                         <td style='display:flex;'>
                             <a href='view_patient.php?id=$rs[PATIENT_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details

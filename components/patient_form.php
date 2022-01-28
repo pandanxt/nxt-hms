@@ -79,7 +79,7 @@
               <div class="form-group">
                   <label>Patient Type</label>
                   <select class="form-control select2bs4" name="type" onchange="typeFun();" id="typeSelect" style="width: 100%;" required>
-                  <option disabled selected>Select Patient Type</option>
+                  <!-- <option disabled selected>Select Patient Type</option> -->
                   <?php
                       $p_type = 'SELECT `PATIENT_TYPE_NAME`, `PATIENT_TYPE_ALAIS` FROM `patient_type` WHERE `PATIENT_TYPE_STATUS` = "active"';
                       $result = mysqli_query($db, $p_type) or die (mysqli_error($db));

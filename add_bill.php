@@ -11,7 +11,15 @@
   <!-- /.Main Sidebar Container-->
 
   <!-- Content Wrapper. Contains page content -->
-  <?php include('components/bill_form.php');?>
+  <?php 
+    if (empty($_GET['id'])) {
+      include('components/simple_bill_form.php');  
+      // echo '<script>alert("This is simplet bill form");</script>';
+    }else {
+      include('components/bill_form.php');
+      // echo '<script>alert("This is bill form");</script>';
+    }  
+  ?>
   <!-- /.content-wrapper -->
 
   <!-- Main Footer -->

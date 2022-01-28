@@ -12,7 +12,7 @@
                     <th>Degree</th>
                     <th>Alais</th>
                     <th>Status</th>
-                    <th>Created at</th>
+                    <th>Created</th>
                     <th>Options</th>
                   </tr>
                   </thead>
@@ -22,12 +22,13 @@
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       {
+                        $date = substr($rs['EDUCATION_DATE_TIME'],0, 21);
                         echo "<tr>
                         <td>$rs[EDUCATION_ID]</td>
                         <td>$rs[EDUCATION_NAME]</td>
                         <td>$rs[EDUCATION_ALAIS]</td>
                         <td>$rs[EDUCATION_STATUS]</td>
-                        <td>$rs[EDUCATION_DATE_TIME]</td>
+                        <td>$date</td>
                         <td style='display:flex;'>
                         <a href='view_education.php?id=$rs[EDUCATION_ID]' style='color:green;'>
                           <i class='fas fa-info-circle'></i> Details

@@ -22,12 +22,13 @@
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
+                        $date = substr($rs['SERVICE_SAVE_TIME'],0, 21);
                         echo "<tr>
                         <td>$rs[BILL_SERVICE_ID]</td>
                         <td>$rs[BILL_SERVICE_NAME]</td>
                         <td>$rs[BILL_SERVICE_AMOUNT]</td>
                         <td>$rs[SERVICE_STATUS]</td>
-                        <td>$rs[SERVICE_SAVE_TIME]</td>
+                        <td>$date</td>
                         <td style='display:flex;'>
                             <a href='view_service.php?id=$rs[BILL_SERVICE_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
