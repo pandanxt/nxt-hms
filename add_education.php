@@ -1,4 +1,6 @@
   <!-- Header Form -->
+  <?php include('backend_components/connection.php'); ?>
+  <!-- Header Form -->
   <?php include('components/form_header.php'); ?>
 
   <!-- Navbar -->

@@ -1,15 +1,20 @@
+<?php
+    $sql="SELECT * FROM `department` WHERE `DEPARTMENT_ID` = '$_GET[id]' ";
+    $qsql = mysqli_query($db,$sql);
+    $rsedit = mysqli_fetch_array($qsql);
+?>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Create New Department</h1>
+            <h1>Edit Department</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Create New Department</li>
+              <li class="breadcrumb-item active">Edit Department</li>
             </ol>
           </div>
         </div>
@@ -29,14 +34,14 @@
               <span id='clockDT'></span>
             </div>
           </div>
-          <form action="backend_components/php_handler.php" method="post" enctype="multipart/form-data">
+          <form action="backend_components/update_handler.php" method="post" enctype="multipart/form-data">
           <!-- /.card-header -->
           <div class="card-body">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Department Name</label>
-                  <input type="text" name="name" class="form-control" id="inputText1" placeholder="Enter Department Name Here ..." required>
+                  <input type="text" name="name" class="form-control" id="inputText1" value="<?php echo $rsedit['DEPARTMENT_NAME']; ?>" required>
                 </div>
                 <!-- /.form-group -->
                  <div class="form-group">
@@ -50,12 +55,13 @@
               </div>
               <!-- /.col -->
               <div class="col-md-6">
-              <input type="text" name="addDate" id="addDate" hidden/>
-              <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
+              <input type="text" name="did" value="<?php echo $rsedit['DEPARTMENT_ID']; ?>" hidden/>
+              <!-- <input type="text" name="addDate" id="addDate" hidden/>
+              <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script> -->
                <!-- /.form-group -->
                <div class="form-group">
                   <label>Department Description</label>
-                  <textarea type="text" class="form-control" name="description" id="inputLoginId1" placeholder="Enter Description Here ..." required></textarea>
+                  <textarea type="text" class="form-control" name="description" id="inputLoginId1" required><?php echo $rsedit['DEPARTMENT_DESC']; ?></textarea>
                 </div>
                 <!-- /.form-group -->
               </div>
@@ -65,7 +71,7 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer" style="text-align: right;">
-            <button type="submit"name="dept-submit" class="btn btn-block btn-primary">Submit</button>
+            <button type="submit"name="update-dept-submit" class="btn btn-block btn-primary">Submit</button>
           </div>
         </div>
         <!-- /.card -->

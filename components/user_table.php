@@ -13,7 +13,7 @@
                     <th>Permissions</th>
                     <th>Email</th>
                     <th>Username</th>
-                    <th>Password</th>
+                    <!-- <th>Password</th> -->
                     <th>Status</th>
                     <th>Created at</th>
                     <th>Options</th>
@@ -32,7 +32,6 @@
                         <td>$rs[ADMIN_TYPE]</td>
                         <td>$rs[ADMIN_EMAIL]</td>
                         <td>$rs[ADMIN_USERNAME]</td>
-                        <td>$rs[ADMIN_PASSWORD]</td>
                         <td>$rs[ADMIN_STATUS]</td>
                         <td>$date</td>
                         <td style='display:flex;'>
