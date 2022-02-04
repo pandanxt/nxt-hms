@@ -38,21 +38,21 @@
             <li class="nav-item">
                 <a href="bill.php" class="nav-link">
                 <i class="nav-icon fas fa-file-invoice"></i>
-                <p>Create Bill</p>
+                <p>Bill Details</p>
                 </a>
             </li>
 
             <li class="nav-item">
                 <a href="patients.php" class="nav-link">
                 <i class="nav-icon fas fa-hospital-user"></i>
-                <p>Patients</p>
+                <p>Patient Details</p>
                 </a>
             </li>
 
             <li class="nav-item">
                 <a href="doctors.php" class="nav-link">
                 <i class="nav-icon fas fa-user-md"></i>
-                <p>Doctors</p>
+                <p>Doctor Details</p>
                 </a>
             </li>
 

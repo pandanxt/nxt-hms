@@ -367,9 +367,16 @@
                                     $qsql = mysqli_query($db,$checkQuery);
                                     $rs = mysqli_fetch_array($qsql);
                                     $checkValue = $rs['PATIENT_DISCHARGE_DATE_TIME'];
+
+                                    $checkBillId = "SELECT `BILL_ID` FROM `patient_bill` ORDER BY `BILL_ID` DESC LIMIT 1";
+                                    $qsql = mysqli_query($db,$checkBillId);
+                                    $rs = mysqli_fetch_array($qsql);
+                                    $billId = $rs['BILL_ID'];
+                                    // echo '<script>alert("'.$billId.'");</script>';                                   
+
                                     if (empty($checkValue)) {
                                         $recordUpdate = "UPDATE `patient_record` SET 
-                                        `PATIENT_DISCHARGE_DATE_TIME`='$dischargeTime',`PATIENT_ADMIT_DAYS`='$admitDay' 
+                                        `PATIENT_DISCHARGE_DATE_TIME`='$dischargeTime',`PATIENT_ADMIT_DAYS`='$admitDay', `PATIENT_BILL_ID`='$billId' 
                                         WHERE `PATIENT_MR_ID` = '$mrid' OR `PATIENT_MOBILE` = '$phone' OR `PATIENT_CNIC` = '$cnic' 
                                         ORDER BY `RECORD_ID` LIMIT 1";                                 
                                     }else {
@@ -379,8 +386,9 @@
                                             `PATIENT_CNIC`, 
                                             `PATIENT_ADMISSION_DATE_TIME`, 
                                             `PATIENT_DISCHARGE_DATE_TIME`, 
-                                            `PATIENT_ADMIT_DAYS`)
-                                        VALUES ('$mrid','$phone','$cnic','$dischargeTime','$dischargeTime','$admitDay')";                                 
+                                            `PATIENT_ADMIT_DAYS`,
+                                            `PATIENT_BILL_ID`)
+                                        VALUES ('$mrid','$phone','$cnic','$dischargeTime','$dischargeTime','$admitDay','$billId')";                                 
                                     }
                                     if ($query_sql = mysqli_query($db, $recordUpdate))
                                             {

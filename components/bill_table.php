@@ -39,7 +39,7 @@
                             <a href='view_bill.php?id=$rs[BILL_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
                             </a><br>
-                            <a href='add_bill.php?id=$rs[BILL_ID]'>
+                            <a href='add_bill.php?action=edit&id=$rs[BILL_ID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
                             <a href='backend_components/delete_handler.php?billId=$rs[BILL_ID]' style='color:red;'>

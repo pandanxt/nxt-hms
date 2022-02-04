@@ -15,7 +15,9 @@
     if (empty($_GET['id'])) {
       include('components/simple_bill_form.php');  
       // echo '<script>alert("This is simplet bill form");</script>';
-    }else {
+    } else if (!empty($_GET['action'])) {
+      include('backend_components/update_bill.php');
+    } else {
       include('components/bill_form.php');
       // echo '<script>alert("This is bill form");</script>';
     }  

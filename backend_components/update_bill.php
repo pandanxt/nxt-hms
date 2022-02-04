@@ -1,10 +1,13 @@
 <?php
-      $sql="SELECT *, `DOCTOR_NAME`, `PATIENT_ADMISSION_DATE_TIME` 
-            FROM `patient` 
+      $sql="SELECT *
+            FROM `patient_bill` 
+            INNER JOIN `patient` 
+            INNER JOIN `patient_record`
             INNER JOIN `doctor` 
-            INNER JOIN `patient_record` 
             WHERE 
-            `PATIENT_ID` = " .$_GET['id']. " AND 
+            `BILL_ID` = " .$_GET['id']. " AND 
+            `patient_bill`.`PATIENT_MR_ID` = `patient`.`PATIENT_MR_ID` AND
+            `patient_bill`.`PATIENT_MR_ID` = `patient_record`.`PATIENT_MR_ID` AND
             `patient`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID` AND 
             `patient`.`PATIENT_MR_ID` = `patient_record`.`PATIENT_MR_ID`";
       $qsql = mysqli_query($db,$sql);
