@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +19,7 @@
 
   <!-- Connection -->
   <?php include('backend_components/connection.php'); ?>
+
   <!-- Navbar -->
   <?php include('components/navbar.php'); ?>
   <!-- /.navbar -->

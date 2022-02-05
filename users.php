@@ -1,4 +1,5 @@
-  <!-- Connection -->
+<?php session_start(); ?>
+<!-- Connection -->
   <?php include('backend_components/connection.php'); ?>
   <!-- table-header -->
   <?php include('components/table_header.php'); ?>

@@ -1,4 +1,5 @@
-  <!-- DB Connections -->
+<?php session_start(); ?>
+ <!-- DB Connections -->
   <?php include('backend_components/connection.php'); ?>
 
   <!-- Header Form -->

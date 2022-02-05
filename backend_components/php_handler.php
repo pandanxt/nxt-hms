@@ -4,6 +4,51 @@
         $name = $_POST['name'];
         $saveOn = $_POST['addDate'];
     }
+    
+    if (isset($_POST['signin'])) {
+
+        $uid = $_POST['username'];
+        $pass = $_POST['password'];    
+    
+        if (empty($uid)||empty($pass)) {
+        header("Location: ../login.php?account=user&error=emptyfields");
+        exit();
+        }else{
+        $sql = "SELECT * FROM `admin` WHERE `ADMIN_EMAIL` = ? OR `ADMIN_USERNAME` = ?";
+        $stmt = mysqli_stmt_init($db);
+        if (!mysqli_stmt_prepare($stmt,$sql)) {
+        header("Location: ../login.php?account=user&error=sqlerror");
+        exit();
+        }else{
+            mysqli_stmt_bind_param($stmt,"ss",$uid,$uid);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+                if ($row = mysqli_fetch_assoc($result)) {
+                    $pwdCheck = password_verify($pass,$row['ADMIN_PASSWORD']);
+                        if ($pwdCheck == false) {
+                            header("Location: ../login.php?account=user&error=wrongpwd");
+                            exit();
+                        }elseif ($pwdCheck == true) {
+                            session_start();
+                            $_SESSION['userid'] = $row['ADMIN_ID'];
+                            $_SESSION['email'] = $row['ADMIN_EMAIL'];
+                            $_SESSION['fullname'] = $row['ADMIN_NAME'];
+                            $_SESSION['name'] = $row['ADMIN_USERNAME'];
+                            // $_SESSION['image'] = $row['user_image'];
+                            $_SESSION['type'] = $row['ADMIN_TYPE'];
+                            header("Location: ../index.php?login=success");
+                            exit();
+                        }else{
+                            header("Location: ../login.php?account=user&error=wrongpwd");
+                            exit();
+                        }
+                }else{
+                    header("Location: ../login.php?account=user&error=nouser");
+                    exit();
+                }
+            }
+        }
+    }
 
     if (isset($_POST['user-submit'])) {
         $status =  $_POST['status'];
@@ -368,15 +413,16 @@
                                     $rs = mysqli_fetch_array($qsql);
                                     $checkValue = $rs['PATIENT_DISCHARGE_DATE_TIME'];
 
-                                    $checkBillId = "SELECT `BILL_ID` FROM `patient_bill` ORDER BY `BILL_ID` DESC LIMIT 1";
-                                    $qsql = mysqli_query($db,$checkBillId);
-                                    $rs = mysqli_fetch_array($qsql);
-                                    $billId = $rs['BILL_ID'];
+                                    // $checkBillId = "SELECT `BILL_ID` FROM `patient_bill` ORDER BY `BILL_ID` DESC LIMIT 1";
+                                    // $qsql = mysqli_query($db,$checkBillId);
+                                    // $rs = mysqli_fetch_array($qsql);
+                                    // $billId = $rs['BILL_ID'];
                                     // echo '<script>alert("'.$billId.'");</script>';                                   
 
                                     if (empty($checkValue)) {
                                         $recordUpdate = "UPDATE `patient_record` SET 
-                                        `PATIENT_DISCHARGE_DATE_TIME`='$dischargeTime',`PATIENT_ADMIT_DAYS`='$admitDay', `PATIENT_BILL_ID`='$billId' 
+                                        `PATIENT_DISCHARGE_DATE_TIME`='$dischargeTime',`PATIENT_ADMIT_DAYS`='$admitDay'
+                                        -- , `PATIENT_BILL_ID`='$billId' 
                                         WHERE `PATIENT_MR_ID` = '$mrid' OR `PATIENT_MOBILE` = '$phone' OR `PATIENT_CNIC` = '$cnic' 
                                         ORDER BY `RECORD_ID` LIMIT 1";                                 
                                     }else {
@@ -387,8 +433,11 @@
                                             `PATIENT_ADMISSION_DATE_TIME`, 
                                             `PATIENT_DISCHARGE_DATE_TIME`, 
                                             `PATIENT_ADMIT_DAYS`,
-                                            `PATIENT_BILL_ID`)
-                                        VALUES ('$mrid','$phone','$cnic','$dischargeTime','$dischargeTime','$admitDay','$billId')";                                 
+                                            -- `PATIENT_BILL_ID`
+                                            )
+                                        VALUES ('$mrid','$phone','$cnic','$dischargeTime','$dischargeTime','$admitDay'
+                                        -- ,'$billId'
+                                        )";                                 
                                     }
                                     if ($query_sql = mysqli_query($db, $recordUpdate))
                                             {

@@ -1,3 +1,4 @@
+<?php session_start(); ?>
   <!-- Header Form -->
   <?php include('backend_components/connection.php'); ?>
   <!-- Header Form -->
