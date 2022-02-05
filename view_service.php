@@ -25,12 +25,8 @@ $id = (isset($_GET['id']) ? $_GET['id'] : '');
           {
               while ($row=mysqli_fetch_array($result)) 
               {
-                // .$row["product_name"].
-                // `BILL_SERVICE_ID`,
-                // `BILL_SERVICE_NAME`,
-                // `BILL_SERVICE_AMOUNT`,
-                // `SERVICE_STATUS`,
-                // `SERVICE_SAVE_TIME`
+                $date = substr($row['SERVICE_SAVE_TIME'],0, 15);
+                $time = substr($row['SERVICE_SAVE_TIME'],16, 50);
          
           ?>
             <div class="card">
@@ -45,13 +41,13 @@ $id = (isset($_GET['id']) ? $_GET['id'] : '');
                         <div class="col-md-12 clearfix">
                          <?php echo '<div class="row "><label>Service Name: </label>&nbsp; <p>'.$row["BILL_SERVICE_NAME"].'</p></div>'; ?>
                          <?php echo '<div class="row"><label>Service Amount: </label>&nbsp; <p>'.$row["BILL_SERVICE_AMOUNT"].'</p></div>'; ?>
-                         <?php echo '<div class="row"><label>Status: </label>&nbsp; <p>'.$row["SERVICE_STATUS"].'</p></div>'; ?>
+                         <?php echo '<div class="row"><label>Status: </label>&nbsp; <p>'.$row["SERVICE_STATUS"].'&nbsp; <a href="#"><i class="fas fa-exchange-alt"></i></a></p></div>'; ?>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="col-md-12 clearfix">
-                          <?php echo '<div class="row "><label>Date: </label>&nbsp; <p>'.$row["SERVICE_SAVE_TIME"].'</p></div>'; ?>
-                          <?php echo '<div class="row"><label>Time: </label>&nbsp; <p>'.$row["SERVICE_SAVE_TIME"].'</p></div>'; ?>
+                          <?php echo '<div class="row "><label>Date: </label>&nbsp; <p>'. $date.'</p></div>'; ?>
+                          <?php echo '<div class="row"><label>Time: </label>&nbsp; <p>'.$time.'</p></div>'; ?>
                           <?php echo '<div class="row"><label>Options: </label>&nbsp; <p>';
                             echo '<a href="add_service.php?id='.$row["BILL_SERVICE_ID"].'"><i class="fas fa-edit"></i></a>';
                             echo '&nbsp; <a href="backend_components/delete_handler.php?serId='.$row["BILL_SERVICE_ID"].'" style="color:red;"><i class="fas fa-trash"></i></a>';
