@@ -59,13 +59,6 @@
                             </a>
                         </td>
                         </tr>"; 
-                        
-                        // if(isset($_SESSION[adminid]))
-                        // {
-                        //       echo "<a href='patient.php?editid=$rs[patientid]'>Edit</a> | <a href='viewpatient.php?delid=$rs[patientid]'>Delete</a> <hr>
-                        // <a href='patientreport.php?patientid=$rs[patientid]'>View Report</a>";
-                        // }
-                          
                       }
                   ?>
                   </tbody>

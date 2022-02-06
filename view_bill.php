@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php 
+    session_start(); 
+    $id = (isset($_GET['id']) ? $_GET['id'] : ''); 
+?>
   <!-- Connection -->
   <?php include('backend_components/connection.php'); ?>
   <!-- table-header -->
