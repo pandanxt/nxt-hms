@@ -29,17 +29,97 @@
               <span id='clockDT'></span>
             </div>
           </div>
-          <form action="backend_components/php_handler.php" method="post" enctype="multipart/form-data">
+          <form action="backend_components/bill_handler.php" method="post" enctype="multipart/form-data">
           <!-- /.card-header -->
           <div class="card-body">
             <div class="row">
               <div class="col-md-6">
-                <div class="col-md-12 clearfix">
-                  <div style="line-height: 5px;" class="row "><label>MR-ID: </label>&nbsp; <p></p></div>
-                  <div style="line-height: 5px;" class="row"><label>Name: </label>&nbsp; <p></p></div>
-                  <div style="line-height: 5px;" class="row"><label>Mobile: </label>&nbsp; <p></p></div>
+
+              <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                    <div class="col-md-6" style="display:flex;margin:0;padding:0;">
+                      <div class="form-group col-md-6">
+                        <label>Patient MR-ID: </label>
+                        <input type="text" name="mrid" id="inputMR1" class="form-control" readonly/>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label>Patient Type: </label>
+                        <input type="text" name="type" class="form-control" value="<?php echo $type; ?>" readonly/>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                    <label>Patient Name: </label>
+                      <input type="text" name="name" class="form-control" placeholder="Enter Name ..." required/>
+                    </div>
+                  </div>
+                  <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                    <div class="form-group col-md-6">
+                    <label>Patient Mobile: </label>
+                      <input type="text" name="phone" class="form-control" placeholder="Enter Phone ..." required/>
+                    </div>
+                    <div class="form-group col-md-6" id="cnic">
+                      <label>Patient CNIC: </label>
+                      <input type="text" name="cnic" class="form-control" placeholder="Enter CNIC ..."/>
+                    </div>
+                  </div>
+                  <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                    <div class="form-group col-md-6">
+                    <label>Patient Gender</label>
+                      <select class="form-control select2bs4" name="gender">
+                        <option selected="selected" value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Patient Age: </label>
+                      <input type="text" name="age" class="form-control" placeholder="Enter Age ..."/>
+                    </div>
+                  </div>
+                  <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                    <div class="form-group col-md-6">
+                    <label id="doctor">Medical Officer (MO)</label>
+                      <select class="form-control select2bs4" name="doctor" style="width: 100%;">
+                      <option disabled selected>Select Doctor Name</option>
+                        <?php
+                          $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "active"';
+                          $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
+                            while ($row = mysqli_fetch_array($result)) {
+                              $id = $row['DOCTOR_ID'];  
+                              $name = $row['DOCTOR_NAME'];
+                              echo '<option value="'.$id.'">'.$name.'</option>'; 
+                          }
+                        ?>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Patient Address</label>
+                      <textarea name="address" type="text" class="form-control" id="inputAddress" placeholder="Enter Patient Address Here ..." required></textarea>
+                    </div>
+                  </div>
+                 <!-- Date and time -->
+                 <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                  <div class="form-group col-md-6">
+                    <label>Admission Date</label>
+                      <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
+                        <input type="text" name="admissionTime" class="form-control datetimepicker-input" placeholder="Admission Date ..." data-target="#reservationdatetime"/>
+                        <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Discharge Date</label>
+                      <div class="input-group date" id="reservationdatetime2" data-target-input="nearest">
+                        <input type="text" name="dischargeTime" class="form-control datetimepicker-input" placeholder="Discharge Date ..." data-target="#reservationdatetime2"/>
+                        <div class="input-group-append" data-target="#reservationdatetime2" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                      </div>
+                  </div>
                 </div>
-                
+              </div>
+              <!-- /.col -->
+              <div class="col-md-6">
                 <label>Bill Services</label>
                 <?php
                 $service = 'SELECT `BILL_SERVICE_ID`, `BILL_SERVICE_NAME`, `BILL_SERVICE_AMOUNT` FROM `bill_service` WHERE `SERVICE_STATUS` = "active"';
@@ -50,100 +130,76 @@
                     $amount = $row['BILL_SERVICE_AMOUNT'];
                     echo '<div class="clearfix">';
                     echo '<div class="icheck-primary d-inline">';
-                    echo ' <input style="" type="checkbox" value="'.$id.'" data-amount="'.$amount.'" name="service[]" id="checkboxPrimary'.$id.'" onchange="addPrice(this)">';
+                    echo ' <input style="" type="checkbox" value="'.$name.'" data-amount="'.$amount.'" name="service[]" id="checkboxPrimary'.$id.'" onchange="addPrice(this)">';
                     echo ' <label style="text-align:center;" for="checkboxPrimary'.$id.'">'.$name.'</label> <label style="float:right;" for="checkboxPrimary'.$id.'">Rs - '.$amount.'</label> ';
                     echo '</div>';
                     echo '</div>';
                   }
                 ?> 
-              </div>
-              <!-- /.col -->
-              <div class="col-md-6">
-                
-                <div class="col-md-12 clearfix" style="margin-left:7px;">
-                  <div style="line-height: 5px;" class="row"><label>Gender: </label>&nbsp; <p></p></div>                
-                  <?php //if ($patdata['PATIENT_TYPE'] == 'indoor') { ?>
-                    <div style="line-height: 5px;" class="row"><label>CNIC: </label>&nbsp; <p></p></div>
-                    <div style="line-height: 5px;" class="row"><label>Doctor: </label>&nbsp; <p></p></div>
-                  <?php //}else{ ?>
-                    <div style="line-height: 5px;" class="row"><label>Consultant Name</label>&nbsp; <p></p></div>
-                  <?php //} ?>
-                </div>
-                <input type="text" name="phone" value="" hidden readonly>
-                <input type="text" name="mrid" value="" hidden readonly>
-                <input type="text" name="name" value="" hidden readonly>
-                <input type="text" name="gender" value="" hidden readonly>
-                <input type="text" name="type" value="" hidden readonly>
-                <?php //if ($patdata['PATIENT_TYPE'] == 'indoor') { ?>
-                <input type="text" name="cnic" value="" hidden readonly>
-                <?php //} ?>
-                <input type="text" name="doctor" value="" hidden readonly>
-                 
-                <!-- Date and time -->
-                <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                  <div class="form-group col-md-6">
-                    <label>Admission Date | Time</label>
-                    <input type="text" name="admissionTime" value="" id="admissionTime" class="form-control"/>
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label>Discharge Date | Time</label>
-                    <input type="text" name="dischargeTime" id="dischargeTime" class="form-control"/>
-                  </div>
-                </div>
-                <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                  <div class="form-group col-md-6">
+                <div class="col-md-12" style="display:flex;margin:0; margin-top: 25px;padding:0;">
+                    <div class="form-group col-md-3">
+                      <label>Serv Charges</label>
+                      <input type="number" class="form-control" name="totalBill" id="totalBill" placeholder="Service Charges" readonly/>
+                    </div>
+                    <div class="form-group col-md-3">
+                      <label>Total Bill</label>
+                      <input type="number" name="finalBill" class="form-control" id="finalBill" placeholder="Total Value" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
                       <label>Admit Days</label>
-                      <input type="text" name="admitDay" id="admitDay" class="form-control"/>
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label>Discount</label>
-                    <input type="number" name="discount" class="form-control" onchange="myChangeFunction(this)" id="discount" placeholder="Enter Discount Here ...">
-                  </div>
+                      <input type="number" name="admitDay" onchange="myDayFunction(this)" id="day" placeholder="Admit Day ..." class="form-control"/>
+                    </div>
+                    <div class="form-group col-md-3">
+                      <label>Discount</label>
+                      <input type="number" name="discount" class="form-control" onchange="myChangeFunction(this)" id="discount" placeholder="Discount">
+                    </div>
                 </div>
-                <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                      <div class="form-group col-md-6">
-                        <label>Service Charges</label>
-                        <input type="number" class="form-control" name="totalBill" id="totalBill" placeholder="Enter Total Amount of Bill " readonly/>
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label>Final Bill</label>
-                        <input type="number" name="finalBill" class="form-control" id="finalBill" placeholder="Total Value Shows here ..." readonly>
-                      </div>
-                </div>
-                
               </div>
               <!-- /.col -->
             </div>
             <!-- /.row -->
           </div>
           <script>
-            let sum = 0;
+            var sum = 1;
             let addPrice = (elem) => {
-            let value = parseFloat(elem.getAttribute("data-amount").replace(/\$|,/g, ''), 2);
-            elem.checked ? (sum += value) : (sum -= value);
-            let days = document.getElementById('admitDay').value;
-            if(days==0){
+              let value = parseFloat(elem.getAttribute("data-amount").replace(/\$|,/g, ''), 2);
+              elem.checked ? (sum += value) : (sum -= value);
+              
               var totalPrice = sum;
               console.log(totalPrice);
-            }else{
-              var totalPrice = sum*days;
-              console.log(totalPrice);
-            }
-            
-            document.getElementById('totalBill').value = totalPrice;
-            console.log(sum);
+              document.getElementById('totalBill').value = totalPrice;
+              console.log(sum);
             };
-            
+
+            function myDayFunction(day) {
+              var totalBill = document.getElementById('totalBill');
+              var finalBill = document.getElementById('finalBill');
+              if(day==0){
+                totalPrice = sum*1;
+                console.log(totalBill.value);
+                totalBill.value = totalPrice;
+                finalBill.value = totalPrice;
+              }else{
+                totalPrice = sum*day.value;
+                console.log(totalBill.value);
+                totalBill.value = totalPrice;
+                finalBill.value = totalPrice;
+              }
+            }
+
             function myChangeFunction(discount) {
               var finalBill = document.getElementById('finalBill');
               var totalBill = document.getElementById('totalBill');
               finalBill.value = totalBill.value - discount.value;
             }
-
+            var currentDT = new Date().toLocaleString().replace(',','');
+            var unid = Date.now() +"-"+ "ME";
+            var MR_ID = unid.slice(6,16);
+            document.getElementById('inputMR1').value = MR_ID;
           </script>
           <!-- /.card-body -->
           <div class="card-footer" style="text-align: right;">
-            <button type="submit" name="bill-submit" class="btn btn-block btn-primary">Submit</button>
+            <button type="submit" name="simple-bill-submit" class="btn btn-block btn-primary">Submit</button>
           </div>
         </div>
         <!-- /.card -->
@@ -153,15 +209,3 @@
     </section>
     <!-- /.content -->
   </div>
-
-<script type = "text/javascript" >
-  var date2 = new Date();
-  var date1 = new Date("<?php echo $patdata['PATIENT_DATE_TIME'] ; ?>");
-  document.getElementById('dischargeTime').value = date2;
-  // console.log(x);
-  var Difference_In_Time = date2.getTime() - date1.getTime();
-  var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-  Difference_In_Days = Math.round(Difference_In_Days);
-  document.getElementById('admitDay').value = Difference_In_Days;
-  console.log(Difference_In_Days);
-</script>

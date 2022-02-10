@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php 
+  session_start();
+  if (isset($_SESSION['userid'])) { 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,3 +51,9 @@
 <script src="dist/js/adminlte.min.js"></script>
 </body>
 </html>
+
+<?php 
+}else{
+  echo '<script type="text/javascript">window.location = "login.php";</script>';
+} 
+?>

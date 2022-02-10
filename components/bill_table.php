@@ -10,12 +10,9 @@
                   <tr>
                     <th>S.No#</th>
                     <th>MR-ID</th>
+                    <th>Patient Name</th>
                     <th>Mobile</th>
-                    <!-- <th>CNIC</th> -->
-                    <!-- <th>Discharge Date | Time</th> -->
                     <th>Date</th>
-                    <!-- <th>Bill Services</th> -->
-                    <!-- <th>Bill Total Amount</th> -->
                     <th>Discount</th>
                     <th>Total</th>
                     <th>Option</th>
@@ -23,18 +20,19 @@
                   </thead>
                   <tbody>
                   <?php
-                      $sql ="SELECT * FROM `patient_bill`";
+                      $sql ="SELECT *,`PATIENT_NAME` FROM `bill_record` INNER JOIN `patient` WHERE `bill_record`.`MR_ID` = `patient`.`PATIENT_MR_ID`";
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
-                        $date = substr($rs['BILL_DATE_TIME'],0, 21);
+                        $date = substr($rs['BILL_DATE'],0, 21);
                         echo "<tr>
                         <td>$rs[BILL_ID]</td>
-                        <td>$rs[PATIENT_MR_ID]</td>
-                        <td>$rs[PATIENT_MOBILE]</td>
-                        <td>$date</td>
-                        <td>$rs[BILL_DISCOUNT]</td>
-                        <td>$rs[BILL_FINAL_TOTAL]</td>
+                        <td>$rs[MR_ID]</td>
+                        <td>$rs[PATIENT_NAME]</td>
+                        <td>$rs[MOBILE]</td>
+                        <td>$rs[BILL_DATE]</td>
+                        <td>$rs[DISCOUNT]</td>
+                        <td>$rs[TOTAL]</td>
                         <td style='display:flex;'>
                             <a href='view_bill.php?id=$rs[BILL_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details

@@ -44,7 +44,7 @@
                 <!-- /.form-group -->
                 <div class="form-group">
                   <label>Mobile No.</label>
-                  <input type="tel" name="phone" class="form-control" id="inputPhone" placeholder="Enter Mobile No. with '-' " pattern="[0-9]{4}-[0-9]{7}" title="Please Enter Phone number with '-'" required>
+                  <input type="tel" name="phone" class="form-control" id="inputPhone" placeholder="Enter Mobile No. without '-' " required>
                 </div>
                 <!-- /.form-group -->
                 <div class="form-group">
@@ -78,7 +78,7 @@
               <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
               <div class="form-group">
                   <label>Patient Type</label>
-                  <select class="form-control select2bs4" name="type" onchange="typeFun();" id="typeSelect" style="width: 100%;" required>
+                  <select class="form-control select2bs4" name="type" onchange="typeFun(this);" id="type" style="width: 100%;" required>
                   <!-- <option disabled selected>Select Patient Type</option> -->
                   <?php
                       $p_type = 'SELECT `PATIENT_TYPE_NAME`, `PATIENT_TYPE_ALAIS` FROM `patient_type` WHERE `PATIENT_TYPE_STATUS` = "active"';
@@ -94,7 +94,7 @@
                 <!-- /.form-group -->
                 <div class="form-group" id="cnic">
                   <label>Patient CNIC</label>
-                  <input type="tel" name="cnic" class="form-control" id="inputCnic1" placeholder="Enter Patient CNIC Here ..." pattern="[0-9]{5}-[0-9]{7}-[0-9]{1}" title="Please Enter CNIC number with '-'">
+                  <input type="tel" name="cnic" class="form-control" id="inputCnic1" placeholder="Enter CNIC number without '-'">
                 </div>
                 <!-- /.form-group -->
                 <div class="form-group">
@@ -125,16 +125,16 @@
   </div>
   <script>
       
-      function typeFun(){
-        var typeValue = document.getElementById('typeSelect').value;
-        if (typeValue !== 'indoor') {
+      function typeFun(type){
+        var type = document.getElementById('type').value;
+        if (type !== 'indoor') {
             document.getElementById('cnic').style.display = 'none';
             document.getElementById('doctor').innerHTML = 'Consultant Name';
         }else {
             document.getElementById('cnic').style.display = 'block';
             document.getElementById('doctor').innerHTML = 'Medical Officer (MO)';
         }
-        console.log(typeValue);
+        console.log(type);
       }
        
       var currentDT = new Date().toLocaleString().replace(',','');

@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php 
+  session_start(); 
+  $type = (isset($_GET['type']) ? $_GET['type'] : ''); 
+?>
 <!-- Header Form -->
   <?php include('backend_components/connection.php'); ?>
   <!-- Header Files -->
@@ -13,7 +16,7 @@
 
   <!-- Content Wrapper. Contains page content -->
   <?php 
-    if (empty($_GET['id'])) {
+    if (empty($_GET['id']) && $_GET['type']) {
       include('components/simple_bill_form.php');  
       // echo '<script>alert("This is simplet bill form");</script>';
     } else {

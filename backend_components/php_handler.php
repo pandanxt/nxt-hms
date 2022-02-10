@@ -242,74 +242,6 @@
         mysqli_stmt_close($stmt);
         mysqli_close($db);
     }
-    if (isset($_POST['patient-submit'])) {
-        
-        $mrid = $_POST['mrid'];
-        $phone = $_POST['phone'];
-        $gender = $_POST['gender'];
-        $doctor = $_POST['doctor'];
-        $type = $_POST['type'];
-        $cnic = $_POST['cnic'];
-        $age = $_POST['age'];
-        $address = $_POST['address'];
-        
-            $sql = "SELECT * FROM `patient` WHERE `PATIENT_NAME` = ?";
-            $stmt = mysqli_stmt_init($db);
-            
-            if (!mysqli_stmt_prepare($stmt,$sql)) {
-                header("Location: ../add_patient.php?error=sqlerror");
-                exit();
-            }else{
-                mysqli_stmt_bind_param($stmt,"s",$name);
-                mysqli_stmt_execute($stmt);
-                mysqli_stmt_store_result($stmt);
-                $resultCheck = mysqli_stmt_num_rows($stmt);
-                    
-                    if ($resultCheck > 0) {
-                        header("Location: ../add_patient.php?error=patientNameAlreadyTaken");
-                        exit();
-                    }else{
-                            $sql = "INSERT INTO `patient`
-                            (`PATIENT_MR_ID`,
-                              `PATIENT_NAME`,
-                               `PATIENT_TYPE`,
-                                `PATIENT_MOBILE`,
-                                 `PATIENT_CNIC`,
-                                  `PATIENT_GENDER`,
-                                   `PATIENT_AGE`,
-                                    `PATIENT_ADDRESS`,
-                                     `DOCTOR_ID`,
-                                      `PATIENT_DATE_TIME`
-                                        ) VALUES (?,?,?,?,?,?,?,?,?,?)";
-                            mysqli_stmt_execute($stmt);
-                        
-                            if (!mysqli_stmt_prepare($stmt,$sql)) {
-                                header("Location: ../add_patient.php?error=sqlerror");
-                                exit();
-                            }else{
-                                mysqli_stmt_bind_param($stmt,"ssssssssss", $mrid,$name,$type,$phone,$cnic,$gender,$age,$address,$doctor,$saveOn);
-                                mysqli_stmt_execute($stmt);
-                                $recordUpdate = "INSERT INTO `patient_record`(
-                                    `PATIENT_MR_ID`,
-                                    `PATIENT_MOBILE`, 
-                                    `PATIENT_CNIC`,
-                                     `PATIENT_ADMISSION_DATE_TIME`
-                                      ) VALUES ('$mrid','$phone','$cnic','$saveOn')";
-                                  
-                                  if ($query_sql = mysqli_query($db, $recordUpdate))
-                                    {
-                                        echo '<script type="text/javascript">alert("New Patient Record is Successfully Added");window.location = "../add_patient.php";</script>';								
-                                    }else
-                                        {
-                                            echo mysqli_error($db);
-                                        }
-                                exit();
-                            }			
-                        }
-            }
-        mysqli_stmt_close($stmt);
-        mysqli_close($db);
-    }
     if (isset($_POST['education-submit'])) {
         
         $alais = $_POST['alais'];
@@ -352,104 +284,115 @@
                 }
         mysqli_stmt_close($stmt);
         mysqli_close($db);
+    }    
+    if (isset($_POST['patient-submit'])) {
+        
+        $mrid = $_POST['mrid'];
+        $phone = $_POST['phone'];
+        $gender = $_POST['gender'];
+        $doctor = $_POST['doctor'];
+        $type = $_POST['type'];
+        $cnic = $_POST['cnic'];
+        $age = $_POST['age'];
+        $address = $_POST['address'];
+        
+            $sql = "SELECT * FROM `patient` WHERE `PATIENT_NAME` = ? OR `PATIENT_MR_ID` = ? OR `PATIENT_MOBILE` = ?";
+            $stmt = mysqli_stmt_init($db);
+            
+            if (!mysqli_stmt_prepare($stmt,$sql)) {
+                header("Location: ../add_patient.php?error=sqlerror");
+                exit();
+            }else{
+                mysqli_stmt_bind_param($stmt,"sss",$name,$mrid,$phone);
+                mysqli_stmt_execute($stmt);
+                mysqli_stmt_store_result($stmt);
+                $resultCheck = mysqli_stmt_num_rows($stmt);
+                    
+                    if ($resultCheck > 0) {
+                        header("Location: ../add_patient.php?error=patientDataExists");
+                        exit();
+                    }else{
+                            $sql = "INSERT INTO `patient`
+                            (`PATIENT_MR_ID`,
+                              `PATIENT_NAME`,
+                               `PATIENT_TYPE`,
+                                `PATIENT_MOBILE`,
+                                 `PATIENT_CNIC`,
+                                  `PATIENT_GENDER`,
+                                   `PATIENT_AGE`,
+                                    `PATIENT_ADDRESS`,
+                                     `DOCTOR_ID`,
+                                      `PATIENT_DATE_TIME`
+                                        ) VALUES (?,?,?,?,?,?,?,?,?,?)";
+                            mysqli_stmt_execute($stmt);
+                        
+                            if (!mysqli_stmt_prepare($stmt,$sql)) {
+                                header("Location: ../add_patient.php?error=sqlerror");
+                                exit();
+                            }else{
+                                mysqli_stmt_bind_param($stmt,"ssssssssss", $mrid,$name,$type,$phone,$cnic,$gender,$age,$address,$doctor,$saveOn);
+                                mysqli_stmt_execute($stmt);
+                                echo '<script type="text/javascript">alert("New Patient Record is Successfully Added");window.location = "../patients.php";</script>';								
+                                exit();
+                            }			
+                        }
+            }
+        mysqli_stmt_close($stmt);
+        mysqli_close($db);
     }
     if (isset($_POST['bill-submit'])) {
         
         $serviceBox=$_POST['service'];  
         $serv="";  
-        foreach($serviceBox as $serv1)  
-        {  
-            $serv .= $serv1.",";  
-        }  
+        foreach($serviceBox as $serv1) { $serv .= $serv1.","; }  
         $type = $_POST['type'];
         $mrid = $_POST['mrid'];
         $phone = $_POST['phone'];
          if ($type == 'indoor') {
             $cnic = $_POST['cnic'];
          }
+        $admissionTime = $_POST['admissionTime']; 
         $dischargeTime = $_POST['dischargeTime'];
         $admitDay = $_POST['admitDay'];
         $totalBill = $_POST['totalBill'];
         $discount = $_POST['discount'];
         $finalBill = $_POST['finalBill'];
 
-            $sql = "SELECT * FROM `patient_bill` WHERE `PATIENT_MR_ID` = ?";
+            $sql = "SELECT * FROM `bill_record` WHERE `MR_ID` = ?";
             $stmt = mysqli_stmt_init($db);
             
             if (!mysqli_stmt_prepare($stmt,$sql)) {
-                header("Location: ../add_bill.php?error=sqlerror");
+                header("Location: ../add_bill.php?error=sqlerrorCheckMRID");
                 exit();
             }else{
                 mysqli_stmt_bind_param($stmt,"s",$mrid);
                 mysqli_stmt_execute($stmt);
                 mysqli_stmt_store_result($stmt);
                 $resultCheck = mysqli_stmt_num_rows($stmt);
-                    
-                    // if ($resultCheck > 0) {
-                    //     header("Location: ../add_bill.php?error=billMridAlreadyTaken");
-                    //     exit();
-                    // }else{                         
-                            $sql = "INSERT INTO `patient_bill`(
-                                `PATIENT_MR_ID`, 
-                                `PATIENT_MOBILE`, 
-                                `PATIENT_CNIC`, 
-                                `DISCHARGE_DATE_TIME`, 
-                                `BILL_DATE_TIME`, 
-                                `BILL_SERVICE_ID`, 
-                                `BILL_TOTAL_AMOUNT`, 
-                                `BILL_DISCOUNT`,
-                                `BILL_FINAL_TOTAL`) VALUES (?,?,?,?,?,?,?,?,?)";
-                            mysqli_stmt_execute($stmt);
-                        
-                            if (!mysqli_stmt_prepare($stmt,$sql)) {
-                                header("Location: ../add_bill.php?error=sqlerror");
-                                exit();
-                            }else{                                
-                                    mysqli_stmt_bind_param($stmt,"sssssssss", $mrid,$phone,$cnic,$dischargeTime,$dischargeTime,$serv,$totalBill,$discount,$finalBill);
-                                    mysqli_stmt_execute($stmt);
 
-                                    $checkQuery = "SELECT * FROM `patient_record` WHERE `PATIENT_MR_ID` = '$mrid' AND `PATIENT_MOBILE` = '$phone' ORDER BY  `RECORD_ID` LIMIT 1";
-                                    $qsql = mysqli_query($db,$checkQuery);
-                                    $rs = mysqli_fetch_array($qsql);
-                                    $checkValue = $rs['PATIENT_DISCHARGE_DATE_TIME'];
-
-                                    // $checkBillId = "SELECT `BILL_ID` FROM `patient_bill` ORDER BY `BILL_ID` DESC LIMIT 1";
-                                    // $qsql = mysqli_query($db,$checkBillId);
-                                    // $rs = mysqli_fetch_array($qsql);
-                                    // $billId = $rs['BILL_ID'];
-                                    // echo '<script>alert("'.$billId.'");</script>';                                   
-
-                                    if (empty($checkValue)) {
-                                        $recordUpdate = "UPDATE `patient_record` SET 
-                                        `PATIENT_DISCHARGE_DATE_TIME`='$dischargeTime',`PATIENT_ADMIT_DAYS`='$admitDay'
-                                        -- , `PATIENT_BILL_ID`='$billId' 
-                                        WHERE `PATIENT_MR_ID` = '$mrid' OR `PATIENT_MOBILE` = '$phone' OR `PATIENT_CNIC` = '$cnic' 
-                                        ORDER BY `RECORD_ID` LIMIT 1";                                 
-                                    }else {
-                                        $recordUpdate = " INSERT INTO `patient_record`(
-                                            `PATIENT_MR_ID`, 
-                                            `PATIENT_MOBILE`, 
-                                            `PATIENT_CNIC`, 
-                                            `PATIENT_ADMISSION_DATE_TIME`, 
-                                            `PATIENT_DISCHARGE_DATE_TIME`, 
-                                            `PATIENT_ADMIT_DAYS`,
-                                            -- `PATIENT_BILL_ID`
-                                            )
-                                        VALUES ('$mrid','$phone','$cnic','$dischargeTime','$dischargeTime','$admitDay'
-                                        -- ,'$billId'
-                                        )";                                 
-                                    }
-                                    if ($query_sql = mysqli_query($db, $recordUpdate))
-                                            {
-                                                echo '<script type="text/javascript">alert("New Patient Record is Successfully Added");window.location = "../add_patient.php";</script>';								
-                                            }else
-                                                {
-                                                    echo mysqli_error($db);
-                                                }
-                                    
-                                    exit();
-                                }			
-                            // }
+                $sql = "INSERT INTO `bill_record`(
+                        `MR_ID`,
+                        `MOBILE`,
+                        `CNIC`,
+                        `ADMISSION_DATE`,
+                        `DISCHARGE_DATE`,
+                        `ADMIT_DAYS`,
+                        `BILL_DATE`,
+                        `SERVICES`,
+                        `BILL_AMOUNT`,
+                        `DISCOUNT`,
+                        `TOTAL`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                mysqli_stmt_execute($stmt);
+            
+                if (!mysqli_stmt_prepare($stmt,$sql)) {
+                    header("Location: ../add_bill.php?error=sqlerrorSQLQUERY");
+                    exit();
+                }else{                                
+                        mysqli_stmt_bind_param($stmt,"sssssssssss",$mrid,$phone,$cnic,$admissionTime,$dischargeTime,$admitDay,$dischargeTime,$serv,$totalBill,$discount,$finalBill);
+                        mysqli_stmt_execute($stmt);
+                        echo '<script type="text/javascript">alert("New Bill Record is Successfully Added");window.location = "../bill.php";</script>';								
+                        exit();
+                    }			
                 }
         mysqli_stmt_close($stmt);
         mysqli_close($db);

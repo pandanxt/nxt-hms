@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 04, 2022 at 08:52 PM
+-- Generation Time: Feb 10, 2022 at 10:14 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.23
 
@@ -15,10 +15,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES latin1 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `medeast`
+-- Database: `med_east`
 --
 
 -- --------------------------------------------------------
@@ -29,13 +29,13 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin` (
   `ADMIN_ID` int(10) NOT NULL,
-  `ADMIN_NAME` varchar(25) CHARACTER SET latin1 NOT NULL,
-  `ADMIN_TYPE` varchar(25) CHARACTER SET latin1 NOT NULL,
-  `ADMIN_EMAIL` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `ADMIN_USERNAME` varchar(25) CHARACTER SET latin1 NOT NULL,
-  `ADMIN_PASSWORD` varchar(100) CHARACTER SET latin1 NOT NULL,
-  `ADMIN_STATUS` varchar(25) CHARACTER SET latin1 NOT NULL,
-  `ADMIN_SAVE_TIME` varchar(100) CHARACTER SET latin1 NOT NULL
+  `ADMIN_NAME` varchar(25) NOT NULL,
+  `ADMIN_TYPE` varchar(25) NOT NULL,
+  `ADMIN_EMAIL` varchar(50) NOT NULL,
+  `ADMIN_USERNAME` varchar(25) NOT NULL,
+  `ADMIN_PASSWORD` varchar(100) NOT NULL,
+  `ADMIN_STATUS` varchar(25) NOT NULL,
+  `ADMIN_SAVE_TIME` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -48,15 +48,45 @@ INSERT INTO `admin` (`ADMIN_ID`, `ADMIN_NAME`, `ADMIN_TYPE`, `ADMIN_EMAIL`, `ADM
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `bill_record`
+--
+
+CREATE TABLE `bill_record` (
+  `BILL_ID` int(10) NOT NULL,
+  `MR_ID` varchar(20) NOT NULL,
+  `MOBILE` varchar(50) NOT NULL,
+  `CNIC` varchar(50) DEFAULT NULL,
+  `ADMISSION_DATE` varchar(100) NOT NULL,
+  `DISCHARGE_DATE` varchar(100) DEFAULT NULL,
+  `ADMIT_DAYS` int(10) DEFAULT NULL,
+  `BILL_DATE` varchar(100) DEFAULT NULL,
+  `SERVICES` mediumtext DEFAULT NULL,
+  `BILL_AMOUNT` int(15) DEFAULT NULL,
+  `DISCOUNT` int(15) DEFAULT NULL,
+  `TOTAL` int(15) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `bill_record`
+--
+
+INSERT INTO `bill_record` (`BILL_ID`, `MR_ID`, `MOBILE`, `CNIC`, `ADMISSION_DATE`, `DISCHARGE_DATE`, `ADMIT_DAYS`, `BILL_DATE`, `SERVICES`, `BILL_AMOUNT`, `DISCOUNT`, `TOTAL`) VALUES
+(1, '3051448-ME', '03128776604', '3520151562791', '02/06/2022 12:58 AM', '02/10/2022 12:58 AM', 5, '02/10/2022 12:58 AM', 'Routine Medical Care,Admission Charges,Operation Charges,Anesthetist Charges,Operation Theater Medicines,Pediatric Doctor Charges,Nursery Charges,Nursing Staff Charges,M O Charges,Visit Charges,', 25005, 5220, 19785),
+(2, '3051448-ME', '03128776604', '3520151562791', '01/30/2022 1:08 AM', '02/08/2022 1:08 AM', 5, '02/08/2022 1:08 AM', 'Routine Medical Care,Admission Charges,Anesthetist Charges,Labour Room Charges,Pediatric Doctor Charges,Nursing Staff Charges,M O Charges,Monitoring Charges,Visit Charges,CTG Charges,', 25005, 5000, 20005),
+(3, '5032306-ME', '03214253974', NULL, '02/11/2022 1:32 AM', '02/11/2022 1:32 AM', 5, '02/11/2022 1:32 AM', 'Routine Medical Care,Admission Charges,Anesthetist Charges,Operation Theater Medicines,Nursery Charges,M O Charges,Monitoring Charges,Visit Charges,CTG Charges,Private Room Charges Edit,', 47505, 5420, 42085);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `bill_service`
 --
 
 CREATE TABLE `bill_service` (
   `BILL_SERVICE_ID` int(10) NOT NULL,
-  `BILL_SERVICE_NAME` varchar(50) CHARACTER SET latin1 NOT NULL,
+  `BILL_SERVICE_NAME` varchar(50) NOT NULL,
   `BILL_SERVICE_AMOUNT` int(10) NOT NULL,
-  `SERVICE_STATUS` varchar(10) CHARACTER SET latin1 NOT NULL,
-  `SERVICE_SAVE_TIME` varchar(100) CHARACTER SET latin1 NOT NULL
+  `SERVICE_STATUS` varchar(10) NOT NULL,
+  `SERVICE_SAVE_TIME` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -87,10 +117,10 @@ INSERT INTO `bill_service` (`BILL_SERVICE_ID`, `BILL_SERVICE_NAME`, `BILL_SERVIC
 
 CREATE TABLE `department` (
   `DEPARTMENT_ID` int(10) NOT NULL,
-  `DEPARTMENT_NAME` varchar(100) CHARACTER SET latin1 NOT NULL,
-  `DEPARTMENT_DESC` text CHARACTER SET latin1 NOT NULL,
-  `DEPARTMENT_STATUS` varchar(10) CHARACTER SET latin1 NOT NULL,
-  `DEPARTMENT_SAVE_TIME` varchar(100) CHARACTER SET latin1 NOT NULL
+  `DEPARTMENT_NAME` varchar(100) NOT NULL,
+  `DEPARTMENT_DESC` text NOT NULL,
+  `DEPARTMENT_STATUS` varchar(10) NOT NULL,
+  `DEPARTMENT_SAVE_TIME` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -108,14 +138,21 @@ INSERT INTO `department` (`DEPARTMENT_ID`, `DEPARTMENT_NAME`, `DEPARTMENT_DESC`,
 
 CREATE TABLE `doctor` (
   `DOCTOR_ID` int(10) NOT NULL,
-  `DOCTOR_NAME` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `DOCTOR_MOBILE` varchar(15) CHARACTER SET latin1 NOT NULL,
+  `DOCTOR_NAME` varchar(50) NOT NULL,
+  `DOCTOR_MOBILE` varchar(15) NOT NULL,
   `DEPARTMENT_ID` int(10) NOT NULL,
-  `DOCTOR_EDUCATION` varchar(100) CHARACTER SET latin1 NOT NULL,
-  `DOCTOR_EXPERIENCE` varchar(100) CHARACTER SET latin1 NOT NULL,
-  `DOCTOR_STATUS` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `DOCTOR_SAVE_TIME` varchar(100) CHARACTER SET latin1 NOT NULL
+  `DOCTOR_EDUCATION` varchar(100) NOT NULL,
+  `DOCTOR_EXPERIENCE` varchar(100) NOT NULL,
+  `DOCTOR_STATUS` varchar(50) NOT NULL,
+  `DOCTOR_SAVE_TIME` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `doctor`
+--
+
+INSERT INTO `doctor` (`DOCTOR_ID`, `DOCTOR_NAME`, `DOCTOR_MOBILE`, `DEPARTMENT_ID`, `DOCTOR_EDUCATION`, `DOCTOR_EXPERIENCE`, `DOCTOR_STATUS`, `DOCTOR_SAVE_TIME`) VALUES
+(1, 'Dr Sohaib Abbas', '0321-5153974', 1, 'test, test2, test3', '5 years of Practice', 'active', 'Sat Feb 05 2022 01:47:14 GMT+0500 (Pakistan Standard Time)');
 
 -- --------------------------------------------------------
 
@@ -125,11 +162,20 @@ CREATE TABLE `doctor` (
 
 CREATE TABLE `education` (
   `EDUCATION_ID` int(10) NOT NULL,
-  `EDUCATION_NAME` varchar(100) CHARACTER SET latin1 NOT NULL,
-  `EDUCATION_ALAIS` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `EDUCATION_STATUS` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `EDUCATION_DATE_TIME` varchar(100) CHARACTER SET latin1 NOT NULL
+  `EDUCATION_NAME` varchar(100) NOT NULL,
+  `EDUCATION_ALAIS` varchar(50) NOT NULL,
+  `EDUCATION_STATUS` varchar(50) NOT NULL,
+  `EDUCATION_DATE_TIME` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `education`
+--
+
+INSERT INTO `education` (`EDUCATION_ID`, `EDUCATION_NAME`, `EDUCATION_ALAIS`, `EDUCATION_STATUS`, `EDUCATION_DATE_TIME`) VALUES
+(1, 'Test Education', 'test', 'active', 'Sat Feb 05 2022 01:45:47 GMT+0500 (Pakistan Standard Time)'),
+(2, 'Test Education Two', 'test2', 'active', 'Sat Feb 05 2022 01:46:19 GMT+0500 (Pakistan Standard Time)'),
+(3, 'Test Education Three', 'test3', 'active', 'Sat Feb 05 2022 01:46:36 GMT+0500 (Pakistan Standard Time)');
 
 -- --------------------------------------------------------
 
@@ -139,53 +185,25 @@ CREATE TABLE `education` (
 
 CREATE TABLE `patient` (
   `PATIENT_ID` int(10) NOT NULL,
-  `PATIENT_MR_ID` varchar(25) CHARACTER SET latin1 NOT NULL,
-  `PATIENT_NAME` varchar(100) CHARACTER SET latin1 NOT NULL,
-  `PATIENT_TYPE` varchar(10) CHARACTER SET latin1 NOT NULL,
-  `PATIENT_MOBILE` varchar(15) CHARACTER SET latin1 NOT NULL,
-  `PATIENT_CNIC` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
-  `PATIENT_GENDER` varchar(20) CHARACTER SET latin1 NOT NULL,
-  `PATIENT_AGE` varchar(10) CHARACTER SET latin1 NOT NULL,
-  `PATIENT_ADDRESS` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
+  `PATIENT_MR_ID` varchar(25) NOT NULL,
+  `PATIENT_NAME` varchar(100) NOT NULL,
+  `PATIENT_TYPE` varchar(10) NOT NULL,
+  `PATIENT_MOBILE` varchar(15) NOT NULL,
+  `PATIENT_CNIC` varchar(20) DEFAULT NULL,
+  `PATIENT_GENDER` varchar(20) NOT NULL,
+  `PATIENT_AGE` varchar(10) NOT NULL,
+  `PATIENT_ADDRESS` varchar(100) DEFAULT NULL,
   `DOCTOR_ID` int(10) NOT NULL,
-  `PATIENT_DATE_TIME` varchar(100) CHARACTER SET latin1 DEFAULT NULL
+  `PATIENT_DATE_TIME` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `patient_bill`
+-- Dumping data for table `patient`
 --
 
-CREATE TABLE `patient_bill` (
-  `BILL_ID` int(10) NOT NULL,
-  `PATIENT_MR_ID` varchar(20) NOT NULL,
-  `PATIENT_MOBILE` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `PATIENT_CNIC` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
-  `DISCHARGE_DATE_TIME` varchar(100) CHARACTER SET latin1 NOT NULL,
-  `BILL_DATE_TIME` varchar(100) CHARACTER SET latin1 NOT NULL,
-  `BILL_SERVICE_ID` varchar(100) CHARACTER SET latin1 NOT NULL,
-  `BILL_TOTAL_AMOUNT` int(15) NOT NULL,
-  `BILL_DISCOUNT` int(10) DEFAULT NULL,
-  `BILL_FINAL_TOTAL` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `patient_record`
---
-
-CREATE TABLE `patient_record` (
-  `RECORD_ID` int(10) NOT NULL,
-  `PATIENT_MR_ID` varchar(20) CHARACTER SET latin1 NOT NULL,
-  `PATIENT_MOBILE` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `PATIENT_CNIC` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
-  `PATIENT_ADMISSION_DATE_TIME` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
-  `PATIENT_DISCHARGE_DATE_TIME` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
-  `PATIENT_ADMIT_DAYS` int(10) NOT NULL DEFAULT 0,
-  `PATIENT_BILL_ID` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `patient` (`PATIENT_ID`, `PATIENT_MR_ID`, `PATIENT_NAME`, `PATIENT_TYPE`, `PATIENT_MOBILE`, `PATIENT_CNIC`, `PATIENT_GENDER`, `PATIENT_AGE`, `PATIENT_ADDRESS`, `DOCTOR_ID`, `PATIENT_DATE_TIME`) VALUES
+(1, '3051448-ME', 'Mubeen Shah', 'indoor', '03128776604', '3520151562791', 'male', '25', 'Lahore, Pakistan', 1, '02/10/2022 12:58 AM'),
+(5, '5032306-ME', 'Zahid Shah', 'outdoor', '03214253974', '', 'male', '35', 'Lahore, Pakistan', 1, 'Fri Feb 11 2022 01:30:32 GMT+0500 (Pakistan Standard Time)');
 
 -- --------------------------------------------------------
 
@@ -195,10 +213,10 @@ CREATE TABLE `patient_record` (
 
 CREATE TABLE `patient_type` (
   `PATIENT_TYPE_ID` int(10) NOT NULL,
-  `PATIENT_TYPE_NAME` varchar(100) CHARACTER SET latin1 NOT NULL,
-  `PATIENT_TYPE_ALAIS` varchar(15) CHARACTER SET latin1 NOT NULL,
-  `TYPE_SAVE_TIME` varchar(100) CHARACTER SET latin1 NOT NULL,
-  `PATIENT_TYPE_STATUS` varchar(10) CHARACTER SET latin1 NOT NULL
+  `PATIENT_TYPE_NAME` varchar(100) NOT NULL,
+  `PATIENT_TYPE_ALAIS` varchar(15) NOT NULL,
+  `TYPE_SAVE_TIME` varchar(100) NOT NULL,
+  `PATIENT_TYPE_STATUS` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -219,6 +237,12 @@ INSERT INTO `patient_type` (`PATIENT_TYPE_ID`, `PATIENT_TYPE_NAME`, `PATIENT_TYP
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`ADMIN_ID`);
+
+--
+-- Indexes for table `bill_record`
+--
+ALTER TABLE `bill_record`
+  ADD PRIMARY KEY (`BILL_ID`);
 
 --
 -- Indexes for table `bill_service`
@@ -252,18 +276,6 @@ ALTER TABLE `patient`
   ADD UNIQUE KEY `PATIENT_MOBILE` (`PATIENT_MOBILE`);
 
 --
--- Indexes for table `patient_bill`
---
-ALTER TABLE `patient_bill`
-  ADD PRIMARY KEY (`BILL_ID`);
-
---
--- Indexes for table `patient_record`
---
-ALTER TABLE `patient_record`
-  ADD PRIMARY KEY (`RECORD_ID`);
-
---
 -- Indexes for table `patient_type`
 --
 ALTER TABLE `patient_type`
@@ -278,6 +290,12 @@ ALTER TABLE `patient_type`
 --
 ALTER TABLE `admin`
   MODIFY `ADMIN_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `bill_record`
+--
+ALTER TABLE `bill_record`
+  MODIFY `BILL_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `bill_service`
@@ -295,31 +313,19 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `doctor`
 --
 ALTER TABLE `doctor`
-  MODIFY `DOCTOR_ID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `DOCTOR_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `education`
 --
 ALTER TABLE `education`
-  MODIFY `EDUCATION_ID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `EDUCATION_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `PATIENT_ID` int(10) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `patient_bill`
---
-ALTER TABLE `patient_bill`
-  MODIFY `BILL_ID` int(10) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `patient_record`
---
-ALTER TABLE `patient_record`
-  MODIFY `RECORD_ID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `PATIENT_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `patient_type`

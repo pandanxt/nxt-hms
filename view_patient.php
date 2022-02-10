@@ -1,16 +1,20 @@
+<?php include_once('backend_components/connection.php'); ?>
 <?php 
     session_start(); 
-    $id = (isset($_GET['id']) ? $_GET['id'] : ''); 
-?>
+    $id = isset($_GET['id']) ? $_GET['id'] : ''; 
 
-  <!-- Connection -->
-  <?php include('backend_components/connection.php'); ?>
+    function RemoveChar($str) {
+      $res = str_replace( array( '\'', '"',
+      ',' , ';', '<', '>' ), ' ', $str);
+      return $res;
+      }
+?>
   <!-- table-header -->
-  <?php include('components/table_header.php'); ?>
+  <?php include_once('components/table_header.php'); ?>
    <!-- Navbar -->
-   <?php include('components/navbar.php'); ?>
+   <?php include_once('components/navbar.php'); ?>
   <!-- Main Sidebar Container -->
-  <?php include('components/sidebar.php'); ?>
+  <?php include_once('components/sidebar.php'); ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
   <section class="content-header"></section>
@@ -18,33 +22,25 @@
     <section class="content">
         <div class="container-fluid">
         <?php
+          $sql="SELECT *, `DOCTOR_NAME`
+          FROM `patient` 
+          INNER JOIN `doctor` WHERE 
+          `PATIENT_ID` = " .$_GET['id']. " AND 
+          `patient`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID`";
           
-          $query = "SELECT * FROM `patient` 
-          INNER JOIN `doctor` INNER JOIN `patient_type`
-          WHERE `doctor`.`DOCTOR_ID` = `patient`.`DOCTOR_ID`
-          AND `patient_type`.`PATIENT_TYPE_ALAIS` = `patient`.`PATIENT_TYPE`
-          AND `PATIENT_ID` = $id";
-          $result = mysqli_query($db,$query);
-          if (mysqli_num_rows($result)>0) 
-          {
-              while ($row=mysqli_fetch_array($result)) 
-              {
-                $date = substr($row['PATIENT_DATE_TIME'],0, 15);
-                $time = substr($row['PATIENT_DATE_TIME'],16, 50);
-         
-          ?>
+          $qsql = mysqli_query($db,$sql);
+          $row = mysqli_fetch_array($qsql);
+          
+          $date = $row['PATIENT_DATE_TIME'];
+          $_SESSION['MRID'] = $row['PATIENT_MR_ID'];
+        ?>
             <div class="card">
               <div class="card-header d-flex p-0">
                 <?php echo '<h3 class="card-title p-3">'.$row["PATIENT_NAME"].'</h3>'; ?>
-                <ul class="nav nav-pills ml-auto p-2">
-                  <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Patient Info</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Tab 2</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab">Tab 3</a></li>
-                </ul>
               </div><!-- /.card-header -->
               <div class="card-body">
                 <div class="tab-content">
-                  <div class="tab-pane active" id="tab_1">
+                  <div class="tab-pane active">
                     <div class="row">
                       <div class="col-md-6">
                         <div class="col-md-12 clearfix">
@@ -56,51 +52,88 @@
                               echo '<div class="row"><label>CNIC: </label>&nbsp; <p>'.$row["PATIENT_CNIC"].'</p></div>';
                             }
                           ?>
-                         <?php echo '<div class="row"><label>Gender: </label>&nbsp; <p>'.$row["PATIENT_GENDER"].'</p></div>'; ?>
-                         <?php echo '<div class="row"><label>Age: </label>&nbsp; <p>'.$row["PATIENT_AGE"].'</p></div>'; ?>
+                         
                          <?php echo '<div class="row"><label>Address: </label>&nbsp; <p>'.$row["PATIENT_ADDRESS"].'</p></div>'; ?>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="col-md-12 clearfix">
-                          <?php echo '<div class="row"><label>Patient Type: </label>&nbsp; <p>'.$row["PATIENT_TYPE_NAME"].'</p></div>'; ?>
+                          <?php echo '<div class="row"><label>Gender: </label>&nbsp; <p>'.$row["PATIENT_GENDER"].'</p></div>'; ?>
+                          <?php echo '<div class="row"><label>Age: </label>&nbsp; <p>'.$row["PATIENT_AGE"].'</p></div>'; ?>
+                          <?php echo '<div class="row"><label>Patient Type: </label>&nbsp; <p>'.$row["PATIENT_TYPE"].'</p></div>'; ?>
                           <?php echo '<div class="row"><label>Doctor: </label>&nbsp; <p>'.$row["DOCTOR_NAME"].'</p></div>'; ?>
                           <?php echo '<div class="row "><label>Date: </label>&nbsp; <p>'. $date.'</p></div>'; ?>
-                          <?php echo '<div class="row"><label>Time: </label>&nbsp; <p>'.$time.'</p></div>'; ?>
                           <?php echo '<div class="row"><label>Options: </label>&nbsp; <p>';
                             echo '<a href="add_service.php?id='.$row["PATIENT_ID"].'"><i class="fas fa-edit"></i></a>';
                             echo '&nbsp; <a href="backend_components/delete_handler.php?serId='.$row["PATIENT_ID"].'" style="color:red;"><i class="fas fa-trash"></i></a>';
                             echo '</p></div>'; 
                           ?>
-
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="tab-pane" id="tab_2">
-                    The European languages are members of the same family. Their separate existence is a myth.
-                    For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ
-                  </div>
-                  <!-- /.tab-pane -->
-                  <div class="tab-pane" id="tab_3">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                  </div>
+                    
+                    <!-- Patient Records of Bill -->
+                        <div class="row">
+                          <div class="col-12">
+                            <table id="example1" class="table table-bordered table-striped">
+                              <thead>
+                              <tr>
+                                <th>S.No#</th>
+                                <th>Bill Date</th>
+                                <th>Bill Services</th>
+                                <th>Days</th>
+                                <th>Admission</th>
+                                <th>Discharge</th>
+                                <th>Discount</th>
+                                <th>Total</th>
+                                <th>Option</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                                  <?php
+                                      $MRID = $_SESSION['MRID'];
+
+                                      $sql ="SELECT *,`PATIENT_NAME` FROM `bill_record` INNER JOIN `patient` WHERE `bill_record`.`MR_ID` =  '$MRID' AND `bill_record`.`MR_ID` = `patient`.`PATIENT_MR_ID`";
+                                      $qsql = mysqli_query($db,$sql);
+                                      while($rs = mysqli_fetch_array($qsql))
+                                      { 
+                                        $date = $rs['BILL_DATE'];
+                                        $service=$rs['SERVICES'];
+
+                                        $str = strval($service); 
+                                        $str1 = RemoveChar($str); 
+                                        echo "<tr>
+                                        <td>$rs[BILL_ID]</td>
+                                        <td>$rs[BILL_DATE]</td>
+                                        <td><small>$service</small></td>
+                                        <td>$rs[ADMIT_DAYS]</td>
+                                        <td>$rs[ADMISSION_DATE]</td>
+                                        <td>$rs[DISCHARGE_DATE]</td>
+                                        <td>$rs[DISCOUNT]</td>
+                                        <td>$rs[TOTAL]</td>
+                                        <td>
+                                            <a href='view_bill.php?id=$rs[BILL_ID]' style='color:green;'><i class='fas fa-info-circle'></i></a>&nbsp;&nbsp;&nbsp;
+                                            <a href='backend_components/delete_handler.php?billId=$rs[BILL_ID]' style='color:red;'><i class='fas fa-trash'></i></a>
+                                        </td>
+                                        </tr>"; 
+                                      }
+                                  ?>
+                              </tbody>
+                            </table>
+                          </div>
+                      <!-- /.col -->
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /.tab-content -->
+                  </div><!-- /.card-body -->
                 </div>
-                <!-- /.tab-content -->
-              </div><!-- /.card-body -->
-            </div>
+              </div>
+            </section>
+          <!-- /.content -->
         </div>
-    </section>
-    <!-- /.content -->
-  </div>
   <!-- /.Footer -->
-  <?php 
-         }
-        }   
-  ?>
-  <!-- /.Footer -->
-  <?php include ('components/footer.php'); ?>
+  <?php include_once('components/footer.php'); ?>
 </div>
 <!-- ./wrapper -->
 <!-- Table Script -->

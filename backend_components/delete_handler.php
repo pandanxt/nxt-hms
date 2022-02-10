@@ -3,7 +3,7 @@
 
     if(isset($_GET['billId']))
     {
-        $sql ="DELETE FROM `patient_bill` WHERE `BILL_ID`='$_GET[billId]'";
+        $sql ="DELETE FROM `bill_record` WHERE `BILL_ID`='$_GET[billId]'";
         $qsql=mysqli_query($db,$sql);
         if(mysqli_affected_rows($db) == 1)
         {
