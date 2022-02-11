@@ -1,6 +1,5 @@
 <?php 
     session_start(); 
-    $id = (isset($_GET['id']) ? $_GET['id'] : ''); 
 ?>
  <!-- Connection -->
   <?php include('backend_components/connection.php'); ?>
@@ -17,7 +16,7 @@
     <section class="content">
         <div class="container-fluid">
         <?php
-          
+          $id = (isset($_GET['id']) ? $_GET['id'] : '');
           $query = "SELECT * FROM `patient_type` WHERE `PATIENT_TYPE_ID` = $id";
           $result = mysqli_query($db,$query);
           if (mysqli_num_rows($result)>0) 
@@ -30,6 +29,7 @@
           ?>
             <div class="card">
               <div class="card-header d-flex p-0">
+              <h1 class="card-title p-3"><a href="javascript:history.go(-1)"><i class="fas fa-arrow-alt-circle-left"></i>&nbsp;Back</a></h1>
                 <?php echo '<h3 class="card-title p-3">'.$row["PATIENT_TYPE_NAME"].'</h3>'; ?>
               </div><!-- /.card-header -->
               <div class="card-body">

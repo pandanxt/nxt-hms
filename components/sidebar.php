@@ -86,19 +86,21 @@
                 <i class="nav-icon fas fa-cog"></i>
                 <p>Settings<i class="right fas fa-angle-left"></i></p>
                 </a>
+                <?php if (isset($_SESSION['userid'])) { ?>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="profile.php" class="nav-link">
+                        <a href="view_user.php?id=<?php echo $_SESSION['userid']; ?>" class="nav-link">
                         <i class="nav-icon fas fa-user-alt"></i>
                         <p>Profile</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="edit_profile.php" class="nav-link">
+                        <a href="add_user.php?id=<?php echo $_SESSION['userid']; ?>" class="nav-link">
                         <i class="nav-icon fas fa-user-edit"></i>
                         <p>Edit Profile</p>
                         </a>
                     </li>
+                    <?php } ?>
                     <li class="nav-item">
                         <a href="change_password.php" class="nav-link">
                         <i class="nav-icon fas fa-unlock-alt"></i>
@@ -117,12 +119,14 @@
                         <p>Doctor Education</p>
                         </a>
                     </li>
+                    <?php if (isset($_SESSION['userid'])) { ?>
                     <li class="nav-item">
                         <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-sm">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
                         <p>Logout</p>
                         </a>
                     </li>
+                    <?php } ?>
                 </ul>
             </li>
 

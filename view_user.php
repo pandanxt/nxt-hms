@@ -1,6 +1,5 @@
 <?php 
-    session_start(); 
-    $id = (isset($_GET['id']) ? $_GET['id'] : ''); 
+    session_start();
 ?>
   <!-- Connection -->
   <?php include('backend_components/connection.php'); ?>
@@ -16,32 +15,48 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
+          <?php
+          $id = (isset($_GET['id']) ? $_GET['id'] : '');
+          $query = "SELECT * FROM `admin` WHERE `ADMIN_ID` = $id";
+          $result = mysqli_query($db,$query);
+          if (mysqli_num_rows($result)>0) 
+          {
+              while ($row=mysqli_fetch_array($result)) 
+              {
+                $date = substr($row['ADMIN_SAVE_TIME'],0, 10);
+                $time = substr($row['ADMIN_SAVE_TIME'],11, 50);
+         
+          ?>
             <div class="card">
               <div class="card-header d-flex p-0">
-                <h3 class="card-title p-3">Tabs</h3>
-                <ul class="nav nav-pills ml-auto p-2">
-                  <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Tab 1</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Tab 2</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab">Tab 3</a></li>
-                </ul>
+                <h1 class="card-title p-3"><a href="javascript:history.go(-1)"><i class="fas fa-arrow-alt-circle-left"></i>&nbsp;Back</a></h1>
+                <?php echo '<h3 class="card-title p-3">'.$row["ADMIN_NAME"].'</h3>'; ?>
               </div><!-- /.card-header -->
               <div class="card-body">
                 <div class="tab-content">
                   <div class="tab-pane active" id="tab_1">
-                    A wonderful serenity has taken possession of my entire soul,
-                    like these sweet mornings of spring which I enjoy with my whole heart.
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="col-md-12 clearfix">
+                         <?php echo '<div class="row "><label>Service Name: </label>&nbsp; <p>'.$row["ADMIN_NAME"].'</p></div>'; ?>
+                         <?php echo '<div class="row"><label>USER EMAIL: </label>&nbsp; <p>'.$row["ADMIN_TYPE"].'</p></div>'; ?>
+                         <?php echo '<div class="row"><label>Status: </label>&nbsp; <p>'.$row["ADMIN_STATUS"].'&nbsp; <a href="#"><i class="fas fa-exchange-alt"></i></a></p></div>'; ?>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="col-md-12 clearfix">
+                          <?php echo '<div class="row "><label>Date: </label>&nbsp; <p>'. $date.'</p></div>'; ?>
+                          <?php echo '<div class="row"><label>Time: </label>&nbsp; <p>'.$time.'</p></div>'; ?>
+                          <?php echo '<div class="row"><label>Options: </label>&nbsp; <p>';
+                            echo '<a href="add_user.php?id='.$row["ADMIN_ID"].'"><i class="fas fa-edit"></i></a>';
+                            echo '&nbsp; <a href="backend_components/delete_handler.php?userId='.$row["ADMIN_ID"].'" style="color:red;"><i class="fas fa-trash"></i></a>';
+                            echo '</p></div>'; 
+                          ?>
+
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <!-- /.tab-pane -->
-                  <div class="tab-pane" id="tab_2">
-                    The European languages are members of the same family. Their separate existence is a myth.
-                    For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ
-                  </div>
-                  <!-- /.tab-pane -->
-                  <div class="tab-pane" id="tab_3">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                  </div>
-                  <!-- /.tab-pane -->
                 </div>
                 <!-- /.tab-content -->
               </div><!-- /.card-body -->
@@ -51,6 +66,10 @@
     <!-- /.content -->
   </div>
   <!-- /.Footer -->
+  <?php 
+         }
+        }   
+  ?>
   <?php include ('components/footer.php'); ?>
 </div>
 <!-- ./wrapper -->

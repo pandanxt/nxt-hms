@@ -1,6 +1,5 @@
 <?php 
-    session_start(); 
-    $id = (isset($_GET['id']) ? $_GET['id'] : ''); 
+    session_start();
 ?>
   <!-- Connection -->
   <?php include('backend_components/connection.php'); ?>
@@ -17,7 +16,7 @@
     <section class="content">
         <div class="container-fluid">
           <?php
-          
+          $id = (isset($_GET['id']) ? $_GET['id'] : '');
           $query = "SELECT * FROM `bill_service` WHERE `BILL_SERVICE_ID` = $id";
           $result = mysqli_query($db,$query);
           if (mysqli_num_rows($result)>0) 

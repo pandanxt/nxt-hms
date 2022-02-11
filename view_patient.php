@@ -1,7 +1,6 @@
 <?php include_once('backend_components/connection.php'); ?>
 <?php 
     session_start(); 
-    $id = isset($_GET['id']) ? $_GET['id'] : ''; 
 
     function RemoveChar($str) {
       $res = str_replace( array( '\'', '"',
@@ -22,10 +21,11 @@
     <section class="content">
         <div class="container-fluid">
         <?php
+          $id = (isset($_GET['id']) ? $_GET['id'] : '');
           $sql="SELECT *, `DOCTOR_NAME`
           FROM `patient` 
           INNER JOIN `doctor` WHERE 
-          `PATIENT_ID` = " .$_GET['id']. " AND 
+          `PATIENT_ID` = " .$id. " AND 
           `patient`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID`";
           
           $qsql = mysqli_query($db,$sql);
@@ -36,38 +36,42 @@
         ?>
             <div class="card">
               <div class="card-header d-flex p-0">
+              <h1 class="card-title p-3"><a href="javascript:history.go(-1)"><i class="fas fa-arrow-alt-circle-left"></i>&nbsp;Back</a></h1>
                 <?php echo '<h3 class="card-title p-3">'.$row["PATIENT_NAME"].'</h3>'; ?>
               </div><!-- /.card-header -->
               <div class="card-body">
                 <div class="tab-content">
                   <div class="tab-pane active">
                     <div class="row">
-                      <div class="col-md-6">
+                      <div class="col-md-4">
                         <div class="col-md-12 clearfix">
-                         <?php echo '<div class="row "><label>MR ID: </label>&nbsp; <p>'.$row["PATIENT_MR_ID"].'</p></div>'; ?>
-                         <?php echo '<div class="row "><label>Name: </label>&nbsp; <p>'.$row["PATIENT_NAME"].'</p></div>'; ?>
-                         <?php echo '<div class="row"><label>Mobile: </label>&nbsp; <p>'.$row["PATIENT_MOBILE"].'</p></div>'; ?>
+                         <?php echo '<div class="row"><label style="margin-bottom: 0px !important;">MR ID: </label>&nbsp; <p style="margin-bottom: 0px !important;">'.$row["PATIENT_MR_ID"].'</p></div>'; ?>
+                         <?php echo '<div class="row"><label style="margin-bottom: 0px !important;">Name: </label>&nbsp; <p style="margin-bottom: 0px !important;">'.$row["PATIENT_NAME"].'</p></div>'; ?>
+                         <?php echo '<div class="row"><label style="margin-bottom: 0px !important;">Mobile: </label>&nbsp; <p style="margin-bottom: 0px !important;">'.$row["PATIENT_MOBILE"].'</p></div>'; ?>
                          <?php
                             if ($row["PATIENT_TYPE"] == "indoor") {
                               echo '<div class="row"><label>CNIC: </label>&nbsp; <p>'.$row["PATIENT_CNIC"].'</p></div>';
                             }
                           ?>
-                         
-                         <?php echo '<div class="row"><label>Address: </label>&nbsp; <p>'.$row["PATIENT_ADDRESS"].'</p></div>'; ?>
                         </div>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-4">
                         <div class="col-md-12 clearfix">
-                          <?php echo '<div class="row"><label>Gender: </label>&nbsp; <p>'.$row["PATIENT_GENDER"].'</p></div>'; ?>
-                          <?php echo '<div class="row"><label>Age: </label>&nbsp; <p>'.$row["PATIENT_AGE"].'</p></div>'; ?>
-                          <?php echo '<div class="row"><label>Patient Type: </label>&nbsp; <p>'.$row["PATIENT_TYPE"].'</p></div>'; ?>
-                          <?php echo '<div class="row"><label>Doctor: </label>&nbsp; <p>'.$row["DOCTOR_NAME"].'</p></div>'; ?>
-                          <?php echo '<div class="row "><label>Date: </label>&nbsp; <p>'. $date.'</p></div>'; ?>
+                          <?php echo '<div class="row"><label style="margin-bottom: 0px !important;">Doctor: </label>&nbsp; <p style="margin-bottom: 0px !important;">'.$row["DOCTOR_NAME"].'</p></div>'; ?>
+                          <?php echo '<div class="row"><label style="margin-bottom: 0px !important;">Gender: </label>&nbsp; <p style="margin-bottom: 0px !important;">'.$row["PATIENT_GENDER"].'</p></div>'; ?>
+                          <?php echo '<div class="row"><label style="margin-bottom: 0px !important;">Age: </label>&nbsp; <p style="margin-bottom: 0px !important;">'.$row["PATIENT_AGE"].'&nbsp;Years</p></div>'; ?>
                           <?php echo '<div class="row"><label>Options: </label>&nbsp; <p>';
                             echo '<a href="add_service.php?id='.$row["PATIENT_ID"].'"><i class="fas fa-edit"></i></a>';
                             echo '&nbsp; <a href="backend_components/delete_handler.php?serId='.$row["PATIENT_ID"].'" style="color:red;"><i class="fas fa-trash"></i></a>';
                             echo '</p></div>'; 
                           ?>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="col-md-12 clearfix">
+                          <?php echo '<div class="row "><label style="margin-bottom: 0px !important;">Date: </label>&nbsp; <p style="margin-bottom: 0px !important;">'. $date.'</p></div>'; ?>
+                          <?php echo '<div class="row"><label style="margin-bottom: 0px !important;">Patient Type: </label>&nbsp; <p style="margin-bottom: 0px !important;">'.$row["PATIENT_TYPE"].'</p></div>'; ?>
+                          <?php echo '<div class="row"><label style="margin-bottom: 0px !important;">Address: </label>&nbsp; <p style="margin-bottom: 0px !important;">'.$row["PATIENT_ADDRESS"].'</p></div>'; ?>
                         </div>
                       </div>
                     </div>

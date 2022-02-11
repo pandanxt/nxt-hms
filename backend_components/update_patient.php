@@ -53,7 +53,7 @@
                 <!-- /.form-group -->
                 <div class="form-group">
                   <label>Mobile No.</label>
-                  <input type="tel" name="phone" class="form-control" id="inputPhone" value="<?php echo $rsedit['PATIENT_MOBILE']; ?>" pattern="[0-9]{4}-[0-9]{7}" title="Please Enter Phone number with '-'" required>
+                  <input type="tel" name="phone" class="form-control" id="inputPhone" value="<?php echo $rsedit['PATIENT_MOBILE']; ?>" required>
                 </div>
                 <!-- /.form-group -->
                 <div class="form-group">
@@ -103,7 +103,7 @@
                 <!-- /.form-group -->
                 <div class="form-group" id="cnic">
                   <label>Patient CNIC</label>
-                  <input type="tel" name="cnic" class="form-control" id="inputCnic1" value="<?php echo $rsedit['PATIENT_CNIC']; ?>" pattern="[0-9]{5}-[0-9]{7}-[0-9]{1}" title="Please Enter CNIC number with '-'">
+                  <input type="tel" name="cnic" class="form-control" id="inputCnic1" value="<?php echo $rsedit['PATIENT_CNIC']; ?>"/>
                 </div>
                 <!-- /.form-group -->
                 <div class="form-group">
