@@ -116,7 +116,8 @@
                                         <td>$rs[DISCOUNT]</td>
                                         <td>$rs[TOTAL]</td>
                                         <td>
-                                            <a href='view_bill.php?id=$rs[BILL_ID]' style='color:green;'><i class='fas fa-info-circle'></i></a>&nbsp;&nbsp;&nbsp;
+                                            <a href='bill_invoice.php?id=$rs[BILL_ID]'><i class='fas fa-solid fa-print'></i></a><br>
+                                            <a href='view_bill.php?id=$rs[BILL_ID]' style='color:green;'><i class='fas fa-info-circle'></i></a><br>
                                             <a href='backend_components/delete_handler.php?billId=$rs[BILL_ID]' style='color:red;'><i class='fas fa-trash'></i></a>
                                         </td>
                                         </tr>"; 
@@ -141,4 +142,4 @@
 </div>
 <!-- ./wrapper -->
 <!-- Table Script -->
-<?php //include('components/table_script.php'); ?>
+<?php include('components/table_script.php'); ?>
