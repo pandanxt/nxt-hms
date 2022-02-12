@@ -55,6 +55,7 @@
                 <div class="form-group">
                   <label>Degree Alais</label>
                   <input type="text" class="form-control" name="alais" id="inputText1" placeholder="Enter Degree Alais Here ...(MBBS) " required>
+                  <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
                 </div>
                 <!-- /.form-group -->  
               </div>

@@ -74,4 +74,4 @@
 </div>
 <!-- ./wrapper -->
 <!-- Table Script -->
-<?php //include('components/table_script.php'); ?>
+<?php include('components/table_script.php'); ?>

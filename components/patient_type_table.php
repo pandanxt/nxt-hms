@@ -36,7 +36,7 @@
                             <a href='add_patient_type.php?id=$rs[PATIENT_TYPE_ID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
-                            <a href='backend_components/delete_handler.php?patTypeId=$rs[PATIENT_TYPE_ID]' style='color:red;'>
+                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?patTypeId=$rs[PATIENT_TYPE_ID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
                             </a>
                         </td>

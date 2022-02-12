@@ -57,6 +57,7 @@
                <div class="form-group">
                   <label>Department Description</label>
                   <textarea type="text" class="form-control" name="description" id="inputLoginId1" placeholder="Enter Description Here ..." required></textarea>
+                  <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
                 </div>
                 <!-- /.form-group -->
               </div>

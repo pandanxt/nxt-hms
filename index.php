@@ -16,6 +16,8 @@
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -49,6 +51,35 @@
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+<script>  
+  const urlParams = new URLSearchParams(window.location.search);
+  var action = urlParams.get('login');
+  // var action = urlParams.get('action');
+
+  $(function() {
+    var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    });
+
+    if (action == "success") {
+      Toast.fire({
+        icon: 'success',
+        title: 'Logged In Successfully!'
+      })
+    }    
+    if (action == "sqlerror") {
+      Toast.fire({
+        icon: 'error',
+        title: 'Something Went Wrong. Try Again!'
+      })
+    }
+  });
+</script>
 </body>
 </html>
 

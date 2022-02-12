@@ -36,18 +36,11 @@
                             <a href='add_service.php?id=$rs[BILL_SERVICE_ID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
-                            <a href='backend_components/delete_handler.php?serId=$rs[BILL_SERVICE_ID]' style='color:red;'>
+                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?serId=$rs[BILL_SERVICE_ID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
                             </a>
                         </td>
                         </tr>"; 
-                        
-                        // if(isset($_SESSION[adminid]))
-                        // {
-                        //       echo "<a href='patient.php?editid=$rs[patientid]'>Edit</a> | <a href='viewpatient.php?delid=$rs[patientid]'>Delete</a> <hr>
-                        // <a href='patientreport.php?patientid=$rs[patientid]'>View Report</a>";
-                        // }
-                          
                       }
                   ?>
                   </tbody>

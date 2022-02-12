@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
@@ -81,5 +83,51 @@
 <script src="dist/js/adminlte.min.js"></script>
 <!-- MedEast for Form and Time|Date -->
 <script src="dist/js/medeast.js"></script>
+<!-- SweetAlert2 -->
+<script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+<script>  
+  const urlParams = new URLSearchParams(window.location.search);
+  var action = urlParams.get('error');
+
+  $(function() {
+    var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    });
+
+    if (action == "nouser") {
+      Toast.fire({
+        icon: 'warning',
+        title: 'No User Exists.'
+      })
+    }
+    if (action == "wrongpwd") {
+      Toast.fire({
+        icon: 'error',
+        title: 'You Entered Wrong Password.'
+      })
+    }    
+    if (action == "sqlerror") {
+      Toast.fire({
+        icon: 'error',
+        title: 'Something Went Wrong. Try Again!'
+      })
+    }
+    if (action == "emptyfields") {
+      Toast.fire({
+        icon: 'warning',
+        title: 'Some Fields are Empty!'
+      })
+    }       
+    if (action == "logout") {
+      Toast.fire({
+        icon: 'success',
+        title: 'Successfully Logged Out!'
+      })
+    }           
+  });
+</script>
 </body>
 </html>

@@ -30,5 +30,40 @@
 <!-- Page specific script -->
 <!-- MedEast for Form and Time|Date -->
 <script src="dist/js/medeast.js"></script>
+<!-- SweetAlert2 -->
+<script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+<script>
+
+  const urlParams = new URLSearchParams(window.location.search);
+  var action = urlParams.get('action');
+
+  $(function() {
+    var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    });
+
+    if (action == "saved") {
+      Toast.fire({
+        icon: 'success',
+        title: 'Data Successfully Saved.'
+      })
+    }
+    if (action == "nameTaken") {
+      Toast.fire({
+        icon: 'warning',
+        title: 'Data Already Exists.'
+      })
+    }    
+    if (action == "sqlerror") {
+      Toast.fire({
+        icon: 'error',
+        title: 'Something Went Wrong. Try Again!'
+      })
+    }           
+  });
+</script>
 </body>
 </html>

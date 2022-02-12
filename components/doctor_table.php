@@ -42,7 +42,7 @@
                             <a href='add_doctor.php?id=$rs[DOCTOR_ID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
-                            <a href='backend_components/delete_handler.php?docId=$rs[DOCTOR_ID]' style='color:red;'>
+                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?docId=$rs[DOCTOR_ID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
                             </a>
                         </td>

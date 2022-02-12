@@ -34,10 +34,13 @@
                         <td>$rs[DISCOUNT]</td>
                         <td>$rs[TOTAL]</td>
                         <td style='display:flex;'>
+                            <a href='bill_invoice.php?id=$rs[BILL_ID]'>
+                            <i class='fas fa-solid fa-print'></i> Print
+                            </a><br>
                             <a href='view_bill.php?id=$rs[BILL_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
                             </a><br>
-                            <a href='backend_components/delete_handler.php?billId=$rs[BILL_ID]' style='color:red;'>
+                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?billId=$rs[BILL_ID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
                             </a>
                         </td>

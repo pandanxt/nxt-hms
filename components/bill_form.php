@@ -89,6 +89,7 @@
                 <input type="text" name="cnic" value="<?php echo $patdata['PATIENT_CNIC'] ; ?>" hidden readonly>
                 <?php } ?>
                 <input type="text" name="doctor" value="<?php echo $patdata['DOCTOR_NAME'] ; ?>" hidden readonly>
+                <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
               
                 <!-- Date and time -->
                 <div class="col-md-12" style="display:flex;margin:0;padding:0;">

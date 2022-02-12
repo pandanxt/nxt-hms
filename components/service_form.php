@@ -57,6 +57,7 @@
                <div class="form-group">
                   <label>Service Amount</label>
                   <input type="number" class="form-control" name="amount" id="inputText1" placeholder="Enter Service Amount Here ..." required>
+                  <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
                 </div>
                 <!-- /.form-group -->
               </div>

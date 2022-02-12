@@ -69,6 +69,7 @@
                       <div class="col-md-4">
                         <div class="col-md-12 clearfix">
                           <?php echo '<div class="row"><label>Options: </label>&nbsp; <p>';
+                            echo "<a href='javascript:void(0);' style='color:green;'><i class='fas fa-solid fa-print'></i></a>"; 
                             // echo '<a href="add_bill.php?id='.$row["BILL_ID"].'"><i class="fas fa-edit"></i></a>';
                             echo '&nbsp; <a href="backend_components/delete_handler.php?billId='.$row["BILL_ID"].'" style="color:red;"><i class="fas fa-trash"></i></a>';
                             echo '</p></div>'; 
@@ -133,4 +134,4 @@
 </div>
 <!-- ./wrapper -->
 <!-- Table Script -->
-<?php //include('components/table_script.php'); ?>
+<?php include('components/table_script.php'); ?>

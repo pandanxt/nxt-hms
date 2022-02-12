@@ -11,13 +11,13 @@
         $pass = $_POST['password'];    
     
         if (empty($uid)||empty($pass)) {
-        header("Location: ../login.php?account=user&error=emptyfields");
+            header("Location: ../login.php?error=emptyfields");
         exit();
         }else{
         $sql = "SELECT * FROM `admin` WHERE `ADMIN_EMAIL` = ? OR `ADMIN_USERNAME` = ?";
         $stmt = mysqli_stmt_init($db);
         if (!mysqli_stmt_prepare($stmt,$sql)) {
-        header("Location: ../login.php?account=user&error=sqlerror");
+        header("Location: ../login.php?error=sqlerror");
         exit();
         }else{
             mysqli_stmt_bind_param($stmt,"ss",$uid,$uid);
@@ -26,7 +26,7 @@
                 if ($row = mysqli_fetch_assoc($result)) {
                     $pwdCheck = password_verify($pass,$row['ADMIN_PASSWORD']);
                         if ($pwdCheck == false) {
-                            header("Location: ../login.php?account=user&error=wrongpwd");
+                            header("Location: ../login.php?error=wrongpwd");
                             exit();
                         }elseif ($pwdCheck == true) {
                             session_start();
@@ -39,11 +39,11 @@
                             header("Location: ../index.php?login=success");
                             exit();
                         }else{
-                            header("Location: ../login.php?account=user&error=wrongpwd");
+                            header("Location: ../login.php?error=wrongpwd");
                             exit();
                         }
                 }else{
-                    header("Location: ../login.php?account=user&error=nouser");
+                    header("Location: ../login.php?error=nouser");
                     exit();
                 }
             }
@@ -56,12 +56,14 @@
         $email = $_POST['email'];
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $permission =  $_POST['permission'];
+        $by = $_POST['by'];
+
 
             $sql = "SELECT * FROM `admin` WHERE `ADMIN_USERNAME` = ?";
             $stmt = mysqli_stmt_init($db);
             
             if (!mysqli_stmt_prepare($stmt,$sql)) {
-                header("Location: ../add_user.php?error=sqlerror");
+                header("Location: ../add_user.php?action=sqlerror");
                 exit();
             }else{
                 mysqli_stmt_bind_param($stmt,"s",$loginId);
@@ -70,20 +72,20 @@
                 $resultCheck = mysqli_stmt_num_rows($stmt);
                     
                     if ($resultCheck > 0) {
-                        header("Location: ../add_user.php?error=userNameAlreadyTaken");
+                        header("Location: ../add_user.php?action=nameTaken");
                         exit();
                         }else{
-                                $sql = "INSERT INTO `admin`(`ADMIN_NAME`, `ADMIN_TYPE`, `ADMIN_EMAIL`, `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_STATUS`, `ADMIN_SAVE_TIME`) VALUES (?,?,?,?,?,?,?)";
+                                $sql = "INSERT INTO `admin`(`ADMIN_NAME`, `ADMIN_TYPE`, `ADMIN_EMAIL`, `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_STATUS`, `CREATED_BY`, `ADMIN_SAVE_TIME`) VALUES (?,?,?,?,?,?,?,?)";
                                 mysqli_stmt_execute($stmt);
                             
                                 if (!mysqli_stmt_prepare($stmt,$sql)) {
-                                    header("Location: ../add_user.php?error=sqlerror");
+                                    header("Location: ../add_user.php?action=sqlerror");
                                     exit();
                                 }else{
-                                    mysqli_stmt_bind_param($stmt,"sssssss",$name,$permission,$email,$loginId,$password,$status,$saveOn);
+                                    mysqli_stmt_bind_param($stmt,"ssssssss",$name,$permission,$email,$loginId,$password,$status,$by,$saveOn);
                                     mysqli_stmt_execute($stmt);
                                 
-                                    echo '<script type="text/javascript">alert("New Admin is Successfully Added");window.location = "../add_user.php";</script>';								
+                                    echo '<script type="text/javascript">window.location = "../add_user.php?action=saved";</script>';								
                                     exit();
                                 }			
                         }
@@ -93,12 +95,13 @@
     }
     if (isset($_POST['dept-submit'])) {
         $status =  $_POST['status'];
-        $description =  $_POST['description'];        
+        $description =  $_POST['description'];
+        $by = $_POST['by'];
             $sql = "SELECT * FROM `department` WHERE `DEPARTMENT_NAME` = ?";
             $stmt = mysqli_stmt_init($db);
             
             if (!mysqli_stmt_prepare($stmt,$sql)) {
-                header("Location: ../add_dept.php?error=sqlerror");
+                header("Location: ../add_dept.php?action=sqlerror");
                 exit();
             }else{
                 mysqli_stmt_bind_param($stmt,"s",$name);
@@ -107,20 +110,20 @@
                 $resultCheck = mysqli_stmt_num_rows($stmt);
                     
                     if ($resultCheck > 0) {
-                        header("Location: ../add_dept.php?error=descriptionNameAlreadyTaken");
+                        header("Location: ../add_dept.php?action=nameTaken");
                         exit();
                     }else{
-                            $sql = "INSERT INTO `department`(`DEPARTMENT_NAME`, `DEPARTMENT_DESC`, `DEPARTMENT_STATUS`, `DEPARTMENT_SAVE_TIME`) VALUES (?,?,?,?)";
+                            $sql = "INSERT INTO `department`(`DEPARTMENT_NAME`, `DEPARTMENT_DESC`, `DEPARTMENT_STATUS`,`CREATED_BY`, `DEPARTMENT_SAVE_TIME`) VALUES (?,?,?,?,?)";
                             mysqli_stmt_execute($stmt);
                         
                             if (!mysqli_stmt_prepare($stmt,$sql)) {
-                                header("Location: ../add_dept.php?error=sqlerror");
+                                header("Location: ../add_dept.php?action=sqlerror");
                                 exit();
                             }else{
-                                mysqli_stmt_bind_param($stmt,"ssss",$name,$description,$status,$saveOn);
+                                mysqli_stmt_bind_param($stmt,"sssss",$name,$description,$status,$by,$saveOn);
                                 mysqli_stmt_execute($stmt);
                             
-                                echo '<script type="text/javascript">alert("New Department is Successfully Added");window.location = "../add_dept.php";</script>';								
+                                echo '<script type="text/javascript">window.location = "../add_dept.php?action=saved";</script>';								
                                 exit();
                             }			
                         }
@@ -131,11 +134,13 @@
     if (isset($_POST['service-submit'])) {
         $status =  $_POST['status'];
         $amount =  $_POST['amount'];
+        $by = $_POST['by'];
+
             $sql = "SELECT * FROM `bill_service` WHERE `BILL_SERVICE_NAME` = ?";
             $stmt = mysqli_stmt_init($db);
             
             if (!mysqli_stmt_prepare($stmt,$sql)) {
-                header("Location: ../add_service.php?error=sqlerror");
+                header("Location: ../add_service.php?action=sqlerror");
                 exit();
             }else{
                 mysqli_stmt_bind_param($stmt,"s",$name);
@@ -144,20 +149,20 @@
                 $resultCheck = mysqli_stmt_num_rows($stmt);
                     
                     if ($resultCheck > 0) {
-                        header("Location: ../add_service.php?error=serviceNameAlreadyTaken");
+                        header("Location: ../add_service.php?action=nameTaken");
                         exit();
                     }else{
-                            $sql = "INSERT INTO `bill_service` (`BILL_SERVICE_NAME`, `BILL_SERVICE_AMOUNT`, `SERVICE_STATUS`, `SERVICE_SAVE_TIME`) VALUES (?,?,?,?)";
+                            $sql = "INSERT INTO `bill_service` (`BILL_SERVICE_NAME`, `BILL_SERVICE_AMOUNT`, `SERVICE_STATUS`, `CREATED_BY`, `SERVICE_SAVE_TIME`) VALUES (?,?,?,?,?)";
                             mysqli_stmt_execute($stmt);
                         
                             if (!mysqli_stmt_prepare($stmt,$sql)) {
-                                header("Location: ../add_service.php?error=sqlerror");
+                                header("Location: ../add_service.php?action=sqlerror");
                                 exit();
                             }else{
-                                mysqli_stmt_bind_param($stmt,"ssss",$name,$amount,$status,$saveOn);
+                                mysqli_stmt_bind_param($stmt,"sssss",$name,$amount,$status,$by,$saveOn);
                                 mysqli_stmt_execute($stmt);
                             
-                                echo '<script type="text/javascript">alert("New Service is Successfully Added");window.location = "../add_service.php";</script>';								
+                                echo '<script type="text/javascript">window.location = "../add_service.php?action=saved";</script>';								
                                 exit();
                             }			
                         }
@@ -171,11 +176,13 @@
         $department =  $_POST['department'];
         $education = implode(', ', $_POST['education']);
         $experience =  $_POST['experience'];
+        $by = $_POST['by'];
+
             $sql = "SELECT * FROM `doctor` WHERE `DOCTOR_NAME` = ?";
             $stmt = mysqli_stmt_init($db);
             
             if (!mysqli_stmt_prepare($stmt,$sql)) {
-                header("Location: ../add_doctor.php?error=sqlerror");
+                header("Location: ../add_doctor.php?action=sqlerror");
                 exit();
             }else{
                 mysqli_stmt_bind_param($stmt,"s",$name);
@@ -184,20 +191,20 @@
                 $resultCheck = mysqli_stmt_num_rows($stmt);
                     
                     if ($resultCheck > 0) {
-                        header("Location: ../add_doctor.php?error=doctorNameAlreadyTaken");
+                        header("Location: ../add_doctor.php?action=nameTaken");
                         exit();
                     }else{
-                            $sql = "INSERT INTO `doctor`(`DOCTOR_NAME`, `DOCTOR_MOBILE`, `DEPARTMENT_ID`, `DOCTOR_EDUCATION`, `DOCTOR_EXPERIENCE`, `DOCTOR_STATUS`, `DOCTOR_SAVE_TIME`) VALUES (?,?,?,?,?,?,?)";
+                            $sql = "INSERT INTO `doctor`(`DOCTOR_NAME`, `DOCTOR_MOBILE`, `DEPARTMENT_ID`, `DOCTOR_EDUCATION`, `DOCTOR_EXPERIENCE`, `DOCTOR_STATUS`, `CREATED_BY`, `DOCTOR_SAVE_TIME`) VALUES (?,?,?,?,?,?,?,?)";
                             mysqli_stmt_execute($stmt);
                         
                             if (!mysqli_stmt_prepare($stmt,$sql)) {
-                                header("Location: ../add_doctor.php?error=sqlerror");
+                                header("Location: ../add_doctor.php?action=sqlerror");
                                 exit();
                             }else{
-                                mysqli_stmt_bind_param($stmt,"sssssss",$name,$mobile,$department,$education,$experience,$status,$saveOn);
+                                mysqli_stmt_bind_param($stmt,"ssssssss",$name,$mobile,$department,$education,$experience,$status,$by,$saveOn);
                                 mysqli_stmt_execute($stmt);
                             
-                                echo '<script type="text/javascript">alert("New Doctor is Successfully Added");window.location = "../add_doctor.php";</script>';								
+                                echo '<script type="text/javascript">window.location = "../add_doctor.php?action=saved";</script>';								
                                 exit();
                             }			
                         }
@@ -208,11 +215,13 @@
     if (isset($_POST['patient-type-submit'])) {
         $status =  $_POST['status'];
         $alais = $_POST['type-alais'];
+        $by = $_POST['by'];
+
             $sql = "SELECT * FROM `patient_type` WHERE `PATIENT_TYPE_ALAIS` = ?";
             $stmt = mysqli_stmt_init($db);
             
             if (!mysqli_stmt_prepare($stmt,$sql)) {
-                header("Location: ../add_patient_type.php?error=sqlerror");
+                header("Location: ../add_patient_type.php?action=sqlerror");
                 exit();
             }else{
                 mysqli_stmt_bind_param($stmt,"s",$name);
@@ -221,20 +230,20 @@
                 $resultCheck = mysqli_stmt_num_rows($stmt);
                     
                     if ($resultCheck > 0) {
-                        header("Location: ../add_patient_type.php?error=patientTypeNameAlreadyTaken");
+                        header("Location: ../add_patient_type.php?action=nameTaken");
                         exit();
                     }else{
-                            $sql = "INSERT INTO `patient_type`(`PATIENT_TYPE_NAME`,`PATIENT_TYPE_ALAIS`, `TYPE_SAVE_TIME`, `PATIENT_TYPE_STATUS`) VALUES (?,?,?,?)";
+                            $sql = "INSERT INTO `patient_type`(`PATIENT_TYPE_NAME`,`PATIENT_TYPE_ALAIS`, `TYPE_SAVE_TIME`, `PATIENT_TYPE_STATUS`, `CREATED_BY`) VALUES (?,?,?,?,?)";
                             mysqli_stmt_execute($stmt);
                         
                             if (!mysqli_stmt_prepare($stmt,$sql)) {
-                                header("Location: ../add_patient_type.php?error=sqlerror");
+                                header("Location: ../add_patient_type.php?action=sqlerror");
                                 exit();
                             }else{
-                                mysqli_stmt_bind_param($stmt,"ssss",$name,$alais,$saveOn,$status);
+                                mysqli_stmt_bind_param($stmt,"sssss",$name,$alais,$saveOn,$by,$status);
                                 mysqli_stmt_execute($stmt);
                             
-                                echo '<script type="text/javascript">alert("New Patient Type is Successfully Added");window.location = "../add_patient_type.php";</script>';								
+                                echo '<script type="text/javascript">window.location = "../add_patient_type.php?action=saved";</script>';								
                                 exit();
                             }			
                         }
@@ -246,11 +255,13 @@
         
         $alais = $_POST['alais'];
         $status = $_POST['status'];
+        $by = $_POST['by'];
+
             $sql = "SELECT * FROM `education` WHERE `EDUCATION_ALAIS` = ?";
             $stmt = mysqli_stmt_init($db);
             
             if (!mysqli_stmt_prepare($stmt,$sql)) {
-                header("Location: ../add_education.php?error=sqlerror");
+                header("Location: ../add_education.php?action=sqlerror");
                 exit();
             }else{
                 mysqli_stmt_bind_param($stmt,"s",$alais);
@@ -259,25 +270,26 @@
                 $resultCheck = mysqli_stmt_num_rows($stmt);
                     
                     if ($resultCheck > 0) {
-                        header("Location: ../add_education.php?error=educationNameAlreadyTaken");
+                        header("Location: ../add_education.php?action=nameTaken");
                         exit();
                     }else{
                             $sql = "INSERT INTO `education`(
                                 `EDUCATION_NAME`,
                                  `EDUCATION_ALAIS`,
                                   `EDUCATION_STATUS`,
+                                  `CREATED_BY`,
                                    `EDUCATION_DATE_TIME`
-                                   ) VALUES (?,?,?,?)";
+                                   ) VALUES (?,?,?,?,?)";
                             mysqli_stmt_execute($stmt);
                         
                             if (!mysqli_stmt_prepare($stmt,$sql)) {
-                                header("Location: ../add_education.php?error=sqlerror");
+                                header("Location: ../add_education.php?action=sqlerror");
                                 exit();
                             }else{
-                                mysqli_stmt_bind_param($stmt,"ssss", $name,$alais,$status,$saveOn);
+                                mysqli_stmt_bind_param($stmt,"sssss", $name,$alais,$status,$by,$saveOn);
                                 mysqli_stmt_execute($stmt);
                             
-                                echo '<script type="text/javascript">alert("New Education is Successfully Added");window.location = "../add_education.php";</script>';								
+                                echo '<script type="text/javascript">window.location = "../add_education.php?action=saved";</script>';								
                                 exit();
                             }			
                         }
@@ -295,12 +307,14 @@
         $cnic = $_POST['cnic'];
         $age = $_POST['age'];
         $address = $_POST['address'];
+        $by = $_POST['by'];
+
         
             $sql = "SELECT * FROM `patient` WHERE `PATIENT_NAME` = ? OR `PATIENT_MR_ID` = ? OR `PATIENT_MOBILE` = ?";
             $stmt = mysqli_stmt_init($db);
             
             if (!mysqli_stmt_prepare($stmt,$sql)) {
-                header("Location: ../add_patient.php?error=sqlerror");
+                header("Location: ../add_patient.php?action=sqlerror");
                 exit();
             }else{
                 mysqli_stmt_bind_param($stmt,"sss",$name,$mrid,$phone);
@@ -309,7 +323,7 @@
                 $resultCheck = mysqli_stmt_num_rows($stmt);
                     
                     if ($resultCheck > 0) {
-                        header("Location: ../add_patient.php?error=patientDataExists");
+                        header("Location: ../add_patient.php?action=nameTaken");
                         exit();
                     }else{
                             $sql = "INSERT INTO `patient`
@@ -322,17 +336,18 @@
                                    `PATIENT_AGE`,
                                     `PATIENT_ADDRESS`,
                                      `DOCTOR_ID`,
-                                      `PATIENT_DATE_TIME`
-                                        ) VALUES (?,?,?,?,?,?,?,?,?,?)";
+                                      `PATIENT_DATE_TIME`,
+                                      `CREATED_BY`
+                                        ) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
                             mysqli_stmt_execute($stmt);
                         
                             if (!mysqli_stmt_prepare($stmt,$sql)) {
-                                header("Location: ../add_patient.php?error=sqlerror");
+                                header("Location: ../add_patient.php?action=sqlerror");
                                 exit();
                             }else{
-                                mysqli_stmt_bind_param($stmt,"ssssssssss", $mrid,$name,$type,$phone,$cnic,$gender,$age,$address,$doctor,$saveOn);
+                                mysqli_stmt_bind_param($stmt,"sssssssssss", $mrid,$name,$type,$phone,$cnic,$gender,$age,$address,$doctor,$saveOn,$by);
                                 mysqli_stmt_execute($stmt);
-                                echo '<script type="text/javascript">alert("New Patient Record is Successfully Added");window.location = "../patients.php";</script>';								
+                                echo '<script type="text/javascript">window.location = "../patients.php?action=saved";</script>';								
                                 exit();
                             }			
                         }
@@ -357,12 +372,14 @@
         $totalBill = $_POST['totalBill'];
         $discount = $_POST['discount'];
         $finalBill = $_POST['finalBill'];
+        $by = $_POST['by'];
+
 
             $sql = "SELECT * FROM `bill_record` WHERE `MR_ID` = ?";
             $stmt = mysqli_stmt_init($db);
             
             if (!mysqli_stmt_prepare($stmt,$sql)) {
-                header("Location: ../add_bill.php?error=sqlerrorCheckMRID");
+                header("Location: ../add_bill.php?action=sqlerror");
                 exit();
             }else{
                 mysqli_stmt_bind_param($stmt,"s",$mrid);
@@ -381,16 +398,17 @@
                         `SERVICES`,
                         `BILL_AMOUNT`,
                         `DISCOUNT`,
-                        `TOTAL`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                        `TOTAL`,
+                        `CREATED_BY`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
                 mysqli_stmt_execute($stmt);
             
                 if (!mysqli_stmt_prepare($stmt,$sql)) {
-                    header("Location: ../add_bill.php?error=sqlerrorSQLQUERY");
+                    header("Location: ../add_bill.php?error=sqlerror");
                     exit();
                 }else{                                
-                        mysqli_stmt_bind_param($stmt,"sssssssssss",$mrid,$phone,$cnic,$admissionTime,$dischargeTime,$admitDay,$dischargeTime,$serv,$totalBill,$discount,$finalBill);
+                        mysqli_stmt_bind_param($stmt,"ssssssssssss",$mrid,$phone,$cnic,$admissionTime,$dischargeTime,$admitDay,$dischargeTime,$serv,$totalBill,$discount,$finalBill,$by);
                         mysqli_stmt_execute($stmt);
-                        echo '<script type="text/javascript">alert("New Bill Record is Successfully Added");window.location = "../bill.php";</script>';								
+                        echo '<script type="text/javascript">window.location = "../bill.php?action=saved";</script>';								
                         exit();
                     }			
                 }

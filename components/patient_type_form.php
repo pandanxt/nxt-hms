@@ -56,6 +56,7 @@
               <div class="form-group">
                   <label>Type Alais</label>
                   <input type="text" name="type-alais" class="form-control" id="inputText2" placeholder="Enter Alais Here ..." required>
+                  <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
                 </div> 
               </div>
               <!-- /.col -->

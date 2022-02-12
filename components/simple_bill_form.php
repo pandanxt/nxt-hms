@@ -153,6 +153,7 @@
                     <div class="form-group col-md-3">
                       <label>Discount</label>
                       <input type="number" name="discount" class="form-control" onchange="myChangeFunction(this)" id="discount" placeholder="Discount">
+                      <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
                     </div>
                 </div>
               </div>

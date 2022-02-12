@@ -7,7 +7,7 @@
         $qsql=mysqli_query($db,$sql);
         if(mysqli_affected_rows($db) == 1)
         {
-            echo "<script>alert('bill record deleted successfully..');window.location = '../bill.php';</script>";
+            echo "<script>window.location = '../bill.php?action=deleted';</script>";
         }
     }
     if(isset($_GET['deptId']))
@@ -16,7 +16,7 @@
         $qsql=mysqli_query($db,$sql);
         if(mysqli_affected_rows($db) == 1)
         {
-            echo "<script>alert('department record deleted successfully..');window.location = '../dept.php';</script>";
+            echo "<script>window.location = '../dept.php?action=deleted';</script>";
         }
     }
     if(isset($_GET['docId']))
@@ -25,7 +25,7 @@
         $qsql=mysqli_query($db,$sql);
         if(mysqli_affected_rows($db) == 1)
         {
-            echo "<script>alert('doctor record deleted successfully..');window.location = '../doctors.php';</script>";
+            echo "<script>window.location = '../doctors.php?action=deleted';</script>";
         }
     }
     if(isset($_GET['eduId']))
@@ -34,7 +34,7 @@
         $qsql=mysqli_query($db,$sql);
         if(mysqli_affected_rows($db) == 1)
         {
-            echo "<script>alert('education record deleted successfully..');window.location = '../education.php';</script>";
+            echo "<script>window.location = '../education.php?action=deleted';</script>";
         }
     }
     if(isset($_GET['patId']))
@@ -43,7 +43,7 @@
         $qsql=mysqli_query($db,$sql);
         if(mysqli_affected_rows($db) == 1)
         {
-            echo "<script>alert('patient record deleted successfully..');window.location = '../patients.php';</script>";
+            echo "<script>window.location = '../patients.php?action=deleted';</script>";
         }
     }
     if(isset($_GET['patTypeId']))
@@ -52,7 +52,7 @@
         $qsql=mysqli_query($db,$sql);
         if(mysqli_affected_rows($db) == 1)
         {
-            echo "<script>alert('patient type record deleted successfully..');window.location = '../patient_type.php';</script>";
+            echo "<script>window.location = '../patient_type.php?action=deleted';</script>";
         }
     }
     if(isset($_GET['serId']))
@@ -61,7 +61,7 @@
         $qsql=mysqli_query($db,$sql);
         if(mysqli_affected_rows($db) == 1)
         {
-            echo "<script>alert('service record deleted successfully..');window.location = '../services.php';</script>";
+            echo "<script>window.location = '../services.php?action=deleted';</script>";
         }
     }
     if(isset($_GET['userId']))
@@ -70,7 +70,7 @@
         $qsql=mysqli_query($db,$sql);
         if(mysqli_affected_rows($db) == 1)
         {
-            echo "<script>alert('user record deleted successfully..');window.location = '../users.php';</script>";
+            echo "<script>window.location = '../users.php?action=deleted';</script>";
         }
     }
 ?>

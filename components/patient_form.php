@@ -106,6 +106,7 @@
                 <div class="form-group">
                   <label>Patient Address</label>
                   <textarea style="height: 120px;" name="address" type="text" class="form-control" id="inputAddress" placeholder="Enter Patient Address Here ..." required></textarea>
+                  <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
                 </div>
               </div>
               <!-- /.col -->

@@ -11,6 +11,7 @@ require 'connection.php';
         $cnic = $_POST['cnic'];
         $age = $_POST['age'];
         $address = $_POST['address'];
+        $by = $_POST['by']; 
 
         $serviceBox=$_POST['service'];  
         $serv="";  
@@ -26,7 +27,7 @@ require 'connection.php';
         $stmt = mysqli_stmt_init($db);
         
         if (!mysqli_stmt_prepare($stmt,$sql)) {
-            header("Location: ../add_bill.php?type=$type&error=sqlerror");
+            header("Location: ../add_bill.php?type=$type&action=sqlerror");
             exit();
         }else{
             mysqli_stmt_bind_param($stmt,"ss",$phone,$mrid);
@@ -35,7 +36,7 @@ require 'connection.php';
             $resultCheck = mysqli_stmt_num_rows($stmt);
                 
                 if ($resultCheck > 0) {
-                    header("Location: ../add_bill.php?type=$type&error=patientAlreadyExists");
+                    header("Location: ../add_bill.php?type=$type&action=nameTaken");
                     exit();
                 }else{
                         $sqlPatient = "INSERT INTO `patient`
@@ -48,15 +49,16 @@ require 'connection.php';
                                `PATIENT_AGE`,
                                 `PATIENT_ADDRESS`,
                                  `DOCTOR_ID`,
-                                  `PATIENT_DATE_TIME`
-                                    ) VALUES (?,?,?,?,?,?,?,?,?,?)";
+                                  `PATIENT_DATE_TIME`,
+                                    `CREATED_BY`
+                                    ) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
                         mysqli_stmt_execute($stmt);
                     
                         if (!mysqli_stmt_prepare($stmt,$sqlPatient)) {
-                            header("Location: ../add_bill.php?type=$type&error=sqlerroronpatient");
+                            header("Location: ../add_bill.php?type=$type&action=sqlerror");
                             exit();
                         }else{
-                            mysqli_stmt_bind_param($stmt,"ssssssssss", $mrid,$name,$type,$phone,$cnic,$gender,$age,$address,$doctor,$dischargeTime);
+                            mysqli_stmt_bind_param($stmt,"sssssssssss", $mrid,$name,$type,$phone,$cnic,$gender,$age,$address,$doctor,$dischargeTime,$by);
                             mysqli_stmt_execute($stmt);
 
                             $sqlBill = "INSERT INTO `bill_record`(
@@ -70,16 +72,17 @@ require 'connection.php';
                                     `SERVICES`,
                                     `BILL_AMOUNT`,
                                     `DISCOUNT`,
-                                    `TOTAL`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                                    `TOTAL`,
+                                    `CREATED_BY`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
                                     mysqli_stmt_execute($stmt);
                         
                                 if (!mysqli_stmt_prepare($stmt,$sqlBill)) {
-                                    header("Location: ../add_bill.php?type=$type&error=sqlerroronbill");
+                                    header("Location: ../add_bill.php?type=$type&action=sqlerror");
                                     exit();
                                 }else{                                
-                                    mysqli_stmt_bind_param($stmt,"sssssssssss",$mrid,$phone,$cnic,$admissionTime,$dischargeTime,$admitDay,$dischargeTime,$serv,$totalBill,$discount,$finalBill);
+                                    mysqli_stmt_bind_param($stmt,"ssssssssssss",$mrid,$phone,$cnic,$admissionTime,$dischargeTime,$admitDay,$dischargeTime,$serv,$totalBill,$discount,$finalBill,$by);
                                     mysqli_stmt_execute($stmt);
-                                    echo '<script type="text/javascript">alert("New Patient And Bill Record is Successfully Added");window.location = "../bill.php";</script>';								
+                                    echo '<script type="text/javascript">window.location = "../bill.php?action=saved";</script>';								
                                     exit();
                                 }			
                         }			

@@ -75,6 +75,7 @@
                     <option selected="selected" value="admin">Admin</option>
                     <option value="user">Sub-Admin</option>
                   </select>
+                  <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
                 </div>
               </div>
               <!-- /.col -->

@@ -94,6 +94,7 @@
                     <option selected="selected" value="active">Active</option>
                     <option value="unactive">Unactive</option>
                   </select>
+                  <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
                 </div>
               </div>
               <!-- /.col -->
