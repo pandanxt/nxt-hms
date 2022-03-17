@@ -40,6 +40,88 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
             <li class="nav-item">
+                <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-hospital-user"></i>
+                <p>Patient Slip<i class="right fas fa-angle-left"></i></p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <small>
+                    <li class="nav-item">
+                        <a href="emergency.php" class="nav-link">
+                        <i class="nav-icon fas fa-user-injured"></i>
+                        <p>Emergency Patient</p>
+                        </a>
+                    </li>
+                  </small>
+                  <small>
+                    <li class="nav-item">
+                        <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-indoor">
+                        <i class="nav-icon fas fa-procedures"></i>
+                        <p>Indoor Patient</p>  
+                        </a>
+                    </li>
+                  </small>
+                  <small>
+                    <li class="nav-item">
+                        <a href="outdoor.php" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>Outdoor Patient</p>
+                        </a>
+                    </li>
+                  <small>
+                  </small>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>Other Patient</p>
+                        </a>
+                    </li>
+                  </small>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-hospital-user"></i>
+                <p>MedEast Services<i class="right fas fa-angle-left"></i></p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <small>
+                    <li class="nav-item">
+                        <a href="emergency-service.php" class="nav-link">
+                        <i class="nav-icon fas fa-user-injured"></i>
+                        <p>Emergency Services</p>
+                        </a>
+                    </li>
+                  </small>
+                  <small>
+                    <li class="nav-item">
+                    <a href="surgery-service.php" class="nav-link">
+                        <i class="nav-icon fas fa-procedures"></i>
+                        <p>Gen-Surgery Services</p>  
+                        </a>
+                    </li>
+                  </small>
+                  <small>
+                    <li class="nav-item">
+                        <a href="illness-service.php" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>Gen-Illness Services</p>
+                        </a>
+                    </li>
+                  <small>
+                  </small>
+                    <li class="nav-item">
+                        <a href="eye-service.php" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>Eye Services</p>
+                        </a>
+                    </li>
+                  </small>
+                </ul>
+            </li>
+
+            <li class="nav-item">
                 <a href="bill.php" class="nav-link">
                 <i class="nav-icon fas fa-file-invoice"></i>
                 <p>Bill Details</p>
@@ -88,44 +170,64 @@
                 </a>
                 <?php if (isset($_SESSION['userid'])) { ?>
                 <ul class="nav nav-treeview">
+                  <small>
                     <li class="nav-item">
                         <a href="view_user.php?id=<?php echo $_SESSION['userid']; ?>" class="nav-link">
                         <i class="nav-icon fas fa-user-alt"></i>
                         <p>Profile</p>
                         </a>
                     </li>
+                  </small>
+                  <small>
                     <li class="nav-item">
                         <a href="add_user.php?id=<?php echo $_SESSION['userid']; ?>" class="nav-link">
                         <i class="nav-icon fas fa-user-edit"></i>
                         <p>Edit Profile</p>
                         </a>
                     </li>
-                    <?php } ?>
+                  </small>
+                  <?php } ?>
+                  <small>
                     <li class="nav-item">
                         <a href="change_password.php" class="nav-link">
                         <i class="nav-icon fas fa-unlock-alt"></i>
                         <p>Change Password</p>
                         </a>
                     </li>
+                  </small>
+                  <small>
                     <li class="nav-item">
                         <a href="patient_type.php" class="nav-link">
                         <i class="nav-icon fas fa-procedures"></i>
                         <p>Patient Type</p>
                         </a>
                     </li>
+                  </small>
+                  <small>
+                    <li class="nav-item">
+                        <a href="indoor_type.php" class="nav-link">
+                        <i class="nav-icon fas fa-procedures"></i>
+                        <p>Indoor Patient Type</p>
+                        </a>
+                    </li>
+                  </small>
+                  <small>
                     <li class="nav-item">
                         <a href="education.php" class="nav-link">
                         <i class="nav-icon fas fa-user-graduate"></i>
                         <p>Doctor Education</p>
                         </a>
                     </li>
-                    <?php if (isset($_SESSION['userid'])) { ?>
+                  </small>
+                  <?php if (isset($_SESSION['userid'])) { ?>
+                  <small>
                     <li class="nav-item">
                         <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-sm">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
                         <p>Logout</p>
                         </a>
                     </li>
+                  </small>
                     <?php } ?>
                 </ul>
             </li>
@@ -137,27 +239,73 @@
     <!-- /.sidebar -->
   </aside>
 
+    <!-- **
+    *
+    *  Logout Popup Model
+    *
+    ** -->
 
   <div class="modal fade" id="modal-sm">
-        <div class="modal-dialog modal-sm">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Confirm To Logout</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>Are you Sure? You want to Logout&hellip;</p>
-              <p>Or click <b>Cancel</b> to continue &hellip;</p>
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-              <a type="submit" href="logout.php" class="btn btn-danger">Log Out</a>
-            </div>
-          </div>
-          <!-- /.modal-content -->
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Confirm To Logout</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-        <!-- /.modal-dialog -->
+        <div class="modal-body">
+          <p>Are you Sure? You want to Logout&hellip;</p>
+          <p>Or click <b>Cancel</b> to continue &hellip;</p>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <a type="submit" href="logout.php" class="btn btn-danger">Log Out</a>
+        </div>
       </div>
-      <!-- /.modal -->
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+    
+  <!-- **
+  *
+  *  Indoor Patient Type Popup
+  *
+  ** -->
+
+  <div class="modal fade" id="modal-indoor">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Indoor Patient Type</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="indoor.php">
+        <div class="modal-body">
+              <select class="form-control select2bs4" name="type" id="typeSelect" style="width: 100%;" required>
+              <?php
+                  $p_type = 'SELECT `TYPE_NAME`, `TYPE_ALAIS` FROM `indoor_type` WHERE `TYPE_STATUS` = "active"';
+                  $result = mysqli_query($db, $p_type) or die (mysqli_error($db));
+                    while ($row = mysqli_fetch_array($result)) {
+                      $id = $row['TYPE_ALAIS'];  
+                      $name = $row['TYPE_NAME'];
+                      echo '<option value="'.$id.'">'.$name.'</option>'; 
+                  }
+                ?>
+              </select>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Proceed</button>
+          </div>
+        </form>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->

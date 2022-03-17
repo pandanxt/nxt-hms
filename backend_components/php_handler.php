@@ -251,6 +251,45 @@
         mysqli_stmt_close($stmt);
         mysqli_close($db);
     }
+    if (isset($_POST['indoor-type-submit'])) {
+        $status =  $_POST['status'];
+        $alais = $_POST['alais'];
+        $by = $_POST['by'];
+
+            $sql = "SELECT * FROM `indoor_type` WHERE `TYPE_ALAIS` = ?";
+            $stmt = mysqli_stmt_init($db);
+            
+            if (!mysqli_stmt_prepare($stmt,$sql)) {
+                header("Location: ../add_indoor_type.php?action=sqlerror");
+                exit();
+            }else{
+                mysqli_stmt_bind_param($stmt,"s",$name);
+                mysqli_stmt_execute($stmt);
+                mysqli_stmt_store_result($stmt);
+                $resultCheck = mysqli_stmt_num_rows($stmt);
+                    
+                    if ($resultCheck > 0) {
+                        header("Location: ../add_indoor_type.php?action=nameTaken");
+                        exit();
+                    }else{
+                            $sql = "INSERT INTO `indoor_type`(`TYPE_NAME`,`TYPE_ALAIS`, `TYPE_SAVE_TIME`, `TYPE_STATUS`, `STAFF_ID`) VALUES (?,?,?,?,?)";
+                            mysqli_stmt_execute($stmt);
+                        
+                            if (!mysqli_stmt_prepare($stmt,$sql)) {
+                                header("Location: ../add_indoor_type.php?action=sqlerror");
+                                exit();
+                            }else{
+                                mysqli_stmt_bind_param($stmt,"sssss",$name,$alais,$saveOn,$status,$by);
+                                mysqli_stmt_execute($stmt);
+                            
+                                echo '<script type="text/javascript">window.location = "../add_indoor_type.php?action=saved";</script>';								
+                                exit();
+                            }			
+                        }
+                }
+        mysqli_stmt_close($stmt);
+        mysqli_close($db);
+    }
     if (isset($_POST['education-submit'])) {
         
         $alais = $_POST['alais'];
