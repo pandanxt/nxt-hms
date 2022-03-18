@@ -136,6 +136,47 @@
             </li>
 
             <li class="nav-item">
+                <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-hospital-user"></i>
+                <p>Patient Records<i class="right fas fa-angle-left"></i></p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <small>
+                    <li class="nav-item">
+                        <a href="emergency_patient.php" class="nav-link">
+                        <i class="nav-icon fas fa-user-injured"></i>
+                        <p>Emergency Patients</p>
+                        </a>
+                    </li>
+                  </small>
+                  <small>
+                    <li class="nav-item">
+                        <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-indoor-patient">
+                        <i class="nav-icon fas fa-procedures"></i>
+                        <p>Indoor Patients</p>  
+                        </a>
+                    </li>
+                  </small>
+                  <small>
+                    <li class="nav-item">
+                        <a href="outdoor_patient.php" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>Outdoor Patients</p>
+                        </a>
+                    </li>
+                  <small>
+                  </small>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>Other Patients</p>
+                        </a>
+                    </li>
+                  </small>
+                </ul>
+            </li>
+
+            <li class="nav-item">
                 <a href="doctors.php" class="nav-link">
                 <i class="nav-icon fas fa-user-md"></i>
                 <p>Doctor Details</p>
@@ -287,6 +328,48 @@
         <form action="indoor.php">
         <div class="modal-body">
               <select class="form-control select2bs4" name="type" id="typeSelect" style="width: 100%;" required>
+              <?php
+                  $p_type = 'SELECT `TYPE_NAME`, `TYPE_ALAIS` FROM `indoor_type` WHERE `TYPE_STATUS` = "active"';
+                  $result = mysqli_query($db, $p_type) or die (mysqli_error($db));
+                    while ($row = mysqli_fetch_array($result)) {
+                      $id = $row['TYPE_ALAIS'];  
+                      $name = $row['TYPE_NAME'];
+                      echo '<option value="'.$id.'">'.$name.'</option>'; 
+                  }
+                ?>
+              </select>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Proceed</button>
+          </div>
+        </form>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
+   <!-- **
+  *
+  *  Indoor Patient Record Popup
+  *
+  ** -->
+
+  <div class="modal fade" id="modal-indoor-patient">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Indoor Patient Type</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="indoor_patient.php">
+        <div class="modal-body">
+              <select class="form-control select2bs4" name="type" id="typeSelect" style="width: 100%;" required>
+              <option selected="selected" value="all">All Patient</option>
               <?php
                   $p_type = 'SELECT `TYPE_NAME`, `TYPE_ALAIS` FROM `indoor_type` WHERE `TYPE_STATUS` = "active"';
                   $result = mysqli_query($db, $p_type) or die (mysqli_error($db));

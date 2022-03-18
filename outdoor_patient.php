@@ -1,11 +1,10 @@
-  <?php session_start(); ?>
+<?php session_start(); ?>
   <!-- Connection -->
   <?php include('backend_components/connection.php'); ?>
-
   <!-- table-header -->
   <?php include('components/table_header.php'); ?>
-   <!-- Navbar -->
-   <?php include('components/navbar.php'); ?>
+  <!-- Navbar -->
+  <?php include('components/navbar.php'); ?>
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
@@ -19,13 +18,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <!-- <div class="col-sm-2">
-            <h1>Departments</h1>
+            <h1>Patients</h1>
           </div> -->
-          <div class="col-sm-2"><a type="submit" class="btn btn-block btn-primary btn-sm" href="add_dept.php"><i class="fas fa-plus"></i> New Department</a></div>
+          <div class="col-sm-2"><a type="submit" class="btn btn-block btn-primary btn-sm" href="outdoor.php"><i class="fas fa-plus"></i> New Patient</a></div>
           <div class="col-sm-10">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Departments</li>
+              <li class="breadcrumb-item active">Patients</li>
             </ol>
           </div>
         </div>
@@ -33,8 +32,8 @@
     </section>
 
     <!-- Main content -->
-    <?php //include('components/dept_table.php'); ?>
-
+    <?php //include('components/patient_table.php'); ?>
+    <!-- Table Data of Patient -->
     <section class="content">
       <div class="container-fluid">
         <div class="row">
@@ -46,34 +45,54 @@
                   <thead>
                   <tr>
                     <th>S.No#</th>
+                    <th>MR-ID</th>
                     <th>Name</th>
-                    <th>Status</th>
-                    <th>Created BY</th>
+                    <!-- <th>Type</th> -->
+                    <th>Mobile</th>
+                    <!-- <th>CNIC</th> -->
+                    <th>Gender</th>
+                    <th>Age</th>
+                    <!-- <th>Address</th> -->
+                    <th>Department</th>
+                    <th>Doctor</th>
+                    <th>Consultant Fee</th>
+                    <th>Created By</th>
+                    <!-- <th>Discharge</th> -->
                     <th>Created On</th>
                     <th>Options</th>
                   </tr>
                   </thead>
                   <tbody>
                   <?php
-                      $sql ="SELECT *,`ADMIN_USERNAME` FROM `department` INNER JOIN `admin` WHERE `department`.`STAFF_ID` = `admin`.`ADMIN_ID`";
+                      $sql ="SELECT *,`DOCTOR_NAME`,`ADMIN_USERNAME`,`DEPARTMENT_NAME` FROM `outdoor_patient` INNER JOIN `department` INNER JOIN `admin` INNER JOIN `doctor` WHERE `outdoor_patient`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID` AND `outdoor_patient`.`STAFF_ID` = `admin`.`ADMIN_ID` AND `outdoor_patient`.`DEPT_ID` = `department`.`DEPARTMENT_ID`";
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
-                        $date = substr($rs['DEPARTMENT_DATE_TIME'],0, 21);
+                       $date = substr($rs['PATIENT_DATE_TIME'],0, 21);
                         echo "<tr>
-                        <td>$rs[DEPARTMENT_ID]</td>
+                        <td>$rs[PATIENT_ID]
+                           <br> <a href='add_bill.php?id=$rs[PATIENT_ID]' style='color:green;'>
+                              <i class='fas fa-wallet'></i> Bill
+                            </a>
+                        </td>
+                        <td>$rs[PATIENT_MR_ID]</td>
+                        <td>$rs[PATIENT_NAME]</td>
+                        <td>$rs[PATIENT_MOBILE]</td>
+                        <td>$rs[PATIENT_GENDER]</td>
+                        <td>$rs[PATIENT_AGE]</td>
                         <td>$rs[DEPARTMENT_NAME]</td>
-                        <td>$rs[DEPARTMENT_STATUS]</td>
+                        <td>$rs[DOCTOR_NAME]</td>
+                        <td>$rs[CONSULTANT_FEE]</td>
                         <td>$rs[ADMIN_USERNAME]</td>
-                        <td>$date</td>
+                        <td>$date</td> 
                         <td style='display:flex;'>
-                            <a href='view_dept.php?id=$rs[DEPARTMENT_ID]' style='color:green;'>
+                            <a href='view_patient.php?id=$rs[PATIENT_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
                             </a><br>
-                            <a href='add_dept.php?id=$rs[DEPARTMENT_ID]'>
+                            <a href='add_patient.php?id=$rs[PATIENT_ID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
-                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?deptId=$rs[DEPARTMENT_ID]' style='color:red;'>
+                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?patId=$rs[PATIENT_ID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
                             </a>
                         </td>
