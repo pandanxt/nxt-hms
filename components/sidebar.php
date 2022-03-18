@@ -88,7 +88,7 @@
                 <ul class="nav nav-treeview">
                   <small>
                     <li class="nav-item">
-                        <a href="emergency-service.php" class="nav-link">
+                        <a href="emergency_service.php" class="nav-link">
                         <i class="nav-icon fas fa-user-injured"></i>
                         <p>Emergency Services</p>
                         </a>
@@ -96,7 +96,7 @@
                   </small>
                   <small>
                     <li class="nav-item">
-                    <a href="surgery-service.php" class="nav-link">
+                    <a href="surgery_service.php" class="nav-link">
                         <i class="nav-icon fas fa-procedures"></i>
                         <p>Gen-Surgery Services</p>  
                         </a>
@@ -104,7 +104,7 @@
                   </small>
                   <small>
                     <li class="nav-item">
-                        <a href="illness-service.php" class="nav-link">
+                        <a href="illness_service.php" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>Gen-Illness Services</p>
                         </a>
@@ -112,7 +112,7 @@
                   <small>
                   </small>
                     <li class="nav-item">
-                        <a href="eye-service.php" class="nav-link">
+                        <a href="eye_service.php" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>Eye Services</p>
                         </a>
