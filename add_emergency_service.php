@@ -15,6 +15,7 @@
     
     if (isset($_POST['emergency-service'])) {
         $name =  $_POST['name'];
+        $amount =  $_POST['amount'];
         $status =  $_POST['status'];
         $date =  $_POST['addDate'];
         $by = $_POST['by'];
@@ -37,7 +38,7 @@
                         echo '<script type="text/javascript">window.location = "emergency_service.php?action=nameTaken";</script>';
                         exit();
                     }else{
-                            $sql = "INSERT INTO `emergency_service` (`SERVICE_NAME`, `SERVICE_STATUS`, `STAFF_ID`, `SERVICE_DATE_TIME`) VALUES (?,?,?,?)";
+                            $sql = "INSERT INTO `emergency_service` (`SERVICE_NAME`,`SERVICE_AMOUNT`, `SERVICE_STATUS`, `STAFF_ID`, `SERVICE_DATE_TIME`) VALUES (?,?,?,?,?)";
                             mysqli_stmt_execute($stmt);
                         
                             if (!mysqli_stmt_prepare($stmt,$sql)) {
@@ -45,7 +46,7 @@
                                 echo '<script type="text/javascript">window.location = "emergency_service.php?action=sqlerrorInsert";</script>';
                                 exit();
                             }else{
-                                mysqli_stmt_bind_param($stmt,"ssss",$name,$status,$by,$date);
+                                mysqli_stmt_bind_param($stmt,"ssss",$name,$amount,$status,$by,$date);
                                 mysqli_stmt_execute($stmt);
                             
                                 echo '<script type="text/javascript">window.location = "add_emergency_service.php?action=saved";</script>';								
@@ -106,26 +107,26 @@
                   <input type="text" class="form-control" name="name" id="inputText1" placeholder="Enter Service Name Here ..." required>
                 </div>
                 <!-- /.form-group -->
-               
                 <!-- /.form-group -->
-              </div>
-              <!-- /.col -->
-              <div class="col-md-6">
-              <input type="text" name="addDate" id="addDate" hidden/>
-              <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
-               <!-- /.form-group -->
-               <div class="form-group">
+                <div class="form-group">
                   <label>Service Status</label>
                   <select class="form-control select2bs4" name="status" style="width: 100%;">
                     <option selected="selected" value="active">Active</option>
                     <option value="unactive">Unactive</option>
                   </select>
                 </div>
-               <!-- <div class="form-group"> -->
-                  <!-- <label>Service Amount</label>
-                  <input type="number" class="form-control" name="amount" id="inputText1" placeholder="Enter Service Amount Here ..." required> -->
+                <!-- /.form-group -->
+              </div>
+              <!-- /.col -->
+              <div class="col-md-6">
+              <input type="text" name="addDate" id="addDate" hidden/>
+              <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
+              
+               <div class="form-group">
+                  <label>Service Amount</label>
+                  <input type="number" class="form-control" name="amount" id="inputText1" placeholder="Enter Service Amount Here ..." required>
                   <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
-                <!-- </div> -->
+                </div>
                 <!-- /.form-group -->
               </div>
               <!-- /.col -->

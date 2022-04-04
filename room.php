@@ -1,6 +1,7 @@
 <?php session_start(); ?>
   <!-- Connection -->
   <?php include('backend_components/connection.php'); ?>
+
   <!-- table-header -->
   <?php include('components/table_header.php'); ?>
    <!-- Navbar -->
@@ -18,13 +19,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <!-- <div class="col-sm-2">
-            <h1>Services</h1>
+            <h1>Departments</h1>
           </div> -->
-          <div class="col-sm-2"><a type="submit" class="btn btn-block btn-primary btn-sm" href="add_emergency_service.php"><i class="fas fa-plus"></i> New Service</a></div>
+          <div class="col-sm-2"><a type="submit" class="btn btn-block btn-primary btn-sm" href="add_room.php"><i class="fas fa-plus"></i> New Room</a></div>
           <div class="col-sm-10">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Emergency Services</li>
+              <li class="breadcrumb-item active">Rooms</li>
             </ol>
           </div>
         </div>
@@ -32,9 +33,8 @@
     </section>
 
     <!-- Main content -->
-    <?php //include('components/service_table.php'); ?>
+    <?php //include('components/dept_table.php'); ?>
 
-    <!-- Service Table with data -->
     <section class="content">
       <div class="container-fluid">
         <div class="row">
@@ -46,36 +46,36 @@
                   <thead>
                   <tr>
                     <th>S.No#</th>
-                    <th>Service</th>
-                    <th>Amount</th>
+                    <th>Name</th>
+                    <th>Charges</th>
                     <th>Status</th>
-                    <th>Created By</th>
+                    <th>Created BY</th>
                     <th>Created On</th>
-                    <th>Option</th>
+                    <th>Options</th>
                   </tr>
                   </thead>
                   <tbody>
                   <?php
-                      $sql ="SELECT *,`ADMIN_USERNAME` FROM `emergency_service` INNER JOIN `admin` WHERE `emergency_service`.`STAFF_ID` = `admin`.`ADMIN_ID`";
+                      $sql ="SELECT *,`ADMIN_USERNAME` FROM `room` INNER JOIN `admin` WHERE `room`.`STAFF_ID` = `admin`.`ADMIN_ID`";
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
-                        $date = substr($rs['SERVICE_DATE_TIME'],0, 21);
+                        $date = substr($rs['ROOM_DATE_TIME'],0, 21);
                         echo "<tr>
-                        <td>$rs[SERVICE_ID]</td>
-                        <td>$rs[SERVICE_NAME]</td>
-                        <td>$rs[SERVICE_AMOUNT]</td>
-                        <td>$rs[SERVICE_STATUS]</td>
+                        <td>$rs[ROOM_ID]</td>
+                        <td>$rs[ROOM_NAME]</td>
+                        <td>$rs[ROOM_RATE]</td>
+                        <td>$rs[ROOM_STATUS]</td>
                         <td>$rs[ADMIN_USERNAME]</td>
                         <td>$date</td>
                         <td style='display:flex;'>
-                            <a href='view_service.php?id=$rs[SERVICE_ID]' style='color:green;'>
+                            <a href='view_dept.php?id=$rs[ROOM_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
                             </a><br>
-                            <a href='add_service.php?id=$rs[SERVICE_ID]'>
+                            <a href='add_dept.php?id=$rs[ROOM_ID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
-                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?serId=$rs[SERVICE_ID]' style='color:red;'>
+                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?deptId=$rs[ROOM_ID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
                             </a>
                         </td>

@@ -79,6 +79,48 @@
                   </small>
                 </ul>
             </li>
+            
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-hospital-user"></i>
+                <p>Patient Bill<i class="right fas fa-angle-left"></i></p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <small>
+                    <li class="nav-item">
+                        <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-emergency-bill">
+                        <!-- <a href="emergency_bill.php" class="nav-link"> -->
+                        <i class="nav-icon fas fa-user-injured"></i>
+                        <p>Emergency Bill</p>
+                        </a>
+                    </li>
+                  </small>
+                  <small>
+                    <li class="nav-item">
+                        <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-indoor-bill">
+                        <i class="nav-icon fas fa-procedures"></i>
+                        <p>Indoor Bill</p>  
+                        </a>
+                    </li>
+                  </small>
+                  <small>
+                    <li class="nav-item">
+                        <a href="outdoor_bill.php" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>Outdoor Bill</p>
+                        </a>
+                    </li>
+                  <small>
+                  </small>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>Other Patient</p>
+                        </a>
+                    </li>
+                  </small>
+                </ul>
+            </li>
 
             <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -246,6 +288,14 @@
                   </small>
                   <small>
                     <li class="nav-item">
+                        <a href="room.php" class="nav-link">
+                        <i class="nav-icon fas fa-procedures"></i>
+                        <p>MedEast Room</p>
+                        </a>
+                    </li>
+                  </small>
+                  <small>
+                    <li class="nav-item">
                         <a href="indoor_type.php" class="nav-link">
                         <i class="nav-icon fas fa-procedures"></i>
                         <p>Indoor Patient Type</p>
@@ -380,6 +430,82 @@
                   }
                 ?>
               </select>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Proceed</button>
+          </div>
+        </form>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
+   <!-- **
+  *
+  *  Indoor Bill Type Popup
+  *
+  ** -->
+
+  <div class="modal fade" id="modal-indoor-bill">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Indoor Patient Type</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="indoor_bill.php">
+        <div class="modal-body">
+              <select class="form-control select2bs4" name="type" id="typeSelect" style="width: 100%;" required>
+              <?php
+                  $p_type = 'SELECT `TYPE_NAME`, `TYPE_ALAIS` FROM `indoor_type` WHERE `TYPE_STATUS` = "active"';
+                  $result = mysqli_query($db, $p_type) or die (mysqli_error($db));
+                    while ($row = mysqli_fetch_array($result)) {
+                      $id = $row['TYPE_ALAIS'];  
+                      $name = $row['TYPE_NAME'];
+                      echo '<option value="'.$id.'">'.$name.'</option>'; 
+                  }
+                ?>
+              </select>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Proceed</button>
+          </div>
+        </form>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
+  
+   <!-- **
+  *
+  *  Emergency Bill Type Popup
+  *
+  ** -->
+
+  <div class="modal fade" id="modal-emergency-bill">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Emergency Patient MR #</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="emergency_bill.php">
+        <div class="modal-body">
+              <!-- <select class="form-control select2bs4" name="type" id="typeSelect" style="width: 100%;" required>
+             
+              </select> -->
+              <input name="mrid" type="text" class="form-control" style="width: 100%;" required>
           </div>
           <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
