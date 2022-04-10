@@ -40,7 +40,7 @@
                 $resultCheck = mysqli_stmt_num_rows($stmt);
                     
                     if ($resultCheck > 0) {
-                        // header("Location: ../add_patient.php?action=nameTaken");
+                      echo '<script type="text/javascript">window.location = "emergency.php?action=nameTaken";</script>';
                         echo "<script>alert('patient name already taken...');</script>";
                         exit();
                     }else{
@@ -63,8 +63,7 @@
                             }else{
                                 mysqli_stmt_bind_param($stmt,"sssssssss", $mrid,$name,$phone,$gender,$age,$address,$doctor,$saveOn,$by);
                                 mysqli_stmt_execute($stmt);
-                                echo '<script type="text/javascript">window.location = "emergency.php?action=saved";</script>';
-                                // echo "<script>alert('Patient Data successfully saved...');</script>";								
+                                echo '<script type="text/javascript">window.location = "slip_print.php?pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&gender='.$gender.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&by='.$by.'";</script>';
                                 exit();
                             }			
                         }

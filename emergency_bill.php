@@ -10,6 +10,87 @@
   <?php include('components/navbar.php'); ?>
   <!-- /.navbar -->
 
+  <!-- Save Patient Data Query -->
+  <?php
+    if (isset($_POST['emergency-bill-submit'])) {
+     
+      $mrid = $_POST['mrid'];
+      $phone = $_POST['phone'];
+      $name = $_POST['name'];
+      $addDate = $_POST['addDate'];
+      $medicalofficer = $_POST['medicalofficer'];
+      $injectionim = $_POST['injectionim'];
+      $injectioniv = $_POST['injectioniv'];
+      $ivline = $_POST['ivline'];
+      $stitchInTotal = $_POST['stitchInTotal'];
+
+      $stitchOutTotal = $_POST['stitchOutTotal'];
+      $ivinfusion = $_POST['ivinfusion'];
+      $bsf = $_POST['bsf'];
+      $shortstay = $_POST['shortstay'];
+      $bp = $_POST['bp'];
+      $ecg = $_POST['ecg'];
+      $other = $_POST['other'];
+      $tbill = $_POST['tbill'];
+      $discount = $_POST['discount'];
+      $fbill = $_POST['fbill'];
+      $by = $_POST['by'];
+
+
+          $sql = "SELECT * FROM `bill_record` WHERE `MR_ID` = ?";
+          $stmt = mysqli_stmt_init($db);
+          
+          if (!mysqli_stmt_prepare($stmt,$sql)) {
+              header("Location: ../add_bill.php?action=sqlerror");
+              exit();
+          }else{
+              mysqli_stmt_bind_param($stmt,"s",$mrid);
+              mysqli_stmt_execute($stmt);
+              mysqli_stmt_store_result($stmt);
+              $resultCheck = mysqli_stmt_num_rows($stmt);
+
+              $sql = "INSERT INTO `emergency_bill`(
+                 `MR_ID`,
+                 `PATIENT_NAME`,
+                  `MOBILE`,
+                   `DATE_TIME`,
+                    `ES_MO_CHARGE`,
+                     `INJECTION_IM`,
+                      `INJECTION_IV`,
+                       `IV_LINE`,
+                        `IV_INFUSION`,
+                         `PS_IN_300`,
+                          `PS_OUT_100`,
+                           `BSF_BSR`,
+                            `SHORT_STAY`,
+                             `BP`,
+                              `ECG`,
+                               `OTHER`,
+                                `TOTAL_AMOUNT`,
+                                 `DISCOUNT`,
+                                  `TOTAL`,
+                                   `CREATED_BY`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+              mysqli_stmt_execute($stmt);
+          
+              if (!mysqli_stmt_prepare($stmt,$sql)) {
+                  // header("Location: ../emergency_bill.php?error=sqlerror");
+                  echo "<script>alert('Sqlerror due to DB Query...');</script>";
+                  exit();
+              }else{                                
+                      mysqli_stmt_bind_param($stmt,"ssssssssssssssssssss",$mrid,$name,$phone,$addDate,$medicalofficer,
+                      $injectionim,$injectioniv,$ivline,$ivinfusion,$stitchInTotal,$stitchOutTotal,$bsf,$shortstay,$bp,$ecg,$other,$tbill,$discount,$fbill,$by);
+                      mysqli_stmt_execute($stmt);
+                      // echo '<script type="text/javascript">window.location = "../emergency_bill.php?action=saved";</script>';							
+                      echo '<script type="text/javascript">window.location = "bill_print.php?pname='.$name.'&on='.$addDate.'&mrid='.$mrid.'&phone='.$phone.'&by='.$by.'&mo='.$medicalofficer
+                      .'&injectionim='.$injectionim.'&injectioniv='.$injectioniv.'&ivline='.$ivline.'&sin='.$stitchInTotal.'&sout='.$stitchOutTotal.'&ivinfection='.$ivinfusion.'&bsf='.$bsf.'&sstay='.$shortstay.'&bp='.$bp.'&ecg='.$ecg.'&other='.$other.'&tbill='.$tbill.'&disc='.$discount.'&fbill='.$fbill.'";</script>';                                                   
+                      exit();
+                  }			
+              }
+      mysqli_stmt_close($stmt);
+      mysqli_close($db);
+  }
+  ?>
+
   <!-- Main Sidebar Container -->
   <?php include('components/sidebar.php'); ?>
   <!-- /.Main Sidebar Container-->
@@ -57,33 +138,30 @@
               <span id='clockDT'></span>
             </div>
           </div>
-          <form action="backend_components/php_handler.php" method="post" enctype="multipart/form-data">
+          <form action="" method="post" enctype="multipart/form-data">
           <!-- /.card-header -->
           <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
                     <input type="text" name="phone" value="<?php echo $patdata['PATIENT_MOBILE'] ; ?>" hidden readonly>
-                    <input type="text" name="mrid" value="<?php echo $patdata['PATIENT_MR_ID'] ; ?>" hidden readonly>
-                    <input type="text" name="name" value="<?php echo $patdata['PATIENT_NAME'] ; ?>" hidden readonly>
-                    <input type="text" name="gender" value="<?php echo $patdata['PATIENT_GENDER'] ; ?>" hidden readonly>
-                    <input type="text" name="type" value="<?php echo $patdata['PATIENT_TYPE'] ; ?>" hidden readonly>
-                    <input type="text" name="doctor" value="<?php echo $patdata['DOCTOR_NAME'] ; ?>" hidden readonly>
                     <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
 
                     <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                         <div class="form-group col-md-6">
+                        <input type="text" name="addDate" id="addDate" hidden/>
+                        <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
                         <label>Patient MR_ID</label>
-                        <input type="text" class="form-control" name="mrid" id="" value="<?php echo $patdata['PATIENT_MR_ID'] ; ?>" readonly/>
+                        <input type="text" class="form-control" name="mrid" value="<?php echo $patdata['PATIENT_MR_ID'] ; ?>" readonly/>
                         </div>
                         <div class="form-group col-md-6">
                         <label>Patient Name</label>
-                        <input type="text" name="name" class="form-control" id="" value="<?php echo $patdata['PATIENT_NAME'] ; ?>" readonly>
+                        <input type="text" name="name" class="form-control" value="<?php echo $patdata['PATIENT_NAME'] ; ?>" readonly>
                         </div>
                     </div>
                     <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                         <div class="form-group col-md-6">
                         <label>Emergency Slip / Medical Officer</label>
-                        <input type="number" name="medicalofficer" id="medicalOfficer" placeholder="General Charges is 500" class="form-control"/>
+                        <input type="number" name="medicalofficer" id="moCharge" placeholder="General Charges is 500" class="form-control"/>
                         </div>
                         <div class="form-group col-md-6">
                         <label>Injection I/M</label>
@@ -106,6 +184,38 @@
                         </div>
                     </div>
                     <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                       
+                        <div class="form-group col-md-6">
+                        <label>Per Stitch In x 300</label>
+                        <div style="display:flex;">
+                          <input type="number" style="width:70%;" name="stitchin" class="form-control" id="stitchIn" onchange="getStitchInTotal()" placeholder="Enter Number of Stitches">
+                          <input type="number" style="width:25%;" name="stitchInTotal" class="form-control" id="stitchInTotal" readonly/>
+                        </div>
+                        <script>
+                            function getStitchInTotal(){
+                              var stitchIn = document.getElementById("stitchIn").value;
+                              document.getElementById("stitchInTotal").value = stitchIn*300;
+                            }
+                        </script>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label>Per Stitch Out x 100</label>
+                          <div style="display:flex;">
+                            <input type="number" style="width:70%;"  name="stitchout" class="form-control" id="stitchOut" onchange="getStitchOutTotal()" placeholder="Enter Number of Stitches">
+                            <input type="number" style="width:25%;" name="stitchOutTotal" class="form-control" id="stitchOutTotal" readonly/>
+                          </div>
+                          <script>
+                            function getStitchOutTotal(){
+                              var stitchOut = document.getElementById("stitchOut").value;
+                              document.getElementById("stitchOutTotal").value = stitchOut*100;
+                            }
+                        </script>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-md-6">
+                    <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                         <div class="form-group col-md-6">
                         <label>I/V infusion</label>
                         <!-- <input type="number" name="admitDay" onchange="myDayFunction(this)" id="day" placeholder="Admit Day" class="form-control"/> -->
@@ -117,19 +227,6 @@
                         </select>
                         </div>
                         <div class="form-group col-md-6">
-                        <label>Per Stitch In x 300</label>
-                        <input type="number" name="stitchin" class="form-control" onchange="myChangeFunction(this)" id="stitchIn" placeholder="Enter Number of Stitches">
-                        </div>
-                    </div>
-                </div>
-                <!-- /.col -->
-                <div class="col-md-6">
-                    <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                        <div class="form-group col-md-6">
-                        <label>Per Stitch Out x 100</label>
-                        <input type="number" name="stitchout" class="form-control" onchange="myChangeFunction(this)" id="stitchOut" placeholder="Enter Number of Stitches">
-                        </div>
-                        <div class="form-group col-md-6">
                         <label>BSF / BSR</label>
                         <input type="number" name="bsf" class="form-control" id="bsf" placeholder="Enter BSF/BSR Charges - 100"/>
                         </div>
@@ -137,11 +234,11 @@
                     <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                         <div class="form-group col-md-6">
                         <label>Short Stay (After One Hour)</label>
-                        <input type="number" name="shortstay" onchange="myDayFunction(this)" id="shortStay" placeholder="Enter Short Stay Hours" class="form-control"/>
+                        <input type="number" name="shortstay" id="shortStay" placeholder="Enter Short Stay Hours" class="form-control"/>
                         </div>
                         <div class="form-group col-md-6">
                         <label>BP</label>
-                        <input type="number" name="bp" class="form-control" onchange="myChangeFunction(this)" id="bp" placeholder="Enter BP Charges - 50">
+                        <input type="number" name="bp" class="form-control" id="bp" placeholder="Enter BP Charges - 50">
                         </div>
                     </div>
                     <div class="col-md-12" style="display:flex;margin:0;padding:0;">
@@ -155,13 +252,22 @@
                         </div>
                     </div>
                     <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                        <div class="form-group col-md-6">
-                        <label>Total Bill</label>
-                        <input type="number" name="bill" onchange="myDayFunction(this)" id="day" placeholder="Total Bill Displays Here" class="form-control" readonly/>
+                        <div class="form-group col-md-4">
+                          <label>Total Bill</label>
+                            <div class="input-group mb-3">
+                              <input type="number" name="tbill" id="totalBill" placeholder="Total Bill" class="form-control" readonly/>
+                              <span class="input-group-append">
+                                <button type="button" onclick="calculateTotal();" class="btn btn-block btn-primary">calculate</button>
+                              </span>
+                            </div>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                         <label>Discount</label>
-                        <input type="number" name="discount" class="form-control" onchange="myChangeFunction(this)" id="discount" placeholder="Discount">
+                        <input type="number" name="discount"  onchange="discFunction(this)" class="form-control" id="discount" placeholder="Discount">
+                        </div>
+                        <div class="form-group col-md-4">
+                        <label>Final Bill</label>
+                        <input type="number" name="fbill" id="finalBill" placeholder="Final Bill" class="form-control" readonly/>
                         </div>
                     </div>
 
@@ -172,7 +278,7 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer" style="text-align: right;">
-            <button type="submit" name="bill-submit" class="btn btn-block btn-primary">Submit</button>
+            <button type="submit" name="emergency-bill-submit" class="btn btn-block btn-primary">Submit</button>
           </div>
         </div>
         <!-- /.card -->
@@ -185,6 +291,36 @@
   <?php
     }  
   ?>
+
+<script>
+    function calculateTotal() {
+        var moCharge = document.getElementById("moCharge").value;
+        var injectionIM = document.getElementById("injectionIM").value;
+        var injectionIV = document.getElementById("injectionIV").value;
+        var ivLine = document.getElementById("ivLine").value;
+        var ivInfusion = document.getElementById("ivInfusion").value;
+        var stitchInTotal = document.getElementById("stitchInTotal").value;
+        var stitchOutTotal = document.getElementById("stitchOutTotal").value;
+        var ivInfusion = document.getElementById("ivInfusion").value;
+        var bsf = document.getElementById("bsf").value;
+        var shortStay = document.getElementById("shortStay").value;
+        var bp = document.getElementById("bp").value;
+        var ecg = document.getElementById("ecg").value;
+        var other = document.getElementById("other").value;
+        var totalBill = +moCharge + +injectionIM + +injectionIV+ +ivLine + +ivInfusion + +stitchInTotal+ +stitchOutTotal + +bsf+ +shortStay + +bp + +ecg+ +other;
+        document.getElementById("totalBill").value = totalBill;
+        console.log("this is the total result:" ,totalBill);
+    }
+
+        function discFunction(discount) {
+          var finalBill = document.getElementById('finalBill');
+          var totalBill = document.getElementById('totalBill');
+          finalBill.value = totalBill.value - discount.value;
+          console.log("this is the final result:" ,finalBill.value);
+        }
+
+</script>
+
   <!-- Main Footer -->
   <?php include('components/footer.php'); ?>
   <!-- /. Main Footer -->

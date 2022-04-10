@@ -122,7 +122,7 @@
                 </ul>
             </li>
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-hospital-user"></i>
                 <p>MedEast Services<i class="right fas fa-angle-left"></i></p>
@@ -161,21 +161,21 @@
                     </li>
                   </small>
                 </ul>
-            </li>
+            </li> -->
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a href="bill.php" class="nav-link">
                 <i class="nav-icon fas fa-file-invoice"></i>
                 <p>Bill Details</p>
                 </a>
-            </li>
+            </li> -->
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a href="patients.php" class="nav-link">
                 <i class="nav-icon fas fa-hospital-user"></i>
                 <p>Patient Details</p>
                 </a>
-            </li>
+            </li> -->
 
             <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -231,13 +231,13 @@
                 <p>Departments</p>
                 </a>
             </li>
-
-            <li class="nav-item">
+ 
+            <!--<li class="nav-item">
                 <a href="services.php" class="nav-link">
                 <i class="nav-icon fas fa-hand-holding-medical"></i>
                 <p>Services</p>
                 </a>
-            </li>
+            </li> -->
 
             <li class="nav-item">
                 <a href="users.php" class="nav-link">
@@ -278,14 +278,14 @@
                         </a>
                     </li>
                   </small>
-                  <small>
+                  <!-- <small>
                     <li class="nav-item">
                         <a href="patient_type.php" class="nav-link">
                         <i class="nav-icon fas fa-procedures"></i>
                         <p>Patient Type</p>
                         </a>
                     </li>
-                  </small>
+                  </small> -->
                   <small>
                     <li class="nav-item">
                         <a href="room.php" class="nav-link">
@@ -294,22 +294,22 @@
                         </a>
                     </li>
                   </small>
-                  <small>
+                  <!-- <small>
                     <li class="nav-item">
                         <a href="indoor_type.php" class="nav-link">
                         <i class="nav-icon fas fa-procedures"></i>
                         <p>Indoor Patient Type</p>
                         </a>
                     </li>
-                  </small>
-                  <small>
+                  </small> -->
+                  <!-- <small>
                     <li class="nav-item">
                         <a href="education.php" class="nav-link">
                         <i class="nav-icon fas fa-user-graduate"></i>
                         <p>Doctor Education</p>
                         </a>
                     </li>
-                  </small>
+                  </small> -->
                   <?php if (isset($_SESSION['userid'])) { ?>
                   <small>
                     <li class="nav-item">
