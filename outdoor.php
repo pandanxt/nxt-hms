@@ -67,7 +67,8 @@
                         }else{
                             mysqli_stmt_bind_param($stmt,"sssssssssss", $mrid,$name,$dept,$phone,$gender,$age,$address,$doctor,$fee,$saveOn,$by);
                             mysqli_stmt_execute($stmt);
-                            echo '<script type="text/javascript">window.location = "outdoor.php?action=saved";</script>';
+                            echo '<script type="text/javascript">window.location = "outdoor_slip_print.php?pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&gender='.$gender.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&by='.$by.'&dept='.$dept .'&fee='.$fee.'";</script>';
+                            // echo '<script type="text/javascript">window.location = "outdoor.php?action=saved";</script>';
                             // echo "<script>alert('Patient Data successfully saved...');</script>";								
                             exit();
                         }			

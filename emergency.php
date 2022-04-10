@@ -63,7 +63,7 @@
                             }else{
                                 mysqli_stmt_bind_param($stmt,"sssssssss", $mrid,$name,$phone,$gender,$age,$address,$doctor,$saveOn,$by);
                                 mysqli_stmt_execute($stmt);
-                                echo '<script type="text/javascript">window.location = "slip_print.php?pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&gender='.$gender.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&by='.$by.'";</script>';
+                                echo '<script type="text/javascript">window.location = "emergency_slip_print.php?pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&gender='.$gender.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&by='.$by.'";</script>';
                                 exit();
                             }			
                         }
