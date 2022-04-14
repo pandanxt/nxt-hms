@@ -72,7 +72,8 @@
                         }else{
                             mysqli_stmt_bind_param($stmt,"ssssssssssss", $mrid,$name,$type,$procedure,$phone,$cnic,$gender,$age,$address,$doctor,$saveOn,$by);
                             mysqli_stmt_execute($stmt);
-                            echo '<script type="text/javascript">window.location = "indoor.php?type='.$type.'&action=saved";</script>';
+                            echo '<script type="text/javascript">window.location = "indoor_slip_print.php?type='.$type.'&pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&cnic='.$cnic.'&gender='.$gender.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&pro='.$procedure.'&by='.$by.'";</script>';
+                            // echo '<script type="text/javascript">window.location = "indoor.php?type='.$type.'&action=saved";</script>';
                             // echo "<script>alert('Patient Data successfully saved...');</script>";								
                             exit();
                         }			

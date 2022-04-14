@@ -471,6 +471,8 @@
                   }
                 ?>
               </select>
+              <br>
+              <input name="mrid" type="text" class="form-control" placeholder="Enter Valid Patient MRID/Phone" style="width: 100%;" required>
           </div>
           <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
