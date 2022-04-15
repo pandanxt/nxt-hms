@@ -26,8 +26,8 @@
       $doc = $_POST['doctor'];
       $pro = $_POST['procedure'];
 
-      $admdate = $_POST['admdate'];
-      $disdate = $_POST['disdate'];
+      $admdate = $_POST['admitdatetime'];
+      // $disdate = $_POST['disdate'];
       $addDate = $_POST['addDate'];
 
       $adCharge = $_POST['adCharge'];
@@ -68,8 +68,7 @@
                  `PATIENT_NAME`,
                   `MOBILE`,
                    `CNIC`,
-                    `ADMISSION_DATE`,
-                     `DISCHARGE_DATE`,
+                    `ADMIT_DATE_RANGE`,
                       `DATE_TIME`,
                        `ADMISSION_CHARGE`,
                         `SURGEON_CHARGE`,
@@ -88,7 +87,7 @@
                                      `TOTAL_AMOUNT`,
                                       `DISCOUNT`,
                                        `TOTAL`,
-                                        `CREATED_BY`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                                        `CREATED_BY`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
               mysqli_stmt_execute($stmt);
           
               if (!mysqli_stmt_prepare($stmt,$sql)) {
@@ -97,14 +96,14 @@
                   echo "<script>alert('Sqlerror due to DB Query...');</script>";
                   exit();
               }else{                                
-                      mysqli_stmt_bind_param($stmt,"sssssssssssssssssssssssss",
-                      $mrid,$name,$phone,$cnic,$admdate,$disdate,$addDate,$adCharge,$surCharge,$anesCharge,
+                      mysqli_stmt_bind_param($stmt,"ssssssssssssssssssssssss",
+                      $mrid,$name,$phone,$cnic,$admdate,$addDate,$adCharge,$surCharge,$anesCharge,
                       $opCharge,$chargeLR,$pedCharge,
                       $prChargeThree,$nurCharge,$nurStCharge,$moCharge,$conCharge,$ctg,$rrCharge,
                       $other,$tbill,$discount,$fbill,$by);
                       mysqli_stmt_execute($stmt);
                       // echo '<script type="text/javascript">window.location = "../emergency_bill.php?action=saved";</script>';							
-                      echo '<script type="text/javascript">window.location = "indoor_slip_print.php?pname='.$name.'&mrid='.$mrid.'&phone='.$phone.'&cnic='.$cnic.'&age='.$age.'&gender='.$gender.'&add='.$add.'&doc='.$doc.'&pro='.$pro.'&adm='.$admdate.'&dis='.$disdate.'&adddate='.$addDate.'&adcharge='.$adCharge.'&surcharge='.$surCharge.'&anescharge='.$anesCharge.'&opcharge='.$opCharge.'&chargelr='.$chargeLR.'&pedcharge='.$pedCharge.'&prcharge='.$prChargeThree.'&nurcharge='.$nurCharge.'&nurstcharge='.$nurStCharge.'&mocharge='.$moCharge.'&concharge='.$conCharge.'&ctg='.$ctg.'&rrcharge='.$rrCharge.'&other='.$other.'&type='.$type.'&tbill='.$tbill.'&dis='.$discount.'&fbill='.$fbill.'&by='.$by.'";</script>';                                                   
+                      echo '<script type="text/javascript">window.location = "indoor_bill_print.php?pname='.$name.'&mrid='.$mrid.'&phone='.$phone.'&cnic='.$cnic.'&age='.$age.'&gender='.$gender.'&add='.$add.'&doc='.$doc.'&pro='.$pro.'&adm='.$admdate.'&adddate='.$addDate.'&adcharge='.$adCharge.'&surcharge='.$surCharge.'&anescharge='.$anesCharge.'&opcharge='.$opCharge.'&chargelr='.$chargeLR.'&pedcharge='.$pedCharge.'&prcharge='.$prChargeThree.'&nurcharge='.$nurCharge.'&nurstcharge='.$nurStCharge.'&mocharge='.$moCharge.'&concharge='.$conCharge.'&ctg='.$ctg.'&rrcharge='.$rrCharge.'&other='.$other.'&type='.$type.'&tbill='.$tbill.'&dis='.$discount.'&fbill='.$fbill.'&by='.$by.'";</script>';                                                   
                       exit();
                   }			
               }
@@ -219,35 +218,24 @@
                           </div>
                         </div>
                     </div>
-                      <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                        <div class="form-group col-md-6">
-                          <label>Admission Date</label>
-                          <div class="input-group date" id="admissiondatetime" data-target-input="nearest">
-                              <input type="text" name="admdate" class="form-control datetimepicker-input" data-target="#admissiondatetime"/>
-                              <div class="input-group-append" data-target="#admissiondatetime" data-toggle="datetimepicker">
-                                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                              </div>
-                          </div>
-                        </div>
-                        <div class="form-group col-md-6">
-                          <label>Discharge Date</label>
-                          <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                              <input type="text" name="disdate" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
-                              <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
-                                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                              </div>
-                          </div>
-                        </div>
-                      </div>
                     <div class="form-group col-md-12">
                         <label>Private Room Charges</label>
                         <div style="display:flex;">
                             <select class="form-control select2bs4"  style="width:60%;" name="prChargeOne" id="prChargeOne" onchange="getPrTotal()" style="width: 100%;">
                               <option selected="selected" disabled>Select Private Room Charges</option>
-                              <option value="5000">Semi Pvt Ward Charges - 5000</option>
+                              <!-- <option value="5000">Semi Pvt Ward Charges - 5000</option>
                               <option value="8000">Pvt Room Charges - 8000</option>
-                              <option value="10000">VIP Room Charges - 10000</option>
-                            </select>  
+                              <option value="10000">VIP Room Charges - 10000</option> -->
+                            <?php
+                              $room = 'SELECT `ROOM_ID`, `ROOM_NAME`,`ROOM_RATE` FROM `room` WHERE `ROOM_STATUS` = "active"';
+                              $result = mysqli_query($db, $room) or die (mysqli_error($db));
+                                  while ($row = mysqli_fetch_array($result)) {
+                                  $id = $row['ROOM_RATE'];  
+                                  $name = $row['ROOM_NAME'];
+                                  echo '<option value="'.$id.'">'.$name.'</option>'; 
+                              }
+                            ?>
+                            </select> 
                             <input type="number" style="width:20%;" name="prChargeTwo" class="form-control" id="prChargeTwo" value="1" onchange="getPrTotal()" placeholder="No. of Days"/>
                             <input type="number" style="width:20%;" name="prChargeThree" class="form-control" id="prChargeThree"  placeholder="Total Charges" readonly/>
                           </div>
@@ -304,10 +292,25 @@
                         <input type="number" class="form-control" name="rrCharge" id="rrCharge" placeholder="Recovery Room Rate is 5,000" />
                         </div>
                     </div>
-                    <div class="form-group col-md-12">
+                    <!-- <div class="form-group col-md-12">
                         <label>Other</label>
                         <input type="number" name="other" class="form-control" id="other" placeholder="Enter Other Charges"/>
-                    </div>
+                    </div> -->
+                    <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                        <div class="form-group col-md-6">
+                          <label>Admission | Discharge Date Range</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="far fa-clock"></i></span>
+                            </div>
+                            <input type="text" class="form-control float-right" name="admitdatetime" id="reservationtime">
+                          </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label>Other</label>
+                          <input type="number" name="other" class="form-control" id="other" placeholder="Enter Other Charges"/>
+                        </div>
+                      </div>
                     <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                         <div class="form-group col-md-4">
                           <label>Total Bill</label>

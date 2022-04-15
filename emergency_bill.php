@@ -41,7 +41,8 @@
           $stmt = mysqli_stmt_init($db);
           
           if (!mysqli_stmt_prepare($stmt,$sql)) {
-              header("Location: ../add_bill.php?action=sqlerror");
+              echo '<script type="text/javascript">window.location = "emergency_bill.php?action=sqlerror";</script>';
+              // header("Location: ../add_bill.php?action=sqlerror");
               exit();
           }else{
               mysqli_stmt_bind_param($stmt,"s",$mrid);
@@ -73,6 +74,7 @@
               mysqli_stmt_execute($stmt);
           
               if (!mysqli_stmt_prepare($stmt,$sql)) {
+                echo '<script type="text/javascript">window.location = "emergency_bill.php?action=sqlerror";</script>';
                   // header("Location: ../emergency_bill.php?error=sqlerror");
                   echo "<script>alert('Sqlerror due to DB Query...');</script>";
                   exit();
@@ -81,8 +83,7 @@
                       $injectionim,$injectioniv,$ivline,$ivinfusion,$stitchInTotal,$stitchOutTotal,$bsf,$shortstay,$bp,$ecg,$other,$tbill,$discount,$fbill,$by);
                       mysqli_stmt_execute($stmt);
                       // echo '<script type="text/javascript">window.location = "../emergency_bill.php?action=saved";</script>';							
-                      echo '<script type="text/javascript">window.location = "emergency_bill_print.php?pname='.$name.'&on='.$addDate.'&mrid='.$mrid.'&phone='.$phone.'&by='.$by.'&mo='.$medicalofficer
-                      .'&injectionim='.$injectionim.'&injectioniv='.$injectioniv.'&ivline='.$ivline.'&sin='.$stitchInTotal.'&sout='.$stitchOutTotal.'&ivinfection='.$ivinfusion.'&bsf='.$bsf.'&sstay='.$shortstay.'&bp='.$bp.'&ecg='.$ecg.'&other='.$other.'&tbill='.$tbill.'&disc='.$discount.'&fbill='.$fbill.'";</script>';                                                   
+                      echo '<script type="text/javascript">window.location = "emergency_bill_print.php?pname='.$name.'&on='.$addDate.'&mrid='.$mrid.'&phone='.$phone.'&by='.$by.'&mo='.$medicalofficer.'&injectionim='.$injectionim.'&injectioniv='.$injectioniv.'&ivline='.$ivline.'&sin='.$stitchInTotal.'&sout='.$stitchOutTotal.'&ivinfection='.$ivinfusion.'&bsf='.$bsf.'&sstay='.$shortstay.'&bp='.$bp.'&ecg='.$ecg.'&other='.$other.'&tbill='.$tbill.'&disc='.$discount.'&fbill='.$fbill.'";</script>';                                                   
                       exit();
                   }			
               }
