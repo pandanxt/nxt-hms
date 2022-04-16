@@ -73,4 +73,13 @@
             echo "<script>window.location = '../users.php?action=deleted';</script>";
         }
     }
+    if(isset($_GET['roomId']))
+    {
+        $sql ="DELETE FROM `room` WHERE `ROOM_ID` ='$_GET[roomId]'";
+        $qsql=mysqli_query($db,$sql);
+        if(mysqli_affected_rows($db) == 1)
+        {
+            echo "<script>window.location = '../room.php?action=deleted';</script>";
+        }
+    }
 ?>

@@ -1,5 +1,8 @@
 <?php 
+  // Session Start
   session_start();
+  if (isset($_SESSION['userid'])) {
+  // Get Variables from Url
   $pname = (isset($_GET['pname']) ? $_GET['pname'] : '');
   $saveOn = (isset($_GET['on']) ? $_GET['on'] : '');
   $mrid = (isset($_GET['mrid']) ? $_GET['mrid'] : '');
@@ -24,23 +27,22 @@
   $fbill = (isset($_GET['fbill']) ? $_GET['fbill'] : '');
 
   $date = substr($saveOn,0, 24);
-?>
-  <!-- Header Form -->
-  <?php include('backend_components/connection.php'); ?>
-  <!-- Header Form -->
-  <?php
-    $adminSql ="SELECT `ADMIN_USERNAME` FROM `admin` WHERE `ADMIN_ID` =".$by;
-    $asql = mysqli_query($db,$adminSql);
-    $admin_row = mysqli_fetch_array($asql);
-  ?>
-  <?php include('components/form_header.php'); ?>
-  <!-- Navbar -->
-  <?php include('components/navbar.php'); ?>
-  <!-- /.navbar -->
 
-  <!-- Main Sidebar Container -->
-  <?php include('components/sidebar.php'); ?>
-  <!-- /.Main Sidebar Container-->
+  // Connection File
+  include('backend_components/connection.php');
+
+  //Get Username Query
+  $adminSql ="SELECT `ADMIN_USERNAME` FROM `admin` WHERE `ADMIN_ID` =".$by;
+  $asql = mysqli_query($db,$adminSql);
+  $admin_row = mysqli_fetch_array($asql);
+
+  // Form Header File
+  include('components/form_header.php');
+  // Navbar File
+  include('components/navbar.php');
+  // Sidbar File
+  include('components/sidebar.php');
+?>
 
 <div class="content-wrapper">
   <!-- Main content -->
@@ -50,7 +52,6 @@
       <div class="col-md-12">
         <center><h2 class="page-header">
           <img src="dist/img/medeast-logo-icon.png" alt="MedEast Logo"/> MEDEAST HOSPITAL
-          <!-- <small class="float-right">Date: 2/10/2014</small> -->
         </h2></center>
       </div>
       <!-- /.col -->
@@ -72,7 +73,6 @@
       <!-- /.col -->
     </div>
     <!-- /.row -->
-
     <!-- Table row -->
     <div class="row">
       <div class="col-12 table-responsive">
@@ -152,10 +152,6 @@
               <th style="width:50%">Subtotal:</th>
               <td>PKR - <?php echo $tbill; ?></td>
             </tr>
-            <!-- <tr>
-              <th>Tax (9.3%)</th>
-              <td>$10.34</td>
-            </tr> -->
             <tr>
               <th>Discount:</th>
               <td>PKR - <?php echo $disc; ?></td>
@@ -175,14 +171,18 @@
 </div>
 <!-- ./wrapper -->
 <!-- Page specific script -->
-<script>
-  window.addEventListener("load", window.print());
-</script>
+<script> window.addEventListener("load", window.print());</script>
  <!-- Main Footer -->
- <?php include('components/footer.php'); ?>
-  <!-- /. Main Footer -->
-</div>
-<!-- ./wrapper -->
+<?php
+  // Footer File
+  include('components/footer.php');
+  
+  echo '</div>';
+  // Form Script File
+  include('components/form_script.php');
 
-<!-- REQUIRED SCRIPTS -->
-<?php include('components/form_script.php'); ?>
+}else{
+  echo '<script type="text/javascript">window.location = "login.php";</script>';
+} 
+
+?>

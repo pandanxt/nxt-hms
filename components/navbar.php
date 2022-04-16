@@ -1,13 +1,13 @@
 <style>
-.bill-button {
-  background: none;
-	color: inherit;
-	border: none;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
-}
+  .bill-button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+  }
 </style>
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -15,31 +15,103 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
+
+      <!------*********------>
+      <!------Home Icon------>
+      <!------*********------> 
+
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index.php" class="nav-link">Home</a>
+        <a href="index.php" class="nav-link">
+          <i class="fas fa-home"></i> Home
+        </a>
       </li>
+
+       <!------***********------>
+       <!------Doctor Icon------>
+       <!------***********------> 
+
       <li class="nav-item d-none d-sm-inline-block">
-        <!-- <a href="add_bill.php" class="nav-link">Generate Bill</a> -->
-        <button type="button" class="nav-link bill-button" data-toggle="modal" data-target="#modal-default">Generate Bill</button>
+        <a href="add_doctor.php" class="nav-link">
+          <i class="fas fa-user-md"></i> Doctor
+        </a>
       </li>
+
+      <!------***************------>
+      <!------Department Icon------>
+      <!------***************------> 
+
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="add_patient.php" class="nav-link">Add Patient</a>
+        <a href="add_dept.php" class="nav-link">
+        <i class="fas fa-building"></i> Department
+        </a>
       </li>
+
+      <!------*********------>
+      <!------User Icon------>
+      <!------*********------> 
+
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="add_doctor.php" class="nav-link">Add Doctor</a>
+        <a href="add_user.php" class="nav-link">
+          <i class="fas fa-users"></i> Users
+        </a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="add_dept.php" class="nav-link">Add Department</a>
+
+      <!------***********************------>
+      <!------Emergency Dropdown Menu------>
+      <!------***********************------> 
+
+       <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+           <i class="fas fa-user-injured"></i> Emergency
+        </a>
+        <div class="dropdown-menu dropdown-menu-mg dropdown-menu-right">
+          <a href="emergency.php" class="dropdown-item">
+            <i class="fas fa-user-injured mr-2"></i> Emergency Slip
+          </a>
+          <div class="dropdown-divider"></div>
+          <!-- <a href="emergency_bill.php" class="dropdown-item"> -->
+          <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-emergency-bill">
+            <i class="fas fa-user-injured mr-2"></i> Emergency Bill
+          </a>
+        </div>
+       </li>
+       
+      <!------*********************------>
+      <!------Indoor Dropdown Menu------>
+      <!------********************------> 
+
+       <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+           <i class="fas fa-procedures"></i> Indoor Patient
+        </a>
+        <div class="dropdown-menu dropdown-menu-mg dropdown-menu-right">
+          <!-- <a href="#" class="dropdown-item"> -->
+          <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-indoor">
+            <i class="fas fa-procedures mr-2"></i> Indoor Slip
+          </a>
+          <div class="dropdown-divider"></div>
+          <!-- <a href="#" class="dropdown-item"> -->
+          <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-indoor-bill">
+            <i class="fas fa-procedures mr-2"></i> Indoor Bill
+          </a>
+        </div>
       </li>
+
+      <!------*********************------>
+      <!------Outdoor Dropdown Menu------>
+      <!------*********************------> 
+
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="add_service.php" class="nav-link">Add Services</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="add_user.php" class="nav-link">Add Users</a>
+        <a href="outdoor.php" class="nav-link">
+          <i class="fas fa-user"></i> OPD Patient
+        </a>
       </li>
     </ul>
 
-    <!-- Right navbar links -->
+    <!------******************------>
+    <!------Right Navbar Links------>
+    <!------******************------> 
+
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
       <li class="nav-item">
@@ -70,6 +142,10 @@
       </li>
     </ul>
   </nav>
+
+  <!------*******************------>
+  <!------Choose Patient Type------>
+  <!------*******************------> 
 
   <div class="modal fade" id="modal-default">
         <div class="modal-dialog">

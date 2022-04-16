@@ -1,25 +1,22 @@
-<?php session_start(); ?>
-  <!-- Connection -->
-  <?php include('backend_components/connection.php'); ?>
-  <!-- table-header -->
-  <?php include('components/table_header.php'); ?>
-  <!-- Navbar -->
-  <?php include('components/navbar.php'); ?>
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
-  <?php include('components/sidebar.php'); ?>
-  <!-- /.Main Sidebar Container-->
-
+<?php 
+  // Session Start
+  session_start();
+  if (isset($_SESSION['userid'])) {
+  // Connection File
+  include('backend_components/connection.php');
+  // Table Header File
+  include('components/table_header.php');
+  // Navbar File
+  include('components/navbar.php'); 
+  // Sidebar File
+  include('components/sidebar.php'); 
+?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <!-- <div class="col-sm-2">
-            <h1>Doctors</h1>
-          </div> -->
           <div class="col-sm-2"><a type="submit" class="btn btn-block btn-primary btn-sm" href="add_doctor.php"><i class="fas fa-plus"></i> New Doctor</a></div>
           <div class="col-sm-10">
             <ol class="breadcrumb float-sm-right">
@@ -31,8 +28,6 @@
       </div><!-- /.container-fluid -->
     </section>
 
-    <!-- Main content -->
-    <?php //include('components/doctor_table.php'); ?>
     <!-- Doctor Table Data -->
     <section class="content">
       <div class="container-fluid">
@@ -46,10 +41,7 @@
                   <tr>
                     <th>S.No#</th>
                     <th>Name</th>
-                    <!-- <th>Mobile</th> -->
                     <th>Department</th>
-                    <!-- <th>Education</th> -->
-                    <!-- <th>Experience</th> -->
                     <th>Status</th>
                     <th>Created By</th>
                     <th>Created On</th>
@@ -100,9 +92,14 @@
     <!-- /.content -->
   </div>
   <!-- /.Footer -->
-  <?php include ('components/footer.php'); ?>
-  <!-- /.Footer -->
-</div>
-<!-- ./wrapper -->
-<!-- Table Script -->
-<?php include('components/table_script.php'); ?>
+<?php 
+  // Footer File
+  include ('components/footer.php'); 
+  echo '</div>';
+  // Table Script File
+  include('components/table_script.php');
+
+}else{
+  echo '<script type="text/javascript">window.location = "login.php";</script>';
+} 
+?>

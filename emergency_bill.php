@@ -1,120 +1,97 @@
 <?php 
-  session_start(); 
+  // Session Start
+  session_start();
+  if (isset($_SESSION['userid'])) {
+  // Get MRID from URL 
   $mrid = (isset($_GET['mrid']) ? $_GET['mrid'] : ''); 
-?>
-<!-- Header Form -->
-  <?php include('backend_components/connection.php'); ?>
-  <!-- Header Files -->
-  <?php include('components/form_header.php'); ?>
-  <!-- Navbar -->
-  <?php include('components/navbar.php'); ?>
-  <!-- /.navbar -->
+  // Connection File
+  include('backend_components/connection.php');
+  // Form Header File
+  include('components/form_header.php');
+  // Navbar File
+  include('components/navbar.php');
 
-  <!-- Save Patient Data Query -->
-  <?php
-    if (isset($_POST['emergency-bill-submit'])) {
-     
-      $mrid = $_POST['mrid'];
-      $phone = $_POST['phone'];
-      $name = $_POST['name'];
-      $addDate = $_POST['addDate'];
-      $medicalofficer = $_POST['medicalofficer'];
-      $injectionim = $_POST['injectionim'];
-      $injectioniv = $_POST['injectioniv'];
-      $ivline = $_POST['ivline'];
-      $stitchInTotal = $_POST['stitchInTotal'];
+  // Save Patient Data Query
+  if (isset($_POST['emergency-bill-submit'])) {
+    // Post Variables
+    $mrid = $_POST['mrid'];
+    $phone = $_POST['phone'];
+    $name = $_POST['name'];
+    $addDate = $_POST['addDate'];
+    $medicalofficer = $_POST['medicalofficer'];
+    $injectionim = $_POST['injectionim'];
+    $injectioniv = $_POST['injectioniv'];
+    $ivline = $_POST['ivline'];
+    $stitchInTotal = $_POST['stitchInTotal'];
 
-      $stitchOutTotal = $_POST['stitchOutTotal'];
-      $ivinfusion = $_POST['ivinfusion'];
-      $bsf = $_POST['bsf'];
-      $shortstay = $_POST['shortstay'];
-      $bp = $_POST['bp'];
-      $ecg = $_POST['ecg'];
-      $other = $_POST['other'];
-      $tbill = $_POST['tbill'];
-      $discount = $_POST['discount'];
-      $fbill = $_POST['fbill'];
-      $by = $_POST['by'];
+    $stitchOutTotal = $_POST['stitchOutTotal'];
+    $ivinfusion = $_POST['ivinfusion'];
+    $bsf = $_POST['bsf'];
+    $shortstay = $_POST['shortstay'];
+    $bp = $_POST['bp'];
+    $ecg = $_POST['ecg'];
+    $other = $_POST['other'];
+    $tbill = $_POST['tbill'];
+    $discount = $_POST['discount'];
+    $fbill = $_POST['fbill'];
+    $by = $_POST['by'];
 
+    // Check Data from DB
+    $sql = "SELECT * FROM `bill_record` WHERE `MR_ID` = ?";
+    $stmt = mysqli_stmt_init($db);
+        
+    if (!mysqli_stmt_prepare($stmt,$sql)) {
+        echo '<script type="text/javascript">window.location = "emergency_bill.php?action=sqlerror";</script>';
+        exit();
+    }else{
+        mysqli_stmt_bind_param($stmt,"s",$mrid);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_store_result($stmt);
+        $resultCheck = mysqli_stmt_num_rows($stmt);
 
-          $sql = "SELECT * FROM `bill_record` WHERE `MR_ID` = ?";
-          $stmt = mysqli_stmt_init($db);
-          
-          if (!mysqli_stmt_prepare($stmt,$sql)) {
-              echo '<script type="text/javascript">window.location = "emergency_bill.php?action=sqlerror";</script>';
-              // header("Location: ../add_bill.php?action=sqlerror");
-              exit();
-          }else{
-              mysqli_stmt_bind_param($stmt,"s",$mrid);
-              mysqli_stmt_execute($stmt);
-              mysqli_stmt_store_result($stmt);
-              $resultCheck = mysqli_stmt_num_rows($stmt);
-
-              $sql = "INSERT INTO `emergency_bill`(
-                 `MR_ID`,
-                 `PATIENT_NAME`,
-                  `MOBILE`,
-                   `DATE_TIME`,
-                    `ES_MO_CHARGE`,
-                     `INJECTION_IM`,
-                      `INJECTION_IV`,
-                       `IV_LINE`,
-                        `IV_INFUSION`,
-                         `PS_IN_300`,
-                          `PS_OUT_100`,
-                           `BSF_BSR`,
-                            `SHORT_STAY`,
-                             `BP`,
-                              `ECG`,
-                               `OTHER`,
-                                `TOTAL_AMOUNT`,
-                                 `DISCOUNT`,
-                                  `TOTAL`,
-                                   `CREATED_BY`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-              mysqli_stmt_execute($stmt);
-          
-              if (!mysqli_stmt_prepare($stmt,$sql)) {
-                echo '<script type="text/javascript">window.location = "emergency_bill.php?action=sqlerror";</script>';
-                  // header("Location: ../emergency_bill.php?error=sqlerror");
-                  echo "<script>alert('Sqlerror due to DB Query...');</script>";
-                  exit();
-              }else{                                
-                      mysqli_stmt_bind_param($stmt,"ssssssssssssssssssss",$mrid,$name,$phone,$addDate,$medicalofficer,
-                      $injectionim,$injectioniv,$ivline,$ivinfusion,$stitchInTotal,$stitchOutTotal,$bsf,$shortstay,$bp,$ecg,$other,$tbill,$discount,$fbill,$by);
-                      mysqli_stmt_execute($stmt);
-                      // echo '<script type="text/javascript">window.location = "../emergency_bill.php?action=saved";</script>';							
-                      echo '<script type="text/javascript">window.location = "emergency_bill_print.php?pname='.$name.'&on='.$addDate.'&mrid='.$mrid.'&phone='.$phone.'&by='.$by.'&mo='.$medicalofficer.'&injectionim='.$injectionim.'&injectioniv='.$injectioniv.'&ivline='.$ivline.'&sin='.$stitchInTotal.'&sout='.$stitchOutTotal.'&ivinfection='.$ivinfusion.'&bsf='.$bsf.'&sstay='.$shortstay.'&bp='.$bp.'&ecg='.$ecg.'&other='.$other.'&tbill='.$tbill.'&disc='.$discount.'&fbill='.$fbill.'";</script>';                                                   
-                      exit();
-                  }			
-              }
-      mysqli_stmt_close($stmt);
-      mysqli_close($db);
+        // Insert Query
+        $sql = "INSERT INTO `emergency_bill`
+        (
+          `MR_ID`, `PATIENT_NAME`, `MOBILE`, `DATE_TIME`, `ES_MO_CHARGE`, `INJECTION_IM`, `INJECTION_IV`, `IV_LINE`, `IV_INFUSION`, `PS_IN_300`, `PS_OUT_100`, `BSF_BSR`, `SHORT_STAY`, `BP`, `ECG`, `OTHER`, `TOTAL_AMOUNT`, `DISCOUNT`, `TOTAL`, `CREATED_BY`
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        mysqli_stmt_execute($stmt);
+        
+        if (!mysqli_stmt_prepare($stmt,$sql)) {
+          echo '<script type="text/javascript">window.location = "emergency_bill.php?action=sqlerror";</script>';
+          echo "<script>alert('Sqlerror due to DB Query...');</script>";
+          exit();
+        }else{                                
+          mysqli_stmt_bind_param($stmt,"ssssssssssssssssssss",$mrid,$name,$phone,$addDate,$medicalofficer,
+          $injectionim,$injectioniv,$ivline,$ivinfusion,$stitchInTotal,$stitchOutTotal,$bsf,$shortstay,$bp,$ecg,$other,$tbill,$discount,$fbill,$by);
+          mysqli_stmt_execute($stmt);
+          echo '<script type="text/javascript">window.location = "emergency_bill_print.php?pname='.$name.'&on='.$addDate.'&mrid='.$mrid.'&phone='.$phone.'&by='.$by.'&mo='.$medicalofficer.'&injectionim='.$injectionim.'&injectioniv='.$injectioniv.'&ivline='.$ivline.'&sin='.$stitchInTotal.'&sout='.$stitchOutTotal.'&ivinfection='.$ivinfusion.'&bsf='.$bsf.'&sstay='.$shortstay.'&bp='.$bp.'&ecg='.$ecg.'&other='.$other.'&tbill='.$tbill.'&disc='.$discount.'&fbill='.$fbill.'";</script>';                                                   
+          exit();
+        }			
+    }
+    mysqli_stmt_close($stmt);
+    mysqli_close($db);
   }
-  ?>
 
-  <!-- Main Sidebar Container -->
-  <?php include('components/sidebar.php'); ?>
-  <!-- /.Main Sidebar Container-->
+  // Sidebar File
+  include('components/sidebar.php');
 
-  <!-- Content Wrapper. Contains page content -->
-  <?php 
-    if (empty($_GET['mrid'])) {
-      include('components/simple_bill_form.php');  
-      // echo '<script>alert("This is simplet bill form");</script>';
-    } else {
-        // echo'<script>console.log("This is the MR ID"'.$mrid.');</script>';
-      $sql="SELECT *, `DOCTOR_NAME` FROM `emergency_patient` INNER JOIN `doctor` WHERE `PATIENT_MR_ID` = '$mrid' AND `emergency_patient`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID`";
-      $qsql = mysqli_query($db,$sql);
-      $patdata = mysqli_fetch_array($qsql);
+  // Check if MRID is empty or not
+  if (empty($_GET['mrid'])) {
+    include('components/simple_bill_form.php');  
+  } else {
+    $sql="SELECT *, `DOCTOR_NAME` FROM `emergency_patient` INNER JOIN `doctor` WHERE `PATIENT_MR_ID` = '$mrid' AND `emergency_patient`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID`";
+    $qsql = mysqli_query($db,$sql);
+    $patdata = mysqli_fetch_array($qsql);
+
 ?>
+
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-          <h3 class="card-title p-3"><a href="javascript:history.go(-1)"><i class="fas fa-arrow-alt-circle-left"></i>&nbsp;Back</a></h3>
-            <!-- <h1>Generate Bill for <?php //echo $patdata['PATIENT_NAME'] ; ?></h1> -->
+            <h3 class="card-title p-3"><a href="javascript:history.go(-1)"><i class="fas fa-arrow-alt-circle-left"></i>&nbsp;Back</a></h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -289,44 +266,46 @@
     </section>
     <!-- /.content -->
   </div>
-  <?php
-    }  
-  ?>
-
+<!-- **
+    *  Function to calculate the total amount  and discount calculate function
+    ** -->
 <script>
-    function calculateTotal() {
-        var moCharge = document.getElementById("moCharge").value;
-        var injectionIM = document.getElementById("injectionIM").value;
-        var injectionIV = document.getElementById("injectionIV").value;
-        var ivLine = document.getElementById("ivLine").value;
-        var ivInfusion = document.getElementById("ivInfusion").value;
-        var stitchInTotal = document.getElementById("stitchInTotal").value;
-        var stitchOutTotal = document.getElementById("stitchOutTotal").value;
-        var ivInfusion = document.getElementById("ivInfusion").value;
-        var bsf = document.getElementById("bsf").value;
-        var shortStay = document.getElementById("shortStay").value;
-        var bp = document.getElementById("bp").value;
-        var ecg = document.getElementById("ecg").value;
-        var other = document.getElementById("other").value;
-        var totalBill = +moCharge + +injectionIM + +injectionIV+ +ivLine + +ivInfusion + +stitchInTotal+ +stitchOutTotal + +bsf+ +shortStay + +bp + +ecg+ +other;
-        document.getElementById("totalBill").value = totalBill;
-        console.log("this is the total result:" ,totalBill);
-    }
+  function calculateTotal() {
+      var moCharge = document.getElementById("moCharge").value;
+      var injectionIM = document.getElementById("injectionIM").value;
+      var injectionIV = document.getElementById("injectionIV").value;
+      var ivLine = document.getElementById("ivLine").value;
+      var ivInfusion = document.getElementById("ivInfusion").value;
+      var stitchInTotal = document.getElementById("stitchInTotal").value;
+      var stitchOutTotal = document.getElementById("stitchOutTotal").value;
+      var ivInfusion = document.getElementById("ivInfusion").value;
+      var bsf = document.getElementById("bsf").value;
+      var shortStay = document.getElementById("shortStay").value;
+      var bp = document.getElementById("bp").value;
+      var ecg = document.getElementById("ecg").value;
+      var other = document.getElementById("other").value;
+      var totalBill = +moCharge + +injectionIM + +injectionIV+ +ivLine + +ivInfusion + +stitchInTotal+ +stitchOutTotal + +bsf+ +shortStay + +bp + +ecg+ +other;
+      document.getElementById("totalBill").value = totalBill;
+      console.log("this is the total result:" ,totalBill);
+  }
 
-        function discFunction(discount) {
-          var finalBill = document.getElementById('finalBill');
-          var totalBill = document.getElementById('totalBill');
-          finalBill.value = totalBill.value - discount.value;
-          console.log("this is the final result:" ,finalBill.value);
-        }
-
+  function discFunction(discount) {
+    var finalBill = document.getElementById('finalBill');
+    var totalBill = document.getElementById('totalBill');
+    finalBill.value = totalBill.value - discount.value;
+    console.log("this is the final result:" ,finalBill.value);
+  }
 </script>
 
-  <!-- Main Footer -->
-  <?php include('components/footer.php'); ?>
-  <!-- /. Main Footer -->
-</div>
-<!-- ./wrapper -->
+<?php 
+  }  
+  // Footer File
+  include('components/footer.php');
+  echo '</div>';
+  // Form Script File
+  include('components/form_script.php');
 
-<!-- Script Files -->
-<?php include('components/form_script.php'); ?>
+}else{
+  echo '<script type="text/javascript">window.location = "login.php";</script>';
+} 
+?>

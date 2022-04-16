@@ -1,19 +1,17 @@
-<?php include_once('backend_components/connection.php'); ?>
 <?php 
-    session_start(); 
+  // Session Starts
+  session_start(); 
+  if (isset($_SESSION['userid'])) {
+  // Connection File
+  include('backend_components/connection.php');
+  // Table Header File
+  include('components/table_header.php');
+  // Navbar File
+  include('components/navbar.php');
+  // Sidebar File
+  include('components/sidebar.php');
 
-    function RemoveChar($str) {
-      $res = str_replace( array( '\'', '"',
-      ',' , ';', '<', '>' ), ' ', $str);
-      return $res;
-      }
 ?>
-  <!-- table-header -->
-  <?php include_once('components/table_header.php'); ?>
-   <!-- Navbar -->
-   <?php include_once('components/navbar.php'); ?>
-  <!-- Main Sidebar Container -->
-  <?php include_once('components/sidebar.php'); ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
   <section class="content-header"></section>
@@ -23,10 +21,10 @@
         <?php
           $id = (isset($_GET['id']) ? $_GET['id'] : '');
           $sql="SELECT *, `DOCTOR_NAME`
-          FROM `patient` 
+          FROM `emergency_patient` 
           INNER JOIN `doctor` WHERE 
           `PATIENT_ID` = " .$id. " AND 
-          `patient`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID`";
+          `emergency_patient`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID`";
           
           $qsql = mysqli_query($db,$sql);
           $row = mysqli_fetch_array($qsql);
@@ -49,9 +47,9 @@
                          <?php echo '<div class="row"><label style="margin-bottom: 0px !important;">Name: </label>&nbsp; <p style="margin-bottom: 0px !important;">'.$row["PATIENT_NAME"].'</p></div>'; ?>
                          <?php echo '<div class="row"><label style="margin-bottom: 0px !important;">Mobile: </label>&nbsp; <p style="margin-bottom: 0px !important;">'.$row["PATIENT_MOBILE"].'</p></div>'; ?>
                          <?php
-                            if ($row["PATIENT_TYPE"] == "indoor") {
-                              echo '<div class="row"><label>CNIC: </label>&nbsp; <p>'.$row["PATIENT_CNIC"].'</p></div>';
-                            }
+                            // if ($row["PATIENT_TYPE"] == "indoor") {
+                              // echo '<div class="row"><label>CNIC: </label>&nbsp; <p>'.$row["PATIENT_CNIC"].'</p></div>';
+                            // }
                           ?>
                         </div>
                       </div>
@@ -60,18 +58,18 @@
                           <?php echo '<div class="row"><label style="margin-bottom: 0px !important;">Doctor: </label>&nbsp; <p style="margin-bottom: 0px !important;">'.$row["DOCTOR_NAME"].'</p></div>'; ?>
                           <?php echo '<div class="row"><label style="margin-bottom: 0px !important;">Gender: </label>&nbsp; <p style="margin-bottom: 0px !important;">'.$row["PATIENT_GENDER"].'</p></div>'; ?>
                           <?php echo '<div class="row"><label style="margin-bottom: 0px !important;">Age: </label>&nbsp; <p style="margin-bottom: 0px !important;">'.$row["PATIENT_AGE"].'&nbsp;Years</p></div>'; ?>
-                          <?php echo '<div class="row"><label>Options: </label>&nbsp; <p>';
-                            echo '<a href="add_service.php?id='.$row["PATIENT_ID"].'"><i class="fas fa-edit"></i></a>';
-                            echo '&nbsp; <a href="backend_components/delete_handler.php?serId='.$row["PATIENT_ID"].'" style="color:red;"><i class="fas fa-trash"></i></a>';
-                            echo '</p></div>'; 
-                          ?>
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="col-md-12 clearfix">
                           <?php echo '<div class="row "><label style="margin-bottom: 0px !important;">Date: </label>&nbsp; <p style="margin-bottom: 0px !important;">'. $date.'</p></div>'; ?>
-                          <?php echo '<div class="row"><label style="margin-bottom: 0px !important;">Patient Type: </label>&nbsp; <p style="margin-bottom: 0px !important;">'.$row["PATIENT_TYPE"].'</p></div>'; ?>
+                          <!-- <?php //echo '<div class="row"><label style="margin-bottom: 0px !important;">Patient Type: </label>&nbsp; <p style="margin-bottom: 0px !important;">'.$row["PATIENT_TYPE"].'</p></div>'; ?> -->
                           <?php echo '<div class="row"><label style="margin-bottom: 0px !important;">Address: </label>&nbsp; <p style="margin-bottom: 0px !important;">'.$row["PATIENT_ADDRESS"].'</p></div>'; ?>
+                          <?php echo '<div class="row"><label>Options: </label>&nbsp; <p>';
+                            echo '<a href="add_service.php?id='.$row["PATIENT_ID"].'"><i class="fas fa-edit"></i></a>';
+                            echo '&nbsp; <a href="backend_components/delete_handler.php?serId='.$row["PATIENT_ID"].'" style="color:red;"><i class="fas fa-trash"></i></a>';
+                            echo '</p></div>'; 
+                          ?>    
                         </div>
                       </div>
                     </div>
@@ -97,7 +95,7 @@
                                   <?php
                                       $MRID = $_SESSION['MRID'];
 
-                                      $sql ="SELECT *,`PATIENT_NAME` FROM `bill_record` INNER JOIN `patient` WHERE `bill_record`.`MR_ID` =  '$MRID' AND `bill_record`.`MR_ID` = `patient`.`PATIENT_MR_ID`";
+                                      $sql ="SELECT * FROM `emergency_patient` WHERE `emergency_patient`.`PATIENT_MR_ID` =  '$MRID'";
                                       $qsql = mysqli_query($db,$sql);
                                       while($rs = mysqli_fetch_array($qsql))
                                       { 
@@ -138,8 +136,14 @@
           <!-- /.content -->
         </div>
   <!-- /.Footer -->
-  <?php include_once('components/footer.php'); ?>
-</div>
-<!-- ./wrapper -->
-<!-- Table Script -->
-<?php include('components/table_script.php'); ?>
+<?php
+  // Footer File
+  include_once('components/footer.php');
+  echo '</div>';
+  // Table Script File
+  include('components/table_script.php');
+
+}else{
+  echo '<script type="text/javascript">window.location = "login.php";</script>';
+}
+?>

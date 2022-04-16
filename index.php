@@ -1,4 +1,5 @@
-<?php 
+<?php
+  // Session Start
   session_start();
   if (isset($_SESSION['userid'])) { 
 ?>
@@ -22,29 +23,23 @@
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
 
-  <!-- Connection -->
-  <?php include('backend_components/connection.php'); ?>
-
-  <!-- Navbar -->
-  <?php include('components/navbar.php'); ?>
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
-  <?php include('components/sidebar.php'); ?>
-  <!-- /.Main Sidebar Container-->
-
-  <!-- Content Wrapper. Contains page content -->
-  <?php include('components/mainbody.php');?>
-  <!-- /.content-wrapper -->
-
-  <!-- Main Footer -->
-  <?php include('components/footer.php'); ?>
+<?php
+  // Connection File
+  include('backend_components/connection.php');
+  // Navbar File 
+  include('components/navbar.php'); 
+  // Main Sidebar Container
+  include('components/sidebar.php'); 
+  // Content Wrapper. Contains page content
+  include('components/mainbody.php');
+  // Main Footer 
+  include('components/footer.php'); 
+?>
   <!-- /. Main Footer -->
 </div>
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
-
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
@@ -56,7 +51,6 @@
 <script>  
   const urlParams = new URLSearchParams(window.location.search);
   var action = urlParams.get('login');
-  // var action = urlParams.get('action');
 
   $(function() {
     var Toast = Swal.mixin({

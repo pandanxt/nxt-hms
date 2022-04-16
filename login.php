@@ -1,5 +1,7 @@
-<?php session_start(); 
-      error_reporting(0);
+<?php
+  // Session Start
+  session_start(); 
+  error_reporting(0);
 ?>
 <!DOCTYPE html>
 <html lang="en">

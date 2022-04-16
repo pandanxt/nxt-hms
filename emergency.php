@@ -1,81 +1,73 @@
-<?php session_start(); ?>
-  <!-- Header Form -->
-  <?php include('backend_components/connection.php'); ?>
-  <!-- Header Form -->
-  <?php include('components/form_header.php'); ?>
-  <!-- Navbar -->
-  <?php include('components/navbar.php'); ?>
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
-  <?php include('components/sidebar.php'); ?>
-  <!-- /.Main Sidebar Container-->
-
-  <!-- Save Patient Data Query -->
-  <?php
+  <?php 
   
-      if (isset($_POST['emergency-patient-submit'])) {
-        
-            $name = $_POST['name'];
-            $saveOn = $_POST['addDate'];  
-            $mrid = $_POST['mrid'];
-            $phone = $_POST['phone'];
-            $gender = $_POST['gender'];
-            $doctor = $_POST['doctor'];
-            $age = $_POST['age'];
-            $address = $_POST['address'];
-            $by = $_POST['by'];
+    // Start Session 
+    session_start();
+    if (isset($_SESSION['userid'])) {
+    // Connection File
+    include('backend_components/connection.php');
+    // Form Header File
+    include('components/form_header.php');
+    // Navbar File
+    include('components/navbar.php');
+    // Sidebar File
+    include('components/sidebar.php');
 
-            $sql = "SELECT * FROM `emergency_patient` WHERE `PATIENT_NAME` = ? OR `PATIENT_MR_ID` = ? OR `PATIENT_MOBILE` = ?";
-            $stmt = mysqli_stmt_init($db);
-            
+    // Save Patient Data Query
+    if (isset($_POST['emergency-patient-submit'])) {
+      
+      // Post Variables
+      $name = $_POST['name'];
+      $saveOn = $_POST['addDate'];  
+      $mrid = $_POST['mrid'];
+      $phone = $_POST['phone'];
+      $gender = $_POST['gender'];
+      $doctor = $_POST['doctor'];
+      $age = $_POST['age'];
+      $address = $_POST['address'];
+      $by = $_POST['by'];
+
+      // Check Data from DB
+      $sql = "SELECT * FROM `emergency_patient` WHERE `PATIENT_NAME` = ? OR `PATIENT_MR_ID` = ? OR `PATIENT_MOBILE` = ?";
+      $stmt = mysqli_stmt_init($db);
+      
+      if (!mysqli_stmt_prepare($stmt,$sql)) {
+          echo "<script>alert('Sqlerror due to DB...');</script>";
+          exit();
+      }else{
+          mysqli_stmt_bind_param($stmt,"sss",$name,$mrid,$phone);
+          mysqli_stmt_execute($stmt);
+          mysqli_stmt_store_result($stmt);
+          $resultCheck = mysqli_stmt_num_rows($stmt);
+              
+          if ($resultCheck > 0) {
+            echo '<script type="text/javascript">window.location = "emergency.php?action=nameTaken";</script>';
+            echo "<script>alert('patient name already taken...');</script>";
+            exit();
+          }else{
+            $sql = "INSERT INTO `emergency_patient`
+            (
+              `PATIENT_MR_ID`, `PATIENT_NAME`, `PATIENT_MOBILE`, `PATIENT_GENDER`, `PATIENT_AGE`, `PATIENT_ADDRESS`, `DOCTOR_ID`, `PATIENT_DATE_TIME`, `STAFF_ID`
+            ) VALUES (?,?,?,?,?,?,?,?,?)";
+            mysqli_stmt_execute($stmt);
+                  
             if (!mysqli_stmt_prepare($stmt,$sql)) {
-                // header("Location: ../add_patient.php?action=sqlerror");
-                echo "<script>alert('Sqlerror due to DB...');</script>";
+                echo "<script>alert('Sqlerror due to DB Query...');</script>";
                 exit();
             }else{
-                mysqli_stmt_bind_param($stmt,"sss",$name,$mrid,$phone);
+                mysqli_stmt_bind_param($stmt,"sssssssss", $mrid,$name,$phone,$gender,$age,$address,$doctor,$saveOn,$by);
                 mysqli_stmt_execute($stmt);
-                mysqli_stmt_store_result($stmt);
-                $resultCheck = mysqli_stmt_num_rows($stmt);
-                    
-                    if ($resultCheck > 0) {
-                      echo '<script type="text/javascript">window.location = "emergency.php?action=nameTaken";</script>';
-                        echo "<script>alert('patient name already taken...');</script>";
-                        exit();
-                    }else{
-                            $sql = "INSERT INTO `emergency_patient`
-                            (`PATIENT_MR_ID`,
-                                `PATIENT_NAME`,
-                                  `PATIENT_MOBILE`,
-                                      `PATIENT_GENDER`,
-                                        `PATIENT_AGE`,
-                                          `PATIENT_ADDRESS`,
-                                            `DOCTOR_ID`,
-                                              `PATIENT_DATE_TIME`,
-                                                `STAFF_ID`) VALUES (?,?,?,?,?,?,?,?,?)";
-                            mysqli_stmt_execute($stmt);
-                        
-                            if (!mysqli_stmt_prepare($stmt,$sql)) {
-                                // header("Location: ../add_patient.php?action=sqlerror");
-                                echo "<script>alert('Sqlerror due to DB Query...');</script>";
-                                exit();
-                            }else{
-                                mysqli_stmt_bind_param($stmt,"sssssssss", $mrid,$name,$phone,$gender,$age,$address,$doctor,$saveOn,$by);
-                                mysqli_stmt_execute($stmt);
-                                echo '<script type="text/javascript">window.location = "emergency_slip_print.php?pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&gender='.$gender.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&by='.$by.'";</script>';
-                                exit();
-                            }			
-                        }
-            }
-        mysqli_stmt_close($stmt);
-        mysqli_close($db);
+                echo '<script type="text/javascript">window.location = "emergency_slip_print.php?pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&gender='.$gender.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&by='.$by.'";</script>';
+                exit();
+            }			
+          }
+      }
+      mysqli_stmt_close($stmt);
+      mysqli_close($db);
     }
 
-  ?>
-
-  <?php 
-  if (empty($_GET['id'])) { ?>
+    // Check if ID is empty
+    if (empty($_GET['id'])) {
+?>
     
     <!-- **
     *
@@ -195,18 +187,21 @@
 *
 ** -->
 
- <?php
+<?php  
   }else{
+    // Update Emergency Patient
     include('backend_components/update_patient.php');
-  }  
-  ?>
-  <!-- /.content-wrapper -->
+  }
 
-  <!-- Main Footer -->
-  <?php include('components/footer.php'); ?>
-  <!-- /. Main Footer -->
-</div>
-<!-- ./wrapper -->
+  // Footer File
+  include('components/footer.php');
 
-<!-- REQUIRED SCRIPTS -->
-<?php include('components/form_script.php'); ?>
+  echo '</div>';
+
+  // Form Script Files
+  include('components/form_script.php');
+
+}else{
+  echo '<script type="text/javascript">window.location = "login.php";</script>';
+}
+?>

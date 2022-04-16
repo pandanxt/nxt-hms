@@ -1,93 +1,83 @@
-<?php session_start(); ?>
-  <!-- Header Form -->
-  <?php include('backend_components/connection.php'); ?>
-  <!-- Header Form -->
-  <?php include('components/form_header.php'); ?>
-  <!-- Navbar -->
-  <?php include('components/navbar.php'); ?>
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
-  <?php include('components/sidebar.php'); ?>
-  <!-- /.Main Sidebar Container-->
- 
-  <!-- Save Patient Data Query -->
- <?php
-  
+<?php 
+  // Session Start
+  session_start();
+  if (isset($_SESSION['userid'])) {
+  // Connection File
+  include('backend_components/connection.php');
+  // Form Header File
+  include('components/form_header.php');
+  // Navbar File
+  include('components/navbar.php');
+  // Sidebar File
+  include('components/sidebar.php');
+  // Query to Save Data into DB
   if (isset($_POST['outdoor-patient-submit'])) {
-    
-        $name = $_POST['name'];
-        $saveOn = $_POST['addDate'];  
-        $mrid = $_POST['mrid'];
-        $phone = $_POST['phone'];
-        $gender = $_POST['gender'];
-        $doctor = $_POST['doctor'];
-        $dept = $_POST['dept'];
-        $fee = $_POST['fee'];
-        $age = $_POST['age'];
-        $address = $_POST['address'];
-        $by = $_POST['by'];
-
-        $sql = "SELECT * FROM `outdoor_patient` WHERE `PATIENT_NAME` = ? OR `PATIENT_MR_ID` = ? OR `PATIENT_MOBILE` = ?";
-        $stmt = mysqli_stmt_init($db);
+    // Post variable of Form
+    $name = $_POST['name'];
+    $saveOn = $_POST['addDate'];  
+    $mrid = $_POST['mrid'];
+    $phone = $_POST['phone'];
+    $gender = $_POST['gender'];
+    $doctor = $_POST['doctor'];
+    $dept = $_POST['dept'];
+    $fee = $_POST['fee'];
+    $age = $_POST['age'];
+    $address = $_POST['address'];
+    $by = $_POST['by'];
+    // Check from DB if Data exists or not
+    $sql = "SELECT * FROM `outdoor_patient` WHERE `PATIENT_NAME` = ? OR `PATIENT_MR_ID` = ? OR `PATIENT_MOBILE` = ?";
+    $stmt = mysqli_stmt_init($db);
         
-        if (!mysqli_stmt_prepare($stmt,$sql)) {
-            // header("Location: ../add_patient.php?action=sqlerror");
-            echo "<script>alert('Sqlerror due to DB...');</script>";
-            exit();
-        }else{
-            mysqli_stmt_bind_param($stmt,"sss",$name,$mrid,$phone);
-            mysqli_stmt_execute($stmt);
-            mysqli_stmt_store_result($stmt);
-            $resultCheck = mysqli_stmt_num_rows($stmt);
+    if (!mysqli_stmt_prepare($stmt,$sql)) {
+        echo "<script>alert('Sqlerror due to DB...');</script>";
+        exit();
+    }else{
+        mysqli_stmt_bind_param($stmt,"sss",$name,$mrid,$phone);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_store_result($stmt);
+        $resultCheck = mysqli_stmt_num_rows($stmt);
                 
-                if ($resultCheck > 0) {
-                    // header("Location: ../add_patient.php?action=nameTaken");
-                    echo "<script>alert('patient name already taken...');</script>";
-                    exit();
-                }else{
-                        $sql = "INSERT INTO `outdoor_patient`
-                        (`PATIENT_MR_ID`, 
-                          `PATIENT_NAME`, 
-                            `DEPT_ID`, 
-                              `PATIENT_MOBILE`, 
-                                  `PATIENT_GENDER`, 
-                                    `PATIENT_AGE`, 
-                                      `PATIENT_ADDRESS`, 
-                                        `DOCTOR_ID`, 
-                                         `CONSULTANT_FEE`,
-                                          `PATIENT_DATE_TIME`, 
-                                            `STAFF_ID`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-                        mysqli_stmt_execute($stmt);
+          if ($resultCheck > 0) {
+              echo "<script>alert('patient name already taken...');</script>";
+              exit();
+          }else{
+              $sql = "INSERT INTO `outdoor_patient`
+              (`PATIENT_MR_ID`, 
+                `PATIENT_NAME`, 
+                `DEPT_ID`, 
+                `PATIENT_MOBILE`, 
+                `PATIENT_GENDER`, 
+                `PATIENT_AGE`, 
+                `PATIENT_ADDRESS`, 
+                `DOCTOR_ID`, 
+                `CONSULTANT_FEE`,
+                `PATIENT_DATE_TIME`, 
+                `STAFF_ID`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+              mysqli_stmt_execute($stmt);
                     
-                        if (!mysqli_stmt_prepare($stmt,$sql)) {
-                            // header("Location: ../add_patient.php?action=sqlerror");
-                            echo "<script>alert('Sqlerror due to DB Query...');</script>";
-                            exit();
-                        }else{
-                            mysqli_stmt_bind_param($stmt,"sssssssssss", $mrid,$name,$dept,$phone,$gender,$age,$address,$doctor,$fee,$saveOn,$by);
-                            mysqli_stmt_execute($stmt);
-                            echo '<script type="text/javascript">window.location = "outdoor_slip_print.php?pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&gender='.$gender.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&by='.$by.'&dept='.$dept .'&fee='.$fee.'";</script>';
-                            // echo '<script type="text/javascript">window.location = "outdoor.php?action=saved";</script>';
-                            // echo "<script>alert('Patient Data successfully saved...');</script>";								
-                            exit();
-                        }			
-                    }
-        }
-    mysqli_stmt_close($stmt);
-    mysqli_close($db);
-}
-
+              if (!mysqli_stmt_prepare($stmt,$sql)) {
+                  echo "<script>alert('Sqlerror due to DB Query...');</script>";
+                  exit();
+              }else{
+                  mysqli_stmt_bind_param($stmt,"sssssssssss", $mrid,$name,$dept,$phone,$gender,$age,$address,$doctor,$fee,$saveOn,$by);
+                  mysqli_stmt_execute($stmt);
+                  echo '<script type="text/javascript">window.location = "outdoor_slip_print.php?pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&gender='.$gender.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&by='.$by.'&dept='.$dept .'&fee='.$fee.'";</script>';
+                  exit();
+              }			
+            }
+      }
+      mysqli_stmt_close($stmt);
+      mysqli_close($db);
+    }
+ 
+  if (empty($_GET['id'])) { 
 ?>
-  <!-- Content Wrapper. Contains page content -->
-  <?php 
-  if (empty($_GET['id'])) { ?>
     
-    <!-- **
-    *
-    *  Add Outdoor Patient Form Start Here
-    *
-    ** -->
+  <!-- **
+  *
+  *  Add Outdoor Patient Form Start Here
+  *
+  ** -->
 
     <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -221,18 +211,18 @@
 *
 ** -->
 
- <?php
+<?php
   }else{
     include('backend_components/update_patient.php');
   }  
-  ?>
-  <!-- /.content-wrapper -->
+  // Footer File
+  include('components/footer.php');
 
-  <!-- Main Footer -->
-  <?php include('components/footer.php'); ?>
-  <!-- /. Main Footer -->
-</div>
-<!-- ./wrapper -->
+  echo '</div>';
+  // Form Script File
+  include('components/form_script.php');
 
-<!-- REQUIRED SCRIPTS -->
-<?php include('components/form_script.php'); ?>
+}else{
+  echo '<script type="text/javascript">window.location = "login.php";</script>';
+}
+?>

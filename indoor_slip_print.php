@@ -1,5 +1,8 @@
 <?php 
+  // Session Start
   session_start();
+  if (isset($_SESSION['userid'])) {
+  // Get Variables from URL
   $pname = (isset($_GET['pname']) ? $_GET['pname'] : '');
   $saveOn = (isset($_GET['on']) ? $_GET['on'] : '');
   $mrid = (isset($_GET['mrid']) ? $_GET['mrid'] : '');
@@ -25,29 +28,23 @@
     }
 
   $date = substr($saveOn,0, 24);
+  // Connection File 
+  include('backend_components/connection.php');
+  // Query to get Doctor details from DB
+  $docSql ="SELECT `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_ID` =".$doctor;
+  $dsql = mysqli_query($db,$docSql);
+  $doctor_row = mysqli_fetch_array($dsql);
+  // Query to get Admin details from DB
+  $adminSql ="SELECT `ADMIN_USERNAME` FROM `admin` WHERE `ADMIN_ID` =".$by;
+  $asql = mysqli_query($db,$adminSql);
+  $admin_row = mysqli_fetch_array($asql);
+  //Form Header File 
+  include('components/form_header.php');
+  // Navbar File 
+  include('components/navbar.php');
+  // Sidebar File 
+  include('components/sidebar.php');
 ?>
-  <!-- Header Form -->
-  <?php include('backend_components/connection.php'); ?>
-  <!-- Header Form -->
-
-  <?php
-    $docSql ="SELECT `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_ID` =".$doctor;
-    $dsql = mysqli_query($db,$docSql);
-    $doctor_row = mysqli_fetch_array($dsql);
-
-    $adminSql ="SELECT `ADMIN_USERNAME` FROM `admin` WHERE `ADMIN_ID` =".$by;
-    $asql = mysqli_query($db,$adminSql);
-    $admin_row = mysqli_fetch_array($asql);
-  ?>
-
-  <?php include('components/form_header.php'); ?>
-  <!-- Navbar -->
-  <?php include('components/navbar.php'); ?>
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
-  <?php include('components/sidebar.php'); ?>
-  <!-- /.Main Sidebar Container-->
 
 <div class="content-wrapper">
   <!-- Main content -->
@@ -65,12 +62,8 @@
          <div style="font-size:15px;">C-1 Commercial Office Block, <br> Paragon City, Lahore.</div>
         </div>
         <div style="display:flex;">
-        <div style="margin:15px 10px;font-size:30px;"><i class="fas fa-phone"></i></div> 
-        <div style="font-size:15px;">
-              0300 4133102 <br>
-              0320 4707070 <br>
-              042 37165549
-        </div>
+          <div style="margin:15px 10px;font-size:30px;"><i class="fas fa-phone"></i></div> 
+          <div style="font-size:15px;">0300 4133102 <br>0320 4707070 <br>042 37165549</div>
         </div>
         </div>
       </div>
@@ -100,21 +93,21 @@
       <!-- /.col -->
     </div>
     <!-- /.row -->
-
-    <!-- /.row -->
   </section>
   <!-- /.content -->
 </div>
 <!-- ./wrapper -->
 <!-- Page specific script -->
-<script>
-  window.addEventListener("load", window.print());
-</script>
+<script> window.addEventListener("load", window.print()); </script>
  <!-- Main Footer -->
- <?php include('components/footer.php'); ?>
-  <!-- /. Main Footer -->
-</div>
-<!-- ./wrapper -->
+<?php
+  // Footer File
+  include('components/footer.php'); 
+  echo '</div>';
+  // Form Script File
+  include('components/form_script.php');
 
-<!-- REQUIRED SCRIPTS -->
-<?php include('components/form_script.php'); ?>
+}else{
+  echo '<script type="text/javascript">window.location = "login.php";</script>';
+}
+?>

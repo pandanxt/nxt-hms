@@ -1,64 +1,55 @@
-<?php session_start(); ?>
-  <!-- Header Form -->
-  <?php include('backend_components/connection.php'); ?>
-  <!-- Header Form -->
-  <?php include('components/form_header.php'); ?>
+<?php 
+  session_start(); 
+  if (isset($_SESSION['userid'])) {
 
-  <!-- Navbar -->
-  <?php include('components/navbar.php'); ?>
-  <!-- /.navbar -->
+    include('backend_components/connection.php');
+    include('components/form_header.php');
+    include('components/navbar.php'); 
+    include('components/sidebar.php');
 
-  <!-- Main Sidebar Container -->
-  <?php include('components/sidebar.php'); ?>
-
-  <?php
-      if (isset($_POST['dept-submit'])) {
-        $status =  $_POST['status'];
-        $name =  $_POST['name'];
-        $by = $_POST['by'];
-        $date = $_POST['addDate'];
-            $sql = "SELECT * FROM `department` WHERE `DEPARTMENT_NAME` = ?";
-            $stmt = mysqli_stmt_init($db);
-            
-            if (!mysqli_stmt_prepare($stmt,$sql)) {
-                // header("Location: ../add_dept.php?action=sqlerror");
-                echo '<script type="text/javascript">window.location = "add_dept.php?action=sqlerror";</script>';
-                exit();
-            }else{
-                mysqli_stmt_bind_param($stmt,"s",$name);
-                mysqli_stmt_execute($stmt);
-                mysqli_stmt_store_result($stmt);
-                $resultCheck = mysqli_stmt_num_rows($stmt);
-                    
-                    if ($resultCheck > 0) {
-                        echo '<script type="text/javascript">window.location = "add_dept.php?action=nameTaken";</script>';
-                        // header("Location: ../add_dept.php?action=nameTaken");
-                        exit();
-                    }else{
-                            $sql = "INSERT INTO `department`(`DEPARTMENT_NAME`, `DEPARTMENT_STATUS`,`STAFF_ID`, `DEPARTMENT_DATE_TIME`) VALUES (?,?,?,?)";
-                            mysqli_stmt_execute($stmt);
-                        
-                            if (!mysqli_stmt_prepare($stmt,$sql)) {
-                                // header("Location: ../add_dept.php?action=sqlerror");
-                                echo '<script type="text/javascript">window.location = "add_dept.php?action=sqlerror";</script>';
-                                exit();
-                            }else{
-                                mysqli_stmt_bind_param($stmt,"ssss",$name,$status,$by,$date);
-                                mysqli_stmt_execute($stmt);
-                            
-                                echo '<script type="text/javascript">window.location = "add_dept.php?action=saved";</script>';								
-                                exit();
-                            }			
-                        }
-                }
-        mysqli_stmt_close($stmt);
-        mysqli_close($db);
-    }
-  ?>
-  <!-- /.Main Sidebar Container-->
-
-  <!-- Content Wrapper. Contains page content -->
-  <?php 
+    if (isset($_POST['dept-submit'])) {
+      $status =  $_POST['status'];
+      $name =  $_POST['name'];
+      $by = $_POST['by'];
+      $date = $_POST['addDate'];
+          $sql = "SELECT * FROM `department` WHERE `DEPARTMENT_NAME` = ?";
+          $stmt = mysqli_stmt_init($db);
+          
+          if (!mysqli_stmt_prepare($stmt,$sql)) {
+              // header("Location: ../add_dept.php?action=sqlerror");
+              echo '<script type="text/javascript">window.location = "add_dept.php?action=sqlerror";</script>';
+              exit();
+          }else{
+              mysqli_stmt_bind_param($stmt,"s",$name);
+              mysqli_stmt_execute($stmt);
+              mysqli_stmt_store_result($stmt);
+              $resultCheck = mysqli_stmt_num_rows($stmt);
+                  
+                  if ($resultCheck > 0) {
+                      echo '<script type="text/javascript">window.location = "add_dept.php?action=nameTaken";</script>';
+                      // header("Location: ../add_dept.php?action=nameTaken");
+                      exit();
+                  }else{
+                          $sql = "INSERT INTO `department`(`DEPARTMENT_NAME`, `DEPARTMENT_STATUS`,`STAFF_ID`, `DEPARTMENT_DATE_TIME`) VALUES (?,?,?,?)";
+                          mysqli_stmt_execute($stmt);
+                      
+                          if (!mysqli_stmt_prepare($stmt,$sql)) {
+                              // header("Location: ../add_dept.php?action=sqlerror");
+                              echo '<script type="text/javascript">window.location = "add_dept.php?action=sqlerror";</script>';
+                              exit();
+                          }else{
+                              mysqli_stmt_bind_param($stmt,"ssss",$name,$status,$by,$date);
+                              mysqli_stmt_execute($stmt);
+                          
+                              echo '<script type="text/javascript">window.location = "add_dept.php?action=saved";</script>';								
+                              exit();
+                          }			
+                      }
+              }
+      mysqli_stmt_close($stmt);
+      mysqli_close($db);
+  }
+   
   if (empty($_GET['id'])) {
     ?>
 
@@ -138,18 +129,18 @@
           <!-- /.content -->
         </div>
   
-    <?php
+<?php
+    }else{
+      include('backend_components/update_dept.php');
+    }  
+    // Footer File
+    include('components/footer.php');
+    
+    echo '</div>';
+    // Form Script File
+    include('components/form_script.php'); 
+
   }else{
-    include('backend_components/update_dept.php');
-  }  
-  ?>
-  <!-- /.content-wrapper -->
-
-  <!-- Main Footer -->
-  <?php include('components/footer.php'); ?>
-  <!-- /. Main Footer -->
-</div>
-<!-- ./wrapper -->
-
-<!-- REQUIRED SCRIPTS -->
-  <?php include('components/form_script.php'); ?>
+    echo '<script type="text/javascript">window.location = "login.php";</script>';
+  } 
+?>

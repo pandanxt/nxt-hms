@@ -1,28 +1,24 @@
 <?php 
+    // Session Starts
     session_start();
+    if (isset($_SESSION['userid'])) {
+    // Get Type from URL
     $type = (isset($_GET['type']) ? $_GET['type'] : '');
+    // Connection File
+    include('backend_components/connection.php'); 
+    // Table Header File
+    include('components/table_header.php'); 
+    // Navbar File
+    include('components/navbar.php'); 
+    // Sidebar File
+    include('components/sidebar.php'); 
 ?>
-  <!-- Connection -->
-  <?php include('backend_components/connection.php'); ?>
-  <!-- table-header -->
-  <?php include('components/table_header.php'); ?>
-  <!-- Navbar -->
-  <?php include('components/navbar.php'); ?>
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
-  <?php include('components/sidebar.php'); ?>
-  <!-- /.Main Sidebar Container-->
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <!-- <div class="col-sm-2">
-            <h1>Patients</h1>
-          </div> -->
           <div class="col-sm-2"><a type="button" class="btn btn-block btn-primary btn-sm" data-toggle="modal" data-target="#modal-indoor"><i class="fas fa-plus"></i> New Patient</a></div>
           <div class="col-sm-10">
             <ol class="breadcrumb float-sm-right">
@@ -34,8 +30,6 @@
       </div><!-- /.container-fluid -->
     </section>
 
-    <!-- Main content -->
-    <?php //include('components/patient_table.php'); ?>
     <!-- Table Data of Patient -->
     <section class="content">
       <div class="container-fluid">
@@ -50,29 +44,23 @@
                     <th>S.No#</th>
                     <th>MR-ID</th>
                     <th>Name</th>
-                    <!-- <th>Type</th> -->
                     <th>Mobile</th>
-                    <!-- <th>CNIC</th> -->
                     <th>Gender</th>
                     <th>Age</th>
                     <th>Address</th>
                     <th>Doctor</th>
-                    <!-- <th>Patient Bill</th> -->
                     <th>Created By</th>
-                    <!-- <th>Discharge</th> -->
                     <th>Created On</th>
                     <th>Options</th>
                   </tr>
                   </thead>
                   <tbody>
                   <?php
-
                     if ($type != 'all') {
                         $sql ="SELECT *,`DOCTOR_NAME`,`ADMIN_USERNAME` FROM `indoor_patient` INNER JOIN `admin` INNER JOIN `doctor` WHERE `indoor_patient`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID` AND `indoor_patient`.`STAFF_ID` = `admin`.`ADMIN_ID` AND `indoor_patient`.`INDOOR_TYPE` = '$type'";
                     }else{
                         $sql ="SELECT *,`DOCTOR_NAME`,`ADMIN_USERNAME` FROM `indoor_patient` INNER JOIN `admin` INNER JOIN `doctor` WHERE `indoor_patient`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID` AND `indoor_patient`.`STAFF_ID` = `admin`.`ADMIN_ID`";    
                     }
-                      
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
@@ -122,9 +110,13 @@
     <!-- /.content -->
   </div>
   <!-- /.Footer -->
-  <?php include ('components/footer.php'); ?>
-  <!-- /.Footer -->
-</div>
-<!-- ./wrapper -->
-<!-- Table Script -->
-<?php include('components/table_script.php'); ?>
+<?php 
+  // Footer File
+  include ('components/footer.php'); 
+  echo '</div>';
+  // Table Script File
+  include('components/table_script.php'); 
+}else{
+  echo '<script type="text/javascript">window.location = "login.php";</script>';
+}
+?>

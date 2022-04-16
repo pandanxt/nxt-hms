@@ -1,14 +1,17 @@
 <?php 
-    session_start();
+  // Session Starts
+  session_start(); 
+  if (isset($_SESSION['userid'])) {
+  // Connection File
+  include('backend_components/connection.php');
+  // Table Header File
+  include('components/table_header.php');
+  // Navbar File
+  include('components/navbar.php');
+  // Sidebar File
+  include('components/sidebar.php');
+
 ?>
-  <!-- Connection -->
-  <?php include('backend_components/connection.php'); ?>
-  <!-- table-header -->
-  <?php include('components/table_header.php'); ?>
-   <!-- Navbar -->
-   <?php include('components/navbar.php'); ?>
-  <!-- Main Sidebar Container -->
-  <?php include('components/sidebar.php'); ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
   <section class="content-header"></section>
@@ -66,12 +69,16 @@
     <!-- /.content -->
   </div>
   <!-- /.Footer -->
-  <?php 
-         }
-        }   
-  ?>
-  <?php include ('components/footer.php'); ?>
-</div>
-<!-- ./wrapper -->
-<!-- Table Script -->
-<?php include('components/table_script.php'); ?>
+<?php 
+    }
+  }   
+  // Footer File
+  include ('components/footer.php'); 
+  echo '</div>';
+  // Table Script File
+  include('components/table_script.php');
+
+}else{
+  echo '<script type="text/javascript">window.location = "login.php";</script>';
+}
+?>

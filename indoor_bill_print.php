@@ -1,5 +1,8 @@
 <?php 
+  // Session Start
   session_start();
+  if (isset($_SESSION['userid'])) {
+  // Get Variables from URL
   $pname = (isset($_GET['pname']) ? $_GET['pname'] : '');
   $saveOn = (isset($_GET['adddate']) ? $_GET['adddate'] : '');
   $mrid = (isset($_GET['mrid']) ? $_GET['mrid'] : '');
@@ -45,31 +48,21 @@
     }else if ($type == 'eye') {
         $newType = 'Eye Patient';
     }
+
+  //  Connection File
+  include('backend_components/connection.php'); 
+  // Query to get Username from DB
+  $adminSql ="SELECT `ADMIN_USERNAME` FROM `admin` WHERE `ADMIN_ID` =".$by;
+  $asql = mysqli_query($db,$adminSql);
+  $admin_row = mysqli_fetch_array($asql);
+  // Form Header File
+  include('components/form_header.php'); 
+  // Navbar File
+  include('components/navbar.php'); 
+  // Sidebar File
+  include('components/sidebar.php'); 
+
 ?>
-  <!-- Header Form -->
-  <?php include('backend_components/connection.php'); ?>
-  <!-- Header Form -->
-
-  <?php
-    // $deptSql ="SELECT `DEPARTMENT_NAME` FROM `department` WHERE `DEPARTMENT_ID` =".$department;
-    // $docSql ="SELECT `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_ID` =".$doctor;
-    $adminSql ="SELECT `ADMIN_USERNAME` FROM `admin` WHERE `ADMIN_ID` =".$by;
-    // $dptsql = mysqli_query($db,$deptSql);
-    // $dept_row = mysqli_fetch_array($dptsql);
-    // $dsql = mysqli_query($db,$docSql);
-    // $doctor_row = mysqli_fetch_array($dsql);
-    $asql = mysqli_query($db,$adminSql);
-    $admin_row = mysqli_fetch_array($asql);
-  ?>
-
-  <?php include('components/form_header.php'); ?>
-  <!-- Navbar -->
-  <?php include('components/navbar.php'); ?>
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
-  <?php include('components/sidebar.php'); ?>
-  <!-- /.Main Sidebar Container-->
 
 <div class="content-wrapper">
   <!-- Main content -->
@@ -212,10 +205,6 @@
               <th style="width:50%">Subtotal:</th>
               <td>PKR - <?php echo $tbill; ?></td>
             </tr>
-            <!-- <tr>
-              <th>Tax (9.3%)</th>
-              <td>$10.34</td>
-            </tr> -->
             <tr>
               <th>Discount:</th>
               <td>PKR - <?php echo $dis; ?></td>
@@ -229,22 +218,22 @@
       </div>
       <!-- /.col -->
     </div>
-
-
     <!-- /.row -->
   </section>
   <!-- /.content -->
 </div>
 <!-- ./wrapper -->
-<!-- Page specific script -->
-<script>
-  window.addEventListener("load", window.print());
-</script>
+<script> window.addEventListener("load", window.print());</script>
  <!-- Main Footer -->
- <?php include('components/footer.php'); ?>
-  <!-- /. Main Footer -->
-</div>
-<!-- ./wrapper -->
+<?php 
+  // Footer File
+  include('components/footer.php');
+  echo '</div>';
 
-<!-- REQUIRED SCRIPTS -->
-<?php include('components/form_script.php'); ?>
+  //  Form Script File
+  include('components/form_script.php');
+
+}else{
+  echo '<script type="text/javascript">window.location = "login.php";</script>';
+}
+?>

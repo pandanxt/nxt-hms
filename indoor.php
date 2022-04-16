@@ -1,103 +1,91 @@
-<?php 
-    session_start();
-    $type = (isset($_GET['type']) ? $_GET['type'] : ''); 
-?>
-  <!-- Header Form -->
-  <?php include('backend_components/connection.php'); ?>
-  <!-- Header Form -->
-  <?php include('components/form_header.php'); ?>
-  <!-- Navbar -->
-  <?php include('components/navbar.php'); ?>
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
-  <?php include('components/sidebar.php'); ?>
-  <!-- /.Main Sidebar Container-->
-
-  <!-- Save Patient Data Query -->
-  <?php
-  
+<?php
+  // Session Start
+  session_start();
+  if (isset($_SESSION['userid'])) {
+  // Get variables from URL
+  $type = (isset($_GET['type']) ? $_GET['type'] : ''); 
+  // Connection File
+  include('backend_components/connection.php');
+  // Form Header File
+  include('components/form_header.php');
+  // Navbar File
+  include('components/navbar.php');
+  // Sidebar File
+  include('components/sidebar.php');
+  // Query to Post Data to DB
   if (isset($_POST['indoor-patient-submit'])) {
-
-        $name = $_POST['name'];
-        $saveOn = $_POST['addDate'];  
-        $mrid = $_POST['mrid'];
-        $phone = $_POST['phone'];
-        $gender = $_POST['gender'];
-        $doctor = $_POST['doctor'];
-        // $type = $_POST['type'];
-        $cnic = $_POST['cnic'];
-        $procedure = $_POST['procedure'];
-        $age = $_POST['age'];
-        $address = $_POST['address'];
-        $by = $_POST['by'];
-
-        $sql = "SELECT * FROM `indoor_patient` WHERE `PATIENT_NAME` = ? OR `PATIENT_MR_ID` = ? OR `PATIENT_MOBILE` = ?";
-        $stmt = mysqli_stmt_init($db);
-        
-        if (!mysqli_stmt_prepare($stmt,$sql)) {
-            header("Location: indoor.php?type='.$type.'&action=sqlerror");
-            // echo "<script>alert('Sqlerror due to DB...');</script>";
+    // Post Variables from Form
+    $name = $_POST['name'];
+    $saveOn = $_POST['addDate'];  
+    $mrid = $_POST['mrid'];
+    $phone = $_POST['phone'];
+    $gender = $_POST['gender'];
+    $doctor = $_POST['doctor'];
+    $cnic = $_POST['cnic'];
+    $procedure = $_POST['procedure'];
+    $age = $_POST['age'];
+    $address = $_POST['address'];
+    $by = $_POST['by'];
+    // Check Data from DB
+    $sql = "SELECT * FROM `indoor_patient` WHERE `PATIENT_NAME` = ? OR `PATIENT_MR_ID` = ? OR `PATIENT_MOBILE` = ?";
+    $stmt = mysqli_stmt_init($db);
+    
+    if (!mysqli_stmt_prepare($stmt,$sql)) {
+      header("Location: indoor.php?type='.$type.'&action=sqlerror");
+      exit();
+    }else{
+      mysqli_stmt_bind_param($stmt,"sss",$name,$mrid,$phone);
+      mysqli_stmt_execute($stmt);
+      mysqli_stmt_store_result($stmt);
+      $resultCheck = mysqli_stmt_num_rows($stmt);
+            
+        if ($resultCheck > 0) {
+            header("Location: indoor.php?type='.$type.'&action=nameTaken");
             exit();
         }else{
-            mysqli_stmt_bind_param($stmt,"sss",$name,$mrid,$phone);
-            mysqli_stmt_execute($stmt);
-            mysqli_stmt_store_result($stmt);
-            $resultCheck = mysqli_stmt_num_rows($stmt);
+            $sql = "INSERT INTO `indoor_patient`(
+                `PATIENT_MR_ID`, 
+                `PATIENT_NAME`, 
+                `INDOOR_TYPE`, 
+                `PATIENT_PROCEDURE`, 
+                `PATIENT_MOBILE`, 
+                `PATIENT_CNIC`, 
+                `PATIENT_GENDER`, 
+                `PATIENT_AGE`, 
+                `PATIENT_ADDRESS`,
+                `DOCTOR_ID`, 
+                `PATIENT_DATE_TIME`, 
+                `STAFF_ID`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+              mysqli_stmt_execute($stmt);
                 
-                if ($resultCheck > 0) {
-                    header("Location: indoor.php?type='.$type.'&action=nameTaken");
-                    // echo "<script>alert('patient name already taken...');</script>";
-                    exit();
-                }else{
-                        $sql = "INSERT INTO `indoor_patient`(
-                            `PATIENT_MR_ID`, 
-                            `PATIENT_NAME`, 
-                            `INDOOR_TYPE`, 
-                            `PATIENT_PROCEDURE`, 
-                            `PATIENT_MOBILE`, 
-                            `PATIENT_CNIC`, 
-                            `PATIENT_GENDER`, 
-                            `PATIENT_AGE`, 
-                            `PATIENT_ADDRESS`,
-                            `DOCTOR_ID`, 
-                            `PATIENT_DATE_TIME`, 
-                            `STAFF_ID`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-                        mysqli_stmt_execute($stmt);
-                    
-                        if (!mysqli_stmt_prepare($stmt,$sql)) {
-                            header("Location: indoor.php?type='.$type.'&action=sqlerror");
-                            // echo "<script>alert('Sqlerror due to DB Query...');</script>";
-                            exit();
-                        }else{
-                            mysqli_stmt_bind_param($stmt,"ssssssssssss", $mrid,$name,$type,$procedure,$phone,$cnic,$gender,$age,$address,$doctor,$saveOn,$by);
-                            mysqli_stmt_execute($stmt);
-                            echo '<script type="text/javascript">window.location = "indoor_slip_print.php?type='.$type.'&pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&cnic='.$cnic.'&gender='.$gender.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&pro='.$procedure.'&by='.$by.'";</script>';
-                            // echo '<script type="text/javascript">window.location = "indoor.php?type='.$type.'&action=saved";</script>';
-                            // echo "<script>alert('Patient Data successfully saved...');</script>";								
-                            exit();
-                        }			
-                    }
-        }
+              if (!mysqli_stmt_prepare($stmt,$sql)) {
+                  header("Location: indoor.php?type='.$type.'&action=sqlerror");
+                  exit();
+              }else{
+                  mysqli_stmt_bind_param($stmt,"ssssssssssss", $mrid,$name,$type,$procedure,$phone,$cnic,$gender,$age,$address,$doctor,$saveOn,$by);
+                  mysqli_stmt_execute($stmt);
+                  echo '<script type="text/javascript">window.location = "indoor_slip_print.php?type='.$type.'&pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&cnic='.$cnic.'&gender='.$gender.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&pro='.$procedure.'&by='.$by.'";</script>';
+                  exit();
+              }			
+            }
+      }
     mysqli_stmt_close($stmt);
     mysqli_close($db);
-}
+  }
+
+  // Check if ID is empty or not
+  if (empty($_GET['id'])) {
+    // Query to get type from DB
+    $typeData = "SELECT * FROM `indoor_type` WHERE `TYPE_ALAIS` = '$type'";
+    $result = mysqli_query($db, $typeData) or die (mysqli_error($db));
+    $rstype = mysqli_fetch_array($result);
 
 ?>
-  <!-- Content Wrapper. Contains page content -->
-  <?php 
-  if (empty($_GET['id'])) { ?>
-    
     <!-- **
     *
     *  Add Indoor Patient Form Start Here
     *
-    ** -->
-    <?php
-         $typeData = "SELECT * FROM `indoor_type` WHERE `TYPE_ALAIS` = '$type'";
-         $result = mysqli_query($db, $typeData) or die (mysqli_error($db));
-         $rstype = mysqli_fetch_array($result);
-    ?>
+    ** --> 
     <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -195,17 +183,6 @@
                             
             <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                 <!-- /.form-group -->
-                <!-- <div class="form-group col-md-6">
-                  <label>Procedure</label>
-                  <select class="select2" multiple="multiple" name="procedure" data-placeholder="Select Procedure" style="width: 100%;">
-                    <option>Option One</option>
-                    <option>Option Two</option>
-                    <option>Option Three</option>
-                    <option>Option Four</option>
-                    <option>Option Five</option>
-                  </select>
-                </div> -->
-                <!-- /.form-group -->
                 <div class="form-group col-md-12">
                   <label>Procedure</label>
                   <input type="text" class="form-control" name="procedure" id="inputProcedure" placeholder="Enter Procedure Here ..." />
@@ -241,18 +218,18 @@
 *
 ** -->
 
- <?php
+<?php
   }else{
     include('backend_components/update_patient.php');
-  }  
-  ?>
-  <!-- /.content-wrapper -->
+  }
+  // Footer File
+  include('components/footer.php');
+  echo '</div>';
 
-  <!-- Main Footer -->
-  <?php include('components/footer.php'); ?>
-  <!-- /. Main Footer -->
-</div>
-<!-- ./wrapper -->
+  // Form Script File
+  include('components/form_script.php');
 
-<!-- REQUIRED SCRIPTS -->
-<?php include('components/form_script.php'); ?>
+}else{
+  echo '<script type="text/javascript">window.location = "login.php";</script>';
+}
+?>

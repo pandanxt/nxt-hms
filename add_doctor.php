@@ -1,23 +1,16 @@
-<?php session_start(); ?>
-  <!-- Header Form -->
-  <?php include('backend_components/connection.php'); ?>
-  <!-- Header Form -->
-  <?php include('components/form_header.php'); ?>
-  <!-- Navbar -->
-  <?php include('components/navbar.php'); ?>
-  <!-- /.navbar -->
+<?php 
+  session_start(); 
+  if (isset($_SESSION['userid'])) {
 
-  <!-- Main Sidebar Container -->
-  <?php include('components/sidebar.php'); ?>
-  <!-- /.Main Sidebar Container-->
-  <?php
+    include('backend_components/connection.php');
+    include('components/form_header.php');
+    include('components/navbar.php'); 
+    include('components/sidebar.php');
+
      if (isset($_POST['doctor-submit'])) {
       $name =  $_POST['name'];
       $status =  $_POST['status'];
-      // $mobile =  $_POST['mobile'];
       $department =  $_POST['department'];
-      // $education = implode(', ', $_POST['education']);
-      // $experience =  $_POST['experience'];
       $by = $_POST['by'];
       $date =  $_POST['addDate'];
 
@@ -25,7 +18,6 @@
           $stmt = mysqli_stmt_init($db);
           
           if (!mysqli_stmt_prepare($stmt,$sql)) {
-              // header("Location: ../add_doctor.php?action=sqlerror");
               echo '<script type="text/javascript">window.location = "add_doctor.php?action=sqlerror";</script>';
               exit();
           }else{
@@ -35,7 +27,6 @@
               $resultCheck = mysqli_stmt_num_rows($stmt);
                   
                   if ($resultCheck > 0) {
-                      // header("Location: ../add_doctor.php?action=nameTaken");
                       echo '<script type="text/javascript">window.location = "add_doctor.php?action=nameTaken";</script>';
                       exit();
                   }else{
@@ -43,7 +34,6 @@
                           mysqli_stmt_execute($stmt);
                       
                           if (!mysqli_stmt_prepare($stmt,$sql)) {
-                              // header("Location: ../add_doctor.php?action=sqlerror");
                               echo '<script type="text/javascript">window.location = "add_doctor.php?action=sqlerror";</script>';
                               exit();
                           }else{
@@ -58,11 +48,9 @@
       mysqli_stmt_close($stmt);
       mysqli_close($db);
   }
-  ?>
-  <!-- Content Wrapper. Contains page content -->
-  <?php 
+ 
     if (empty($_GET['id'])) {
-  ?>
+?>
 
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -106,11 +94,6 @@
                   <input type="text" class="form-control" name="name" id="inputText1" placeholder="Enter Full Name Here ..." required>
                 </div>
                 <!-- /.form-group -->
-                <!-- <div class="form-group">
-                  <label>Mobile No.</label>
-                  <input type="tel" class="form-control" name="mobile" id="inputLoginId1" placeholder="Enter Mobile No. with '-' " pattern="[0-9]{4}-[0-9]{7}" title="Please Enter Phone number with '-'" required>
-                </div> -->
-                <!-- /.form-group -->
                 <div class="form-group">
                   <label>Status</label>
                   <select class="form-control select2bs4" name="status" style="width: 100%;">
@@ -141,26 +124,6 @@
                 <!-- /.form-group -->
               <input type="text" name="addDate" id="addDate" hidden/>
               <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
-                <!-- <div class="form-group">
-                  <label>Education</label>
-                  <select class="select2bs4" multiple="multiple" name="education[]" data-placeholder="Select a State"
-                          style="width: 100%;">
-                    <?php
-                      // $edu = 'SELECT `EDUCATION_NAME`,`EDUCATION_ALAIS` FROM `education` WHERE `EDUCATION_STATUS` = "active"';
-                      // $result = mysqli_query($db, $edu) or die (mysqli_error($db));
-                        // while ($row = mysqli_fetch_array($result)) {
-                          // $id = $row['EDUCATION_ALAIS'];  
-                          // $name = $row['EDUCATION_NAME'];
-                          // echo '<option value="'.$id.'">'.$id.' | '.$name.'</option>'; 
-                      // }
-                    ?>    
-                  </select>
-                </div> -->
-                <!-- /.form-group -->
-                <!-- <div class="form-group">
-                  <label>Experience</label>
-                  <input type="text" class="form-control" name="experience" id="inputPassword1" placeholder="Enter Experience Here ..." required>
-                </div> -->
                 <!-- /.form-group -->
               </div>
               <!-- /.col -->
@@ -184,15 +147,15 @@
   <?php
     }else{
       include('backend_components/update_doctor.php');
-    }  
-  ?>
-  <!-- /.content-wrapper -->
+    }    
+  // Footer File
+  include('components/footer.php');
+  
+  echo '</div>';
+  // Form Script File
+  include('components/form_script.php'); 
 
-  <!-- Main Footer -->
-  <?php include('components/footer.php'); ?>
-  <!-- /. Main Footer -->
-</div>
-<!-- ./wrapper -->
-
-<!-- REQUIRED SCRIPTS -->
-<?php include('components/form_script.php'); ?>
+}else{
+  echo '<script type="text/javascript">window.location = "login.php";</script>';
+} 
+?>

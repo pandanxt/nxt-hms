@@ -1,131 +1,122 @@
 <?php 
-  session_start(); 
+  // Session Start
+  session_start();
+  if (isset($_SESSION['userid'])) {
+  // Get MRID and Type from URL  
   $mrid = (isset($_GET['mrid']) ? $_GET['mrid'] : ''); 
   $type = (isset($_GET['type']) ? $_GET['type'] : '');
-?>
-<!-- Header Form -->
-  <?php include('backend_components/connection.php'); ?>
-  <!-- Header Files -->
-  <?php include('components/form_header.php'); ?>
-  <!-- Navbar -->
-  <?php include('components/navbar.php'); ?>
-  <!-- /.navbar -->
+  // Connection File
+  include('backend_components/connection.php'); 
+    // Form Header File
+  include('components/form_header.php'); 
+    // Navbar File
+  include('components/navbar.php'); 
+  
+  // Save Patient Data Query 
+  if (isset($_POST['indoor-bill-submit'])) {
+    // Post Variables from Form
+    $mrid = $_POST['mrid'];
+    $name = $_POST['name'];
+    $phone = $_POST['phone'];
+    $cnic = $_POST['cnic'];
 
-  <!-- Save Patient Data Query -->
-  <?php
-    if (isset($_POST['indoor-bill-submit'])) {
-     
-      $mrid = $_POST['mrid'];
-      $name = $_POST['name'];
-      $phone = $_POST['phone'];
-      $cnic = $_POST['cnic'];
+    $age = $_POST['age'];
+    $gender = $_POST['gender'];
+    $add = $_POST['address'];
+    $doc = $_POST['doctor'];
+    $pro = $_POST['procedure'];
 
-      $age = $_POST['age'];
-      $gender = $_POST['gender'];
-      $add = $_POST['address'];
-      $doc = $_POST['doctor'];
-      $pro = $_POST['procedure'];
+    $admdate = $_POST['admitdatetime'];
+    $addDate = $_POST['addDate'];
 
-      $admdate = $_POST['admitdatetime'];
-      // $disdate = $_POST['disdate'];
-      $addDate = $_POST['addDate'];
+    $adCharge = $_POST['adCharge'];
+    $surCharge = $_POST['surCharge'];
+    $anesCharge = $_POST['anesCharge'];
+    $opCharge = $_POST['opCharge'];
+    $chargeLR = $_POST['chargeLR'];
+    $pedCharge = $_POST['pedCharge'];
+    $prChargeThree = $_POST['prChargeThree'];
+    $nurCharge = $_POST['nurCharge'];
+    $nurStCharge = $_POST['nurStCharge'];
+    $moCharge = $_POST['moCharge'];
+    $conCharge = $_POST['conCharge'];
+    $ctg = $_POST['ctg'];
+    $rrCharge = $_POST['rrCharge'];
+    $other = $_POST['other'];
+    $tbill = $_POST['tbill'];
+    $discount = $_POST['discount'];
+    $fbill = $_POST['fbill'];
+    $by = $_POST['by'];
 
-      $adCharge = $_POST['adCharge'];
-      $surCharge = $_POST['surCharge'];
-      $anesCharge = $_POST['anesCharge'];
-      $opCharge = $_POST['opCharge'];
-      $chargeLR = $_POST['chargeLR'];
-      $pedCharge = $_POST['pedCharge'];
-      $prChargeThree = $_POST['prChargeThree'];
-      $nurCharge = $_POST['nurCharge'];
-      $nurStCharge = $_POST['nurStCharge'];
-      $moCharge = $_POST['moCharge'];
-      $conCharge = $_POST['conCharge'];
-      $ctg = $_POST['ctg'];
-      $rrCharge = $_POST['rrCharge'];
-      $other = $_POST['other'];
-      $tbill = $_POST['tbill'];
-      $discount = $_POST['discount'];
-      $fbill = $_POST['fbill'];
-      $by = $_POST['by'];
-
-
-          $sql = "SELECT * FROM `indoor_bill` WHERE `MR_ID` = ?";
-          $stmt = mysqli_stmt_init($db);
+    // Query to check if data exists 
+    $sql = "SELECT * FROM `indoor_bill` WHERE `MR_ID` = ?";
+    $stmt = mysqli_stmt_init($db);
           
-          if (!mysqli_stmt_prepare($stmt,$sql)) {
-              // header("Location: ../add_bill.php?action=sqlerror");
-              echo '<script type="text/javascript">window.location = "indoor_bill.php?action=sqlerror";</script>';
-              exit();
-          }else{
-              mysqli_stmt_bind_param($stmt,"s",$mrid);
-              mysqli_stmt_execute($stmt);
-              mysqli_stmt_store_result($stmt);
-              $resultCheck = mysqli_stmt_num_rows($stmt);
+    if (!mysqli_stmt_prepare($stmt,$sql)) {
+        echo '<script type="text/javascript">window.location = "indoor_bill.php?action=sqlerror";</script>';
+        exit();
+    }else{
+        mysqli_stmt_bind_param($stmt,"s",$mrid);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_store_result($stmt);
+        $resultCheck = mysqli_stmt_num_rows($stmt);
 
-              $sql = "INSERT INTO `indoor_bill`(
-                `MR_ID`,
-                 `PATIENT_NAME`,
-                  `MOBILE`,
-                   `CNIC`,
-                    `ADMIT_DATE_RANGE`,
-                      `DATE_TIME`,
-                       `ADMISSION_CHARGE`,
-                        `SURGEON_CHARGE`,
-                         `ANESTHETIST_CHARGE`,
-                          `OPERATION_CHARGE`,
-                           `LABOUR_ROOM_CHARGE`,
-                            `PEDIATRIC_CHARGE`,
-                             `PRIVATE_ROOM_CHARGE`,
-                              `NURSURY_CHARGE`,
-                               `NURSURY_STAFF_CHARGE`,
-                                `MO_CHARGE`,
-                                 `CONSULTANT_CHARGE`,
-                                  `CTG_CHARGE`,
-                                   `RECOVERY_ROOM_CHARGE`,
-                                    `OTHER`,
-                                     `TOTAL_AMOUNT`,
-                                      `DISCOUNT`,
-                                       `TOTAL`,
-                                        `CREATED_BY`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-              mysqli_stmt_execute($stmt);
+        $sql = "INSERT INTO `indoor_bill`(
+          `MR_ID`,
+          `PATIENT_NAME`,
+          `MOBILE`,
+          `CNIC`,
+          `ADMIT_DATE_RANGE`,
+          `DATE_TIME`,
+          `ADMISSION_CHARGE`,
+          `SURGEON_CHARGE`,
+          `ANESTHETIST_CHARGE`,
+          `OPERATION_CHARGE`,
+          `LABOUR_ROOM_CHARGE`,
+          `PEDIATRIC_CHARGE`,
+          `PRIVATE_ROOM_CHARGE`,
+          `NURSURY_CHARGE`,
+          `NURSURY_STAFF_CHARGE`,
+          `MO_CHARGE`,
+          `CONSULTANT_CHARGE`,
+          `CTG_CHARGE`,
+          `RECOVERY_ROOM_CHARGE`,
+          `OTHER`,
+          `TOTAL_AMOUNT`,
+          `DISCOUNT`,
+          `TOTAL`,
+          `CREATED_BY`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        mysqli_stmt_execute($stmt);
           
-              if (!mysqli_stmt_prepare($stmt,$sql)) {
-                  // header("Location: ../emergency_bill.php?error=sqlerror");
-                  echo '<script type="text/javascript">window.location = "indoor_bill.php?action=sqlerror";</script>';
-                  echo "<script>alert('Sqlerror due to DB Query...');</script>";
-                  exit();
-              }else{                                
-                      mysqli_stmt_bind_param($stmt,"ssssssssssssssssssssssss",
-                      $mrid,$name,$phone,$cnic,$admdate,$addDate,$adCharge,$surCharge,$anesCharge,
-                      $opCharge,$chargeLR,$pedCharge,
-                      $prChargeThree,$nurCharge,$nurStCharge,$moCharge,$conCharge,$ctg,$rrCharge,
-                      $other,$tbill,$discount,$fbill,$by);
-                      mysqli_stmt_execute($stmt);
-                      // echo '<script type="text/javascript">window.location = "../emergency_bill.php?action=saved";</script>';							
-                      echo '<script type="text/javascript">window.location = "indoor_bill_print.php?pname='.$name.'&mrid='.$mrid.'&phone='.$phone.'&cnic='.$cnic.'&age='.$age.'&gender='.$gender.'&add='.$add.'&doc='.$doc.'&pro='.$pro.'&adm='.$admdate.'&adddate='.$addDate.'&adcharge='.$adCharge.'&surcharge='.$surCharge.'&anescharge='.$anesCharge.'&opcharge='.$opCharge.'&chargelr='.$chargeLR.'&pedcharge='.$pedCharge.'&prcharge='.$prChargeThree.'&nurcharge='.$nurCharge.'&nurstcharge='.$nurStCharge.'&mocharge='.$moCharge.'&concharge='.$conCharge.'&ctg='.$ctg.'&rrcharge='.$rrCharge.'&other='.$other.'&type='.$type.'&tbill='.$tbill.'&dis='.$discount.'&fbill='.$fbill.'&by='.$by.'";</script>';                                                   
-                      exit();
-                  }			
-              }
+        if (!mysqli_stmt_prepare($stmt,$sql)) {
+            echo '<script type="text/javascript">window.location = "indoor_bill.php?action=sqlerror";</script>';
+            echo "<script>alert('Sqlerror due to DB Query...');</script>";
+            exit();
+        }else{                                
+            mysqli_stmt_bind_param($stmt,"ssssssssssssssssssssssss",
+            $mrid,$name,$phone,$cnic,$admdate,$addDate,$adCharge,$surCharge,$anesCharge,
+            $opCharge,$chargeLR,$pedCharge,
+            $prChargeThree,$nurCharge,$nurStCharge,$moCharge,$conCharge,$ctg,$rrCharge,
+            $other,$tbill,$discount,$fbill,$by);
+            mysqli_stmt_execute($stmt);
+            echo '<script type="text/javascript">window.location = "indoor_bill_print.php?pname='.$name.'&mrid='.$mrid.'&phone='.$phone.'&cnic='.$cnic.'&age='.$age.'&gender='.$gender.'&add='.$add.'&doc='.$doc.'&pro='.$pro.'&adm='.$admdate.'&adddate='.$addDate.'&adcharge='.$adCharge.'&surcharge='.$surCharge.'&anescharge='.$anesCharge.'&opcharge='.$opCharge.'&chargelr='.$chargeLR.'&pedcharge='.$pedCharge.'&prcharge='.$prChargeThree.'&nurcharge='.$nurCharge.'&nurstcharge='.$nurStCharge.'&mocharge='.$moCharge.'&concharge='.$conCharge.'&ctg='.$ctg.'&rrcharge='.$rrCharge.'&other='.$other.'&type='.$type.'&tbill='.$tbill.'&dis='.$discount.'&fbill='.$fbill.'&by='.$by.'";</script>';                                                   
+            exit();
+          }			
+      }
       mysqli_stmt_close($stmt);
       mysqli_close($db);
-  }
-  ?>
+    }
 
-  <!-- Main Sidebar Container -->
-  <?php include('components/sidebar.php'); ?>
-  <!-- /.Main Sidebar Container-->
-
-  <!-- Content Wrapper. Contains page content -->
-  <?php 
-    if (empty($_GET['mrid'])) {
-      include('components/simple_bill_form.php');  
-      // echo '<script>alert("This is simplet bill form");</script>';
-    } else {
-        // echo'<script>console.log("This is the MR ID"'.$mrid.');</script>';
-      $sql="SELECT *, `DOCTOR_NAME` FROM `indoor_patient` INNER JOIN `doctor` WHERE `PATIENT_MR_ID` = '$mrid' AND `indoor_patient`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID`";
-      $qsql = mysqli_query($db,$sql);
-      $patdata = mysqli_fetch_array($qsql);
+  // Main Sidebar Container
+  include('components/sidebar.php'); 
+  
+  //Check if MRID is empty or not 
+  if (empty($_GET['mrid'])) {
+    include('components/simple_bill_form.php');  
+  } else {
+    $sql="SELECT *, `DOCTOR_NAME` FROM `indoor_patient` INNER JOIN `doctor` WHERE `PATIENT_MR_ID` = '$mrid' AND `indoor_patient`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID`";
+    $qsql = mysqli_query($db,$sql);
+    $patdata = mysqli_fetch_array($qsql);
 ?>
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -292,10 +283,6 @@
                         <input type="number" class="form-control" name="rrCharge" id="rrCharge" placeholder="Recovery Room Rate is 5,000" />
                         </div>
                     </div>
-                    <!-- <div class="form-group col-md-12">
-                        <label>Other</label>
-                        <input type="number" name="other" class="form-control" id="other" placeholder="Enter Other Charges"/>
-                    </div> -->
                     <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                         <div class="form-group col-md-6">
                           <label>Admission | Discharge Date Range</label>
@@ -348,45 +335,45 @@
     </section>
     <!-- /.content -->
   </div>
-  <?php
-    }  
-  ?>
-
-<script>
+  <!-- Function to calculate total amount and discount of the bill -->
+  <script>
     function calculateTotal() {
-        var adCharge = document.getElementById("adCharge").value;
-        var surCharge = document.getElementById("surCharge").value;
-        var anesCharge = document.getElementById("anesCharge").value;
-        var opCharge = document.getElementById("opCharge").value;
-        var chargeLR = document.getElementById("chargeLR").value;
-        var pedCharge = document.getElementById("pedCharge").value;
-        var prChargeThree = document.getElementById("prChargeThree").value;
-        var nurCharge = document.getElementById("nurCharge").value;
-        var nurStCharge = document.getElementById("nurStCharge").value;
-        var moCharge = document.getElementById("moCharge").value;
-        var conCharge = document.getElementById("conCharge").value;
-        var ctg = document.getElementById("ctg").value;
-        var rrCharge = document.getElementById("rrCharge").value;
-        var other = document.getElementById("other").value;
-        var totalBill = +adCharge + +surCharge + +anesCharge+ +opCharge + +chargeLR + +pedCharge+ +prChargeThree + +nurCharge+ +nurStCharge + +moCharge+ +conCharge+ +ctg+ +rrCharge+ +other;
-        document.getElementById("totalBill").value = totalBill;
-        console.log("this is the total result:" ,totalBill);
+      var adCharge = document.getElementById("adCharge").value;
+      var surCharge = document.getElementById("surCharge").value;
+      var anesCharge = document.getElementById("anesCharge").value;
+      var opCharge = document.getElementById("opCharge").value;
+      var chargeLR = document.getElementById("chargeLR").value;
+      var pedCharge = document.getElementById("pedCharge").value;
+      var prChargeThree = document.getElementById("prChargeThree").value;
+      var nurCharge = document.getElementById("nurCharge").value;
+      var nurStCharge = document.getElementById("nurStCharge").value;
+      var moCharge = document.getElementById("moCharge").value;
+      var conCharge = document.getElementById("conCharge").value;
+      var ctg = document.getElementById("ctg").value;
+      var rrCharge = document.getElementById("rrCharge").value;
+      var other = document.getElementById("other").value;
+      var totalBill = +adCharge + +surCharge + +anesCharge+ +opCharge + +chargeLR + +pedCharge+ +prChargeThree + +nurCharge+ +nurStCharge + +moCharge+ +conCharge+ +ctg+ +rrCharge+ +other;
+      document.getElementById("totalBill").value = totalBill;
+      console.log("this is the total result:" ,totalBill);
     }
 
-        function discFunction(discount) {
-          var finalBill = document.getElementById('finalBill');
-          var totalBill = document.getElementById('totalBill');
-          finalBill.value = totalBill.value - discount.value;
-          console.log("this is the final result:" ,finalBill.value);
-        }
-
+    function discFunction(discount) {
+      var finalBill = document.getElementById('finalBill');
+      var totalBill = document.getElementById('totalBill');
+      finalBill.value = totalBill.value - discount.value;
+      console.log("this is the final result:" ,finalBill.value);
+    }
 </script>
 
-  <!-- Main Footer -->
-  <?php include('components/footer.php'); ?>
-  <!-- /. Main Footer -->
-</div>
-<!-- ./wrapper -->
-
-<!-- Script Files -->
-<?php include('components/form_script.php'); ?>
+<?php
+  }  
+ //  Footer File
+ include('components/footer.php'); 
+ 
+ echo '</div>';
+ // Form Script File 
+ include('components/form_script.php'); 
+}else{
+  echo '<script type="text/javascript">window.location = "login.php";</script>';
+}
+?>

@@ -1,17 +1,12 @@
-<?php session_start(); ?>
-  <!-- Header Form -->
-  <?php include('backend_components/connection.php'); ?>
-  <!-- Header Form -->
-  <?php include('components/form_header.php'); ?>
+<?php 
+  session_start(); 
+  if (isset($_SESSION['userid'])) {
 
-  <!-- Navbar -->
-  <?php include('components/navbar.php'); ?>
-  <!-- /.navbar -->
+    include('backend_components/connection.php');
+    include('components/form_header.php');
+    include('components/navbar.php'); 
+    include('components/sidebar.php');
 
-  <!-- Main Sidebar Container -->
-  <?php include('components/sidebar.php'); ?>
-
-  <?php
       if (isset($_POST['room-submit'])) {
         $status =  $_POST['status'];
         $name =  $_POST['name'];
@@ -55,13 +50,9 @@
         mysqli_stmt_close($stmt);
         mysqli_close($db);
     }
-  ?>
-  <!-- /.Main Sidebar Container-->
 
-  <!-- Content Wrapper. Contains page content -->
-  <?php 
   if (empty($_GET['id'])) {
-    ?>
+?>
 
       <div class="content-wrapper">
           <!-- Content Header (Page header) -->
@@ -142,18 +133,18 @@
           <!-- /.content -->
         </div>
   
-    <?php
+<?php
   }else{
-    include('backend_components/update_dept.php');
+      include('backend_components/update_room.php');
   }  
-  ?>
-  <!-- /.content-wrapper -->
+  // Footer File
+  include('components/footer.php');
+  
+  echo '</div>';
+  // Form Script File
+  include('components/form_script.php'); 
 
-  <!-- Main Footer -->
-  <?php include('components/footer.php'); ?>
-  <!-- /. Main Footer -->
-</div>
-<!-- ./wrapper -->
-
-<!-- REQUIRED SCRIPTS -->
-  <?php include('components/form_script.php'); ?>
+}else{
+  echo '<script type="text/javascript">window.location = "login.php";</script>';
+} 
+?>

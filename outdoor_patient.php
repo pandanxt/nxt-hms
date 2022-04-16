@@ -1,15 +1,16 @@
-<?php session_start(); ?>
-  <!-- Connection -->
-  <?php include('backend_components/connection.php'); ?>
-  <!-- table-header -->
-  <?php include('components/table_header.php'); ?>
-  <!-- Navbar -->
-  <?php include('components/navbar.php'); ?>
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
-  <?php include('components/sidebar.php'); ?>
-  <!-- /.Main Sidebar Container-->
+<?php 
+  // Session Start 
+  session_start();
+  if (isset($_SESSION['userid'])) {
+  // Connection File 
+  include('backend_components/connection.php');
+  // Table Header File
+  include('components/table_header.php');
+  // Navbar File
+  include('components/navbar.php');
+  // Sidebar File
+  include('components/sidebar.php'); 
+?>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -17,9 +18,6 @@
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <!-- <div class="col-sm-2">
-            <h1>Patients</h1>
-          </div> -->
           <div class="col-sm-2"><a type="submit" class="btn btn-block btn-primary btn-sm" href="outdoor.php"><i class="fas fa-plus"></i> New Patient</a></div>
           <div class="col-sm-10">
             <ol class="breadcrumb float-sm-right">
@@ -31,8 +29,6 @@
       </div><!-- /.container-fluid -->
     </section>
 
-    <!-- Main content -->
-    <?php //include('components/patient_table.php'); ?>
     <!-- Table Data of Patient -->
     <section class="content">
       <div class="container-fluid">
@@ -47,17 +43,13 @@
                     <th>S.No#</th>
                     <th>MR-ID</th>
                     <th>Name</th>
-                    <!-- <th>Type</th> -->
                     <th>Mobile</th>
-                    <!-- <th>CNIC</th> -->
                     <th>Gender</th>
                     <th>Age</th>
-                    <!-- <th>Address</th> -->
                     <th>Department</th>
                     <th>Doctor</th>
                     <th>Consultant Fee</th>
                     <th>Created By</th>
-                    <!-- <th>Discharge</th> -->
                     <th>Created On</th>
                     <th>Options</th>
                   </tr>
@@ -115,9 +107,14 @@
     <!-- /.content -->
   </div>
   <!-- /.Footer -->
-  <?php include ('components/footer.php'); ?>
-  <!-- /.Footer -->
-</div>
-<!-- ./wrapper -->
-<!-- Table Script -->
-<?php include('components/table_script.php'); ?>
+<?php
+  // Footer File
+  include ('components/footer.php'); 
+  echo '</div>';
+  // Table Script File
+  include('components/table_script.php');
+
+}else{
+  echo '<script type="text/javascript">window.location = "login.php";</script>';
+}
+?>

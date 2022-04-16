@@ -1,26 +1,22 @@
-<?php session_start(); ?>
-  <!-- Connection -->
-  <?php include('backend_components/connection.php'); ?>
-
-  <!-- table-header -->
-  <?php include('components/table_header.php'); ?>
-   <!-- Navbar -->
-   <?php include('components/navbar.php'); ?>
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
-  <?php include('components/sidebar.php'); ?>
-  <!-- /.Main Sidebar Container-->
-
+<?php
+  // Session Start
+  session_start();
+  if (isset($_SESSION['userid'])) {
+  // Connection File
+  include('backend_components/connection.php');
+  // Table Header File
+  include('components/table_header.php');
+  // Navbar File
+  include('components/navbar.php');
+  // Sidebar File
+  include('components/sidebar.php');
+?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <!-- <div class="col-sm-2">
-            <h1>Departments</h1>
-          </div> -->
           <div class="col-sm-2"><a type="submit" class="btn btn-block btn-primary btn-sm" href="add_room.php"><i class="fas fa-plus"></i> New Room</a></div>
           <div class="col-sm-10">
             <ol class="breadcrumb float-sm-right">
@@ -31,9 +27,6 @@
         </div>
       </div><!-- /.container-fluid -->
     </section>
-
-    <!-- Main content -->
-    <?php //include('components/dept_table.php'); ?>
 
     <section class="content">
       <div class="container-fluid">
@@ -69,13 +62,13 @@
                         <td>$rs[ADMIN_USERNAME]</td>
                         <td>$date</td>
                         <td style='display:flex;'>
-                            <a href='view_dept.php?id=$rs[ROOM_ID]' style='color:green;'>
+                            <a href='view_room.php?id=$rs[ROOM_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
                             </a><br>
-                            <a href='add_dept.php?id=$rs[ROOM_ID]'>
+                            <a href='add_room.php?id=$rs[ROOM_ID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
-                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?deptId=$rs[ROOM_ID]' style='color:red;'>
+                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?roomId=$rs[ROOM_ID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
                             </a>
                         </td>
@@ -98,9 +91,14 @@
     <!-- /.content -->
   </div>
   <!-- /.Footer -->
-  <?php include ('components/footer.php'); ?>
-  <!-- /.Footer -->
-</div>
-<!-- ./wrapper -->
-<!-- Table Script -->
-<?php include('components/table_script.php'); ?>
+<?php 
+  // Footer File
+  include ('components/footer.php');
+  echo '</div>';
+  // Table Script File
+  include('components/table_script.php');
+
+}else{
+  echo '<script type="text/javascript">window.location = "login.php";</script>';
+}
+?>

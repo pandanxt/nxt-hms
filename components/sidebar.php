@@ -39,6 +39,9 @@
        <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
+            <!------************------>
+            <!------Patient Slip------>
+            <!------************------> 
             <li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-hospital-user"></i>
@@ -68,18 +71,14 @@
                         <p>Outdoor Patient</p>
                         </a>
                     </li>
-                  <small>
-                  </small>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>Other Patient</p>
-                        </a>
-                    </li>
                   </small>
                 </ul>
             </li>
             
+            <!------************------>
+            <!------Patient Bill------>
+            <!------************------> 
+
             <li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-hospital-user"></i>
@@ -103,79 +102,12 @@
                         </a>
                     </li>
                   </small>
-                  <small>
-                    <li class="nav-item">
-                        <a href="outdoor_bill.php" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>Outdoor Bill</p>
-                        </a>
-                    </li>
-                  <small>
-                  </small>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>Other Patient</p>
-                        </a>
-                    </li>
-                  </small>
                 </ul>
             </li>
 
-            <!-- <li class="nav-item">
-                <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-hospital-user"></i>
-                <p>MedEast Services<i class="right fas fa-angle-left"></i></p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <small>
-                    <li class="nav-item">
-                        <a href="emergency_service.php" class="nav-link">
-                        <i class="nav-icon fas fa-user-injured"></i>
-                        <p>Emergency Services</p>
-                        </a>
-                    </li>
-                  </small>
-                  <small>
-                    <li class="nav-item">
-                    <a href="surgery_service.php" class="nav-link">
-                        <i class="nav-icon fas fa-procedures"></i>
-                        <p>Gen-Surgery Services</p>  
-                        </a>
-                    </li>
-                  </small>
-                  <small>
-                    <li class="nav-item">
-                        <a href="illness_service.php" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>Gen-Illness Services</p>
-                        </a>
-                    </li>
-                  <small>
-                  </small>
-                    <li class="nav-item">
-                        <a href="eye_service.php" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>Eye Services</p>
-                        </a>
-                    </li>
-                  </small>
-                </ul>
-            </li> -->
-
-            <!-- <li class="nav-item">
-                <a href="bill.php" class="nav-link">
-                <i class="nav-icon fas fa-file-invoice"></i>
-                <p>Bill Details</p>
-                </a>
-            </li> -->
-
-            <!-- <li class="nav-item">
-                <a href="patients.php" class="nav-link">
-                <i class="nav-icon fas fa-hospital-user"></i>
-                <p>Patient Details</p>
-                </a>
-            </li> -->
+            <!------**************------>
+            <!------Patient Record------>
+            <!------**************------> 
 
             <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -206,17 +138,13 @@
                         <p>Outdoor Patients</p>
                         </a>
                     </li>
-                  <small>
-                  </small>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>Other Patients</p>
-                        </a>
-                    </li>
                   </small>
                 </ul>
             </li>
+
+            <!------**************------>
+            <!------Doctor Details------>
+            <!------**************------> 
 
             <li class="nav-item">
                 <a href="doctors.php" class="nav-link">
@@ -225,6 +153,10 @@
                 </a>
             </li>
 
+            <!------******************------>
+            <!------Department Details------>
+            <!------******************------> 
+
             <li class="nav-item">
                 <a href="dept.php" class="nav-link">
                 <i class="nav-icon fas fa-building"></i>
@@ -232,12 +164,9 @@
                 </a>
             </li>
  
-            <!--<li class="nav-item">
-                <a href="services.php" class="nav-link">
-                <i class="nav-icon fas fa-hand-holding-medical"></i>
-                <p>Services</p>
-                </a>
-            </li> -->
+            <!------**************------>
+            <!------User Details------>
+            <!------**************------> 
 
             <li class="nav-item">
                 <a href="users.php" class="nav-link">
@@ -245,6 +174,10 @@
                 <p>Users</p>
                 </a>
             </li>
+
+            <!------***************------>
+            <!------Setting Options------>
+            <!------***************------> 
 
             <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -278,14 +211,6 @@
                         </a>
                     </li>
                   </small>
-                  <!-- <small>
-                    <li class="nav-item">
-                        <a href="patient_type.php" class="nav-link">
-                        <i class="nav-icon fas fa-procedures"></i>
-                        <p>Patient Type</p>
-                        </a>
-                    </li>
-                  </small> -->
                   <small>
                     <li class="nav-item">
                         <a href="room.php" class="nav-link">
@@ -294,22 +219,6 @@
                         </a>
                     </li>
                   </small>
-                  <!-- <small>
-                    <li class="nav-item">
-                        <a href="indoor_type.php" class="nav-link">
-                        <i class="nav-icon fas fa-procedures"></i>
-                        <p>Indoor Patient Type</p>
-                        </a>
-                    </li>
-                  </small> -->
-                  <!-- <small>
-                    <li class="nav-item">
-                        <a href="education.php" class="nav-link">
-                        <i class="nav-icon fas fa-user-graduate"></i>
-                        <p>Doctor Education</p>
-                        </a>
-                    </li>
-                  </small> -->
                   <?php if (isset($_SESSION['userid'])) { ?>
                   <small>
                     <li class="nav-item">

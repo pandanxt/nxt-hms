@@ -1,14 +1,16 @@
-<?php 
+<?php
+    // Session Starts
     session_start(); 
+    if (isset($_SESSION['userid'])) {
+    // Connection File
+    include('backend_components/connection.php');
+    // Table Header File
+    include('components/table_header.php');
+    // Navbar File
+    include('components/navbar.php');
+    // Sidebar File
+    include('components/sidebar.php');
 ?>
-  <!-- Connection -->
-  <?php include('backend_components/connection.php'); ?>
-  <!-- table-header -->
-  <?php include('components/table_header.php'); ?>
-   <!-- Navbar -->
-   <?php include('components/navbar.php'); ?>
-  <!-- Main Sidebar Container -->
-  <?php include('components/sidebar.php'); ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <section class="content-header"></section>
@@ -23,8 +25,8 @@
           {
               while ($row=mysqli_fetch_array($result)) 
               { 
-                $date = substr($row['DEPARTMENT_SAVE_TIME'],0, 15);
-                $time = substr($row['DEPARTMENT_SAVE_TIME'],16, 50);
+                $date = substr($row['DEPARTMENT_DATE_TIME'],0, 15);
+                $time = substr($row['DEPARTMENT_DATE_TIME'],16, 50);
          
           ?>
             <div class="card">
@@ -39,7 +41,7 @@
                       <div class="col-md-6">
                         <div class="col-md-12 clearfix">
                          <?php echo '<div class="row "><label>Department Name: </label>&nbsp; <p>'.$row["DEPARTMENT_NAME"].'</p></div>'; ?>
-                         <?php echo '<div class="row"><label>Department Description: </label>&nbsp; <p>'.$row["DEPARTMENT_DESC"].'</p></div>'; ?>
+                         <!-- <?php //echo '<div class="row"><label>Department Description: </label>&nbsp; <p>'.$row["DEPARTMENT_DESC"].'</p></div>'; ?> -->
                          <?php echo '<div class="row"><label>Status: </label>&nbsp; <p>'.$row["DEPARTMENT_STATUS"].'&nbsp; <a href="#"><i class="fas fa-exchange-alt"></i></a></p></div>'; ?>
                         </div>
                       </div>
@@ -66,13 +68,16 @@
     <!-- /.content -->
   </div>
   <!-- /.Footer -->
-  <?php 
-         }
-        }   
-  ?>
-  <!-- /.Footer -->
-  <?php include ('components/footer.php'); ?>
-</div>
-<!-- ./wrapper -->
-<!-- Table Script -->
-<?php include('components/table_script.php'); ?>
+<?php 
+   }
+  }   
+  // Footer File
+  include ('components/footer.php'); 
+  echo '</div>';
+  // Table Script File
+  include('components/table_script.php'); 
+
+}else{
+  echo '<script type="text/javascript">window.location = "login.php";</script>';
+}
+?>
