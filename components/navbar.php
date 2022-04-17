@@ -30,29 +30,83 @@
        <!------Doctor Icon------>
        <!------***********------> 
 
-      <li class="nav-item d-none d-sm-inline-block">
+      <!-- <li class="nav-item d-none d-sm-inline-block">
         <a href="add_doctor.php" class="nav-link">
           <i class="fas fa-user-md"></i> Doctor
         </a>
-      </li>
+      </li> -->
 
       <!------***************------>
       <!------Department Icon------>
       <!------***************------> 
 
-      <li class="nav-item d-none d-sm-inline-block">
+      <!-- <li class="nav-item d-none d-sm-inline-block">
         <a href="add_dept.php" class="nav-link">
         <i class="fas fa-building"></i> Department
         </a>
-      </li>
+      </li> -->
 
       <!------*********------>
       <!------User Icon------>
       <!------*********------> 
 
-      <li class="nav-item d-none d-sm-inline-block">
+      <!-- <li class="nav-item d-none d-sm-inline-block">
         <a href="add_user.php" class="nav-link">
           <i class="fas fa-users"></i> Users
+        </a>
+      </li> -->
+
+      <!------*********------>
+      <!------IMRC Patient Icon------>
+      <!------*********------> 
+
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+           <i class="fas fa-user-injured"></i> IMRC
+        </a>
+        <div class="dropdown-menu dropdown-menu-mg dropdown-menu-right">
+          <a href="emergency_patient_slip.php" class="dropdown-item">
+            <i class="fas fa-user-injured mr-2"></i> Emergency Slip
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="emergency_patient_bill.php" class="dropdown-item">
+            <i class="fas fa-user-injured mr-2"></i> Emergency Bill
+          </a>
+        </div>
+       </li>
+
+      <!------*****************------>
+      <!------Indoor Patient Icon------>
+      <!------*****************------> 
+
+      <!-- <li class="nav-item d-none d-sm-inline-block">
+        <a href="indoor_patient_slip.php" class="nav-link">
+          <i class="fas fa-users"></i> Admit
+        </a>
+      </li> -->
+
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+           <i class="fas fa-procedures"></i> Indoor Patient
+        </a>
+        <div class="dropdown-menu dropdown-menu-mg dropdown-menu-right">
+          <a href="indoor_patient_slip.php" class="dropdown-item">
+            <i class="fas fa-procedures mr-2"></i> Indoor Slip
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="indoor_patient_bill.php" class="dropdown-item">
+            <i class="fas fa-procedures mr-2"></i> Indoor Bill
+          </a>
+        </div>
+      </li>
+
+      <!------*********------>
+      <!------IMRC Patient Icon------>
+      <!------*********------> 
+
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="outdoor_patient_slip.php" class="nav-link">
+          <i class="fas fa-users"></i> Outdoor
         </a>
       </li>
 

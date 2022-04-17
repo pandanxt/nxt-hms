@@ -142,6 +142,54 @@
                 </ul>
             </li>
 
+                        <!------**************------>
+            <!------Patient Record------>
+            <!------**************------> 
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-hospital-user"></i>
+                <p>Slip Records<i class="right fas fa-angle-left"></i></p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <small>
+                    <li class="nav-item">
+                        <a href="emergency_slip_record.php" class="nav-link">
+                        <i class="nav-icon fas fa-user-injured"></i>
+                        <p>Emergency Slips</p>
+                        </a>
+                    </li>
+                  </small>
+                  <small>
+                    <li class="nav-item">
+                    <a href="indoor_slip_record.php" class="nav-link">
+                        <i class="nav-icon fas fa-procedures"></i>
+                        <p>Indoor Slips</p>  
+                        </a>
+                    </li>
+                  </small>
+                  <small>
+                    <li class="nav-item">
+                        <a href="outdoor_slip_record.php" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>Outdoor Slips</p>
+                        </a>
+                    </li>
+                  </small>
+                </ul>
+            </li>
+
+            <!------**************------>
+            <!------Patient Record------>
+            <!------**************------> 
+
+            <li class="nav-item">
+                <a href="patient_record.php" class="nav-link">
+                <i class="nav-icon fas fa-user-injured"></i>
+                <p>MedEast Patients</p>
+                </a>
+            </li>
+
             <!------**************------>
             <!------Doctor Details------>
             <!------**************------> 
