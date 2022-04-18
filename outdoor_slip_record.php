@@ -41,6 +41,8 @@
                   <tr>
                     <th>S.No#</th>
                     <th>MR-ID</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
                     <th>Department</th>
                     <th>Consultant</th>
                     <th>Fee</th>
@@ -61,6 +63,8 @@
                         <td>$rs[SLIP_ID]
                         </td>
                         <td>$rs[SLIP_MR_ID]</td>
+                        <td>$rs[SLIP_NAME]</td>
+                        <td>$rs[SLIP_MOBILE]</td>
                         <td>$rs[DEPARTMENT_NAME]</td>
                         <td>$rs[DOCTOR_NAME]</td>
                         <td>$rs[SLIP_FEE]</td>

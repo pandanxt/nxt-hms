@@ -50,7 +50,7 @@
                 <ul class="nav nav-treeview">
                   <small>
                     <li class="nav-item">
-                        <a href="emergency.php" class="nav-link">
+                        <a href="emergency_patient_slip.php" class="nav-link">
                         <i class="nav-icon fas fa-user-injured"></i>
                         <p>Emergency Patient</p>
                         </a>
@@ -58,7 +58,8 @@
                   </small>
                   <small>
                     <li class="nav-item">
-                        <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-indoor">
+                        <a href="indoor_patient_slip.php" class="nav-link">
+                        <!-- <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-indoor"> -->
                         <i class="nav-icon fas fa-procedures"></i>
                         <p>Indoor Patient</p>  
                         </a>
@@ -66,7 +67,7 @@
                   </small>
                   <small>
                     <li class="nav-item">
-                        <a href="outdoor.php" class="nav-link">
+                        <a href="outdoor_patient_slip.php" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>Outdoor Patient</p>
                         </a>
@@ -109,7 +110,7 @@
             <!------Patient Record------>
             <!------**************------> 
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-hospital-user"></i>
                 <p>Patient Records<i class="right fas fa-angle-left"></i></p>
@@ -140,9 +141,9 @@
                     </li>
                   </small>
                 </ul>
-            </li>
+            </li> -->
 
-                        <!------**************------>
+            <!------**************------>
             <!------Patient Record------>
             <!------**************------> 
 

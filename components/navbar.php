@@ -114,7 +114,7 @@
       <!------Emergency Dropdown Menu------>
       <!------***********************------> 
 
-       <li class="nav-item dropdown">
+       <!-- <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
            <i class="fas fa-user-injured"></i> Emergency
         </a>
@@ -123,44 +123,41 @@
             <i class="fas fa-user-injured mr-2"></i> Emergency Slip
           </a>
           <div class="dropdown-divider"></div>
-          <!-- <a href="emergency_bill.php" class="dropdown-item"> -->
           <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-emergency-bill">
             <i class="fas fa-user-injured mr-2"></i> Emergency Bill
           </a>
         </div>
-       </li>
+       </li> -->
        
       <!------*********************------>
       <!------Indoor Dropdown Menu------>
       <!------********************------> 
 
-       <li class="nav-item dropdown">
+       <!-- <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
            <i class="fas fa-procedures"></i> Indoor Patient
         </a>
         <div class="dropdown-menu dropdown-menu-mg dropdown-menu-right">
-          <!-- <a href="#" class="dropdown-item"> -->
           <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-indoor">
             <i class="fas fa-procedures mr-2"></i> Indoor Slip
           </a>
           <div class="dropdown-divider"></div>
-          <!-- <a href="#" class="dropdown-item"> -->
           <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-indoor-bill">
             <i class="fas fa-procedures mr-2"></i> Indoor Bill
           </a>
         </div>
-      </li>
+      </li> -->
 
       <!------*********************------>
       <!------Outdoor Dropdown Menu------>
       <!------*********************------> 
 
-      <li class="nav-item d-none d-sm-inline-block">
+      <!-- <li class="nav-item d-none d-sm-inline-block">
         <a href="outdoor.php" class="nav-link">
           <i class="fas fa-user"></i> OPD Patient
         </a>
-      </li>
-    </ul>
+      </li>-->
+    </ul> 
 
     <!------******************------>
     <!------Right Navbar Links------>

@@ -19,7 +19,7 @@
     $saveOn = $_POST['addDate'];  
     $mrid = $_POST['mrid'];
     $phone = $_POST['phone'];
-    $cnic = $_POST['cnic'];
+    // $cnic = $_POST['cnic'];
     $gender = $_POST['gender'];
     $doctor = $_POST['doctor'];
     $age = $_POST['age'];
@@ -27,38 +27,36 @@
     $by = $_POST['by'];
 
     // Check Data from DB
-    $sql = "SELECT * FROM `patient` WHERE `PATIENT_MR_ID` = ? OR `PATIENT_MOBILE` = ? OR `PATIENT_CNIC` = ?";
+    $sql = "SELECT * FROM `patient` WHERE `PATIENT_MR_ID` = ? OR `PATIENT_MOBILE` = ?";
     $stmt = mysqli_stmt_init($db);
     
     if (!mysqli_stmt_prepare($stmt,$sql)) {
         echo "<script>alert('Sqlerror due to DB...');</script>";
         exit();
     }else{
-        mysqli_stmt_bind_param($stmt,"sss",$mrid,$phone,$cnic);
+        mysqli_stmt_bind_param($stmt,"ss",$mrid,$phone);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_store_result($stmt);
         $resultCheck = mysqli_stmt_num_rows($stmt);
             
         if ($resultCheck > 0) {
 
-          $slipQuery = "INSERT INTO `emergency_slip`(`SLIP_MR_ID`, `DOCTOR_ID`, `SLIP_DATE_TIME`, `STAFF_ID`) VALUES (?,?,?,?)";
+          $slipQuery = "INSERT INTO `emergency_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DOCTOR_ID`, `SLIP_DATE_TIME`, `STAFF_ID`) VALUES (?,?,?,?,?,?)";
           mysqli_stmt_execute($stmt);
               
             if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
               echo "<script>alert('Sqlerror due to DB Query...');</script>";
               exit();
             }else{
-              mysqli_stmt_bind_param($stmt,"ssss", $mrid,$doctor,$saveOn,$by);
-              if (mysqli_stmt_execute($stmt)) {
-                echo "<script>alert('Patient slip is created but patient data already exists...');</script>";
-                // Get Data of Patient from DB
-                $patientQuery = "SELECT * FROM `patient` WHERE `PATIENT_MR_ID` = '$mrid' OR `PATIENT_MOBILE` = '$phone' OR `PATIENT_CNIC` = '$cnic'";
-                $psql = mysqli_query($db,$patientQuery);
-                while($prs = mysqli_fetch_array($psql))
-                { 
-                  // echo "<script>alert('Data fetched from DB...pname='".$prs['PATIENT_NAME']."'&on='".$saveOn."'&mrid='".$prs['PATIENT_MR_ID']."'&phone='".$prs['PATIENT_MOBILE']."'&gender='".$prs['PATIENT_GENDER']."'&doc='".$doctor."'&age='".$prs['PATIENT_AGE']."'&add='".$prs['PATIENT_ADDRESS']."'&by='".$by."');</script>";
-                  echo '<script type="text/javascript">window.location = "emergency_slip_print.php?pname='.$prs['PATIENT_NAME'].'&on='.$saveOn.'&mrid='.$prs['PATIENT_MR_ID'].'&phone='.$prs['PATIENT_MOBILE'].'&gender='.$prs['PATIENT_GENDER'].'&doc='.$doctor.'&age='.$prs['PATIENT_AGE'].'&add='.$prs['PATIENT_ADDRESS'].'&by='.$by.'";</script>';
-                }
+              $patientQuery = "SELECT * FROM `patient` WHERE `PATIENT_MR_ID` = '$mrid' OR `PATIENT_MOBILE` = '$phone'";
+              $psql = mysqli_query($db,$patientQuery);
+              while($prs = mysqli_fetch_array($psql))
+              {
+                  mysqli_stmt_bind_param($stmt,"ssssss", $prs['PATIENT_MR_ID'],$name,$prs['PATIENT_MOBILE'],$doctor,$saveOn,$by);
+                  if (mysqli_stmt_execute($stmt)) {
+                    echo "<script>alert('Patient slip is created but patient data already exists...');</script>";
+                    echo '<script type="text/javascript">window.location = "emergency_slip_print.php?pname='.$prs['PATIENT_NAME'].'&on='.$saveOn.'&mrid='.$prs['PATIENT_MR_ID'].'&phone='.$prs['PATIENT_MOBILE'].'&gender='.$prs['PATIENT_GENDER'].'&doc='.$doctor.'&age='.$prs['PATIENT_AGE'].'&add='.$prs['PATIENT_ADDRESS'].'&by='.$by.'";</script>';
+                  }
               } 
             }   
           // echo '<script type="text/javascript">window.location = "emergency.php?action=nameTaken";</script>';
@@ -70,30 +68,29 @@
             `PATIENT_MR_ID`, 
             `PATIENT_NAME`, 
             `PATIENT_MOBILE`, 
-            `PATIENT_CNIC`,
             `PATIENT_GENDER`, 
             `PATIENT_AGE`, 
             `PATIENT_ADDRESS`, 
             `CREATED_ON`, 
             `CREATED_BY`
-          ) VALUES (?,?,?,?,?,?,?,?,?)";
+          ) VALUES (?,?,?,?,?,?,?,?)";
           mysqli_stmt_execute($stmt);
                 
           if (!mysqli_stmt_prepare($stmt,$sql)) {
               echo "<script>alert('Sqlerror due to DB Query...');</script>";
               exit();
           }else{
-              mysqli_stmt_bind_param($stmt,"sssssssss", $mrid,$name,$phone,$cnic,$gender,$age,$address,$saveOn,$by);
+              mysqli_stmt_bind_param($stmt,"ssssssss", $mrid,$name,$phone,$gender,$age,$address,$saveOn,$by);
              
               if (mysqli_stmt_execute($stmt)){
-                $slipQuery = "INSERT INTO `emergency_slip`(`SLIP_MR_ID`, `DOCTOR_ID`, `SLIP_DATE_TIME`, `STAFF_ID`) VALUES (?,?,?,?)";
+                $slipQuery = "INSERT INTO `emergency_slip`(`SLIP_MR_ID`,`SLIP_NAME`,`SLIP_MOBILE`, `DOCTOR_ID`, `SLIP_DATE_TIME`, `STAFF_ID`) VALUES (?,?,?,?,?,?)";
                 mysqli_stmt_execute($stmt);
               
                 if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
                   echo "<script>alert('Sqlerror due to DB Query...');</script>";
                   exit();
                 }else{
-                  mysqli_stmt_bind_param($stmt,"ssss", $mrid,$doctor,$saveOn,$by);
+                  mysqli_stmt_bind_param($stmt,"ssssss", $mrid,$name,$phone,$doctor,$saveOn,$by);
                   if (mysqli_stmt_execute($stmt)) {
                     echo "<script>alert('Patient slip is created and patient data is also stored...');</script>";
                     echo '<script type="text/javascript">window.location = "emergency_slip_print.php?pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&gender='.$gender.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&by='.$by.'";</script>';
@@ -153,52 +150,60 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-6">
-              <div class="form-group">
-                <label>Patient MR-ID</label>
-                <input type="text" name="mrid" class="form-control" id="inputMR1" readonly>
+              
+              <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                <div class="form-group col-md-6">
+                  <label>Patient MR-ID</label>
+                  <input type="text" name="mrid" class="form-control" id="inputMR1" readonly>
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Patient Name</label>
+                  <input type="text" name="name" class="form-control" id="inputName1" placeholder="Enter Patient Name Here ..." required>
+                </div>
               </div>
-              <div class="form-group">
-                <label>Patient Name</label>
-                <input type="text" name="name" class="form-control" id="inputName1" placeholder="Enter Patient Name Here ..." required>
+
+              <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                <div class="form-group col-md-6">
+                  <label>Mobile No#</label>
+                  <input type="tel" name="phone" class="form-control" id="inputPhone" placeholder="Enter Mobile No. without '-' " required>
+                </div>
+                <!-- /.form-group -->
+                <!-- <div class="form-group">
+                  <label>CNIC No#</label>
+                  <input type="number" name="cnic" class="form-control" id="inputCnic" placeholder="Enter CNIC No. without '-' ">
+                </div> -->
+                <!-- /.form-group -->
+                <div class="form-group col-md-6">
+                  <label id="doctor">Medical Officer (MO)</label>
+                  <select class="form-control select2bs4" name="doctor" style="width: 100%;">
+                  <option disabled selected>Select Doctor Name</option>
+                    <?php
+                      $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "active"';
+                      $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
+                        while ($row = mysqli_fetch_array($result)) {
+                          $id = $row['DOCTOR_ID'];  
+                          $name = $row['DOCTOR_NAME'];
+                          echo '<option value="'.$id.'">'.$name.'</option>'; 
+                      }
+                    ?>
+                  </select>
+                </div>
               </div>
               <!-- /.form-group -->
-              <div class="form-group">
-                <label>Mobile No#</label>
-                <input type="tel" name="phone" class="form-control" id="inputPhone" placeholder="Enter Mobile No. without '-' " required>
-              </div>
-              <!-- /.form-group -->
-              <div class="form-group">
-                <label>CNIC No#</label>
-                <input type="number" name="cnic" class="form-control" id="inputCnic" placeholder="Enter CNIC No. without '-' ">
-              </div>
             </div>
               
             <!-- /.col -->
             <div class="col-md-6">
             <input type="text" name="addDate" id="addDate" hidden/>
             <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
-              <!-- /.form-group -->
-              <div class="form-group">
-                <label id="doctor">Medical Officer (MO)</label>
-                <select class="form-control select2bs4" name="doctor" style="width: 100%;">
-                <option disabled selected>Select Doctor Name</option>
-                  <?php
-                    $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "active"';
-                    $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
-                      while ($row = mysqli_fetch_array($result)) {
-                        $id = $row['DOCTOR_ID'];  
-                        $name = $row['DOCTOR_NAME'];
-                        echo '<option value="'.$id.'">'.$name.'</option>'; 
-                    }
-                  ?>
-                </select>
-              </div>
-              <div class="form-group">
+              
+            <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+              <div class="form-group col-md-6">
                 <label>Patient Age</label>
                 <input type="number" name="age" class="form-control" id="inputAge1" placeholder="Enter Patient Age Here ..." required>
               </div>
               <!-- /.form-group -->
-              <div class="form-group">
+              <div class="form-group col-md-6">
                 <label>Patient Gender</label>
                 <select class="form-control select2bs4" name="gender" style="width: 100%;">
                   <option selected="selected" value="male">Male</option>
@@ -206,6 +211,8 @@
                   <option value="other">Other</option>
                 </select>
               </div>
+            </div>
+              
               <!-- /.form-group -->
               <div class="form-group">
                 <label>Patient Address</label>

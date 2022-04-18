@@ -7,7 +7,7 @@
   $saveOn = (isset($_GET['on']) ? $_GET['on'] : '');
   $mrid = (isset($_GET['mrid']) ? $_GET['mrid'] : '');
   $phone = (isset($_GET['phone']) ? $_GET['phone'] : '');
-  $cnic = (isset($_GET['cnic']) ? $_GET['cnic'] : '');
+  // $cnic = (isset($_GET['cnic']) ? $_GET['cnic'] : '');
   $gender = (isset($_GET['gender']) ? $_GET['gender'] : '');
   $doctor = (isset($_GET['doc']) ? $_GET['doc'] : '');
   $age = (isset($_GET['age']) ? $_GET['age'] : '');
@@ -77,7 +77,7 @@
         <h4><b>MR_ID# </b><?php echo $mrid; ?></h4><br>
         <h4><b>Patient Name :</b> <?php echo $pname; ?></h4><br>
         <h4><b>Contact :</b> <?php echo $phone; ?></h4><br>
-        <h4><b>CNIC No :</b> <?php echo $cnic; ?></h4><br>        
+        <!-- <h4><b>CNIC No :</b> <?php //echo $cnic; ?></h4><br>         -->
         <h4><b>Consultant :</b> <?php echo $doctor_row['DOCTOR_NAME']; ?></h4><br>
         <h4><b>Staff :</b> <?php echo $admin_row['ADMIN_USERNAME'];; ?></h4><br>
       </div>

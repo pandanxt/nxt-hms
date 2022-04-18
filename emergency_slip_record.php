@@ -41,8 +41,8 @@
                   <tr>
                     <th>S.No#</th>
                     <th>MR-ID</th>
-                    <!-- <th>Name</th> -->
-                    <!-- <th>Mobile</th> -->
+                    <th>Name</th>
+                    <th>Mobile</th>
                     <th>Doctor</th>
                     <th>Created By</th>
                     <th>Created On</th>
@@ -61,6 +61,8 @@
                         <td>$rs[SLIP_ID]
                         </td>
                         <td>$rs[SLIP_MR_ID]</td>
+                        <td>$rs[SLIP_NAME]</td>
+                        <td>$rs[SLIP_MOBILE]</td>
                         <td>$rs[DOCTOR_NAME]</td>
                         <td>$rs[ADMIN_USERNAME]</td>
                         <td>$date</td> 
