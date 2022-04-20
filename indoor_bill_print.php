@@ -4,19 +4,19 @@
   if (isset($_SESSION['userid'])) {
   // Get Variables from URL
   $pname = (isset($_GET['pname']) ? $_GET['pname'] : '');
-  $saveOn = (isset($_GET['adddate']) ? $_GET['adddate'] : '');
+  $admdate = (isset($_GET['admdate']) ? $_GET['admdate'] : '');
+  $disdate = (isset($_GET['disdate']) ? $_GET['disdate'] : '');
   $mrid = (isset($_GET['mrid']) ? $_GET['mrid'] : '');
   $phone = (isset($_GET['phone']) ? $_GET['phone'] : '');
-  $cnic = (isset($_GET['cnic']) ? $_GET['cnic'] : '');
-  $gender = (isset($_GET['gender']) ? $_GET['gender'] : '');
+  // $cnic = (isset($_GET['cnic']) ? $_GET['cnic'] : '');
+  // $gender = (isset($_GET['gender']) ? $_GET['gender'] : '');
   $doctor = (isset($_GET['doc']) ? $_GET['doc'] : '');
-  $age = (isset($_GET['age']) ? $_GET['age'] : '');
+  // $age = (isset($_GET['age']) ? $_GET['age'] : '');
   $type = (isset($_GET['type']) ? $_GET['type'] : '');
   $procedure = (isset($_GET['pro']) ? $_GET['pro'] : '');
-  $address = (isset($_GET['add']) ? $_GET['add'] : '');
+  // $address = (isset($_GET['add']) ? $_GET['add'] : '');
   $by = (isset($_GET['by']) ? $_GET['by'] : '');
 
-  $adm = (isset($_GET['adm']) ? $_GET['adm'] : '');
   $adcharge = (isset($_GET['adcharge']) ? $_GET['adcharge'] : '');
   $surcharge = (isset($_GET['surcharge']) ? $_GET['surcharge'] : '');
   $anescharge = (isset($_GET['anescharge']) ? $_GET['anescharge'] : '');
@@ -35,7 +35,8 @@
   $dis = (isset($_GET['dis']) ? $_GET['dis'] : '');
   $fbill = (isset($_GET['fbill']) ? $_GET['fbill'] : '');
 
-  $date = substr($saveOn,0, 24);
+  $newAdmdate = substr($admdate,0, 24);
+  $newDisdate = substr($disdate,0, 24);
     
   $newType;
     
@@ -72,7 +73,7 @@
       <div class="col-md-12">
         <h2 class="page-header">
           <img src="dist/img/medeast-logo-icon.png" alt="MedEast Logo"/><b> MEDEAST HOSPITAL</b>
-          <small class="float-right" style="font-size:12px;">Slip Date: <?php echo $saveOn; ?></small>
+          <small class="float-right" style="font-size:12px;">Slip Date: <?php echo $disdate; ?></small>
         </h2>
         <div class="float-right" style="margin-top: -125px;">
         <div style="display:flex;">
@@ -99,19 +100,19 @@
         <p><b>MR_ID# </b><?php echo $mrid; ?></P>
         <p><b>Patient Name :</b> <?php echo $pname; ?></p>
         <p><b>Contact :</b> <?php echo $phone; ?></P>
-        <p><b>CNIC No. :</b> <?php echo $cnic; ?></P>
-        <p><b>Consultant :</b> <?php echo $doctor; ?></p>
+        <!-- <p><b>CNIC No. :</b> <?php //echo $cnic; ?></P> -->
         <p><b>Procedure :</b> <?php echo $procedure; ?></p>
        
       </div>
       <!-- /.col -->
       <div class="col-sm-6 invoice-col">
       <hr style="margin-top:5px;"/>
+        <p><b>Consultant :</b> <?php echo $doctor; ?></p>
         <p><b>Patient Type :</b> <?php echo $newType; ?></p>
-        <p><b>Age :</b> <?php echo $age; ?> | <?php echo $gender; ?></p>
+        <!-- <p><b>Age :</b> <?php //echo $age; ?> | <?php //echo $gender; ?></p> -->
         <!-- <h4><b>Gender :</b> <?php //echo $gender; ?></h4><br> -->
-        <p><b>Address :</b> <?php echo $address; ?></p>
-        <p><b>Date/Time Range :</b> <?php echo $adm; ?></p>
+        <!-- <p><b>Address :</b> <?php //echo $address; ?></p> -->
+        <p><b>Admit Dates :</b> <?php echo $newAdmdate; ?> - <?php echo $newDisdate; ?></p>
         <p><b>Staff :</b> <?php echo $admin_row['ADMIN_USERNAME'];; ?></p>
         <!-- <h4><b>Time :</b> <?php //echo $saveOn; ?></h4><br> -->
       </div>
@@ -197,7 +198,7 @@
       <div class="col-6"></div>
       <!-- /.col -->
       <div class="col-6">
-        <p class="lead">Amount Due <?php echo $date; ?></p>
+        <p class="lead">Amount Due <?php echo $newDisdate; ?></p>
 
         <div class="table-responsive">
           <table class="table">

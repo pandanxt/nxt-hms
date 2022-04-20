@@ -17,11 +17,11 @@
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-2"><a type="submit" class="btn btn-block btn-primary btn-sm" href="emergency.php"><i class="fas fa-plus"></i> New Patient</a></div>
+          <div class="col-sm-2"><a type="submit" class="btn btn-block btn-primary btn-sm" href="emergency_patient_slip.php"><i class="fas fa-plus"></i> Emergency Patient</a></div>
           <div class="col-sm-10">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Slip Record</li>
+              <li class="breadcrumb-item active">Emergency Slip Record</li>
             </ol>
           </div>
         </div>
@@ -59,6 +59,9 @@
                        $date = substr($rs['SLIP_DATE_TIME'],0, 21);
                         echo "<tr>
                         <td>$rs[SLIP_ID]
+                           <br> <a href='emergency_patient_bill.php?sid=$rs[SLIP_ID]' style='color:green;'>
+                              <i class='fas fa-wallet'></i> Bill
+                            </a>
                         </td>
                         <td>$rs[SLIP_MR_ID]</td>
                         <td>$rs[SLIP_NAME]</td>
