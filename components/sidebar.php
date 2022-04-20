@@ -143,9 +143,9 @@
                 </ul>
             </li> -->
 
-            <!------**************------>
-            <!------Patient Record------>
-            <!------**************------> 
+            <!------*******************------>
+            <!------Patient Slip Record------>
+            <!------*******************------> 
 
             <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -179,6 +179,43 @@
                   </small>
                 </ul>
             </li>
+
+            <!------*******************------>
+            <!------Patient Bill Record------>
+            <!------*******************------> 
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-hospital-user"></i>
+                <p>Bill Records<i class="right fas fa-angle-left"></i></p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <small>
+                    <li class="nav-item">
+                        <a href="emergency_bill_record.php" class="nav-link">
+                        <i class="nav-icon fas fa-user-injured"></i>
+                        <p>Emergency Bill</p>
+                        </a>
+                    </li>
+                  </small>
+                  <small>
+                    <li class="nav-item">
+                    <a href="indoor_bill_record.php" class="nav-link">
+                        <i class="nav-icon fas fa-procedures"></i>
+                        <p>Indoor Bill</p>  
+                        </a>
+                    </li>
+                  </small>
+                  <small>
+                    <li class="nav-item">
+                        <a href="outdoor_slip_record.php" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>Outdoor Bill</p>
+                        </a>
+                    </li>
+                  </small>
+                </ul>
+            </li>            
 
             <!------**************------>
             <!------Patient Record------>

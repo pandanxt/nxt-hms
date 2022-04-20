@@ -21,7 +21,7 @@
           <div class="col-sm-10">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Slip Record</li>
+              <li class="breadcrumb-item active">Indoor Bill</li>
             </ol>
           </div>
         </div>
@@ -43,43 +43,44 @@
                     <th>MR-ID</th>
                     <th>Name</th>
                     <th>Mobile</th>
-                    <th>Procedure</th>
-                    <th>Type</th>
-                    <th>Doctor</th>
-                    <th>Created By</th>
-                    <th>Created On</th>
+                    <th>Admit Dates</th>
+                    <th>Amount</th>
+                    <th>Discount</th>
+                    <th>Total</th>
+                    <th>Staff</th>
+                    <th>Date|Time</th>
                     <th>Options</th>
                   </tr>
                   </thead>
                   <tbody>
                   <?php
-                      $sql ="SELECT *,`DOCTOR_NAME`,`ADMIN_USERNAME` FROM `indoor_slip` INNER JOIN `admin` INNER JOIN `doctor` WHERE `indoor_slip`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID` AND `indoor_slip`.`STAFF_ID` = `admin`.`ADMIN_ID`";
-                    //   $sql ="SELECT * FROM `emergency_slip`";
+                      $sql ="SELECT *,`ADMIN_USERNAME` FROM `indoor_bill` INNER JOIN `admin` WHERE `indoor_bill`.`CREATED_BY` = `admin`.`ADMIN_ID`";
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
-                       $date = substr($rs['SLIP_DATE_TIME'],0, 21);
-                       echo "<tr>
-                       <td>$rs[SLIP_ID]";
-                       if($rs['BILL_STATUS'] == "pending"){
-                        echo "<br> <a href='indoor_patient_bill.php?sid=$rs[SLIP_ID]' style='color:green;'>
-                             <i class='fas fa-wallet'></i> Bill
-                           </a>";
-                       }
-                  echo "</td>
-                        <td>$rs[SLIP_MR_ID]</td>
-                        <td>$rs[SLIP_NAME]</td>
-                        <td>$rs[SLIP_MOBILE]</td>
-                        <td>$rs[SLIP_PROCEDURE]</td>
-                        <td>$rs[SLIP_TYPE]</td>
-                        <td>$rs[DOCTOR_NAME]</td>
+                       $date = substr($rs['DATE_TIME'],0, 21);
+                       $admDate = substr($rs['ADMISSION_DATE'],0, 21);
+                       $disDate = substr($rs['DISCHARGE_DATE'],0, 21);
+                        echo "<tr>
+                        <td>$rs[BILL_ID]
+                           <br> <a href='add_bill.php?id=$rs[BILL_ID]' style='color:green;'>
+                              <i class='fas fa-wallet'></i> Print
+                            </a>
+                        </td>
+                        <td>$rs[MR_ID]</td>
+                        <td>$rs[PATIENT_NAME]</td>
+                        <td>$rs[MOBILE]</td>
+                        <td>$admDate <br><center>-TO-</center> $disDate</td>
+                        <td>$rs[TOTAL_AMOUNT]</td>
+                        <td>$rs[DISCOUNT]</td>
+                        <td>$rs[TOTAL]</td>
                         <td>$rs[ADMIN_USERNAME]</td>
                         <td>$date</td> 
                         <td style='display:flex;'>
-                            <a href='view_patient.php?id=$rs[SLIP_ID]' style='color:green;'>
+                            <a href='view_bill.php?id=$rs[SLIP_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
                             </a><br>
-                            <a href='add_patient.php?id=$rs[SLIP_ID]'>
+                            <a href='indoor_bill.php?id=$rs[SLIP_ID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
                             <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?patId=$rs[SLIP_ID]' style='color:red;'>

@@ -49,6 +49,7 @@
     $discount = $_POST['discount'];
     $fbill = $_POST['fbill'];
     $by = $_POST['by'];
+    $status = "created";
 
     // Query to check if data exists 
     $sql = "SELECT * FROM `indoor_bill` WHERE `SLIP_ID` = ?";
@@ -102,8 +103,16 @@
             $prChargeThree,$nurCharge,$nurStCharge,$moCharge,$conCharge,$ctg,$rrCharge,
             $other,$tbill,$discount,$fbill,$by);
             mysqli_stmt_execute($stmt);
-            echo '<script type="text/javascript">window.location = "indoor_bill_print.php?pname='.$name.'&mrid='.$mrid.'&phone='.$phone.'&type='.$type.'&admdate='.$admdate.'&disdate='.$disdate.'&doc='.$doc.'&pro='.$pro.'&adcharge='.$adCharge.'&surcharge='.$surCharge.'&anescharge='.$anesCharge.'&opcharge='.$opCharge.'&chargelr='.$chargeLR.'&pedcharge='.$pedCharge.'&prcharge='.$prChargeThree.'&nurcharge='.$nurCharge.'&nurstcharge='.$nurStCharge.'&mocharge='.$moCharge.'&concharge='.$conCharge.'&ctg='.$ctg.'&rrcharge='.$rrCharge.'&other='.$other.'&type='.$type.'&tbill='.$tbill.'&dis='.$discount.'&fbill='.$fbill.'&by='.$by.'";</script>';                                                   
-            exit();
+            // Update Status of the receipt
+            $updateSql ="UPDATE `indoor_slip` SET `BILL_STATUS`='$status' WHERE `indoor_slip`.`SLIP_ID`='$sid'";
+            if($querySql = mysqli_query($db,$updateSql))
+            {
+              echo '<script type="text/javascript">window.location = "indoor_bill_print.php?pname='.$name.'&mrid='.$mrid.'&phone='.$phone.'&type='.$type.'&admdate='.$admdate.'&disdate='.$disdate.'&doc='.$doc.'&pro='.$pro.'&adcharge='.$adCharge.'&surcharge='.$surCharge.'&anescharge='.$anesCharge.'&opcharge='.$opCharge.'&chargelr='.$chargeLR.'&pedcharge='.$pedCharge.'&prcharge='.$prChargeThree.'&nurcharge='.$nurCharge.'&nurstcharge='.$nurStCharge.'&mocharge='.$moCharge.'&concharge='.$conCharge.'&ctg='.$ctg.'&rrcharge='.$rrCharge.'&other='.$other.'&type='.$type.'&tbill='.$tbill.'&dis='.$discount.'&fbill='.$fbill.'&by='.$by.'";</script>';                                                   
+            }else
+            {
+              echo mysqli_error($db);
+            }  
+              exit();
           }			
       }
       mysqli_stmt_close($stmt);

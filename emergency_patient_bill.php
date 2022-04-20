@@ -36,6 +36,7 @@
     $discount = $_POST['discount'];
     $fbill = $_POST['fbill'];
     $by = $_POST['by'];
+    $status = "created";
 
     // Check Data from DB
     $sql = "SELECT * FROM `emergency_bill` WHERE `SLIP_ID` = ?";
@@ -65,7 +66,16 @@
           mysqli_stmt_bind_param($stmt,"sssssssssssssssssssss",$mrid,$sid,$name,$phone,$addDate,$medicalofficer,
           $injectionim,$injectioniv,$ivline,$ivinfusion,$stitchInTotal,$stitchOutTotal,$bsf,$shortstay,$bp,$ecg,$other,$tbill,$discount,$fbill,$by);
           mysqli_stmt_execute($stmt);
-          echo '<script type="text/javascript">window.location = "emergency_bill_print.php?pname='.$name.'&on='.$addDate.'&mrid='.$mrid.'&phone='.$phone.'&by='.$by.'&mo='.$medicalofficer.'&injectionim='.$injectionim.'&injectioniv='.$injectioniv.'&ivline='.$ivline.'&sin='.$stitchInTotal.'&sout='.$stitchOutTotal.'&ivinfection='.$ivinfusion.'&bsf='.$bsf.'&sstay='.$shortstay.'&bp='.$bp.'&ecg='.$ecg.'&other='.$other.'&tbill='.$tbill.'&disc='.$discount.'&fbill='.$fbill.'";</script>';                                                   
+          // Update Status of the receipt
+          $updateSql ="UPDATE `emergency_slip` SET `BILL_STATUS`='$status' WHERE `emergency_slip`.`SLIP_ID`='$sid'";
+          if($querySql = mysqli_query($db,$updateSql))
+          {
+            // echo "<script>alert('Doctor record updated successfully...');window.location = '../doctors.php';</script>";
+            echo '<script type="text/javascript">window.location = "emergency_bill_print.php?pname='.$name.'&on='.$addDate.'&mrid='.$mrid.'&phone='.$phone.'&by='.$by.'&mo='.$medicalofficer.'&injectionim='.$injectionim.'&injectioniv='.$injectioniv.'&ivline='.$ivline.'&sin='.$stitchInTotal.'&sout='.$stitchOutTotal.'&ivinfection='.$ivinfusion.'&bsf='.$bsf.'&sstay='.$shortstay.'&bp='.$bp.'&ecg='.$ecg.'&other='.$other.'&tbill='.$tbill.'&disc='.$discount.'&fbill='.$fbill.'";</script>';                                                   
+          }else
+          {
+            echo mysqli_error($db);
+          }
           exit();
         }			
     }

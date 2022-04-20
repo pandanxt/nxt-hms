@@ -58,11 +58,13 @@
                       { 
                        $date = substr($rs['SLIP_DATE_TIME'],0, 21);
                         echo "<tr>
-                        <td>$rs[SLIP_ID]
-                           <br> <a href='emergency_patient_bill.php?sid=$rs[SLIP_ID]' style='color:green;'>
+                        <td>$rs[SLIP_ID]";
+                        if($rs['BILL_STATUS'] == "pending"){
+                         echo "<br> <a href='emergency_patient_bill.php?sid=$rs[SLIP_ID]' style='color:green;'>
                               <i class='fas fa-wallet'></i> Bill
-                            </a>
-                        </td>
+                            </a>";
+                        }
+                        echo "</td>
                         <td>$rs[SLIP_MR_ID]</td>
                         <td>$rs[SLIP_NAME]</td>
                         <td>$rs[SLIP_MOBILE]</td>
