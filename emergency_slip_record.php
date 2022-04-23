@@ -13,20 +13,7 @@
 ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <!-- <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-2"><a type="submit" class="btn btn-block btn-primary btn-sm" href="emergency_patient_slip.php"><i class="fas fa-plus"></i> Emergency Patient</a></div>
-          <div class="col-sm-10">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Emergency Slip Record</li>
-            </ol>
-          </div>
-        </div> -->
-      <!-- </div> -->
-    </section>
+    <section class="content-header"></section>
 
     <!-- Table Data of Patient -->
     <section class="content">
@@ -76,7 +63,7 @@
                               <a href='add_patient.php?id=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
                               <br>
                               <a onClick=\"javascript: return confirm('Please confirm deletion');\" 
-                              href='backend_components/delete_handler.php?patId=$rs[SLIP_ID]' style='color:red;'>
+                              href='backend_components/delete_handler.php?esrId=$rs[SLIP_ID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete</a>";
                         }else{
                             echo "<a href='emergency_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
@@ -85,7 +72,7 @@
                             <a href='add_patient.php?id=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
                             <br>
                             <a onClick=\"javascript: return confirm('Please confirm deletion');\" 
-                            href='backend_components/delete_handler.php?patId=$rs[SLIP_ID]' style='color:red;'>
+                            href='backend_components/delete_handler.php?esrId=$rs[SLIP_ID]' style='color:red;'>
                             <i class='fas fa-trash'></i> Delete</a>";
                         }
                           
