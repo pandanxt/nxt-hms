@@ -60,13 +60,7 @@
                       { 
                        $date = substr($rs['SLIP_DATE_TIME'],0, 21);
                        echo "<tr>
-                       <td>$rs[SLIP_ID]";
-                       if($rs['BILL_STATUS'] == "pending"){
-                        echo "<br> <a href='indoor_patient_bill.php?sid=$rs[SLIP_ID]' style='color:green;'>
-                             <i class='fas fa-wallet'></i> Bill
-                           </a>";
-                       }
-                  echo "</td>
+                       <td>$rs[SLIP_ID]</td>
                         <td>$rs[SLIP_MR_ID]</td>
                         <td>$rs[SLIP_NAME]</td>
                         <td>$rs[SLIP_MOBILE]</td>
@@ -75,17 +69,31 @@
                         <td>$rs[DOCTOR_NAME]</td>
                         <td>$rs[ADMIN_USERNAME]</td>
                         <td>$date</td> 
-                        <td style='display:flex;'>
-                            <a href='view_patient.php?id=$rs[SLIP_ID]' style='color:green;'>
-                              <i class='fas fa-info-circle'></i> Details
-                            </a><br>
-                            <a href='add_patient.php?id=$rs[SLIP_ID]'>
-                              <i class='fas fa-edit'></i> Edit
-                            </a><br>
+                        <td style='display:flex;'>";
+
+                        if($rs['BILL_STATUS'] == "pending"){
+                          echo "<a href='indoor_patient_bill.php?sid=$rs[SLIP_ID]' style='color:green;'>
+                            <i class='fas fa-wallet'></i> Bill</a>
+                            <br> 
+                            <a href='indoor_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
+                            <i class='fas fa-wallet'></i> Print</a>
+                            <br>
+                            <a href='add_patient.php?id=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
+                            <br>
                             <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?patId=$rs[SLIP_ID]' style='color:red;'>
-                              <i class='fas fa-trash'></i> Delete
-                            </a>
-                        </td>
+                             <i class='fas fa-trash'></i> Delete</a>";
+                         }else{
+                          echo "<a href='indoor_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
+                          <i class='fas fa-wallet'></i> Print</a>
+                          <br>
+                          <a href='add_patient.php?id=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
+                          <br>
+                          <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?patId=$rs[SLIP_ID]' style='color:red;'>
+                          <i class='fas fa-trash'></i> Delete</a>";
+                         }
+  
+                           
+                        echo "</td>
                         </tr>"; 
                       }
                   ?>

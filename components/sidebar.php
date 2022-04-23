@@ -45,14 +45,14 @@
             <li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-hospital-user"></i>
-                <p>Patient Slip<i class="right fas fa-angle-left"></i></p>
+                <p>Create Slip<i class="right fas fa-angle-left"></i></p>
                 </a>
                 <ul class="nav nav-treeview">
                   <small>
                     <li class="nav-item">
                         <a href="emergency_patient_slip.php" class="nav-link">
                         <i class="nav-icon fas fa-user-injured"></i>
-                        <p>Emergency Patient</p>
+                        <p>Emergency Slip</p>
                         </a>
                     </li>
                   </small>
@@ -61,7 +61,7 @@
                         <a href="indoor_patient_slip.php" class="nav-link">
                         <!-- <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-indoor"> -->
                         <i class="nav-icon fas fa-procedures"></i>
-                        <p>Indoor Patient</p>  
+                        <p>Indoor Slip</p>  
                         </a>
                     </li>
                   </small>
@@ -69,7 +69,7 @@
                     <li class="nav-item">
                         <a href="outdoor_patient_slip.php" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
-                        <p>Outdoor Patient</p>
+                        <p>Outdoor Slip</p>
                         </a>
                     </li>
                   </small>
@@ -79,7 +79,7 @@
             <!------************------>
             <!------Patient Bill------>
             <!------************------> 
-
+<!-- 
             <li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-hospital-user"></i>
@@ -88,9 +88,9 @@
                 <ul class="nav nav-treeview">
                   <small>
                     <li class="nav-item">
-                        <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-emergency-bill">
+                        <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-emergency-bill"> -->
                         <!-- <a href="emergency_bill.php" class="nav-link"> -->
-                        <i class="nav-icon fas fa-user-injured"></i>
+                        <!-- <i class="nav-icon fas fa-user-injured"></i>
                         <p>Emergency Bill</p>
                         </a>
                     </li>
@@ -104,7 +104,7 @@
                     </li>
                   </small>
                 </ul>
-            </li>
+            </li> -->
 
             <!------**************------>
             <!------Patient Record------>
@@ -150,14 +150,14 @@
             <li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-hospital-user"></i>
-                <p>Slip Records<i class="right fas fa-angle-left"></i></p>
+                <p>Patient Slips<i class="right fas fa-angle-left"></i></p>
                 </a>
                 <ul class="nav nav-treeview">
                   <small>
                     <li class="nav-item">
                         <a href="emergency_slip_record.php" class="nav-link">
                         <i class="nav-icon fas fa-user-injured"></i>
-                        <p>Emergency Slips</p>
+                        <p>Emergency Patient</p>
                         </a>
                     </li>
                   </small>
@@ -165,7 +165,7 @@
                     <li class="nav-item">
                     <a href="indoor_slip_record.php" class="nav-link">
                         <i class="nav-icon fas fa-procedures"></i>
-                        <p>Indoor Slips</p>  
+                        <p>Indoor Patient</p>  
                         </a>
                     </li>
                   </small>
@@ -173,7 +173,7 @@
                     <li class="nav-item">
                         <a href="outdoor_slip_record.php" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
-                        <p>Outdoor Slips</p>
+                        <p>Outdoor Patient</p>
                         </a>
                     </li>
                   </small>
@@ -187,7 +187,7 @@
             <li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-hospital-user"></i>
-                <p>Bill Records<i class="right fas fa-angle-left"></i></p>
+                <p>Patient Bill<i class="right fas fa-angle-left"></i></p>
                 </a>
                 <ul class="nav nav-treeview">
                   <small>

@@ -26,6 +26,103 @@
         </a>
       </li>
 
+      <!------*****************------>
+      <!------Create Slip Icon------>
+      <!------*****************------> 
+
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+           <i class="fas fa-wallet"></i> Create Slip
+        </a>
+        <div class="dropdown-menu dropdown-menu-mg dropdown-menu-right">
+          <a href="emergency_patient_slip.php" class="dropdown-item">
+            <i class="fas fa-user-injured mr-2"></i> Emergency Slip
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="indoor_patient_slip.php" class="dropdown-item">
+            <i class="fas fa-procedures mr-2"></i> Indoor Slip
+          </a>
+        <div class="dropdown-divider"></div>
+          <a href="outdoor_patient_slip.php" class="dropdown-item">
+            <i class="fas fa-user mr-2"></i> Outdoor Slip
+          </a>
+        </div>
+       </li>
+
+      <!------*****************------>
+      <!------Create Bill Icon------>
+      <!------*****************------> 
+
+       <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+           <i class="fas fa-wallet"></i> Create Bill
+        </a>
+        <div class="dropdown-menu dropdown-menu-mg dropdown-menu-right">
+          <a href="emergency_slip_record.php" class="dropdown-item">
+            <i class="fas fa-user-injured mr-2"></i> Emergency Bill
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="indoor_slip_record.php" class="dropdown-item">
+            <i class="fas fa-procedures mr-2"></i> Indoor Bill
+          </a>
+        </div>
+       </li>
+
+      <!------*****************------>
+      <!------Indoor Patient Icon------>
+      <!------*****************------> 
+
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="patient_record.php" class="nav-link">
+          <i class="fas fa-users"></i> MedEast Patient
+        </a>
+      </li>
+
+      <!------*****************------>
+      <!------Patient Slip Icon------>
+      <!------*****************------> 
+
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+           <i class="fas fa-wallet"></i> Slip Records
+        </a>
+        <div class="dropdown-menu dropdown-menu-mg dropdown-menu-right">
+          <a href="emergency_slip_record.php" class="dropdown-item">
+            <i class="fas fa-user-injured mr-2"></i> Emergency Records
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="indoor_slip_record.php" class="dropdown-item">
+            <i class="fas fa-procedures mr-2"></i> Indoor Records
+          </a>
+        <div class="dropdown-divider"></div>
+          <a href="outdoor_slip_record.php" class="dropdown-item">
+            <i class="fas fa-user mr-2"></i> Outdoor Records
+          </a>
+        </div>
+       </li>
+
+      <!------*****************------>
+      <!------Patient Bill Icon------>
+      <!------*****************------> 
+
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+           <i class="fas fa-wallet"></i> Bill Records
+        </a>
+        <div class="dropdown-menu dropdown-menu-mg dropdown-menu-right">
+          <a href="emergency_bill_record.php" class="dropdown-item">
+            <i class="fas fa-user-injured mr-2"></i> Emergency Records
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="indoor_bill_record.php" class="dropdown-item">
+            <i class="fas fa-procedures mr-2"></i> Indoor Records
+          </a>
+        <div class="dropdown-divider"></div>
+          <a href="outdoor_slip_record.php" class="dropdown-item">
+            <i class="fas fa-user mr-2"></i> Outdoor Records
+          </a>
+        </div>
+       </li>
        <!------***********------>
        <!------Doctor Icon------>
        <!------***********------> 
@@ -56,107 +153,16 @@
         </a>
       </li> -->
 
-      <!------*********------>
-      <!------IMRC Patient Icon------>
-      <!------*********------> 
-
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-           <i class="fas fa-user-injured"></i> IMRC
-        </a>
-        <div class="dropdown-menu dropdown-menu-mg dropdown-menu-right">
-          <a href="emergency_patient_slip.php" class="dropdown-item">
-            <i class="fas fa-user-injured mr-2"></i> Emergency Slip
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="emergency_patient_bill.php" class="dropdown-item">
-            <i class="fas fa-user-injured mr-2"></i> Emergency Bill
-          </a>
-        </div>
-       </li>
-
       <!------*****************------>
-      <!------Indoor Patient Icon------>
+      <!------IMRC Patient Icon------>
       <!------*****************------> 
 
       <!-- <li class="nav-item d-none d-sm-inline-block">
-        <a href="indoor_patient_slip.php" class="nav-link">
-          <i class="fas fa-users"></i> Admit
+        <a href="emergency_patient_slip.php" class="nav-link">
+          <i class="fas fa-user-injured"></i> Emergency Patient
         </a>
       </li> -->
 
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-           <i class="fas fa-procedures"></i> Indoor Patient
-        </a>
-        <div class="dropdown-menu dropdown-menu-mg dropdown-menu-right">
-          <a href="indoor_patient_slip.php" class="dropdown-item">
-            <i class="fas fa-procedures mr-2"></i> Indoor Slip
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="indoor_patient_bill.php" class="dropdown-item">
-            <i class="fas fa-procedures mr-2"></i> Indoor Bill
-          </a>
-        </div>
-      </li>
-
-      <!------*********------>
-      <!------IMRC Patient Icon------>
-      <!------*********------> 
-
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="outdoor_patient_slip.php" class="nav-link">
-          <i class="fas fa-users"></i> Outdoor
-        </a>
-      </li>
-
-      <!------***********************------>
-      <!------Emergency Dropdown Menu------>
-      <!------***********************------> 
-
-       <!-- <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-           <i class="fas fa-user-injured"></i> Emergency
-        </a>
-        <div class="dropdown-menu dropdown-menu-mg dropdown-menu-right">
-          <a href="emergency.php" class="dropdown-item">
-            <i class="fas fa-user-injured mr-2"></i> Emergency Slip
-          </a>
-          <div class="dropdown-divider"></div>
-          <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-emergency-bill">
-            <i class="fas fa-user-injured mr-2"></i> Emergency Bill
-          </a>
-        </div>
-       </li> -->
-       
-      <!------*********************------>
-      <!------Indoor Dropdown Menu------>
-      <!------********************------> 
-
-       <!-- <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-           <i class="fas fa-procedures"></i> Indoor Patient
-        </a>
-        <div class="dropdown-menu dropdown-menu-mg dropdown-menu-right">
-          <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-indoor">
-            <i class="fas fa-procedures mr-2"></i> Indoor Slip
-          </a>
-          <div class="dropdown-divider"></div>
-          <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-indoor-bill">
-            <i class="fas fa-procedures mr-2"></i> Indoor Bill
-          </a>
-        </div>
-      </li> -->
-
-      <!------*********************------>
-      <!------Outdoor Dropdown Menu------>
-      <!------*********************------> 
-
-      <!-- <li class="nav-item d-none d-sm-inline-block">
-        <a href="outdoor.php" class="nav-link">
-          <i class="fas fa-user"></i> OPD Patient
-        </a>
-      </li>-->
     </ul> 
 
     <!------******************------>

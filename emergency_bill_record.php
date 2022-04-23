@@ -60,11 +60,7 @@
                       { 
                        $date = substr($rs['DATE_TIME'],0, 21);
                         echo "<tr>
-                        <td>$rs[BILL_ID]
-                           <br> <a href='add_bill.php?id=$rs[BILL_ID]' style='color:green;'>
-                              <i class='fas fa-wallet'></i> Print
-                            </a>
-                        </td>
+                        <td>$rs[BILL_ID]</td>
                         <td>$rs[MR_ID]</td>
                         <td>$rs[PATIENT_NAME]</td>
                         <td>$rs[MOBILE]</td>
@@ -74,9 +70,10 @@
                         <td>$rs[ADMIN_USERNAME]</td>
                         <td>$date</td> 
                         <td style='display:flex;'>
-                            <a href='view_bill.php?id=$rs[SLIP_ID]' style='color:green;'>
-                              <i class='fas fa-info-circle'></i> Details
-                            </a><br>
+                            <a href='emergency_bill_print.php?sid=$rs[BILL_ID]' style='color:green;'>
+                            <i class='fas fa-wallet'></i> Print
+                            </a>
+                            <br>
                             <a href='emergency_bill.php?id=$rs[SLIP_ID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>

@@ -33,7 +33,7 @@
     $stmt = mysqli_stmt_init($db);
     
     if (!mysqli_stmt_prepare($stmt,$sql)) {
-        echo "<script>alert('Sqlerror due to DB...');</script>";
+        echo "<script>alert('Sqlerror due to DB...One');</script>";
         exit();
     }else{
         mysqli_stmt_bind_param($stmt,"ss",$mrid,$phone);
@@ -41,12 +41,13 @@
         mysqli_stmt_store_result($stmt);
         $resultCheck = mysqli_stmt_num_rows($stmt);
             
-        if ($resultCheck > 0) {
+        // if ($resultCheck > 0) {
+        if(!$resultCheck == 0){
           $slipQuery = "INSERT INTO `outdoor_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DEPT_ID`, `DOCTOR_ID`, `SLIP_FEE`, `SLIP_DATE_TIME`, `STAFF_ID`) VALUES (?,?,?,?,?,?,?,?)";
-          mysqli_stmt_execute($stmt);
+           mysqli_stmt_execute($stmt);
               
             if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
-              echo "<script>alert('Sqlerror due to DB Query...');</script>";
+              echo "<script>alert('Sqlerror due to DB Query...Two');</script>";
               exit();
             }else{
               // Get Data of Patient from DB
@@ -54,7 +55,6 @@
               $psql = mysqli_query($db,$patientQuery);
               while($prs = mysqli_fetch_array($psql))
               {
-
                 mysqli_stmt_bind_param($stmt,"ssssssss", $prs['PATIENT_MR_ID'],$name,$prs['PATIENT_MOBILE'],$dept,$doctor,$fee,$saveOn,$by);
                 if (mysqli_stmt_execute($stmt)) {
                     echo "<script>alert('Patient slip is created but patient data already exists...');</script>";
@@ -63,10 +63,10 @@
                     echo '<script type="text/javascript">window.location = "outdoor_slip_print.php?pname='.$prs['PATIENT_NAME'].'&on='.$saveOn.'&dept='.$dept.'&mrid='.$prs['PATIENT_MR_ID'].'&phone='.$prs['PATIENT_MOBILE'].'&gender='.$prs['PATIENT_GENDER'].'&doc='.$doctor.'&age='.$prs['PATIENT_AGE'].'&add='.$prs['PATIENT_ADDRESS'].'&fee='.$fee.'&by='.$by.'";</script>';
                 }
               } 
-          }   
+            }   
           // echo '<script type="text/javascript">window.location = "emergency.php?action=nameTaken";</script>';
           exit();
-        }else{
+        }else if($resultCheck == 0){
 
             $sql = "INSERT INTO `patient`
           (
@@ -82,17 +82,17 @@
           mysqli_stmt_execute($stmt);
                 
           if (!mysqli_stmt_prepare($stmt,$sql)) {
-              echo "<script>alert('Sqlerror due to DB Query...');</script>";
+              echo "<script>alert('Sqlerror due to DB Query...Three');</script>";
               exit();
           }else{
               mysqli_stmt_bind_param($stmt,"ssssssss", $mrid,$name,$phone,$gender,$age,$address,$saveOn,$by);
              
               if (mysqli_stmt_execute($stmt)){
-                $slipQuery = "INSERT INTO `outdoor_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DEPT_ID`, `DOCTOR_ID`, `SLIP_FEE`, `SLIP_DATE_TIME`, `STAFF_ID`) VALUES (?,?,?,?,?,?)";
+                $slipQuery = "INSERT INTO `outdoor_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DEPT_ID`, `DOCTOR_ID`, `SLIP_FEE`, `SLIP_DATE_TIME`, `STAFF_ID`) VALUES (?,?,?,?,?,?,?,?)";
                 mysqli_stmt_execute($stmt);
               
                 if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
-                  echo "<script>alert('Sqlerror due to DB Query...');</script>";
+                  echo "<script>alert('Sqlerror due to DB Query...Four');</script>";
                   exit();
                 }else{
                   mysqli_stmt_bind_param($stmt,"ssssssss", $mrid,$name,$phone,$dept,$doctor,$fee,$saveOn,$by);
@@ -100,9 +100,10 @@
                     echo "<script>alert('Patient slip is created and patient data is also stored...');</script>";
                     echo '<script type="text/javascript">window.location = "outdoor_slip_print.php?dept='.$dept.'&pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&gender='.$gender.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&fee='.$fee.'&by='.$by.'";</script>';
                   } 
+                  exit();
                 }   
               }
-            exit();
+            
           }			
         }
     }

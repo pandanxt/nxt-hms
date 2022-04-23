@@ -60,8 +60,7 @@
                       { 
                        $date = substr($rs['SLIP_DATE_TIME'],0, 21);
                         echo "<tr>
-                        <td>$rs[SLIP_ID]
-                        </td>
+                        <td>$rs[SLIP_ID]</td>
                         <td>$rs[SLIP_MR_ID]</td>
                         <td>$rs[SLIP_NAME]</td>
                         <td>$rs[SLIP_MOBILE]</td>
@@ -71,8 +70,8 @@
                         <td>$rs[ADMIN_USERNAME]</td>
                         <td>$date</td> 
                         <td style='display:flex;'>
-                            <a href='view_patient.php?id=$rs[SLIP_ID]' style='color:green;'>
-                              <i class='fas fa-info-circle'></i> Details
+                              <a href='outdoor_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
+                              <i class='fas fa-wallet'></i> Print
                             </a><br>
                             <a href='add_patient.php?id=$rs[SLIP_ID]'>
                               <i class='fas fa-edit'></i> Edit

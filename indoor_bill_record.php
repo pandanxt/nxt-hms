@@ -43,12 +43,13 @@
                     <th>MR-ID</th>
                     <th>Name</th>
                     <th>Mobile</th>
-                    <th>Admit Dates</th>
-                    <th>Amount</th>
-                    <th>Discount</th>
-                    <th>Total</th>
+                    <th>Admission</th>
+                    <th>Discharge</th>
+                    <th>Payment</th>
+                    <!-- <th>Discount</th>
+                    <th>Total</th> -->
                     <th>Staff</th>
-                    <th>Date|Time</th>
+                    <!-- <th>Date|Time</th> -->
                     <th>Options</th>
                   </tr>
                   </thead>
@@ -58,27 +59,27 @@
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
-                       $date = substr($rs['DATE_TIME'],0, 21);
+                      //  $date = substr($rs['DATE_TIME'],0, 21);
                        $admDate = substr($rs['ADMISSION_DATE'],0, 21);
                        $disDate = substr($rs['DISCHARGE_DATE'],0, 21);
                         echo "<tr>
-                        <td>$rs[BILL_ID]
-                           <br> <a href='add_bill.php?id=$rs[BILL_ID]' style='color:green;'>
-                              <i class='fas fa-wallet'></i> Print
-                            </a>
-                        </td>
+                        <td>$rs[BILL_ID]</td>
                         <td>$rs[MR_ID]</td>
                         <td>$rs[PATIENT_NAME]</td>
                         <td>$rs[MOBILE]</td>
-                        <td>$admDate <br><center>-TO-</center> $disDate</td>
-                        <td>$rs[TOTAL_AMOUNT]</td>
-                        <td>$rs[DISCOUNT]</td>
-                        <td>$rs[TOTAL]</td>
+                        <td style='font-size: 14px;'>$admDate</td>
+                        <td style='font-size: 14px;'>$disDate</td>
+                        <td style='display:flex; font-size: 14px;'>
+                          Sub: $rs[TOTAL_AMOUNT]
+                          <br>
+                          Discount: $rs[DISCOUNT]
+                          <br>
+                          Total: $rs[TOTAL] 
+                        </td>
                         <td>$rs[ADMIN_USERNAME]</td>
-                        <td>$date</td> 
                         <td style='display:flex;'>
-                            <a href='view_bill.php?id=$rs[SLIP_ID]' style='color:green;'>
-                              <i class='fas fa-info-circle'></i> Details
+                            <a href='indoor_bill_print.php?sid=$rs[BILL_ID]' style='color:green;'>
+                              <i class='fas fa-wallet'></i> Print
                             </a><br>
                             <a href='indoor_bill.php?id=$rs[SLIP_ID]'>
                               <i class='fas fa-edit'></i> Edit

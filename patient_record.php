@@ -59,11 +59,7 @@
                       { 
                        $date = substr($rs['CREATED_ON'],0, 21);
                         echo "<tr>
-                        <td>$rs[PATIENT_ID]
-                           <br> <a href='add_bill.php?id=$rs[PATIENT_ID]' style='color:green;'>
-                              <i class='fas fa-wallet'></i> Bill
-                            </a>
-                        </td>
+                        <td>$rs[PATIENT_ID]</td>
                         <td>$rs[PATIENT_MR_ID]</td>
                         <td>$rs[PATIENT_NAME]</td>
                         <td>$rs[PATIENT_MOBILE]</td>
