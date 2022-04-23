@@ -31,7 +31,201 @@
   // Main Sidebar Container
   include('components/sidebar.php'); 
   // Content Wrapper. Contains page content
-  include('components/mainbody.php');
+  // include('components/mainbody.php');
+?>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Home Page</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Home Page</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-2 col-6">
+            <?php
+              $patient = mysqli_query($db,"SELECT COUNT(`PATIENT_ID`) FROM `patient`");
+              $row = mysqli_fetch_array($patient);
+              $patTotal = $row[0];
+            ?>
+            <!-- small card -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h2><?php echo $patTotal; ?></h2>  
+                <small>Total</small>
+              </div>
+              <div class="icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <a href="patient_record.php" class="small-box-footer">
+              Patients <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-2 col-6">
+            <?php
+              $emergency = mysqli_query($db,"SELECT COUNT(`SLIP_ID`) FROM `emergency_slip`");
+              $row = mysqli_fetch_array($emergency);
+              $emTotal = $row[0];
+            ?>
+            <!-- small card -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h2><?php echo $emTotal; ?></h2>
+                <small>Emergency</small>
+              </div>
+              <div class="icon">
+                <i class="fas fa-user-injured"></i>
+              </div>
+              <a href="emergency_slip_record.php" class="small-box-footer">
+              Slips <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-2 col-6">
+            <?php
+              $emBill = mysqli_query($db,"SELECT COUNT(`BILL_ID`) FROM `emergency_bill`");
+              $row = mysqli_fetch_array($emBill);
+              $emBillTotal = $row[0];
+            ?>
+            <!-- small card -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h2><?php echo $emBillTotal; ?></h2>
+
+                <small>Emergency</small>
+              </div>
+              <div class="icon">
+                <i class="fas fa-user-injured"></i>
+              </div>
+              <a href="emergency_bill_record.php" class="small-box-footer">
+              Bills <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-2 col-6">
+          <?php
+              $indoor = mysqli_query($db,"SELECT COUNT(`SLIP_ID`) FROM `indoor_slip`");
+              $row = mysqli_fetch_array($indoor);
+              $inTotal = $row[0];
+            ?>
+            <!-- small card -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h2><?php echo $inTotal; ?></h2>
+                <small>Indoor</small>
+              </div>
+              <div class="icon">
+                <i class="fas fa-procedures"></i>
+              </div>
+              <a href="indoor_slip_record.php" class="small-box-footer">
+              Slips <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          <!-- ./col -->
+           <div class="col-lg-2 col-6">
+            <?php
+              $inBill = mysqli_query($db,"SELECT COUNT(`BILL_ID`) FROM `indoor_bill`");
+              $row = mysqli_fetch_array($inBill);
+              $inBillTotal = $row[0];
+            ?>
+            <!-- small card -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h2><?php echo $inBillTotal; ?></h2>
+
+                <small>Indoor</small>
+              </div>
+              <div class="icon">
+                <i class="fas fa-procedures"></i>
+              </div>
+              <a href="indoor_bill_record.php" class="small-box-footer">
+              Bills <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-2 col-6">
+            <?php
+              $outdoor = mysqli_query($db,"SELECT COUNT(`SLIP_ID`) FROM `outdoor_slip`");
+              $row = mysqli_fetch_array($outdoor);
+              $outTotal = $row[0];
+            ?>
+            <!-- small card -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h2><?php echo $outTotal; ?></h2>
+
+                <small>Outdoor</small>
+              </div>
+              <div class="icon">
+                <i class="fas fa-user"></i>
+              </div>
+              <a href="outdoor_slip_record.php" class="small-box-footer">
+              Slips <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+           <!-- ./col -->
+        </div>
+        <!-- <div class="row">
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+
+                <p class="card-text">
+                  Some quick example text to build on the card title and make up the bulk of the card's
+                  content.
+                </p>
+
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+            </div>
+          </div> -->
+          <!-- /.col-md-6 -->
+        <!--  <div class="col-lg-6">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="m-0">Featured</h5>
+              </div>
+              <div class="card-body">
+                <h6 class="card-title">Special title treatment</h6>
+
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div>
+          </div> -->
+          <!-- /.col-md-6 -->
+       <!-- </div> -->
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+
+<?php
   // Main Footer 
   include('components/footer.php'); 
 ?>
