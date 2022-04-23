@@ -1,11 +1,11 @@
 <?php
-    $sql="SELECT * FROM `patient` 
-    INNER JOIN `doctor` INNER JOIN `patient_type` 
-    WHERE `patient`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID` 
-    AND `patient`.`PATIENT_TYPE` = `patient_type`.`PATIENT_TYPE_ALAIS` 
-    AND `patient`.`PATIENT_ID` = '$_GET[id]'";
-    $qsql = mysqli_query($db,$sql);
-    $rsedit = mysqli_fetch_array($qsql);
+    // $sql="SELECT * FROM `patient` 
+    // INNER JOIN `doctor` INNER JOIN `patient_type` 
+    // WHERE `patient`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID` 
+    // AND `patient`.`PATIENT_TYPE` = `patient_type`.`PATIENT_TYPE_ALAIS` 
+    // AND `patient`.`PATIENT_ID` = '$_GET[id]'";
+    // $qsql = mysqli_query($db,$sql);
+    // $rsedit = mysqli_fetch_array($qsql);
 ?>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -90,13 +90,13 @@
                   <select class="form-control select2bs4" name="type" onchange="typeFun();" id="typeSelect" style="width: 100%;" required>
                   <option value="<?php echo $rsedit['PATIENT_TYPE_ALAIS']; ?>" selected><?php echo $rsedit['PATIENT_TYPE_NAME']; ?></option>
                   <?php
-                      $p_type = 'SELECT `PATIENT_TYPE_NAME`, `PATIENT_TYPE_ALAIS` FROM `patient_type` WHERE `PATIENT_TYPE_STATUS` = "active"';
-                      $result = mysqli_query($db, $p_type) or die (mysqli_error($db));
-                        while ($row = mysqli_fetch_array($result)) {
-                          $id = $row['PATIENT_TYPE_ALAIS'];  
-                          $name = $row['PATIENT_TYPE_NAME'];
-                          echo '<option value="'.$id.'">'.$name.'</option>'; 
-                      }
+                      // $p_type = 'SELECT `PATIENT_TYPE_NAME`, `PATIENT_TYPE_ALAIS` FROM `patient_type` WHERE `PATIENT_TYPE_STATUS` = "active"';
+                      // $result = mysqli_query($db, $p_type) or die (mysqli_error($db));
+                      //   while ($row = mysqli_fetch_array($result)) {
+                      //     $id = $row['PATIENT_TYPE_ALAIS'];  
+                      //     $name = $row['PATIENT_TYPE_NAME'];
+                      //     echo '<option value="'.$id.'">'.$name.'</option>'; 
+                      // }
                     ?>
                   </select>
                 </div>

@@ -117,23 +117,7 @@
   ** -->
 
   <div class="content-wrapper">
-  <!-- Content Header (Page header) -->
-  <section class="content-header">
-    <!-- <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h3 class="card-title p-3"><a href="javascript:history.go(-1)"><i class="fas fa-arrow-alt-circle-left"></i>&nbsp;Back</a></h3>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Emergency Patient</li>
-          </ol>
-        </div>
-      </div>
-    </div> -->
-    <!-- /.container-fluid -->
-  </section>
+  <section class="content-header"></section>
 
   <!-- Main content -->
   <section class="content">
@@ -169,11 +153,6 @@
                   <label>Mobile No#</label>
                   <input type="tel" name="phone" class="form-control" id="inputPhone" placeholder="Enter Mobile No. without '-' " required>
                 </div>
-                <!-- /.form-group -->
-                <!-- <div class="form-group">
-                  <label>CNIC No#</label>
-                  <input type="number" name="cnic" class="form-control" id="inputCnic" placeholder="Enter CNIC No. without '-' ">
-                </div> -->
                 <!-- /.form-group -->
                 <div class="form-group col-md-6">
                   <label id="doctor">Medical Officer (MO)</label>
