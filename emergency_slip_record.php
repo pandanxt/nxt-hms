@@ -15,7 +15,7 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
+      <!-- <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-2"><a type="submit" class="btn btn-block btn-primary btn-sm" href="emergency_patient_slip.php"><i class="fas fa-plus"></i> Emergency Patient</a></div>
           <div class="col-sm-10">
@@ -24,8 +24,8 @@
               <li class="breadcrumb-item active">Emergency Slip Record</li>
             </ol>
           </div>
-        </div>
-      </div><!-- /.container-fluid -->
+        </div> -->
+      <!-- </div> -->
     </section>
 
     <!-- Table Data of Patient -->

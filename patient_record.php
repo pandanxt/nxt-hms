@@ -15,7 +15,7 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
+      <!-- <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-2"><a type="submit" class="btn btn-block btn-primary btn-sm" href="emergency.php"><i class="fas fa-plus"></i> New Patient</a></div>
           <div class="col-sm-10">
@@ -25,7 +25,8 @@
             </ol>
           </div>
         </div>
-      </div><!-- /.container-fluid -->
+      </div> -->
+      <!-- /.container-fluid -->
     </section>
 
     <!-- Table Data of Patient -->
