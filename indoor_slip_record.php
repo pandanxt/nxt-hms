@@ -63,22 +63,25 @@
                             <i class='fas fa-wallet'></i> Bill</a>
                             <br> 
                             <a href='indoor_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
-                            <i class='fas fa-wallet'></i> Print</a>
-                            <br>
+                            <i class='fas fa-wallet'></i> Print</a>";
+                            if ($_SESSION['type'] == "admin") {  
+                            echo "<br>
                             <a href='add_patient.php?id=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
                             <br>
                             <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?isrId=$rs[SLIP_ID]' style='color:red;'>
                              <i class='fas fa-trash'></i> Delete</a>";
-                         }else{
+                            }
+                          }else{
                           echo "<a href='indoor_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
-                          <i class='fas fa-wallet'></i> Print</a>
-                          <br>
+                          <i class='fas fa-wallet'></i> Print</a>";
+                          if ($_SESSION['type'] == "admin") {  
+                          echo "<br>
                           <a href='add_patient.php?id=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
                           <br>
                           <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?isrId=$rs[SLIP_ID]' style='color:red;'>
                           <i class='fas fa-trash'></i> Delete</a>";
                          }
-  
+                        }
                            
                         echo "</td>
                         </tr>"; 

@@ -59,14 +59,17 @@
                         <td style='display:flex;'>
                               <a href='outdoor_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
                               <i class='fas fa-wallet'></i> Print
-                            </a><br>
+                            </a>";
+                            if ($_SESSION['type'] == "admin") {  
+                            echo "<br>
                             <a href='add_patient.php?id=$rs[SLIP_ID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
                             <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?osrId=$rs[SLIP_ID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
-                            </a>
-                        </td>
+                            </a>";
+                            }
+                        echo "</td>
                         </tr>"; 
                       }
                   ?>

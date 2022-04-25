@@ -58,14 +58,17 @@
                         <td style='display:flex;'>
                             <a href='view_patient.php?id=$rs[PATIENT_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
-                            </a><br>
+                            </a>";
+                            if ($_SESSION['type'] == "admin") {  
+                            echo "<br>
                             <a href='add_patient.php?id=$rs[PATIENT_ID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
                             <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?prId=$rs[PATIENT_ID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
-                            </a>
-                        </td>
+                            </a>";
+                            }
+                        echo "</td>
                         </tr>"; 
                       }
                   ?>

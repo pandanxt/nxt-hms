@@ -38,6 +38,7 @@
        <!-- Sidebar Menu -->
        <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          
 
             <!------************------>
             <!------Patient Slip------>
@@ -149,7 +150,7 @@
                   </small>
                 </ul>
             </li>            
-
+            <?php if ($_SESSION['type'] == "admin") {  ?>
             <!------**************------>
             <!------Patient Record------>
             <!------**************------> 
@@ -193,7 +194,9 @@
                 <p>Users</p>
                 </a>
             </li>
-
+            <?php
+            } 
+            ?>
             <!------***************------>
             <!------Setting Options------>
             <!------***************------> 
@@ -230,6 +233,7 @@
                         </a>
                     </li>
                   </small>
+                  <?php if ($_SESSION['type'] == "admin") {  ?>
                   <small>
                     <li class="nav-item">
                         <a href="room.php" class="nav-link">
@@ -238,7 +242,9 @@
                         </a>
                     </li>
                   </small>
-                  <?php if (isset($_SESSION['userid'])) { ?>
+                  <?php 
+                  } 
+                  if (isset($_SESSION['userid'])) { ?>
                   <small>
                     <li class="nav-item">
                         <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-sm">
@@ -247,7 +253,9 @@
                         </a>
                     </li>
                   </small>
-                    <?php } ?>
+          <?php
+            }
+          ?>
                 </ul>
             </li>
 

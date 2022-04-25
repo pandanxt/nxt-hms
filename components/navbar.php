@@ -71,13 +71,13 @@
       <!------*****************------>
       <!------Indoor Patient Icon------>
       <!------*****************------> 
-
+      <?php if ($_SESSION['type'] == "admin") {  ?>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="patient_record.php" class="nav-link">
           <i class="fas fa-users"></i> Patients
         </a>
       </li>
-
+      <?php } ?>
       <!------*****************------>
       <!------Patient Slip Icon------>
       <!------*****************------> 

@@ -8,13 +8,14 @@
     include('components/sidebar.php');
 
     if (isset($_POST['user-submit'])) {
+      $name =  $_POST['name'];
       $status =  $_POST['status'];
       $loginId = $_POST['loginId'];
       $email = $_POST['email'];
       $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
       $permission =  $_POST['permission'];
       $by = $_POST['by'];
-
+      $saveOn = $_POST['addDate'];
 
           $sql = "SELECT * FROM `admin` WHERE `ADMIN_USERNAME` = ?";
           $stmt = mysqli_stmt_init($db);

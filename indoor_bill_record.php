@@ -67,14 +67,17 @@
                         <td style='display:flex;'>
                             <a href='indoor_bill_print.php?sid=$rs[BILL_ID]' style='color:green;'>
                               <i class='fas fa-wallet'></i> Print
-                            </a><br>
+                            </a>";
+                            if ($_SESSION['type'] == "admin") {  
+                            echo "<br>
                             <a href='indoor_bill.php?id=$rs[SLIP_ID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
                             <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?ibrId=$rs[SLIP_ID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
-                            </a>
-                        </td>
+                            </a>";
+                            }
+                        echo "</td>
                         </tr>"; 
                       }
                   ?>
