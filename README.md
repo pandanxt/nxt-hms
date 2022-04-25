@@ -4,9 +4,11 @@ By Buxari Tech
 MedEast Healthcare Center is a online software for Hospital Management System (HMS).
 
 **MEDEAST HEALTHCARE CENTER (HOSPITAL MANAGEMENT SYSTEM)**
-- MedEast HMS To manage MedEast Patients
+MedEast HMS To manage MedEast Patients
 - MedEast HMS
 - Version 1.0
+
+<!-- ------------------------- -->
 
 - Company: **Buxari Tech**
 - Author(s): **Mobeen Shah**
@@ -21,8 +23,8 @@ MedEast Healthcare Center is a online software for Hospital Management System (H
 
 **5 Minute Deployment Guide**
 
-##Pre-requisite:
-XAMMP Server: Download and Install the latest version of the xampp server for windows 10. Click Here to download.
+**Pre-requisite:**
+- XAMMP Server: Download and Install the latest version of the xampp server for windows 10. Click Here to download.
 Any Web Browser to run the project.
 MedEast HMS project source code from Github
 
