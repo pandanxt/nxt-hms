@@ -1,25 +1,25 @@
-###MedEast Healthcare Center
-#By Buxari Tech
+**MedEast Healthcare Center**
+By Buxari Tech
 
 MedEast Healthcare Center is a online software for Hospital Management System (HMS).
 
-#MEDEAST HEALTHCARE CENTER (HOSPITAL MANAGEMENT SYSTEM)
-#MedEast HMS To manage MedEast Patients
-#MedEast HMS
-#Version 1.0
+**MEDEAST HEALTHCARE CENTER (HOSPITAL MANAGEMENT SYSTEM)**
+- MedEast HMS To manage MedEast Patients
+- MedEast HMS
+- Version 1.0
 
-#Company:-------------------------------------------> Buxari Tech
-#Author(s):-------------------------------------------> Mobeen Shah
-#Project:----------------------------------------------> MedEast HMS
+- Company: **Buxari Tech**
+- Author(s): **Mobeen Shah**
+- Project: **MedEast Healthcare Center**
 
-#Corporate Headquarters
-##Buxari Tech Pakistan
-#Whatsapp: +1 (845) 813-0417
-#Mobile: +92 312 8776604
-#Email: buxaritexh@gmail.com
-#Website: https://www.buxaritexh.com
+**Corporate Headquarters**
+- Buxari Tech Pakistan
+- Whatsapp: +1 (845) 813-0417
+- Mobile: +92 312 8776604
+- Email: buxaritexh@gmail.com
+- Website: https://www.buxaritexh.com
 
-#5 Minute Deployment Guide
+**5 Minute Deployment Guide**
 
 ##Pre-requisite:
 XAMMP Server: Download and Install the latest version of the xampp server for windows 10. Click Here to download.
@@ -51,7 +51,7 @@ Open a browser and go to the URL “http://localhost/MedEast/”.
 - Step 9: Enjoy using the MedEast HMS System.
 In the Final step, explore the system and you can manipulate the Admin account.
 
-##MedEast Login Credentials:
-Email: admin@gmail.com
-Username: admin
-Password: Admin123
+**MedEast Login Credentials:**
+- Email: admin@gmail.com
+- Username: admin
+- Password: Admin123
