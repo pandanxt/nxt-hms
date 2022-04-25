@@ -1,39 +1,36 @@
-**MedEast Healthcare Center**
-By Buxari Tech
+# MedEast Healthcare Center
+### By Buxari Tech
 
 MedEast Healthcare Center is a online software for Hospital Management System (HMS).
+### MEDEAST HEALTHCARE CENTER (HOSPITAL MANAGEMENT SYSTEM)
+MedEast HMS to manage MedEast Patients
+- `MedEast HMS`
+- `Version 1.0`
 
-**MEDEAST HEALTHCARE CENTER (HOSPITAL MANAGEMENT SYSTEM)**
-MedEast HMS To manage MedEast Patients
-- MedEast HMS
-- Version 1.0
+- Company: `Buxari Tech`
+- Author(s): `Mobeen Shah`
+- Project: `MedEast Healthcare Center`
 
-<!-- ------------------------- -->
-
-- Company: **Buxari Tech**
-- Author(s): **Mobeen Shah**
-- Project: **MedEast Healthcare Center**
-
-**Corporate Headquarters**
+## Corporate Headquarters
 - Buxari Tech Pakistan
-- Whatsapp: +1 (845) 813-0417
-- Mobile: +92 312 8776604
-- Email: buxaritexh@gmail.com
-- Website: https://www.buxaritexh.com
+- Whatsapp: `+1 (845) 813-0417`
+- Mobile: `+92 312 8776604`
+- Email: `buxaritexh@gmail.com`
+- Website: `https://www.buxaritexh.com`
 
 **5 Minute Deployment Guide**
 
-**Pre-requisite:**
-- XAMMP Server: Download and Install the latest version of the xampp server for windows 10. Click Here to download.
+## Pre-requisite:
+XAMMP Server: Download and Install the latest version of the xampp server for windows 10. Click https://www.apachefriends.org/download.html to download.
 Any Web Browser to run the project.
 MedEast HMS project source code from Github
 
 #Assuming that you already have these two pre-requisite installed if not follow the respective links to install them.
-- Click here for Xampp installation steps.
-- Click here for Web browser installation steps.
-- Click here to learn to download the source code from GitHub.
+- Click https://www.apachefriends.org/download.html for Xampp installation steps.
+- Click https://support.google.com/chrome/answer/95346?hl=en&co=GENIE.Platform%3DDesktop for Web browser installation steps.
+- Click https://www.instructables.com/Downloading-Code-From-GitHub/ to learn to download the source code from GitHub.
 
-MedEast (HMS) Project Deployment Steps:
+## MedEast (HMS) Project Deployment Steps:
 - Step 1: Download the Source code from Github.
 First, download the source code from the given link. Click Here to download. 
 - Step 2: Extract the Downloaded Source Code.
