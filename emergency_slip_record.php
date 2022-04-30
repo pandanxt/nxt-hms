@@ -61,7 +61,7 @@
                               <i class='fas fa-wallet'></i> Print</a>";
                               if ($_SESSION['type'] == "admin") {  
                               echo "<br>
-                              <a href='add_patient.php?id=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
+                              <a href='emergency_patient_slip.php?epsid=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
                               <br>
                               <a onClick=\"javascript: return confirm('Please confirm deletion');\" 
                               href='backend_components/delete_handler.php?esrId=$rs[SLIP_ID]' style='color:red;'>
@@ -72,7 +72,7 @@
                             <i class='fas fa-wallet'></i> Print</a>";
                             if ($_SESSION['type'] == "admin") {  
                             echo "<br>
-                            <a href='add_patient.php?id=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
+                            <a href='emergency_patient_slip.php?epsid=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
                             <br>
                             <a onClick=\"javascript: return confirm('Please confirm deletion');\" 
                             href='backend_components/delete_handler.php?esrId=$rs[SLIP_ID]' style='color:red;'>

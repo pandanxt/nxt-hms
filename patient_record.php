@@ -13,7 +13,20 @@
 ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <section class="content-header"></section>
+     <!-- Content Header (Page header) -->
+     <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-2"><a type="submit" class="btn btn-block btn-primary btn-sm" href="add_patient.php"><i class="fas fa-plus"></i> New Patient</a></div>
+          <div class="col-sm-10">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Patients</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
 
     <!-- Table Data of Patient -->
     <section class="content">
@@ -56,12 +69,12 @@
                         <td>$rs[ADMIN_USERNAME]</td>
                         <td>$date</td> 
                         <td style='display:flex;'>
-                            <a href='view_patient.php?id=$rs[PATIENT_ID]' style='color:green;'>
+                            <a href='view_patient.php?patid=$rs[PATIENT_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
                             </a>";
                             if ($_SESSION['type'] == "admin") {  
                             echo "<br>
-                            <a href='add_patient.php?id=$rs[PATIENT_ID]'>
+                            <a href='edit_patient.php?patid=$rs[PATIENT_ID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
                             <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?prId=$rs[PATIENT_ID]' style='color:red;'>
