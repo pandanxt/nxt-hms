@@ -107,7 +107,7 @@
   }
 
   // Check if ID is empty
-  if (empty($_GET['id'])) {
+  if (empty($_GET['epsid'])) {
 ?>
   
   <!-- **
@@ -227,7 +227,129 @@
 <?php  
 }else{
   // Update Emergency Patient
-  include('backend_components/update_patient.php');
+  // include('backend_components/update_patient.php');
+  $patsql="SELECT * FROM `emergency_slip` WHERE `SLIP_ID` = '$_GET[epsid]'";
+    
+    $qsql = mysqli_query($db,$patsql);
+    $rsedit = mysqli_fetch_array($qsql);
+
+?>
+
+ <!-- **
+  *
+  *  Add Emergency Patient Form Start Here
+  *
+  ** -->
+
+  <div class="content-wrapper">
+  <section class="content-header"></section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+  
+      <!-- SELECT2 EXAMPLE -->
+      <div class="card card-info">
+        <div class="card-header">
+          <h3 class="card-title"><i class="nav-icon fas fa-user-injured"></i> Emergency Patient</h3>
+          <div class="card-tools">
+            <span id='clockDT'></span>
+          </div>
+        </div>
+        <form action="" method="post" enctype="multipart/form-data">
+        <!-- /.card-header -->
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              
+              <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                <div class="form-group col-md-6">
+                  <label>Patient MR-ID</label>
+                  <input type="text" name="mrid" class="form-control" value="<?php echo $rsedit['SLIP_MR_ID']; ?>" readonly>
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Patient Name</label>
+                  <input type="text" name="name" class="form-control" id="inputName1" value="<?php echo $rsedit['SLIP_NAME']; ?>" required>
+                </div>
+              </div>
+
+              <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                <div class="form-group col-md-6">
+                  <label>Mobile No#</label>
+                  <input type="tel" name="phone" class="form-control" id="inputPhone" value="<?php echo $rsedit['SLIP_MOBILE']; ?>" required>
+                </div>
+                <!-- /.form-group -->
+                <div class="form-group col-md-6">
+                  <label id="doctor">Medical Officer (MO)</label>
+                  <select class="form-control select2bs4" name="doctor" style="width: 100%;">
+                  <option disabled selected>Select Doctor Name</option>
+                    <?php
+                      $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "active"';
+                      $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
+                        while ($row = mysqli_fetch_array($result)) {
+                          $id = $row['DOCTOR_ID'];  
+                          $name = $row['DOCTOR_NAME'];
+                          echo '<option value="'.$id.'">'.$name.'</option>'; 
+                      }
+                    ?>
+                  </select>
+                </div>
+              </div>
+              <!-- /.form-group -->
+            </div>
+              
+            <!-- /.col -->
+            <div class="col-md-6">
+            <input type="text" name="addDate" id="addDate" hidden/>
+            <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
+              
+            <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+              <div class="form-group col-md-6">
+                <label>Patient Age</label>
+                <input type="number" name="age" class="form-control" id="inputAge1" value="<?php //echo $rsedit['SLIP_MR_ID']; ?>" required>
+              </div>
+              <!-- /.form-group -->
+              <div class="form-group col-md-6">
+                <label>Patient Gender</label>
+                <select class="form-control select2bs4" name="gender" style="width: 100%;">
+                  <option selected="selected" value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+              
+              <!-- /.form-group -->
+              <div class="form-group">
+                <label>Patient Address</label>
+                <textarea style="height:40px;" name="address" type="text" class="form-control" id="inputAddress" value="<?php //echo $rsedit['SLIP_MR_ID']; ?>" required></textarea>
+                <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
+              </div>
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer" style="text-align: right;">
+          <button type="submit" name="imrc-patient-submit" class="btn btn-block btn-primary">Submit</button>
+        </div>
+      </div>
+      <!-- /.card -->
+      </form>
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+
+<!-- **
+*
+*  Emergency Patient Form Ends Here 
+*
+** -->
+
+<?php
 }
 
 // Footer File
