@@ -51,6 +51,11 @@ Open a browser and go to the URL “http://localhost/MedEast/”.
 In the Final step, explore the system and you can manipulate the Admin account.
 
 **MedEast Login Credentials:**
-- Email: admin@gmail.com
-- Username: admin
-- Password: Admin123
+### Login as Administrator
+- Email: shahmobeen333@gmail.com
+- Username: mubeen.hussain
+- Password: M0b33n2hah
+### Login as Staff
+- Email: staff.user@gmail.com
+- Username: staff
+- Password: Staff123
