@@ -159,7 +159,7 @@
                   <select class="form-control select2bs4" name="doctor" style="width: 100%;">
                   <option disabled selected>Select Doctor Name</option>
                     <?php
-                      $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "active"';
+                      $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "active" AND `DEPARTMENT_ID` = 18';
                       $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
                         while ($row = mysqli_fetch_array($result)) {
                           $id = $row['DOCTOR_ID'];  

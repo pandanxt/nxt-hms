@@ -30,7 +30,7 @@
                     <th>MR-ID</th>
                     <th>Name</th>
                     <th>Mobile</th>
-                    <th>Doctor</th>
+                    <th>Medical Officer</th>
                     <th>Created By</th>
                     <th>Created On</th>
                     <th>Options</th>

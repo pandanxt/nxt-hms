@@ -8,7 +8,7 @@
   include('components/form_header.php');
  
 ?>
-    <label>Consultant Name</label>
+    <label>Consultant/Surgeon</label>
 
     <select class="form-control select2bs4" name="doctor" style="width: 100%;">
     <option disabled selected>Select Consultant Name</option>

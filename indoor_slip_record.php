@@ -30,11 +30,11 @@
                     <th>MR-ID</th>
                     <th>Name</th>
                     <th>Mobile</th>
-                    <th>Procedure</th>
-                    <th>Type</th>
-                    <th>Doctor</th>
-                    <th>Created By</th>
-                    <th>Created On</th>
+                    <th>Procedure/Surgery</th>
+                    <th>Patient Type</th>
+                    <th>Consultant/Surgeon</th>
+                    <th>Created</th>
+                    <!-- <th>Created On</th> -->
                     <th>Options</th>
                   </tr>
                   </thead>
@@ -46,16 +46,30 @@
                       while($rs = mysqli_fetch_array($qsql))
                       { 
                        $date = substr($rs['SLIP_DATE_TIME'],0, 21);
+                       $type = $rs['SLIP_TYPE'];
+                       $newType;
+          
+                       if ($type == 'gynae') {
+                           $newType = 'Gynae Patient';
+                       }else if ($type == 'gensurgery') {
+                           $newType = 'General Surgery Patient';
+                       }else if ($type == 'genillness') {
+                           $newType = 'General Illness Patient';
+                       }else if ($type == 'eye') {
+                           $newType = 'Eye Patient';
+                       }
                        echo "<tr>
                        <td>$rs[SLIP_ID]</td>
                         <td>$rs[SLIP_MR_ID]</td>
                         <td>$rs[SLIP_NAME]</td>
                         <td>$rs[SLIP_MOBILE]</td>
                         <td>$rs[SLIP_PROCEDURE]</td>
-                        <td>$rs[SLIP_TYPE]</td>
+                        <td>".$newType."</td>
                         <td>$rs[DOCTOR_NAME]</td>
-                        <td>$rs[ADMIN_USERNAME]</td>
-                        <td>$date</td> 
+                        <td>
+                            <b>By</b>: $rs[ADMIN_USERNAME] <br>
+                            <b>On</b>: ".$date."
+                        </td>
                         <td style='display:flex;'>";
 
                         if($rs['BILL_STATUS'] == "pending"){

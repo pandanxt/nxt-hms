@@ -21,7 +21,7 @@
     $phone = $_POST['phone'];
     $gender = $_POST['gender'];
     $doctor = $_POST['doctor'];
-    // $cnic = $_POST['cnic'];
+    $dept = $_POST['dept'];
     $procedure = $_POST['procedure'];
     $type = $_POST['type'];
     $age = $_POST['age'];
@@ -45,7 +45,7 @@
         // if ($resultCheck > 0) {
         if(!$resultCheck == 0) { 
             
-          $slipQuery = "INSERT INTO `indoor_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DOCTOR_ID`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `SLIP_DATE_TIME`, `STAFF_ID`,`BILL_STATUS`) VALUES (?,?,?,?,?,?,?,?,?)";
+          $slipQuery = "INSERT INTO `indoor_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` ,`DEPT_ID`, `DOCTOR_ID`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `SLIP_DATE_TIME`, `STAFF_ID`,`BILL_STATUS`) VALUES (?,?,?,?,?,?,?,?,?,?)";
           mysqli_stmt_execute($stmt);
               
             if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
@@ -57,11 +57,11 @@
                $psql = mysqli_query($db,$patientQuery);
                while($prs = mysqli_fetch_array($psql))
                {
-                  mysqli_stmt_bind_param($stmt,"sssssssss", $prs['PATIENT_MR_ID'],$name,$prs['PATIENT_MOBILE'],$doctor,$procedure,$type,$saveOn,$by,$status);
+                  mysqli_stmt_bind_param($stmt,"ssssssssss", $prs['PATIENT_MR_ID'],$name,$prs['PATIENT_MOBILE'],$dept,$doctor,$procedure,$type,$saveOn,$by,$status);
                   if (mysqli_stmt_execute($stmt)) {
                     echo "<script>alert('Patient slip is created but patient data already exists...');</script>";
                       // echo "<script>alert('Data fetched from DB...pname='".$prs['PATIENT_NAME']."'&on='".$saveOn."'&mrid='".$prs['PATIENT_MR_ID']."'&phone='".$prs['PATIENT_MOBILE']."'&gender='".$prs['PATIENT_GENDER']."'&doc='".$doctor."'&age='".$prs['PATIENT_AGE']."'&add='".$prs['PATIENT_ADDRESS']."'&by='".$by."');</script>";
-                      echo '<script type="text/javascript">window.location = "indoor_slip_print.php?pname='.$prs['PATIENT_NAME'].'&on='.$saveOn.'&type='.$type.'&mrid='.$prs['PATIENT_MR_ID'].'&phone='.$prs['PATIENT_MOBILE'].'&gender='.$prs['PATIENT_GENDER'].'&doc='.$doctor.'&age='.$prs['PATIENT_AGE'].'&add='.$prs['PATIENT_ADDRESS'].'&pro='.$procedure.'&by='.$by.'";</script>';
+                      echo '<script type="text/javascript">window.location = "indoor_slip_print.php?pname='.$prs['PATIENT_NAME'].'&on='.$saveOn.'&type='.$type.'&mrid='.$prs['PATIENT_MR_ID'].'&phone='.$prs['PATIENT_MOBILE'].'&gender='.$prs['PATIENT_GENDER'].'&dept='.$dept.'&doc='.$doctor.'&age='.$prs['PATIENT_AGE'].'&add='.$prs['PATIENT_ADDRESS'].'&pro='.$procedure.'&by='.$by.'";</script>';
                   }
                 } 
             }   
@@ -89,17 +89,17 @@
               mysqli_stmt_bind_param($stmt,"ssssssss", $mrid,$name,$phone,$gender,$age,$address,$saveOn,$by);
              
               if (mysqli_stmt_execute($stmt)){
-                $slipQuery = "INSERT INTO `indoor_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DOCTOR_ID`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `SLIP_DATE_TIME`, `STAFF_ID`,`BILL_STATUS`) VALUES (?,?,?,?,?,?,?,?,?)";
+                $slipQuery = "INSERT INTO `indoor_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DEPT_ID`, `DOCTOR_ID`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `SLIP_DATE_TIME`, `STAFF_ID`,`BILL_STATUS`) VALUES (?,?,?,?,?,?,?,?,?,?)";
                 mysqli_stmt_execute($stmt);
               
                 if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
                   echo "<script>alert('Sqlerror due to DB Query...');</script>";
                   exit();
                 }else{
-                  mysqli_stmt_bind_param($stmt,"sssssssss", $mrid,$name,$phone,$doctor,$procedure,$type,$saveOn,$by,$status);
+                  mysqli_stmt_bind_param($stmt,"ssssssssss", $mrid,$name,$phone,$dept,$doctor,$procedure,$type,$saveOn,$by,$status);
                   if (mysqli_stmt_execute($stmt)) {
                     echo "<script>alert('Patient slip is created and patient data is also stored...');</script>";
-                    echo '<script type="text/javascript">window.location = "indoor_slip_print.php?type='.$type.'&pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&gender='.$gender.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&pro='.$procedure.'&by='.$by.'";</script>';
+                    echo '<script type="text/javascript">window.location = "indoor_slip_print.php?type='.$type.'&pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&gender='.$gender.'&dept='.$dept.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&pro='.$procedure.'&by='.$by.'";</script>';
                   } 
                 }   
               }
@@ -169,20 +169,42 @@
                 </div>
 
                 <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                    <div class="form-group col-md-6">
+                      <label>Mobile #</label>
+                      <input type="tel" name="phone" class="form-control" id="inputPhone" placeholder="Enter Mobile No. without '-' " required>
+                    </div>
                     <div class="form-group col-md-3">
-                    <label>Gender</label>
-                    <select class="form-control select2bs4" name="gender" style="width: 100%;">
-                        <option selected="selected" value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
-                    </select>
+                      <label>Gender</label>
+                      <select class="form-control select2bs4" name="gender" style="width: 100%;">
+                          <option selected="selected" value="male">Male</option>
+                          <option value="female">Female</option>
+                          <option value="other">Other</option>
+                      </select>
                     </div>
                     <div class="form-group col-md-3">
                         <label>Age</label>
                         <input type="number" name="age" class="form-control" id="inputAge1" placeholder="Enter Age" required>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label id="doctor">Consultant Name</label>
+                </div>
+
+                <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                <div class="form-group col-md-6">
+                  <label>Department</label>
+                  <select class="form-control select2bs4" id="dept" name="dept" style="width: 100%;" onchange="showDoctor(this.value)">
+                  <option disabled selected>Select Department</option>
+                      <?php
+                      $dept = 'SELECT `DEPARTMENT_ID`, `DEPARTMENT_NAME` FROM `department` WHERE `DEPARTMENT_STATUS` = "active"';
+                      $result = mysqli_query($db, $dept) or die (mysqli_error($db));
+                          while ($row = mysqli_fetch_array($result)) {
+                          $id = $row['DEPARTMENT_ID'];  
+                          $name = $row['DEPARTMENT_NAME'];
+                          echo '<option value="'.$id.'">'.$name.'</option>'; 
+                      }
+                      ?>
+                  </select>
+                </div>
+                <div class="form-group col-md-6" id="doctor">
+                        <label>Consultant/Surgeon</label>
                         <select class="form-control select2bs4" name="doctor" style="width: 100%;">
                         <option disabled selected>Select Consultant Name</option>
                             <?php
@@ -196,21 +218,38 @@
                             ?>
                         </select>
                     </div>
-                </div>
-
-                <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                    <div class="form-group col-md-6">
-                    <label>Mobile #</label>
-                  <input type="tel" name="phone" class="form-control" id="inputPhone" placeholder="Enter Mobile No. without '-' " required>
-                    </div>
+                    <script>
+                      function showDoctor(str) {
+                        if (str=="") {
+                          return;
+                        }
+                        var xmlhttp=new XMLHttpRequest();
+                        xmlhttp.onreadystatechange=function() {
+                          if (this.readyState==4 && this.status==200) {
+                            document.getElementById("doctor").innerHTML=this.responseText;
+                          }
+                        }
+                        xmlhttp.open("GET","getDoctor.php?q="+str,true);
+                        xmlhttp.send();
+                      }
+                    </script>    
                     <!-- <div class="form-group col-md-6">
                       <label>CNIC #</label>
                       <input type="number" name="cnic" class="form-control" id="inputPhone" placeholder="Enter CNIC No. without '-' ">
                     </div> -->
-                    <div class="form-group col-md-6">
-                  <label>Indoor Patient Type</label>
+                </div>
+              
+              </div>
+              <!-- /.col -->
+              <div class="col-md-6">
+              <input type="text" name="addDate" id="addDate" hidden/>
+              <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
+                
+                <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                  <div class="form-group col-md-6">
+                    <label>Patient Type</label>
                     <select class="form-control select2bs4" name="type" style="width: 100%;">
-                    <option disabled selected>Select Indoor Type</option>
+                    <option disabled selected>Select Patient Type</option>
                         <?php
                         $indoorType = 'SELECT `TYPE_ALAIS`, `TYPE_NAME` FROM `indoor_type` WHERE `TYPE_STATUS` = "active"';
                         $result = mysqli_query($db, $indoorType) or die (mysqli_error($db));
@@ -221,17 +260,11 @@
                         }
                         ?>
                     </select>
-                </div>
-                </div>
-              
-              </div>
-              <!-- /.col -->
-              <div class="col-md-6">
-              <input type="text" name="addDate" id="addDate" hidden/>
-              <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
-                <div class="form-group">
-                  <label>Procedure</label>
-                  <input type="text" class="form-control" name="procedure" id="inputProcedure" placeholder="Enter Procedure Here ..." />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Procedure/Surgery Type</label>
+                    <input type="text" class="form-control" name="procedure" id="inputProcedure" placeholder="Enter Procedure Here ..." />
+                  </div>
                 </div>
                 <!-- /.form-group -->
                 <div class="form-group">
