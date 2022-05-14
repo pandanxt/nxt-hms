@@ -1,6 +1,7 @@
 <?php 
   // Session Start
   session_start(); 
+  $type = (isset($_GET['type']) ? $_GET['type'] : '');
   if (isset($_SESSION['userid'])) {
   // Connection File
   include('backend_components/connection.php');
@@ -42,8 +43,18 @@
                   </thead>
                   <tbody>
                   <?php
-                      $sql ="SELECT *,`ADMIN_USERNAME` FROM `indoor_bill` INNER JOIN `admin` WHERE `indoor_bill`.`CREATED_BY` = `admin`.`ADMIN_ID`";
+                    if ($type == "gynae" || $type == "gensurgery") {
+                      $sql ="SELECT *,`ADMIN_USERNAME` FROM `indoor_gensurgery_bill` INNER JOIN `admin` WHERE `indoor_gensurgery_bill`.`CREATED_BY` = `admin`.`ADMIN_ID`";
                       $qsql = mysqli_query($db,$sql);
+                    }else if ($type == "genillness") {
+                      $sql ="SELECT *,`ADMIN_USERNAME` FROM `indoor_genillness_bill` INNER JOIN `admin` WHERE `indoor_genillness_bill`.`CREATED_BY` = `admin`.`ADMIN_ID`";
+                      $qsql = mysqli_query($db,$sql);
+                    }else if ($type == "eye") {
+                      $sql ="SELECT *,`ADMIN_USERNAME` FROM `indoor_eye_bill` INNER JOIN `admin` WHERE `indoor_eye_bill`.`CREATED_BY` = `admin`.`ADMIN_ID`";
+                      $qsql = mysqli_query($db,$sql);
+                    }
+                      // $sql ="SELECT *,`ADMIN_USERNAME` FROM `indoor_gensurgery_bill` INNER JOIN `admin` WHERE `indoor_gensurgery_bill`.`CREATED_BY` = `admin`.`ADMIN_ID`";
+                      // $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
                       //  $date = substr($rs['DATE_TIME'],0, 21);
@@ -65,7 +76,7 @@
                         </td>
                         <td>$rs[ADMIN_USERNAME]</td>
                         <td style='display:flex;'>
-                            <a href='indoor_bill_print.php?sid=$rs[BILL_ID]' style='color:green;'>
+                            <a href='indoor_bill_print.php?type=$type&sid=$rs[BILL_ID]' style='color:green;'>
                               <i class='fas fa-wallet'></i> Print
                             </a>";
                             if ($_SESSION['type'] == "admin") {  

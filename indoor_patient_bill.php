@@ -12,24 +12,19 @@
     // Navbar File
   include('components/navbar.php'); 
   
-  // Save Patient Data Query 
-  if (isset($_POST['indoor-bill-submit'])) {
+  // Save Indoor Surgery Patient Data Query 
+  if (isset($_POST['surgery-submit'])) {
     // Post Variables from Form
     $mrid = $_POST['mrid'];
     $name = $_POST['name'];
     $phone = $_POST['phone'];
     $type = $_POST['type'];
 
-    // $age = $_POST['age'];
-    // $gender = $_POST['gender'];
-    // $add = $_POST['address'];
     $doc = $_POST['doctor'];
     $pro = $_POST['procedure'];
 
     $admdate = $_POST['admdate'];
     $disdate = $_POST['disdate'];
-    // $admitdays = $_POST['admitdays'];
-    // $addDate = $_POST['disdate']; 
 
     $adCharge = $_POST['adCharge'];
     $surCharge = $_POST['surCharge'];
@@ -45,6 +40,103 @@
     $ctg = $_POST['ctg'];
     $rrCharge = $_POST['rrCharge'];
     $other = $_POST['other'];
+    $otherText = $_POST['otherText'];
+    $tbill = $_POST['tbill'];
+    $discount = $_POST['discount'];
+    $fbill = $_POST['fbill'];
+    $by = $_POST['by'];
+    $status = "paid";
+
+    // Query to check if data exists 
+    $sql = "SELECT * FROM `indoor_gensurgery_bill` WHERE `SLIP_ID` = ?";
+    $stmt = mysqli_stmt_init($db);
+          
+      if (!mysqli_stmt_prepare($stmt,$sql)) {
+          echo '<script type="text/javascript">window.location = "indoor_bill.php?action=billAlreadyCreated";</script>';
+          exit();
+      }else{
+          mysqli_stmt_bind_param($stmt,"s",$sid);
+          mysqli_stmt_execute($stmt);
+          mysqli_stmt_store_result($stmt);
+          $resultCheck = mysqli_stmt_num_rows($stmt);
+
+          $sql = "INSERT INTO `indoor_gensurgery_bill`(
+            `MR_ID`,
+            `SLIP_ID`,
+            `PATIENT_NAME`,
+            `MOBILE`,
+            `ADMISSION_DATE`, 
+            `DISCHARGE_DATE`,
+            `DATE_TIME`,
+            `ADMISSION_CHARGE`,
+            `SURGEON_CHARGE`,
+            `ANESTHETIST_CHARGE`,
+            `OPERATION_CHARGE`,
+            `LABOUR_ROOM_CHARGE`,
+            `PEDIATRIC_CHARGE`,
+            `PRIVATE_ROOM_CHARGE`,
+            `NURSURY_CHARGE`,
+            `NURSURY_STAFF_CHARGE`,
+            `MO_CHARGE`,
+            `CONSULTANT_CHARGE`,
+            `CTG_CHARGE`,
+            `RECOVERY_ROOM_CHARGE`,
+            `OTHER`,
+            `OTHER_TEXT`,
+            `TOTAL_AMOUNT`,
+            `DISCOUNT`,
+            `TOTAL`,
+            `CREATED_BY`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+          mysqli_stmt_execute($stmt);
+            
+          if (!mysqli_stmt_prepare($stmt,$sql)) {
+              echo '<script type="text/javascript">window.location = "indoor_bill.php?action=sqlerror";</script>';
+              echo "<script>alert('Sqlerror due to DB Query...');</script>";
+              exit();
+          }else{                                
+              mysqli_stmt_bind_param($stmt,"ssssssssssssssssssssssssss",
+              $mrid,$sid,$name,$phone,$admdate,$disdate,$disdate,$adCharge,$surCharge,$anesCharge,
+              $opCharge,$chargeLR,$pedCharge,
+              $prChargeThree,$nurCharge,$nurStCharge,$moCharge,$conCharge,$ctg,$rrCharge,
+              $other,$otherText,$tbill,$discount,$fbill,$by);
+              mysqli_stmt_execute($stmt);
+              // Update Status of the receipt
+              $updateSql ="UPDATE `indoor_slip` SET `BILL_STATUS`='$status' WHERE `indoor_slip`.`SLIP_ID`='$sid'";
+              if($querySql = mysqli_query($db,$updateSql))
+              {
+                echo '<script type="text/javascript">window.location = "indoor_bill_print.php?pname='.$name.'&mrid='.$mrid.'&phone='.$phone.'&type='.$type.'&admdate='.$admdate.'&disdate='.$disdate.'&doc='.$doc.'&pro='.$pro.'&adcharge='.$adCharge.'&surcharge='.$surCharge.'&anescharge='.$anesCharge.'&opcharge='.$opCharge.'&chargelr='.$chargeLR.'&pedcharge='.$pedCharge.'&prcharge='.$prChargeThree.'&nurcharge='.$nurCharge.'&nurstcharge='.$nurStCharge.'&mocharge='.$moCharge.'&concharge='.$conCharge.'&ctg='.$ctg.'&rrcharge='.$rrCharge.'&other='.$other.'&otherText='.$otherText.'&tbill='.$tbill.'&dis='.$discount.'&fbill='.$fbill.'&by='.$by.'";</script>';                                                   
+              }else
+              {
+                echo mysqli_error($db);
+              }  
+                exit();
+            }			
+        }
+    mysqli_stmt_close($stmt);
+    mysqli_close($db);
+  }
+
+  // Save Indoor Illness Patient Data Query 
+  if (isset($_POST['illness-submit'])) {
+    // Post Variables from Form
+    $mrid = $_POST['mrid'];
+    $name = $_POST['name'];
+    $phone = $_POST['phone'];
+    $type = $_POST['type'];
+
+    $doc = $_POST['doctor'];
+    $pro = $_POST['procedure'];
+
+    $admdate = $_POST['admdate'];
+    $disdate = $_POST['disdate'];
+
+    $prChargeThree = $_POST['prChargeThree'];
+    $moChargeTwo = $_POST['moChargeTwo'];
+    $monChargeTwo = $_POST['monChargeTwo'];
+    $oxChargeTwo = $_POST['oxChargeTwo'];
+    $nurChargeTwo = $_POST['nurChargeTwo'];
+    $conChargeThree = $_POST['conChargeThree'];
+
     $tbill = $_POST['tbill'];
     $discount = $_POST['discount'];
     $fbill = $_POST['fbill'];
@@ -52,72 +144,134 @@
     $status = "created";
 
     // Query to check if data exists 
-    $sql = "SELECT * FROM `indoor_bill` WHERE `SLIP_ID` = ?";
+    $sql = "SELECT * FROM `indoor_genillness_bill` WHERE `SLIP_ID` = ?";
     $stmt = mysqli_stmt_init($db);
           
-    if (!mysqli_stmt_prepare($stmt,$sql)) {
-        echo '<script type="text/javascript">window.location = "indoor_bill.php?action=billAlreadyCreated";</script>';
-        exit();
-    }else{
-        mysqli_stmt_bind_param($stmt,"s",$sid);
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_store_result($stmt);
-        $resultCheck = mysqli_stmt_num_rows($stmt);
+      if (!mysqli_stmt_prepare($stmt,$sql)) {
+          echo '<script type="text/javascript">window.location = "indoor_bill.php?action=billAlreadyCreated";</script>';
+          exit();
+      }else{
+          mysqli_stmt_bind_param($stmt,"s",$sid);
+          mysqli_stmt_execute($stmt);
+          mysqli_stmt_store_result($stmt);
+          $resultCheck = mysqli_stmt_num_rows($stmt);
 
-        $sql = "INSERT INTO `indoor_bill`(
-          `MR_ID`,
-          `SLIP_ID`,
-          `PATIENT_NAME`,
-          `MOBILE`,
-          `ADMISSION_DATE`, 
-          `DISCHARGE_DATE`,
-          `DATE_TIME`,
-          `ADMISSION_CHARGE`,
-          `SURGEON_CHARGE`,
-          `ANESTHETIST_CHARGE`,
-          `OPERATION_CHARGE`,
-          `LABOUR_ROOM_CHARGE`,
-          `PEDIATRIC_CHARGE`,
-          `PRIVATE_ROOM_CHARGE`,
-          `NURSURY_CHARGE`,
-          `NURSURY_STAFF_CHARGE`,
-          `MO_CHARGE`,
-          `CONSULTANT_CHARGE`,
-          `CTG_CHARGE`,
-          `RECOVERY_ROOM_CHARGE`,
-          `OTHER`,
-          `TOTAL_AMOUNT`,
-          `DISCOUNT`,
-          `TOTAL`,
-          `CREATED_BY`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        mysqli_stmt_execute($stmt);
-          
-        if (!mysqli_stmt_prepare($stmt,$sql)) {
-            echo '<script type="text/javascript">window.location = "indoor_bill.php?action=sqlerror";</script>';
-            echo "<script>alert('Sqlerror due to DB Query...');</script>";
-            exit();
-        }else{                                
-            mysqli_stmt_bind_param($stmt,"sssssssssssssssssssssssss",
-            $mrid,$sid,$name,$phone,$admdate,$disdate,$disdate,$adCharge,$surCharge,$anesCharge,
-            $opCharge,$chargeLR,$pedCharge,
-            $prChargeThree,$nurCharge,$nurStCharge,$moCharge,$conCharge,$ctg,$rrCharge,
-            $other,$tbill,$discount,$fbill,$by);
-            mysqli_stmt_execute($stmt);
-            // Update Status of the receipt
-            $updateSql ="UPDATE `indoor_slip` SET `BILL_STATUS`='$status' WHERE `indoor_slip`.`SLIP_ID`='$sid'";
-            if($querySql = mysqli_query($db,$updateSql))
-            {
-              echo '<script type="text/javascript">window.location = "indoor_bill_print.php?pname='.$name.'&mrid='.$mrid.'&phone='.$phone.'&type='.$type.'&admdate='.$admdate.'&disdate='.$disdate.'&doc='.$doc.'&pro='.$pro.'&adcharge='.$adCharge.'&surcharge='.$surCharge.'&anescharge='.$anesCharge.'&opcharge='.$opCharge.'&chargelr='.$chargeLR.'&pedcharge='.$pedCharge.'&prcharge='.$prChargeThree.'&nurcharge='.$nurCharge.'&nurstcharge='.$nurStCharge.'&mocharge='.$moCharge.'&concharge='.$conCharge.'&ctg='.$ctg.'&rrcharge='.$rrCharge.'&other='.$other.'&type='.$type.'&tbill='.$tbill.'&dis='.$discount.'&fbill='.$fbill.'&by='.$by.'";</script>';                                                   
-            }else
-            {
-              echo mysqli_error($db);
-            }  
+          $sql = "INSERT INTO `indoor_genillness_bill`(
+            `MR_ID`,
+            `SLIP_ID`,
+            `PATIENT_NAME`,
+            `MOBILE`,
+            `ADMISSION_DATE`,
+            `DISCHARGE_DATE`,
+            `DATE_TIME`,
+            `PRIVATE_ROOM_CHARGE`,
+            `CONSULTANT_CHARGE`,
+            `MO_CHARGE`,
+            `MONITOR_CHARGE`,
+            `NURSING_CHARGE`,
+            `OXYGEN_CHARGE`,
+            `TOTAL_AMOUNT`,
+            `DISCOUNT`,
+            `TOTAL`,
+            `CREATED_BY`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+          mysqli_stmt_execute($stmt);
+            
+          if (!mysqli_stmt_prepare($stmt,$sql)) {
+              echo '<script type="text/javascript">window.location = "indoor_bill.php?action=sqlerror";</script>';
+              echo "<script>alert('Sqlerror due to DB Query...');</script>";
               exit();
-          }			
-      }
-      mysqli_stmt_close($stmt);
-      mysqli_close($db);
-    }
+          }else{                                
+              mysqli_stmt_bind_param($stmt,"sssssssssssssssss",
+              $mrid,$sid,$name,$phone,$admdate,$disdate,$disdate, 
+              $prChargeThree, $conChargeThree, $moChargeTwo, $monChargeTwo, 
+              $nurChargeTwo, $oxChargeTwo, $tbill, $discount, $fbill, $by);
+              mysqli_stmt_execute($stmt);
+              // Update Status of the receipt
+              $updateSql ="UPDATE `indoor_slip` SET `BILL_STATUS`='$status' WHERE `indoor_slip`.`SLIP_ID`='$sid'";
+              if($querySql = mysqli_query($db,$updateSql))
+              {
+                echo '<script type="text/javascript">window.location = "indoor_bill_print.php?pname='.$name.'&mrid='.$mrid.'&phone='.$phone.'&type='.$type.'&admdate='.$admdate.'&disdate='.$disdate.'&doc='.$doc.'&pro='.$pro.'&prChargeThree='.$prChargeThree.'&mochargeTwo='.$moChargeTwo.'&monChargeTwo='.$monChargeTwo.'&oxChargeTwo='.$oxChargeTwo.'&nurChargeTwo='.$nurChargeTwo.'&conChargeThree='.$conChargeThree.'&tbill='.$tbill.'&dis='.$discount.'&fbill='.$fbill.'&by='.$by.'";</script>';                                                   
+              }else
+              {
+                echo mysqli_error($db);
+              }  
+                exit();
+            }			
+        }
+    mysqli_stmt_close($stmt);
+    mysqli_close($db);
+  }
+
+  // Save Indoor Eye Patient Data Query 
+  if (isset($_POST['eye-submit'])) {
+    // Post Variables from Form
+    $mrid = $_POST['mrid'];
+    $name = $_POST['name'];
+    $phone = $_POST['phone'];
+    $type = $_POST['type'];
+
+    $doc = $_POST['doctor'];
+    $pro = $_POST['procedure'];
+
+    $admdate = $_POST['admdate'];
+    $disdate = $_POST['disdate'];
+    
+    $tbill = $_POST['tbill'];
+    $discount = $_POST['discount'];
+    $fbill = $_POST['fbill'];
+    $by = $_POST['by'];
+    $status = "created";
+
+    // Query to check if data exists 
+    $sql = "SELECT * FROM `indoor_eye_bill` WHERE `SLIP_ID` = ?";
+    $stmt = mysqli_stmt_init($db);
+          
+      if (!mysqli_stmt_prepare($stmt,$sql)) {
+          echo '<script type="text/javascript">window.location = "indoor_bill.php?action=billAlreadyCreated";</script>';
+          exit();
+      }else{
+          mysqli_stmt_bind_param($stmt,"s",$sid);
+          mysqli_stmt_execute($stmt);
+          mysqli_stmt_store_result($stmt);
+          $resultCheck = mysqli_stmt_num_rows($stmt);
+
+          $sql = "INSERT INTO `indoor_eye_bill`(
+            `MR_ID`,
+            `SLIP_ID`,
+            `PATIENT_NAME`,
+            `MOBILE`,
+            `ADMISSION_DATE`, 
+            `DISCHARGE_DATE`,
+            `DATE_TIME`,
+            `TOTAL_AMOUNT`,
+            `DISCOUNT`,
+            `TOTAL`,
+            `CREATED_BY`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+          mysqli_stmt_execute($stmt);
+            
+          if (!mysqli_stmt_prepare($stmt,$sql)) {
+              echo '<script type="text/javascript">window.location = "indoor_bill.php?action=sqlerror";</script>';
+              echo "<script>alert('Sqlerror due to DB Query...');</script>";
+              exit();
+          }else{                                
+              mysqli_stmt_bind_param($stmt,"sssssssssss",
+              $mrid, $sid, $name, $phone, $admdate, $disdate, $disdate, $tbill, $discount, $fbill, $by);
+              mysqli_stmt_execute($stmt);
+              // Update Status of the receipt
+              $updateSql ="UPDATE `indoor_slip` SET `BILL_STATUS`='$status' WHERE `indoor_slip`.`SLIP_ID`='$sid'";
+              if($querySql = mysqli_query($db,$updateSql))
+              {
+                echo '<script type="text/javascript">window.location = "indoor_bill_print.php?pname='.$name.'&mrid='.$mrid.'&phone='.$phone.'&type='.$type.'&admdate='.$admdate.'&disdate='.$disdate.'&doc='.$doc.'&pro='.$pro.'&tbill='.$tbill.'&dis='.$discount.'&fbill='.$fbill.'&by='.$by.'";</script>';                                                   
+              }else
+              {
+                echo mysqli_error($db);
+              }  
+                exit();
+              }			
+          }
+    mysqli_stmt_close($stmt);
+    mysqli_close($db);
+  }
 
   // Main Sidebar Container
   include('components/sidebar.php'); 
@@ -320,7 +474,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer" style="text-align: right;">
-              <button type="submit" name="indoor-bill-submit" class="btn btn-block btn-primary">Submit</button>
+              <button type="submit" name="surgery-submit" class="btn btn-block btn-primary">Submit</button>
             </div>
             </div>
           <!-- /.card -->
@@ -342,7 +496,7 @@
                   <div class="col-md-6">
                       <input type="text" name="admdate" id="slipDate" value="<?php echo $patdata['SLIP_DATE_TIME'] ; ?>" hidden readonly>
                       <input type="text" name="doctor" value="<?php echo $patdata['DOCTOR_NAME'] ; ?>" hidden readonly>
-                      <!-- <input type="text" name="procedure" value="<?php //echo $patdata['SLIP_PROCEDURE'] ; ?>" hidden readonly> -->
+                      <input type="text" name="procedure" value="<?php echo $patdata['SLIP_PROCEDURE'] ; ?>" hidden readonly>
                       <input type="text" name="type" value="<?php echo $patdata['SLIP_TYPE'] ; ?>" hidden readonly>
                       <input type="text" name="disdate" id="disdate" hidden/>
                       <input type="text" name="address" id="address" value="<?php echo $patrow['PATIENT_ADDRESS']; ?>" hidden readonly/>
@@ -461,19 +615,21 @@
                         <div class="col-md-12">
                           <label>Consultant Charges (Per Visit)</label>
                           <div class="input-group mb-3">
-                              <input type="number" style="width:35%;" name="conChargeOne" class="form-control" id="conChargeOne"  placeholder="Per-Visit Charges"/>
-                              <input type="number" style="width:10%;" name="conChargeTwo" class="form-control" id="conChargeTwo" value="1" placeholder="No. of Days"/>
-                              <input type="number" style="width:35%;" name="conChargeThree" class="form-control" id="conChargeThree"  placeholder="Total Charges" readonly/>
-                              <span class="input-group-append" style="width:20%;">
-                                <button type="button" onclick="getConTotal();" class="btn btn-block btn-primary">calculate</button>
-                              </span>
+                              <input type="number" style="width:40%;" name="conChargeOne" class="form-control" id="conChargeOne" onchange="getConCharge(this);" value="" placeholder="Per-Visit Charges"/>
+                              <input type="number" style="width:20%;" name="conChargeTwo" class="form-control" id="conChargeTwo" onchange="getConDay(this);" value="1" placeholder="No. of Days"/>
+                              <input type="number" style="width:40%;" name="conChargeThree" class="form-control" id="conChargeThree"  placeholder="Total Charges" value="" readonly/>
                           </div>
                         </div>
                         <script>
-                            function getConTotal(){
-                              var conChargeOne = document.getElementById("conChargeOne").value;
-                              var conChargeTwo = document.getElementById("conChargeTwo").value;
-                              document.getElementById("conChargeThree").value = conChargeOne*conChargeTwo;
+                            function getConDay(day){
+                              document.getElementById("conChargeThree").value = document.getElementById("conChargeOne").value * day.value;
+                            }
+
+                            function getConCharge(charge) {
+                              var conChargeTwo = document.getElementById('conChargeTwo');
+                              var conChargeThree = document.getElementById('conChargeThree');
+                              conChargeThree.value = charge.value * conChargeTwo.value;
+                              console.log("this is the final result:" ,conChargeThree.value);
                             }
                         </script>
                       </div>
@@ -504,7 +660,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer" style="text-align: right;">
-              <button type="submit" name="indoor-bill-submit" class="btn btn-block btn-primary">Submit</button>
+              <button type="submit" name="illness-submit" class="btn btn-block btn-primary">Submit</button>
             </div>
             </div>
           <!-- /.card -->
@@ -526,7 +682,7 @@
                   <div class="col-md-6">
                       <input type="text" name="admdate" id="slipDate" value="<?php echo $patdata['SLIP_DATE_TIME'] ; ?>" hidden readonly/>
                       <!-- <input type="text" name="doctor" value="<?php //echo $patdata['DOCTOR_NAME'] ; ?>" hidden readonly/> -->
-                      <!-- <input type="text" name="procedure" value="<?php //echo $patdata['SLIP_PROCEDURE'] ; ?>" hidden readonly/> -->
+                      <input type="text" name="procedure" value="<?php echo $patdata['SLIP_PROCEDURE'] ; ?>" hidden readonly/>
                       <input type="text" name="type" value="<?php echo $patdata['SLIP_TYPE'] ; ?>" hidden readonly/>
                       <input type="text" name="disdate" id="disdate" hidden/>
                       <input type="text" name="address" id="address" value="<?php echo $patrow['PATIENT_ADDRESS']; ?>" hidden readonly/>
@@ -538,7 +694,7 @@
                       <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
 
                       <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                          <div class="form-group col-md-3">
+                          <div class="form-group col-md-6">
                               <label>Patient MR_ID</label>
                               <input type="text" class="form-control" name="mrid" value="<?php echo $patdata['SLIP_MR_ID'] ; ?>" readonly/>
                           </div>
@@ -546,33 +702,40 @@
                               <label>Patient Name</label>
                               <input type="text" name="name" class="form-control" value="<?php echo $patdata['SLIP_NAME'] ; ?>" readonly>
                           </div>
-                          <div class="form-group col-md-3">
-                              <label>Patient Mobile</label>
-                              <input type="text" class="form-control" name="phone" value="<?php echo $patdata['SLIP_MOBILE'] ; ?>" readonly/>
-                          </div>
                       </div>
+
+                      <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                         
+                         <div class="form-group col-md-4">
+                           <label>Procedure Fee</label>
+                           <div style="display:flex;">
+                             <input type="number" name="tbill" class="form-control" onchange="getFee(this)" id="totalBill" placeholder="Enter Fee">
+                           </div>
+                         </div>
+                         <div class="form-group col-md-4">
+                             <label>Discount</label>
+                             <input type="number" class="form-control" onchange="discFunction(this)" value="0" name="discount" id="discount" placeholder="Discount"/>
+                         </div>
+                         <div class="form-group col-md-4">
+                             <label>Total Fee</label>
+                             <input type="number" class="form-control" name="fbill" id="finalBill" placeholder="Amount" readonly/>
+                         </div>
+                     </div>
+                      
                   </div>
                   
                   <!-- /.col -->
                   <div class="col-md-6">
-
                       <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                          <div class="form-group col-md-5">
+                          <div class="form-group col-md-6">
+                              <label>Patient Mobile</label>
+                              <input type="text" class="form-control" name="phone" value="<?php echo $patdata['SLIP_MOBILE'] ; ?>" readonly/>
+                          </div>
+                          <div class="form-group col-md-6">
                               <label>Consultant Name</label>
                               <input type="text" name="doctor" id="doctor" value="<?php echo $patdata['DOCTOR_NAME']; ?>" class="form-control" readonly/>
                           </div>
-                          <div class="form-group col-md-4">
-                            <label>Procedure Fee</label>
-                            <div style="display:flex;">
-                              <input type="number" name="fee" class="form-control" id="fee" placeholder="Enter Fee">
-                            </div>
-                          </div>
-                          <div class="form-group col-md-3">
-                              <label>Discount</label>
-                              <input type="number" class="form-control" name="discount" id="discount" placeholder="Discount"/>
-                          </div>
                       </div>
-
                   </div>
                 <!-- /.col -->
               </div>
@@ -580,7 +743,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer" style="text-align: right;">
-              <button type="submit" name="indoor-bill-submit" class="btn btn-block btn-primary">Submit</button>
+              <button type="submit" name="eye-submit" class="btn btn-block btn-primary">Submit</button>
             </div>
             </div>
           <!-- /.card -->
@@ -630,6 +793,13 @@
       var finalBill = document.getElementById('finalBill');
       var totalBill = document.getElementById('totalBill');
       finalBill.value = totalBill.value - discount.value;
+      console.log("this is the final result:" ,finalBill.value);
+    }
+    
+    function getFee(fee) {
+      var finalBill = document.getElementById('finalBill');
+      var discount = document.getElementById('discount');
+      finalBill.value = fee.value - discount.value;
       console.log("this is the final result:" ,finalBill.value);
     }
 </script>

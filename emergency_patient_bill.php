@@ -32,6 +32,7 @@
     $bp = $_POST['bp'];
     $ecg = $_POST['ecg'];
     $other = $_POST['other'];
+    $otherText = $_POST['otherText'];
     $tbill = $_POST['tbill'];
     $discount = $_POST['discount'];
     $fbill = $_POST['fbill'];
@@ -54,8 +55,8 @@
         // Insert Query
         $sql = "INSERT INTO `emergency_bill`
         (
-          `MR_ID`,`SLIP_ID`, `PATIENT_NAME`, `MOBILE`, `DATE_TIME`, `ES_MO_CHARGE`, `INJECTION_IM`, `INJECTION_IV`, `IV_LINE`, `IV_INFUSION`, `PS_IN_300`, `PS_OUT_100`, `BSF_BSR`, `SHORT_STAY`, `BP`, `ECG`, `OTHER`, `TOTAL_AMOUNT`, `DISCOUNT`, `TOTAL`, `CREATED_BY`
-        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+          `MR_ID`,`SLIP_ID`, `PATIENT_NAME`, `MOBILE`, `DATE_TIME`, `ES_MO_CHARGE`, `INJECTION_IM`, `INJECTION_IV`, `IV_LINE`, `IV_INFUSION`, `PS_IN_300`, `PS_OUT_100`, `BSF_BSR`, `SHORT_STAY`, `BP`, `ECG`, `OTHER`, `OTHER_TEXT`, `TOTAL_AMOUNT`, `DISCOUNT`, `TOTAL`, `CREATED_BY`
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         mysqli_stmt_execute($stmt);
         
         if (!mysqli_stmt_prepare($stmt,$sql)) {
@@ -63,15 +64,15 @@
           echo "<script>alert('Sqlerror due to DB Query...');</script>";
           exit();
         }else{                                
-          mysqli_stmt_bind_param($stmt,"sssssssssssssssssssss",$mrid,$sid,$name,$phone,$addDate,$medicalofficer,
-          $injectionim,$injectioniv,$ivline,$ivinfusion,$stitchInTotal,$stitchOutTotal,$bsf,$shortstay,$bp,$ecg,$other,$tbill,$discount,$fbill,$by);
+          mysqli_stmt_bind_param($stmt,"ssssssssssssssssssssss",$mrid,$sid,$name,$phone,$addDate,$medicalofficer,
+          $injectionim,$injectioniv,$ivline,$ivinfusion,$stitchInTotal,$stitchOutTotal,$bsf,$shortstay,$bp,$ecg,$other,$otherText,$tbill,$discount,$fbill,$by);
           mysqli_stmt_execute($stmt);
           // Update Status of the receipt
           $updateSql ="UPDATE `emergency_slip` SET `BILL_STATUS`='$status' WHERE `emergency_slip`.`SLIP_ID`='$sid'";
           if($querySql = mysqli_query($db,$updateSql))
           {
             // echo "<script>alert('Doctor record updated successfully...');window.location = '../doctors.php';</script>";
-            echo '<script type="text/javascript">window.location = "emergency_bill_print.php?pname='.$name.'&on='.$addDate.'&mrid='.$mrid.'&phone='.$phone.'&by='.$by.'&mo='.$medicalofficer.'&injectionim='.$injectionim.'&injectioniv='.$injectioniv.'&ivline='.$ivline.'&sin='.$stitchInTotal.'&sout='.$stitchOutTotal.'&ivinfection='.$ivinfusion.'&bsf='.$bsf.'&sstay='.$shortstay.'&bp='.$bp.'&ecg='.$ecg.'&other='.$other.'&tbill='.$tbill.'&disc='.$discount.'&fbill='.$fbill.'";</script>';                                                   
+            echo '<script type="text/javascript">window.location = "emergency_bill_print.php?pname='.$name.'&on='.$addDate.'&mrid='.$mrid.'&phone='.$phone.'&by='.$by.'&mo='.$medicalofficer.'&injectionim='.$injectionim.'&injectioniv='.$injectioniv.'&ivline='.$ivline.'&sin='.$stitchInTotal.'&sout='.$stitchOutTotal.'&ivinfection='.$ivinfusion.'&bsf='.$bsf.'&sstay='.$shortstay.'&bp='.$bp.'&ecg='.$ecg.'&other='.$other.'&otherText='.$otherText.'&tbill='.$tbill.'&disc='.$discount.'&fbill='.$fbill.'";</script>';                                                   
           }else
           {
             echo mysqli_error($db);

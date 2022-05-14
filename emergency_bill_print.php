@@ -68,54 +68,104 @@ if (isset($_SESSION['userid'])) {
               </tr>
               </thead>
               <tbody>
+              <?php
+                if (!empty($bill_row['ES_MO_CHARGE'])) {
+              ?>  
               <tr>
                 <td>Emergency Slip / Medical Officer</td>
                 <td><?php echo $bill_row['ES_MO_CHARGE']; ?></td>
               </tr>
+              <?php
+                }
+                if (!empty($bill_row['INJECTION_IM'])) {
+              ?> 
               <tr>
                 <td>Injection I/M</td>
                 <td><?php echo $bill_row['INJECTION_IM']; ?></td>
               </tr>
+              <?php
+                }
+                if (!empty($bill_row['INJECTION_IV'])) {
+              ?> 
               <tr>
                 <td>Injection I/V</td>
                 <td><?php echo $bill_row['INJECTION_IV']; ?></td>
               </tr>
+              <?php
+                }
+                if (!empty($bill_row['IV_LINE'])) {
+              ?>
               <tr>
                 <td>I/V Line (In / Out)</td>
                 <td><?php echo $bill_row['IV_LINE']; ?></td>
               </tr>
+              <?php
+                }
+                if (!empty($bill_row['IV_INFUSION'])) {
+              ?>
               <tr>
                 <td>I/V infusion (100ml,200ml,1000ml)</td>
                 <td><?php echo $bill_row['IV_INFUSION']; ?></td>
               </tr>
+              <?php
+                }
+                if (!empty($bill_row['PS_IN_300'])) {
+              ?>
               <tr>
                 <td>Per Stitch in x 300</td>
                 <td><?php echo $bill_row['PS_IN_300']; ?></td>
               </tr>
+              <?php
+                }
+                if (!empty($bill_row['PS_OUT_100'])) {
+              ?>
               <tr>
                 <td>Per Stitch Out x 100</td>
                 <td><?php echo $bill_row['PS_OUT_100']; ?></td>
               </tr>
+              <?php
+                }
+                if (!empty($bill_row['BSF_BSR'])) {
+              ?>
               <tr>
                 <td>BSF / BSR</td>
                 <td><?php echo $bill_row['BSF_BSR']; ?></td>
               </tr>
+              <?php
+                }
+                if (!empty($bill_row['SHORT_STAY'])) {
+              ?>
               <tr>
                 <td>Short Stay (After 1st Hour)</td>
                 <td><?php echo $bill_row['SHORT_STAY']; ?></td>
               </tr>
+              <?php
+                }
+                if (!empty($bill_row['BP'])) {
+              ?>
               <tr>
                 <td>Blood Pressure - BP</td>
                 <td><?php echo $bill_row['BP'] ?></td>
               </tr>
+              <?php
+                }
+                if (!empty($bill_row['ECG'])) {
+              ?>
               <tr>
                 <td>ECG</td>
                 <td><?php echo $bill_row['ECG'] ?></td>
               </tr>
+              <?php
+                }
+                if (!empty($bill_row['OTHER_TEXT'])) {
+              ?>
               <tr>
-                <td>Other</td>
+                <td><?php echo $bill_row['OTHER_TEXT'] ?></td>
                 <td><?php echo $bill_row['OTHER'] ?></td>
               </tr>
+              <?php
+                }
+              ?>
               </tbody>
             </table>
           </div>
@@ -178,6 +228,7 @@ if (isset($_SESSION['userid'])) {
           $bp = (isset($_GET['bp']) ? $_GET['bp'] : '');
           $ecg = (isset($_GET['ecg']) ? $_GET['ecg'] : '');
           $other = (isset($_GET['other']) ? $_GET['other'] : '');
+          $otherText = (isset($_GET['otherText']) ? $_GET['otherText'] : '');
 
           $tbill = (isset($_GET['tbill']) ? $_GET['tbill'] : '');
           $disc = (isset($_GET['disc']) ? $_GET['disc'] : '');
@@ -232,54 +283,104 @@ if (isset($_SESSION['userid'])) {
                   </tr>
                   </thead>
                   <tbody>
+                  <?php
+                    if (!empty($mo)) {
+                  ?>
                   <tr>
                     <td>Emergency Slip / Medical Officer</td>
                     <td><?php echo $mo; ?></td>
                   </tr>
+                  <?php
+                    }
+                    if (!empty($injectionim)) {
+                  ?>
                   <tr>
                     <td>Injection I/M</td>
                     <td><?php echo $injectionim; ?></td>
                   </tr>
+                  <?php
+                    }
+                    if (!empty($injectioniv)) {
+                  ?>
                   <tr>
                     <td>Injection I/V</td>
                     <td><?php echo $injectioniv; ?></td>
                   </tr>
+                  <?php
+                    }
+                    if (!empty($ivline)) {
+                  ?>
                   <tr>
                     <td>I/V Line (In / Out)</td>
                     <td><?php echo $ivline; ?></td>
                   </tr>
+                  <?php
+                    }
+                    if (!empty($sin)) {
+                  ?>
                   <tr>
                     <td>I/V infusion (100ml,200ml,1000ml)</td>
                     <td><?php echo $sin; ?></td>
                   </tr>
+                  <?php
+                    }
+                    if (!empty($sout)) {
+                  ?>
                   <tr>
                     <td>Per Stitch in x 300</td>
                     <td><?php echo $sout; ?></td>
                   </tr>
+                  <?php
+                    }
+                    if (!empty($ivinfection)) {
+                  ?>
                   <tr>
                     <td>Per Stitch Out x 100</td>
                     <td><?php echo $ivinfection; ?></td>
                   </tr>
+                  <?php
+                    }
+                    if (!empty($bsf)) {
+                  ?>
                   <tr>
                     <td>BSF / BSR</td>
                     <td><?php echo $bsf; ?></td>
                   </tr>
+                  <?php
+                    }
+                    if (!empty($bsstay)) {
+                  ?>
                   <tr>
                     <td>Short Stay (After 1st Hour)</td>
                     <td><?php echo $sstay; ?></td>
                   </tr>
+                  <?php
+                    }
+                    if (!empty($bp)) {
+                  ?>
                   <tr>
                     <td>Blood Pressure - BP</td>
                     <td><?php echo $bp; ?></td>
                   </tr>
+                  <?php
+                    }
+                    if (!empty($ecg)) {
+                  ?>
                   <tr>
                     <td>ECG</td>
                     <td><?php echo $ecg; ?></td>
                   </tr>
+                  <?php
+                    }
+                    if (!empty($otherText)) {
+                  ?>
                   <tr>
-                    <td>Other</td>
+                    <td><?php echo $otherText; ?></td>
                     <td><?php echo $other; ?></td>
                   </tr>
+                  <?php
+                    }
+                  ?>
                   </tbody>
                 </table>
               </div>

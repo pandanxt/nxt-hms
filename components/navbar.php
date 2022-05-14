@@ -169,20 +169,20 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Choose Patient Type</h4>
+              <h4 class="modal-title">Choose Indoor Patient Type</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form action="add_bill.php">
+            <form action="indoor_bill_record.php">
             <div class="modal-body">
                   <select class="form-control select2bs4" name="type" id="typeSelect" style="width: 100%;" required>
                   <?php
-                      $p_type = 'SELECT `PATIENT_TYPE_NAME`, `PATIENT_TYPE_ALAIS` FROM `patient_type` WHERE `PATIENT_TYPE_STATUS` = "active"';
-                      $result = mysqli_query($db, $p_type) or die (mysqli_error($db));
-                        while ($row = mysqli_fetch_array($result)) {
-                          $id = $row['PATIENT_TYPE_ALAIS'];  
-                          $name = $row['PATIENT_TYPE_NAME'];
+                      $indoorType = 'SELECT `TYPE_ALAIS`, `TYPE_NAME` FROM `indoor_type` WHERE `TYPE_STATUS` = "active"';
+                      $result = mysqli_query($db, $indoorType) or die (mysqli_error($db));
+                          while ($row = mysqli_fetch_array($result)) {
+                          $id = $row['TYPE_ALAIS'];  
+                          $name = $row['TYPE_NAME'];
                           echo '<option value="'.$id.'">'.$name.'</option>'; 
                       }
                     ?>
@@ -199,3 +199,35 @@
         <!-- /.modal-dialog -->
       </div>
       <!-- /.modal -->
+
+      
+    <!-- **
+    *
+    *  Logout Popup Model
+    *
+    ** -->
+
+  <div class="modal fade" id="modal-sm">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Confirm To Logout</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you Sure? You want to Logout&hellip;</p>
+          <p>Or click <b>Cancel</b> to continue &hellip;</p>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <a type="submit" href="logout.php" class="btn btn-danger">Log Out</a>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  
