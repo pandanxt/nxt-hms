@@ -4,7 +4,7 @@
   if (isset($_SESSION['userid'])) {
   // Get MRID and Type from URL  
   $sid = (isset($_GET['sid']) ? $_GET['sid'] : ''); 
-//   $type = (isset($_GET['type']) ? $_GET['type'] : '');
+  $type = (isset($_GET['type']) ? $_GET['type'] : '');
   // Connection File
   include('backend_components/connection.php'); 
     // Form Header File
@@ -123,7 +123,7 @@
   include('components/sidebar.php'); 
   
   //Check if MRID is empty or not 
-  if (!empty($sid)) {
+  if (!empty($sid) && !empty($type)) {
     // include('components/simple_bill_form.php');  
 //   } else {
     $sql="SELECT *, `DOCTOR_NAME` FROM `indoor_slip` INNER JOIN `doctor` WHERE `SLIP_ID` = '$sid' AND `indoor_slip`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID`";
@@ -132,201 +132,460 @@
 ?>
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <!-- <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-          <h3 class="card-title p-3"><a href="javascript:history.go(-1)"><i class="fas fa-arrow-alt-circle-left"></i>&nbsp;Back</a></h3>
-            <!-- <h1>Generate Bill for <?php //echo $patdata['PATIENT_NAME'] ; ?></h1> -->
-          <!-- </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Generate Bill</li>
-            </ol>
-          </div>
-        </div>
-      </div> -->
-      <!-- /.container-fluid -->
-    </section>
-
+    <section class="content-header"></section>
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
     
-        <!-- SELECT2 EXAMPLE -->
         <div class="card card-info">
           <div class="card-header">
-            <h3 class="card-title"><i class="nav-icon fas fa-hospital-user"></i> MedEast Patient Bill</h3>
-
+            <?php
+                if ($type == "gynae") {
+                  echo '<h3 class="card-title"><i class="nav-icon fas fa-hospital-user"></i> Gynae Patient Bill</h3>';
+                }else if ($type == "gensurgery") {
+                  echo '<h3 class="card-title"><i class="nav-icon fas fa-hospital-user"></i> General Surgery Bill</h3>';
+                }else if ($type == "genillness") {
+                  echo '<h3 class="card-title"><i class="nav-icon fas fa-hospital-user"></i> General Illness Bill</h3>';
+                }else if ($type == "eye") {
+                  echo '<h3 class="card-title"><i class="nav-icon fas fa-hospital-user"></i> Eye Patient Bill</h3>';
+                }
+            ?>
             <div class="card-tools">
               <span id='clockDT'></span>
             </div>
           </div>
-          <form action="" method="post" enctype="multipart/form-data">
-          <!-- /.card-header -->
-          <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <!-- <input type="text" name="age" value="<?php //echo $patdata['PATIENT_AGE'] ; ?>" hidden readonly> -->
-                    <input type="text" name="admdate" id="slipDate" value="<?php echo $patdata['SLIP_DATE_TIME'] ; ?>" hidden readonly>
-                    <input type="text" name="doctor" value="<?php echo $patdata['DOCTOR_NAME'] ; ?>" hidden readonly>
-                    <input type="text" name="procedure" value="<?php echo $patdata['SLIP_PROCEDURE'] ; ?>" hidden readonly>
-                    <input type="text" name="type" value="<?php echo $patdata['SLIP_TYPE'] ; ?>" hidden readonly>
-                    <input type="text" name="disdate" id="disdate" hidden/>
-                    <script>
-                        let disDate = new Date();
-                        document.getElementById('disdate').value = disDate;
-                    </script>
-    
-                    <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
+          <!-- ****************************** -->
+          <!-- **Gynae and Gen Surgery Form** -->
+          <!-- ****************************** -->
+          <?php if ($type == "gynae" || $type == "gensurgery") { ?>
+            <form action="" method="post" enctype="multipart/form-data">
+            <!-- /.card-header -->
+            <div class="card-body">
+              <div class="row">
+                  <div class="col-md-6">
+                      <!-- <input type="text" name="age" value="<?php //echo $patdata['PATIENT_AGE'] ; ?>" hidden readonly> -->
+                      <input type="text" name="admdate" id="slipDate" value="<?php echo $patdata['SLIP_DATE_TIME'] ; ?>" hidden readonly>
+                      <input type="text" name="doctor" value="<?php echo $patdata['DOCTOR_NAME'] ; ?>" hidden readonly>
+                      <input type="text" name="procedure" value="<?php echo $patdata['SLIP_PROCEDURE'] ; ?>" hidden readonly>
+                      <input type="text" name="type" value="<?php echo $patdata['SLIP_TYPE'] ; ?>" hidden readonly>
+                      <input type="text" name="disdate" id="disdate" hidden/>
+                      <script>
+                          let disDate = new Date();
+                          document.getElementById('disdate').value = disDate;
+                      </script>
+      
+                      <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
 
-                    <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                        <div class="form-group col-md-3">
-                            <label>Patient MR_ID</label>
-                            <input type="text" class="form-control" name="mrid" value="<?php echo $patdata['SLIP_MR_ID'] ; ?>" readonly/>
-                        </div>
-                        <div class="form-group col-md-5">
-                            <label>Patient Name</label>
-                            <input type="text" name="name" class="form-control" value="<?php echo $patdata['SLIP_NAME'] ; ?>" readonly>
-                        </div>
+                      <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                          <div class="form-group col-md-3">
+                              <label>Patient MR_ID</label>
+                              <input type="text" class="form-control" name="mrid" value="<?php echo $patdata['SLIP_MR_ID'] ; ?>" readonly/>
+                          </div>
+                          <div class="form-group col-md-5">
+                              <label>Patient Name</label>
+                              <input type="text" name="name" class="form-control" value="<?php echo $patdata['SLIP_NAME'] ; ?>" readonly>
+                          </div>
+                          <div class="form-group col-md-4">
+                              <label>Patient Mobile</label>
+                              <input type="text" class="form-control" name="phone" value="<?php echo $patdata['SLIP_MOBILE'] ; ?>" readonly/>
+                          </div>
+                      </div>
+                      <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                          <div class="form-group col-md-4">
+                              <label>Admission Charges</label>
+                              <input type="number" name="adCharge" id="adCharge" placeholder="Rate is 2000" class="form-control"/>
+                          </div>
+                          <div class="form-group col-md-4">
+                              <label>Surgeon Charges</label>
+                              <input type="number" name="surCharge" class="form-control" id="surCharge" placeholder="Rates Varies">
+                          </div>
+                          <div class="form-group col-md-4">
+                              <label>Anesthetist Charges</label>
+                              <input type="number" class="form-control" name="anesCharge" id="anesCharge" placeholder="Rates Varies"/>
+                          </div>
+                      </div>
+                      <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                         <div class="form-group col-md-4">
+                          <label>Pediatric Charges</label>
+                            <div style="display:flex;">
+                              <input type="number" name="pedCharge" class="form-control" id="pedCharge" placeholder="Rate Varies">
+                            </div>
+                          </div>
+                          <div class="form-group col-md-4">
+                              <label>M O Charges</label>
+                              <input type="number" name="moCharge" id="moCharge" placeholder="Rate is 2000" class="form-control"/>
+                          </div>
+                          <div class="form-group col-md-4">
+                              <label>CTG Charges</label>
+                              <input type="number" class="form-control" name="ctg" id="ctg" placeholder="Rate is 2,000" />
+                          </div>
+                      </div>
+                      <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                          <div class="form-group col-md-5">
+                              <label>Labour Room Charges</label>
+                              <div style="display:flex;">
+                                  <input type="number" name="chargeLR" class="form-control" id="chargeLR" placeholder="Rate is 8,000">
+                              </div>
+                          </div>
+                          <div class="col-md-7">
+                              <label>Other</label>
+                              <div class="input-group mb-3">
+                                <input type="text" name="otherText" class="form-control" id="otherText" placeholder="Description" style="width:65%;"/>
+                                  <input type="number" name="other" id="other" placeholder="Charges" class="form-control" style="width:35%;"/>
+                              </div>
+                          </div>
+                      </div>
+
+                  </div>
+                  
+                  <!-- /.col -->
+                  <div class="col-md-6">
+
+                      <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                          <div class="form-group col-md-4">
+                              <label>Nursury Charges</label>
+                              <input type="number" name="nurCharge" id="nurCharge" placeholder="Rate is 8,000" class="form-control"/>
+                          </div>
+                          <div class="form-group col-md-4">
+                              <label>Nursury Staff Charges</label>
+                              <input type="number" name="nurStCharge" class="form-control" id="nurStCharge" placeholder="Rate is 1500"/>
+                          </div>
+                          <div class="form-group col-md-4">
+                              <label>Operation Charges</label>
+                              <input type="number" name="opCharge" class="form-control" id="opCharge" placeholder="Rate is 10,000"/>
+                          </div>
+                      </div>
+              
+                      <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                          <div class="form-group col-md-6">
+                              <label>Consultant Visit Charges</label>
+                              <input type="number" name="conCharge" class="form-control" id="conCharge" placeholder="Rates May Varies">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label>Recovery Room Charges</label>
+                              <input type="number" class="form-control" name="rrCharge" id="rrCharge" placeholder="Rate is 5,000" />
+                          </div>
+                      </div>
+                      <div class="form-group col-md-12">
+                          <label>Private Room Charges</label>
+                          <div style="display:flex;">
+                              <select class="form-control select2bs4"  style="width:50%;" name="prChargeOne" id="prChargeOne" onchange="getPrTotal()" style="width: 100%;">
+                                  <option selected="selected" disabled>Select Private Room Charges</option>
+                                  <?php
+                                  $room = 'SELECT `ROOM_ID`, `ROOM_NAME`,`ROOM_RATE` FROM `room` WHERE `ROOM_STATUS` = "active"';
+                                  $result = mysqli_query($db, $room) or die (mysqli_error($db));
+                                      while ($row = mysqli_fetch_array($result)) {
+                                      $id = $row['ROOM_RATE'];  
+                                      $name = $row['ROOM_NAME'];
+                                      echo '<option value="'.$id.'">'.$name.'</option>'; 
+                                  }
+                                  ?>
+                              </select> 
+                              <input type="number" style="width:20%;" name="prChargeTwo" class="form-control" id="prChargeTwo" value="1" onchange="getPrTotal()" placeholder="No. of Days"/>
+                              <input type="number" style="width:30%;" name="prChargeThree" class="form-control" id="prChargeThree"  placeholder="Total Charges" readonly/>
+                            </div>
+                      </div>
+                      <script>
+                          function getPrTotal(){
+                            var prChargeOne = document.getElementById("prChargeOne").value;
+                            var prChargeTwo = document.getElementById("prChargeTwo").value;
+                            document.getElementById("prChargeThree").value = prChargeOne*prChargeTwo;
+                          }
+                      </script>
+                    
+                      <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                          <div class="form-group col-md-6">
+                            <label>Total Bill</label>
+                              <div class="input-group mb-3">
+                                <input type="number" name="tbill" id="totalBill" placeholder="Total Bill" class="form-control" readonly/>
+                                <span class="input-group-append">
+                                  <button type="button" onclick="genSurgeryTotal();" class="btn btn-block btn-primary">calculate</button>
+                                </span>
+                              </div>
+                          </div>
+                          <div class="form-group col-md-3">
+                              <label>Discount</label>
+                              <input type="number" name="discount"  onchange="discFunction(this)" class="form-control" id="discount" placeholder="Discount">
+                          </div>
+                          <div class="form-group col-md-3">
+                              <label>Final Bill</label>
+                              <input type="number" name="fbill" id="finalBill" placeholder="Final Bill" class="form-control" readonly/>
+                          </div>
+                      </div>
+
+                  </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer" style="text-align: right;">
+              <button type="submit" name="indoor-bill-submit" class="btn btn-block btn-primary">Submit</button>
+            </div>
+            </div>
+          <!-- /.card -->
+          </form>
+
+          <!-- ****************************** -->
+          <!-- *******Gen Illness Form******* -->
+          <!-- ****************************** -->
+          <?php }else if ($type == "genillness") { 
+          
+          $patSql="SELECT * FROM `patient` WHERE `PATIENT_MR_ID` = '$patdata[SLIP_MR_ID]'";
+          $qsql = mysqli_query($db,$patSql);
+          $patrow = mysqli_fetch_array($qsql);  
+          ?>
+            <form action="" method="post" enctype="multipart/form-data">
+            <!-- /.card-header -->
+            <div class="card-body">
+              <div class="row">
+                  <div class="col-md-6">
+                      <input type="text" name="admdate" id="slipDate" value="<?php echo $patdata['SLIP_DATE_TIME'] ; ?>" hidden readonly>
+                      <input type="text" name="doctor" value="<?php echo $patdata['DOCTOR_NAME'] ; ?>" hidden readonly>
+                      <!-- <input type="text" name="procedure" value="<?php //echo $patdata['SLIP_PROCEDURE'] ; ?>" hidden readonly> -->
+                      <input type="text" name="type" value="<?php echo $patdata['SLIP_TYPE'] ; ?>" hidden readonly>
+                      <input type="text" name="disdate" id="disdate" hidden/>
+                      <input type="text" name="address" id="address" value="<?php echo $patrow['PATIENT_ADDRESS']; ?>" hidden readonly/>
+                      <input type="text" name="age" id="age" value="<?php echo $patrow['PATIENT_AGE']; ?>" hidden readonly/>
+                      <input type="text" name="gender" id="gender" value="<?php echo $patrow['PATIENT_GENDER']; ?>" hidden readonly/>
+                      <script>
+                          let disDate = new Date();
+                          document.getElementById('disdate').value = disDate;
+                      </script>
+      
+                      <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
+
+                      <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                          <div class="form-group col-md-3">
+                              <label>Patient MR_ID</label>
+                              <input type="text" class="form-control" name="mrid" value="<?php echo $patdata['SLIP_MR_ID'] ; ?>" readonly/>
+                          </div>
+                          <div class="form-group col-md-5">
+                              <label>Patient Name</label>
+                              <input type="text" name="name" class="form-control" value="<?php echo $patdata['SLIP_NAME'] ; ?>" readonly>
+                          </div>
+                          <div class="form-group col-md-4">
                             <label>Patient Mobile</label>
                             <input type="text" class="form-control" name="phone" value="<?php echo $patdata['SLIP_MOBILE'] ; ?>" readonly/>
-                        </div>
-                    </div>
-                    <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                        <div class="form-group col-md-4">
-                            <label>Admission Charges</label>
-                            <input type="number" name="adCharge" id="adCharge" placeholder="Rate is 2000" class="form-control"/>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label>Surgeon Charges</label>
-                            <input type="number" name="surCharge" class="form-control" id="surCharge" placeholder="Rates Varies">
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label>Anesthetist Charges</label>
-                            <input type="number" class="form-control" name="anesCharge" id="anesCharge" placeholder="Rates Varies"/>
-                        </div>
-                    </div>
-                    <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                      <div class="form-group col-md-4">
-                        <label>Pediatric Charges</label>
+                          </div>
+                      </div>
+                      
+                      <div class="form-group col-md-12">
+                          <label>Private Room Charges (Per day)</label>
                           <div style="display:flex;">
-                            <input type="number" name="pedCharge" class="form-control" id="pedCharge" placeholder="Rate Varies">
-                          </div>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label>M O Charges</label>
-                            <input type="number" name="moCharge" id="moCharge" placeholder="Rate is 2000" class="form-control"/>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label>CTG Charges</label>
-                            <input type="number" class="form-control" name="ctg" id="ctg" placeholder="Rate is 2,000" />
-                        </div>
-                    </div>
-                    <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                        <div class="form-group col-md-4">
-                            <label>Operation Charges</label>
-                            <input type="number" name="opCharge" class="form-control" id="opCharge" placeholder="Rate is 10,000"/>
-                        </div>
-                        <div class="form-group col-md-5">
-                            <label>Labour Room Charges</label>
+                              <select class="form-control select2bs4"  style="width:50%;" name="prChargeOne" id="prChargeOne" onchange="getPrTotal()" style="width: 100%;">
+                                  <option selected="selected" disabled>Select Private Room Charges</option>
+                                  <?php
+                                  $room = 'SELECT `ROOM_ID`, `ROOM_NAME`,`ROOM_RATE` FROM `room` WHERE `ROOM_STATUS` = "active"';
+                                  $result = mysqli_query($db, $room) or die (mysqli_error($db));
+                                      while ($row = mysqli_fetch_array($result)) {
+                                      $id = $row['ROOM_RATE'];  
+                                      $name = $row['ROOM_NAME'];
+                                      echo '<option value="'.$id.'">'.$name.'</option>'; 
+                                  }
+                                  ?>
+                              </select> 
+                              <input type="number" style="width:20%;" name="prChargeTwo" class="form-control" id="prChargeTwo" value="1" onchange="getPrTotal()" placeholder="No. of Days"/>
+                              <input type="number" style="width:30%;" name="prChargeThree" class="form-control" id="prChargeThree"  placeholder="Total Charges" readonly/>
+                            </div>
+                      </div>
+                      <script>
+                          function getPrTotal(){
+                            var prChargeOne = document.getElementById("prChargeOne").value;
+                            var prChargeTwo = document.getElementById("prChargeTwo").value;
+                            document.getElementById("prChargeThree").value = prChargeOne*prChargeTwo;
+                          }
+                      </script>
+                      
+                      <div class="form-group" style="display:flex;margin:0;">
+                        <div class="form-group col-md-6">
+                          <label>Medical Officer Charges(Per day)</label>
                             <div style="display:flex;">
-                                <input type="number" name="chargeLR" class="form-control" id="chargeLR" placeholder="Rate is 8,000">
+                              <input type="number" style="width:40%;" name="moChargeOne" class="form-control" id="moChargeOne" value="0" onchange="getMoTotal()" placeholder="No. of Days"/>
+                              <input type="number" style="width:60%;" name="moChargeTwo" class="form-control" id="moChargeTwo"  placeholder="Total Charges" readonly/>
                             </div>
                         </div>
-                        <div class="form-group col-md-3">
-                            <label>Other</label>
-                            <input type="number" name="other" class="form-control" id="other" placeholder="Charges"/>
-                        </div>
-                    </div>
-
-                </div>
-                
-                <!-- /.col -->
-                <div class="col-md-6">
-
-                    <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                        <script>
+                          function getMoTotal(){
+                            var moChargeOne = document.getElementById("moChargeOne").value;
+                            document.getElementById("moChargeTwo").value = moChargeOne*1000;
+                          }
+                        </script>
+                        
                         <div class="form-group col-md-6">
-                            <label>Nursury Charges</label>
-                            <input type="number" name="nurCharge" id="nurCharge" placeholder="Rate is 8,000" class="form-control"/>
+                          <label>Monitoring Charges(Per day)</label>
+                          <div style="display:flex;">
+                              <input type="number" style="width:40%;" name="monChargeOne" class="form-control" id="monChargeOne" value="0" onchange="getMonTotal()" placeholder="No. of Days"/>
+                              <input type="number" style="width:60%;" name="monChargeTwo" class="form-control" id="monChargeTwo"  placeholder="Total Charges" readonly/>
+                            </div>
                         </div>
+                        <script>
+                            function getMonTotal(){
+                              var monChargeOne = document.getElementById("monChargeOne").value;
+                              document.getElementById("monChargeTwo").value = monChargeOne*1000;
+                            }
+                        </script>
+                      </div>
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-md-6">
+                    <div class="form-group" style="display:flex;margin:0;">
                         <div class="form-group col-md-6">
-                            <label>Nursury Staff Charges</label>
-                            <input type="number" name="nurStCharge" class="form-control" id="nurStCharge" placeholder="Rate is 1500"/>
+                          <label>Oxygen Charges (Per day)</label>
+                          <div style="display:flex;">
+                              <input type="number" style="width:40%;" name="oxChargeOne" class="form-control" id="oxChargeOne" value="0" onchange="getOxTotal()" placeholder="No. of Days"/>
+                              <input type="number" style="width:60%;" name="oxChargeTwo" class="form-control" id="oxChargeTwo"  placeholder="Total Charges" readonly/>
+                            </div>
                         </div>
-                    </div>
-            
-                    <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                        <script>
+                            function getOxTotal(){
+                              var oxChargeOne = document.getElementById("oxChargeOne").value;
+                              document.getElementById("oxChargeTwo").value = oxChargeOne*7000;
+                            }
+                        </script>
                         <div class="form-group col-md-6">
-                            <label>Consultant Visit Charges</label>
-                            <input type="number" name="conCharge" class="form-control" id="conCharge" placeholder="Rates May Varies">
+                          <label>Nursing Charges (Per day)</label>
+                            <div style="display:flex;">
+                              <input type="number" style="width:40%;" name="nurChargeOne" class="form-control" id="nurChargeOne" value="0" onchange="getNurTotal()" placeholder="No. of Days"/>
+                              <input type="number" style="width:60%;" name="nurChargeTwo" class="form-control" id="nurChargeTwo" placeholder="Total Charges" readonly/>
+                            </div>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label>Recovery Room Charges</label>
-                            <input type="number" class="form-control" name="rrCharge" id="rrCharge" placeholder="Rate is 5,000" />
-                        </div>
-                    </div>
-                    <div class="form-group col-md-12">
-                        <label>Private Room Charges</label>
-                        <div style="display:flex;">
-                            <select class="form-control select2bs4"  style="width:50%;" name="prChargeOne" id="prChargeOne" onchange="getPrTotal()" style="width: 100%;">
-                                <option selected="selected" disabled>Select Private Room Charges</option>
-                                <?php
-                                $room = 'SELECT `ROOM_ID`, `ROOM_NAME`,`ROOM_RATE` FROM `room` WHERE `ROOM_STATUS` = "active"';
-                                $result = mysqli_query($db, $room) or die (mysqli_error($db));
-                                    while ($row = mysqli_fetch_array($result)) {
-                                    $id = $row['ROOM_RATE'];  
-                                    $name = $row['ROOM_NAME'];
-                                    echo '<option value="'.$id.'">'.$name.'</option>'; 
-                                }
-                                ?>
-                            </select> 
-                            <input type="number" style="width:20%;" name="prChargeTwo" class="form-control" id="prChargeTwo" value="1" onchange="getPrTotal()" placeholder="No. of Days"/>
-                            <input type="number" style="width:30%;" name="prChargeThree" class="form-control" id="prChargeThree"  placeholder="Total Charges" readonly/>
-                          </div>
-                    </div>
-                    <script>
-                        function getPrTotal(){
-                          var prChargeOne = document.getElementById("prChargeOne").value;
-                          var prChargeTwo = document.getElementById("prChargeTwo").value;
-                          document.getElementById("prChargeThree").value = prChargeOne*prChargeTwo;
-                        }
-                    </script>
-                   
-                    <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                        <div class="form-group col-md-6">
-                          <label>Total Bill</label>
-                            <div class="input-group mb-3">
-                              <input type="number" name="tbill" id="totalBill" placeholder="Total Bill" class="form-control" readonly/>
-                              <span class="input-group-append">
-                                <button type="button" onclick="calculateTotal();" class="btn btn-block btn-primary">calculate</button>
+                        <script>
+                          function getNurTotal(){
+                            var nurChargeOne = document.getElementById("nurChargeOne").value;
+                            document.getElementById("nurChargeTwo").value = nurChargeOne*1000;
+                          }
+                        </script>
+                      </div>
+                      <div class="form-group" style="display:flex;margin:0;">
+                        <div class="col-md-12">
+                          <label>Consultant Charges (Per Visit)</label>
+                          <div class="input-group mb-3">
+                              <input type="number" style="width:35%;" name="conChargeOne" class="form-control" id="conChargeOne"  placeholder="Per-Visit Charges"/>
+                              <input type="number" style="width:10%;" name="conChargeTwo" class="form-control" id="conChargeTwo" value="1" placeholder="No. of Days"/>
+                              <input type="number" style="width:35%;" name="conChargeThree" class="form-control" id="conChargeThree"  placeholder="Total Charges" readonly/>
+                              <span class="input-group-append" style="width:20%;">
+                                <button type="button" onclick="getConTotal();" class="btn btn-block btn-primary">calculate</button>
                               </span>
-                            </div>
+                          </div>
                         </div>
-                        <div class="form-group col-md-3">
-                            <label>Discount</label>
-                            <input type="number" name="discount"  onchange="discFunction(this)" class="form-control" id="discount" placeholder="Discount">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label>Final Bill</label>
-                            <input type="number" name="fbill" id="finalBill" placeholder="Final Bill" class="form-control" readonly/>
-                        </div>
-                    </div>
+                        <script>
+                            function getConTotal(){
+                              var conChargeOne = document.getElementById("conChargeOne").value;
+                              var conChargeTwo = document.getElementById("conChargeTwo").value;
+                              document.getElementById("conChargeThree").value = conChargeOne*conChargeTwo;
+                            }
+                        </script>
+                      </div>
+                      <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                          <div class="form-group col-md-6">
+                            <label>Total Bill</label>
+                              <div class="input-group mb-3">
+                                <input type="number" name="tbill" id="totalBill" placeholder="Total Bill" class="form-control" readonly/>
+                                <span class="input-group-append">
+                                  <button type="button" onclick="genIllnessTotal();" class="btn btn-block btn-primary">calculate</button>
+                                </span>
+                              </div>
+                          </div>
+                          <div class="form-group col-md-3">
+                              <label>Discount</label>
+                              <input type="number" name="discount"  onchange="discFunction(this)" class="form-control" id="discount" placeholder="Discount">
+                          </div>
+                          <div class="form-group col-md-3">
+                              <label>Final Bill</label>
+                              <input type="number" name="fbill" id="finalBill" placeholder="Final Bill" class="form-control" readonly/>
+                          </div>
+                      </div>
 
-                </div>
-              <!-- /.col -->
+                  </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
             </div>
-            <!-- /.row -->
-          </div>
-          <!-- /.card-body -->
-          <div class="card-footer" style="text-align: right;">
-            <button type="submit" name="indoor-bill-submit" class="btn btn-block btn-primary">Submit</button>
-          </div>
-        </div>
-        <!-- /.card -->
-        </form>
+            <!-- /.card-body -->
+            <div class="card-footer" style="text-align: right;">
+              <button type="submit" name="indoor-bill-submit" class="btn btn-block btn-primary">Submit</button>
+            </div>
+            </div>
+          <!-- /.card -->
+          </form>
+
+          <!-- ****************************** -->
+          <!-- *******Eye Patient Form******* -->
+          <!-- ****************************** -->          
+          <?php }else if ($type == "eye") { 
+            
+            $patSql="SELECT * FROM `patient` WHERE `PATIENT_MR_ID` = '$patdata[SLIP_MR_ID]'";
+            $qsql = mysqli_query($db,$patSql);
+            $patrow = mysqli_fetch_array($qsql);  
+          ?>
+            <form action="" method="post" enctype="multipart/form-data">
+            <!-- /.card-header -->
+            <div class="card-body">
+              <div class="row">
+                  <div class="col-md-6">
+                      <input type="text" name="admdate" id="slipDate" value="<?php echo $patdata['SLIP_DATE_TIME'] ; ?>" hidden readonly/>
+                      <!-- <input type="text" name="doctor" value="<?php //echo $patdata['DOCTOR_NAME'] ; ?>" hidden readonly/> -->
+                      <!-- <input type="text" name="procedure" value="<?php //echo $patdata['SLIP_PROCEDURE'] ; ?>" hidden readonly/> -->
+                      <input type="text" name="type" value="<?php echo $patdata['SLIP_TYPE'] ; ?>" hidden readonly/>
+                      <input type="text" name="disdate" id="disdate" hidden/>
+                      <input type="text" name="address" id="address" value="<?php echo $patrow['PATIENT_ADDRESS']; ?>" hidden readonly/>
+                      <script>
+                          let disDate = new Date();
+                          document.getElementById('disdate').value = disDate;
+                      </script>
+      
+                      <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
+
+                      <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                          <div class="form-group col-md-3">
+                              <label>Patient MR_ID</label>
+                              <input type="text" class="form-control" name="mrid" value="<?php echo $patdata['SLIP_MR_ID'] ; ?>" readonly/>
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label>Patient Name</label>
+                              <input type="text" name="name" class="form-control" value="<?php echo $patdata['SLIP_NAME'] ; ?>" readonly>
+                          </div>
+                          <div class="form-group col-md-3">
+                              <label>Patient Mobile</label>
+                              <input type="text" class="form-control" name="phone" value="<?php echo $patdata['SLIP_MOBILE'] ; ?>" readonly/>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <!-- /.col -->
+                  <div class="col-md-6">
+
+                      <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                          <div class="form-group col-md-5">
+                              <label>Consultant Name</label>
+                              <input type="text" name="doctor" id="doctor" value="<?php echo $patdata['DOCTOR_NAME']; ?>" class="form-control" readonly/>
+                          </div>
+                          <div class="form-group col-md-4">
+                            <label>Procedure Fee</label>
+                            <div style="display:flex;">
+                              <input type="number" name="fee" class="form-control" id="fee" placeholder="Enter Fee">
+                            </div>
+                          </div>
+                          <div class="form-group col-md-3">
+                              <label>Discount</label>
+                              <input type="number" class="form-control" name="discount" id="discount" placeholder="Discount"/>
+                          </div>
+                      </div>
+
+                  </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer" style="text-align: right;">
+              <button type="submit" name="indoor-bill-submit" class="btn btn-block btn-primary">Submit</button>
+            </div>
+            </div>
+          <!-- /.card -->
+          </form>
+          <?php } ?>
       </div>
       <!-- /.container-fluid -->
     </section>
@@ -334,7 +593,7 @@
   </div>
   <!-- Function to calculate total amount and discount of the bill -->
   <script>
-    function calculateTotal() {
+    function genSurgeryTotal() {
       var adCharge = document.getElementById("adCharge").value;
       var surCharge = document.getElementById("surCharge").value;
       var anesCharge = document.getElementById("anesCharge").value;
@@ -350,6 +609,19 @@
       var rrCharge = document.getElementById("rrCharge").value;
       var other = document.getElementById("other").value;
       var totalBill = +adCharge + +surCharge + +anesCharge+ +opCharge + +chargeLR + +pedCharge+ +prChargeThree + +nurCharge+ +nurStCharge + +moCharge+ +conCharge+ +ctg+ +rrCharge+ +other;
+      document.getElementById("totalBill").value = totalBill;
+      console.log("this is the total result:" ,totalBill);
+    }
+
+    function genIllnessTotal() {
+      var prChargeThree = document.getElementById("prChargeThree").value;
+      var moChargeTwo = document.getElementById("moChargeTwo").value;
+      var monChargeTwo = document.getElementById("monChargeTwo").value;
+      var oxChargeTwo = document.getElementById("oxChargeTwo").value;
+      var nurChargeTwo = document.getElementById("nurChargeTwo").value;
+      var conChargeThree = document.getElementById("conChargeThree").value;
+      
+      var totalBill = +prChargeThree + +moChargeTwo + +monChargeTwo+ +oxChargeTwo + +nurChargeTwo + +conChargeThree;
       document.getElementById("totalBill").value = totalBill;
       console.log("this is the total result:" ,totalBill);
     }

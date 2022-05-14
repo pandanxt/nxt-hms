@@ -235,13 +235,16 @@
                         </div>
                     </div>
                     <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-5">
                         <label>ECG</label>
-                        <input type="number" class="form-control" name="ecg" id="ecg" placeholder="Enter ECG Charges - 500" />
+                        <input type="number" class="form-control" name="ecg" id="ecg" placeholder="ECG Charges - 500" />
                         </div>
-                        <div class="form-group col-md-6">
-                        <label>Other</label>
-                        <input type="number" name="other" class="form-control" id="other" placeholder="Enter Other Charges"/>
+                        <div class="col-md-7">
+                            <label>Other</label>
+                            <div class="input-group mb-3">
+                              <input type="text" name="otherText" class="form-control" id="otherText" placeholder="Description" style="width:65%;"/>
+                                <input type="number" name="other" id="other" placeholder="Charges" class="form-control" style="width:35%;"/>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-12" style="display:flex;margin:0;padding:0;">

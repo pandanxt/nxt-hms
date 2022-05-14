@@ -73,9 +73,10 @@
                         <td style='display:flex;'>";
 
                         if($rs['BILL_STATUS'] == "pending"){
-                          echo "<a href='indoor_patient_bill.php?sid=$rs[SLIP_ID]' style='color:green;'>
-                            <i class='fas fa-wallet'></i> Bill</a>
-                            <br> 
+                              echo "<a href='indoor_patient_bill.php?type=".$type."&sid=$rs[SLIP_ID]' style='color:green;'>
+                              <i class='fas fa-wallet'></i> Bill</a>";
+                            
+                            echo"<br> 
                             <a href='indoor_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
                             <i class='fas fa-wallet'></i> Print</a>";
                             if ($_SESSION['type'] == "admin") {  
