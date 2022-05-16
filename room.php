@@ -37,13 +37,12 @@
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
-                  <tr>
+                  <tr style='font-size: 14px;'>
                     <th>S.No#</th>
                     <th>Name</th>
                     <th>Charges</th>
                     <th>Status</th>
-                    <th>Created BY</th>
-                    <th>Created On</th>
+                    <th>Created</th>
                     <th>Options</th>
                   </tr>
                   </thead>
@@ -54,13 +53,15 @@
                       while($rs = mysqli_fetch_array($qsql))
                       { 
                         $date = substr($rs['ROOM_DATE_TIME'],0, 21);
-                        echo "<tr>
+                        echo "<tr style='font-size: 12px;'>
                         <td>$rs[ROOM_ID]</td>
                         <td>$rs[ROOM_NAME]</td>
                         <td>$rs[ROOM_RATE]</td>
                         <td>$rs[ROOM_STATUS]</td>
-                        <td>$rs[ADMIN_USERNAME]</td>
-                        <td>$date</td>
+                        <td>
+                            <b>By</b>: $rs[ADMIN_USERNAME] <br>
+                            <b>On</b>: ".$date."
+                        </td>
                         <td style='display:flex;'>
                             <a href='view_room.php?id=$rs[ROOM_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details

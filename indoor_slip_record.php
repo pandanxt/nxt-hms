@@ -25,13 +25,13 @@
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
-                  <tr>
+                  <tr style="font-size: 14px;">
                     <th>S.No#</th>
-                    <th>MR-ID</th>
+                    <th>MR-ID </th>
                     <th>Name</th>
                     <th>Mobile</th>
                     <th>Procedure/Surgery</th>
-                    <th>Patient Type</th>
+                    <!-- <th>Patient Type</th> -->
                     <th>Consultant/Surgeon</th>
                     <th>Created</th>
                     <!-- <th>Created On</th> -->
@@ -58,13 +58,12 @@
                        }else if ($type == 'eye') {
                            $newType = 'Eye Patient';
                        }
-                       echo "<tr>
+                       echo "<tr style='font-size: 12px;'>
                        <td>$rs[SLIP_ID]</td>
                         <td>$rs[SLIP_MR_ID]</td>
                         <td>$rs[SLIP_NAME]</td>
                         <td>$rs[SLIP_MOBILE]</td>
                         <td>$rs[SLIP_PROCEDURE]</td>
-                        <td>".$newType."</td>
                         <td>$rs[DOCTOR_NAME]</td>
                         <td>
                             <b>By</b>: $rs[ADMIN_USERNAME] <br>

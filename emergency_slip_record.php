@@ -25,7 +25,7 @@
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
-                  <tr>
+                  <tr style="font-size: 14px;">
                     <th>S.No#</th>
                     <th>MR-ID</th>
                     <th>Name</th>
@@ -44,7 +44,7 @@
                       while($rs = mysqli_fetch_array($qsql))
                       { 
                        $date = substr($rs['SLIP_DATE_TIME'],0, 21);
-                        echo "<tr>
+                        echo "<tr  style='font-size: 12px;'>
                         <td>$rs[SLIP_ID]</td>
                         <td>$rs[SLIP_MR_ID]</td>
                         <td>$rs[SLIP_NAME]</td>
