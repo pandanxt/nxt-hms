@@ -1,6 +1,7 @@
 <?php 
   // Start Session 
   session_start();
+  $type = (isset($_GET['type']) ? $_GET['type'] : '');
   if (isset($_SESSION['userid'])) {
   // Connection File
   include('backend_components/connection.php');
@@ -23,7 +24,7 @@
     $doctor = $_POST['doctor'];
     $dept = $_POST['dept'];
     $procedure = $_POST['procedure'];
-    $type = $_POST['type'];
+    // $type = $_POST['type'];
     $age = $_POST['age'];
     $address = $_POST['address'];
     $by = $_POST['by'];
@@ -122,23 +123,19 @@
     ** --> 
     <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <!-- <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h3 class="card-title p-3"><a href="javascript:history.go(-1)"><i class="fas fa-arrow-alt-circle-left"></i>&nbsp;Back</a></h3>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Indoor Slip</li>
-            </ol>
-          </div>
-        </div>
-      </div> -->
-      <!-- /.container-fluid -->
-    </section>
-
+    <section class="content-header"></section>
+    <?php 
+      $newType;
+      if ($type == 'gynae') {
+          $newType = 'Gynae Patient';
+      }else if ($type == 'gensurgery') {
+          $newType = 'General Surgery Patient';
+      }else if ($type == 'genillness') {
+          $newType = 'General Illness Patient';
+      }else if ($type == 'eye') {
+          $newType = 'Eye Patient';
+      }
+    ?>
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -146,7 +143,7 @@
         <!-- SELECT2 EXAMPLE -->
         <div class="card card-info">
           <div class="card-header">
-            <h3 class="card-title"><i class="nav-icon fas fa-procedures"></i> Indoor Patient Slip</h3>
+            <h3 class="card-title"><i class="nav-icon fas fa-procedures"></i> <?php echo $newType; ?> Slip</h3>
             <div class="card-tools">
               <span id='clockDT'></span>
             </div>
@@ -244,33 +241,16 @@
               <div class="col-md-6">
               <input type="text" name="addDate" id="addDate" hidden/>
               <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
-                
-                <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                  <div class="form-group col-md-6">
-                    <label>Patient Type</label>
-                    <select class="form-control select2bs4" name="type" style="width: 100%;">
-                    <option disabled selected>Select Patient Type</option>
-                        <?php
-                        $indoorType = 'SELECT `TYPE_ALAIS`, `TYPE_NAME` FROM `indoor_type` WHERE `TYPE_STATUS` = "active"';
-                        $result = mysqli_query($db, $indoorType) or die (mysqli_error($db));
-                            while ($row = mysqli_fetch_array($result)) {
-                            $id = $row['TYPE_ALAIS'];  
-                            $name = $row['TYPE_NAME'];
-                            echo '<option value="'.$id.'">'.$name.'</option>'; 
-                        }
-                        ?>
-                    </select>
-                  </div>
-                  <div class="form-group col-md-6">
+              <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
+              
+                  <div class="form-group">
                     <label>Procedure/Surgery Type</label>
-                    <input type="text" class="form-control" name="procedure" id="inputProcedure" placeholder="Enter Procedure Here ..." />
+                    <textarea style="height: 80px;" name="procedure" id="inputProcedure" placeholder="Enter Procedure/Surgery Details Here ..." type="text" class="form-control" required></textarea>
                   </div>
-                </div>
                 <!-- /.form-group -->
                 <div class="form-group">
                   <label>Address</label>
-                  <textarea style="height: 120px;" name="address" type="text" class="form-control" id="inputAddress" placeholder="Enter Patient Address Here ..." required></textarea>
-                  <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
+                  <textarea style="height: 80px;" name="address" type="text" class="form-control" id="inputAddress" placeholder="Enter Patient Address Here ..." required></textarea>
                 </div>
               </div>
               <!-- /.col -->

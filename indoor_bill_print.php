@@ -1,7 +1,7 @@
 <?php
     session_start();
     $sid = (isset($_GET['sid']) ? $_GET['sid'] : '');
-    $type = (isset($_GET['type']) ? $_GET['type'] : '');
+    // $type = (isset($_GET['type']) ? $_GET['type'] : '');
 
     if (isset($_SESSION['userid'])) {
       
@@ -12,9 +12,9 @@
       include('components/navbar.php'); 
       // Sidebar File
       include('components/sidebar.php');
-      //**********************************//
-      //*Gynae and General Surgery Print*//
-      //******************************* //
+      //*******************************************//
+      //*Gynae, General and Illness Surgery Print*//
+      //*****************************************//
             if ($sid){
               // Query to get Slip Details 
               $billSql ="SELECT `a`.*, `b`.`ADMIN_USERNAME`	FROM `indoor_bill` AS `a` INNER JOIN `admin` AS `b` ON `b`.`ADMIN_ID` = `a`.`CREATED_BY` WHERE `BILL_ID` = ".$sid;
@@ -76,30 +76,30 @@
                 <div class="col-sm-6 invoice-col">
                 <hr style="margin-top:5px;"/>
                     <?php if ($type == "eye") { ?>
-                        <h4><b>MR_ID# </b><?php echo $mrid; ?></h4><br>
-                        <h4><b>Patient Name :</b> <?php echo $pname; ?></h4><br>
-                        <h4><b>Contact :</b> <?php echo $phone; ?></h4><br>
+                        <h4><b>MR_ID# </b> <?php echo $bill_row['MR_ID']; ?></h4><br>
+                        <h4><b>Patient Name :</b> <?php echo $bill_row['PATIENT_NAME']; ?></h4><br>
+                        <h4><b>Contact :</b> <?php echo $bill_row['MOBILE']; ?></h4><br>
                         <h4><b>Procedure :</b> <?php echo $procedure; ?></h4><br>
                     <?php }else { ?>
-                        <p><b>MR_ID# </b><?php echo $bill_row['MR_ID']; ?></P>
+                        <p><b>MR_ID# </b><?php echo $bill_row['MR_ID']; ?></p>
                         <p><b>Patient Name :</b> <?php echo $bill_row['PATIENT_NAME']; ?></p>
-                        <p><b>Contact :</b> <?php echo $bill_row['MOBILE']; ?></P>
-                        <p><b>Procedure :</b> <?php echo $procedure; ?></p>  
+                        <p><b>Contact :</b> <?php echo $bill_row['MOBILE']; ?></p>
+                        <p><b>Procedure :</b> <?php echo $procedure; ?></p>
                     <?php } ?>
                   </div>
                   <!-- /.col -->
                   <div class="col-sm-6 invoice-col">
                   <hr style="margin-top:5px;"/>
                     <?php if ($type == "eye") { ?>
-                    <h4><b>Date :</b> <?php echo $newDisdate; ?></h4><br>
-                    <h4><b>Staff :</b> <?php echo $admin_row['ADMIN_USERNAME'];; ?></h4><br>
+                    <h4><b>Date :</b> <?php echo $disDate; ?></h4><br>
+                    <h4><b>Staff :</b> <?php echo $bill_row['ADMIN_USERNAME']; ?></h4><br>
                     <h4><b>Consultant :</b> <?php echo $doctor; ?></h4><br>
-                    <h4><b>Consultant Fee - Discount :</b> <?php echo $fee; ?> - <?php echo $discount; ?></h4><br>
-                    <h4><b>Total Fee :</b> <?php echo $finalFee; ?></h4><br>
+                    <h4><b>Consultant Fee - Discount :</b> <?php echo $bill_row['TOTAL_AMOUNT']; ?> - <?php echo $bill_row['DISCOUNT']; ?></h4><br>
+                    <h4><b>Total Fee :</b> PKR - <?php echo $bill_row['TOTAL']; ?></h4><br>
                     <?php }else { ?>
                       <p><b>Admit Dates :</b> <?php echo $admDate; ?> - <?php echo $disDate; ?></p>
-                      <p><b>Staff :</b> <?php echo $admin_row['ADMIN_USERNAME'];; ?></p><br>
-                      <p><b>Consultant :</b> <?php echo $doctor; ?></p><br>
+                      <p><b>Consultant :</b> <?php echo $doctor; ?></p>
+                      <p><b>Staff :</b> <?php echo $bill_row['ADMIN_USERNAME'];; ?></p>
                     <?php } ?>
                   </div>
                   <!-- /.col -->
@@ -409,8 +409,8 @@
                       <h4><b>Date :</b> <?php echo $newDisdate; ?></h4><br>
                       <h4><b>Staff :</b> <?php echo $admin_row['ADMIN_USERNAME'];; ?></h4><br>
                       <h4><b>Consultant :</b> <?php echo $doctor; ?></h4><br>
-                      <h4><b>Consultant Fee - Discount :</b> <?php echo $fee; ?> - <?php echo $discount; ?></h4><br>
-                      <h4><b>Total Fee :</b> <?php echo $finalFee; ?></h4><br>
+                      <h4><b>Consultant Fee - Discount :</b> <?php echo $tbill; ?> - <?php echo $dis; ?></h4><br>
+                      <h4><b>Total Fee :</b> PKR - <?php echo $fbill; ?></h4><br>
                     <?php }else { ?>
                       <p><b>Admit Dates :</b> <?php echo $newAdmdate; ?> - <?php echo $newDisdate; ?></p>
                       <p><b>Staff :</b> <?php echo $admin_row['ADMIN_USERNAME'];; ?></p>

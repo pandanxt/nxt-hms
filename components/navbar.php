@@ -39,7 +39,8 @@
             <i class="fas fa-user-injured mr-2"></i> Emergency Slip
           </a>
           <div class="dropdown-divider"></div>
-          <a href="indoor_patient_slip.php" class="dropdown-item">
+          <!-- <a href="indoor_patient_slip.php" class="dropdown-item"> -->
+          <a type="button" class="dropdown-item" data-toggle="modal" data-target="#modal-indoor">
             <i class="fas fa-procedures mr-2"></i> Indoor Slip
           </a>
         <div class="dropdown-divider"></div>
@@ -165,7 +166,7 @@
   <!------Choose Patient Type------>
   <!------*******************------> 
 
-  <div class="modal fade" id="modal-default">
+  <div class="modal fade" id="modal-indoor">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -174,7 +175,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form action="indoor_bill_record.php">
+            <form action="indoor_patient_slip.php">
             <div class="modal-body">
                   <select class="form-control select2bs4" name="type" id="typeSelect" style="width: 100%;" required>
                   <?php
@@ -194,11 +195,8 @@
               </div>
             </form>
           </div>
-          <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
       </div>
-      <!-- /.modal -->
 
       
     <!-- **

@@ -59,8 +59,8 @@
                   </small>
                   <small>
                     <li class="nav-item">
-                        <a href="indoor_patient_slip.php" class="nav-link">
-                        <!-- <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-indoor"> -->
+                        <!-- <a href="indoor_patient_slip.php" class="nav-link"> -->
+                        <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-indoor">
                         <i class="nav-icon fas fa-procedures"></i>
                         <p>Indoor Slip</p>  
                         </a>
@@ -134,14 +134,14 @@
                   </small>
                   <small>
                     <li class="nav-item">
-                    <!-- <a href="indoor_bill_record.php" class="nav-link">
+                        <a href="indoor_bill_record.php" class="nav-link">
                         <i class="nav-icon fas fa-procedures"></i>
                         <p>Indoor Bill</p>  
-                        </a> -->
-                        <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-default">
-                        <i class="nav-icon fas fa-procedures"></i>
-                        <p>Indoor Bill</p>
                         </a>
+                        <!-- <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-default"> -->
+                        <!-- <i class="nav-icon fas fa-procedures"></i> -->
+                        <!-- <p>Indoor Bill</p> -->
+                        <!-- </a> -->
                     </li>
                   </small>
                   <small>

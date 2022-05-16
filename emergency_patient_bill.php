@@ -4,7 +4,6 @@
   if (isset($_SESSION['userid'])) {
   // Get MRID from URL 
   $sid = (isset($_GET['sid']) ? $_GET['sid'] : ''); 
-  echo '<script>console.log('.$sid.');</script>';
   // Connection File
   include('backend_components/connection.php');
   // Form Header File
@@ -102,22 +101,7 @@
 
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <!-- <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h3 class="card-title p-3"><a href="javascript:history.go(-1)"><i class="fas fa-arrow-alt-circle-left"></i>&nbsp;Back</a></h3>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Generate Bill</li>
-            </ol>
-          </div>
-        </div>
-      </div> -->
-      <!-- /.container-fluid -->
-    </section>
+    <section class="content-header"></section>
 
     <!-- Main content -->
     <section class="content">
@@ -126,7 +110,7 @@
         <!-- SELECT2 EXAMPLE -->
         <div class="card card-info">
           <div class="card-header">
-            <h3 class="card-title"><i class="nav-icon fas fa-hospital-user"></i> MedEast Patient Bill</h3>
+            <h3 class="card-title"><i class="nav-icon fas fa-hospital-user"></i> Emergency Patient Bill</h3>
 
             <div class="card-tools">
               <span id='clockDT'></span>
