@@ -4,7 +4,6 @@
   if (isset($_SESSION['userid'])) {
   // Get MRID from URL 
   $sid = (isset($_GET['sid']) ? $_GET['sid'] : ''); 
-  echo '<script>console.log('.$sid.');</script>';
   // Connection File
   include('backend_components/connection.php');
   // Form Header File
@@ -32,6 +31,7 @@
     $bp = $_POST['bp'];
     $ecg = $_POST['ecg'];
     $other = $_POST['other'];
+    $otherText = $_POST['otherText'];
     $tbill = $_POST['tbill'];
     $discount = $_POST['discount'];
     $fbill = $_POST['fbill'];
@@ -54,8 +54,8 @@
         // Insert Query
         $sql = "INSERT INTO `emergency_bill`
         (
-          `MR_ID`,`SLIP_ID`, `PATIENT_NAME`, `MOBILE`, `DATE_TIME`, `ES_MO_CHARGE`, `INJECTION_IM`, `INJECTION_IV`, `IV_LINE`, `IV_INFUSION`, `PS_IN_300`, `PS_OUT_100`, `BSF_BSR`, `SHORT_STAY`, `BP`, `ECG`, `OTHER`, `TOTAL_AMOUNT`, `DISCOUNT`, `TOTAL`, `CREATED_BY`
-        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+          `MR_ID`,`SLIP_ID`, `PATIENT_NAME`, `MOBILE`, `DATE_TIME`, `ES_MO_CHARGE`, `INJECTION_IM`, `INJECTION_IV`, `IV_LINE`, `IV_INFUSION`, `PS_IN_300`, `PS_OUT_100`, `BSF_BSR`, `SHORT_STAY`, `BP`, `ECG`, `OTHER`, `OTHER_TEXT`, `TOTAL_AMOUNT`, `DISCOUNT`, `TOTAL`, `CREATED_BY`
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         mysqli_stmt_execute($stmt);
         
         if (!mysqli_stmt_prepare($stmt,$sql)) {
@@ -63,15 +63,15 @@
           echo "<script>alert('Sqlerror due to DB Query...');</script>";
           exit();
         }else{                                
-          mysqli_stmt_bind_param($stmt,"sssssssssssssssssssss",$mrid,$sid,$name,$phone,$addDate,$medicalofficer,
-          $injectionim,$injectioniv,$ivline,$ivinfusion,$stitchInTotal,$stitchOutTotal,$bsf,$shortstay,$bp,$ecg,$other,$tbill,$discount,$fbill,$by);
+          mysqli_stmt_bind_param($stmt,"ssssssssssssssssssssss",$mrid,$sid,$name,$phone,$addDate,$medicalofficer,
+          $injectionim,$injectioniv,$ivline,$ivinfusion,$stitchInTotal,$stitchOutTotal,$bsf,$shortstay,$bp,$ecg,$other,$otherText,$tbill,$discount,$fbill,$by);
           mysqli_stmt_execute($stmt);
           // Update Status of the receipt
           $updateSql ="UPDATE `emergency_slip` SET `BILL_STATUS`='$status' WHERE `emergency_slip`.`SLIP_ID`='$sid'";
           if($querySql = mysqli_query($db,$updateSql))
           {
             // echo "<script>alert('Doctor record updated successfully...');window.location = '../doctors.php';</script>";
-            echo '<script type="text/javascript">window.location = "emergency_bill_print.php?pname='.$name.'&on='.$addDate.'&mrid='.$mrid.'&phone='.$phone.'&by='.$by.'&mo='.$medicalofficer.'&injectionim='.$injectionim.'&injectioniv='.$injectioniv.'&ivline='.$ivline.'&sin='.$stitchInTotal.'&sout='.$stitchOutTotal.'&ivinfection='.$ivinfusion.'&bsf='.$bsf.'&sstay='.$shortstay.'&bp='.$bp.'&ecg='.$ecg.'&other='.$other.'&tbill='.$tbill.'&disc='.$discount.'&fbill='.$fbill.'";</script>';                                                   
+            echo '<script type="text/javascript">window.location = "emergency_bill_print.php?pname='.$name.'&on='.$addDate.'&mrid='.$mrid.'&phone='.$phone.'&by='.$by.'&mo='.$medicalofficer.'&injectionim='.$injectionim.'&injectioniv='.$injectioniv.'&ivline='.$ivline.'&sin='.$stitchInTotal.'&sout='.$stitchOutTotal.'&ivinfection='.$ivinfusion.'&bsf='.$bsf.'&sstay='.$shortstay.'&bp='.$bp.'&ecg='.$ecg.'&other='.$other.'&otherText='.$otherText.'&tbill='.$tbill.'&disc='.$discount.'&fbill='.$fbill.'";</script>';                                                   
           }else
           {
             echo mysqli_error($db);
@@ -101,22 +101,7 @@
 
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <!-- <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h3 class="card-title p-3"><a href="javascript:history.go(-1)"><i class="fas fa-arrow-alt-circle-left"></i>&nbsp;Back</a></h3>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Generate Bill</li>
-            </ol>
-          </div>
-        </div>
-      </div> -->
-      <!-- /.container-fluid -->
-    </section>
+    <section class="content-header"></section>
 
     <!-- Main content -->
     <section class="content">
@@ -125,7 +110,7 @@
         <!-- SELECT2 EXAMPLE -->
         <div class="card card-info">
           <div class="card-header">
-            <h3 class="card-title"><i class="nav-icon fas fa-hospital-user"></i> MedEast Patient Bill</h3>
+            <h3 class="card-title"><i class="nav-icon fas fa-hospital-user"></i> Emergency Patient Bill</h3>
 
             <div class="card-tools">
               <span id='clockDT'></span>
@@ -235,13 +220,16 @@
                         </div>
                     </div>
                     <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-5">
                         <label>ECG</label>
-                        <input type="number" class="form-control" name="ecg" id="ecg" placeholder="Enter ECG Charges - 500" />
+                        <input type="number" class="form-control" name="ecg" id="ecg" placeholder="ECG Charges - 500" />
                         </div>
-                        <div class="form-group col-md-6">
-                        <label>Other</label>
-                        <input type="number" name="other" class="form-control" id="other" placeholder="Enter Other Charges"/>
+                        <div class="col-md-7">
+                            <label>Other</label>
+                            <div class="input-group mb-3">
+                              <input type="text" name="otherText" class="form-control" id="otherText" placeholder="Description" style="width:65%;"/>
+                                <input type="number" name="other" id="other" placeholder="Charges" class="form-control" style="width:35%;"/>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-12" style="display:flex;margin:0;padding:0;">

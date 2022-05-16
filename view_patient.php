@@ -104,14 +104,13 @@
                                   <div class="col-12">
                                       <table id="example1" class="table table-bordered table-striped">
                                         <thead>
-                                        <tr>
+                                        <tr style="font-size: 14px;">
                                           <th>S.No#</th>
                                           <th>MR-ID</th>
                                           <th>Name</th>
                                           <th>Mobile</th>
                                           <th>Doctor</th>
-                                          <th>Created By</th>
-                                          <th>Created On</th>
+                                          <th>Created</th>
                                           <th>Options</th>
                                         </tr>
                                         </thead>
@@ -124,14 +123,16 @@
                                             while($rs = mysqli_fetch_array($qsql))
                                             { 
                                             $date = substr($rs['SLIP_DATE_TIME'],0, 21);
-                                              echo "<tr>
+                                              echo "<tr style='font-size: 12px;'>
                                               <td>$rs[SLIP_ID]</td>
                                               <td>$rs[SLIP_MR_ID]</td>
                                               <td>$rs[SLIP_NAME]</td>
                                               <td>$rs[SLIP_MOBILE]</td>
                                               <td>$rs[DOCTOR_NAME]</td>
-                                              <td>$rs[ADMIN_USERNAME]</td>
-                                              <td>$date</td> 
+                                              <td>
+                                                  <b>By</b>: $rs[ADMIN_USERNAME] <br>
+                                                  <b>On</b>: ".$date."
+                                              </td> 
                                               <td style='display:flex;'>";
                                                 if($rs['BILL_STATUS'] == "pending"){
                                                   echo "<a href='emergency_patient_bill.php?sid=$rs[SLIP_ID]' style='color:green;'>
@@ -177,7 +178,7 @@
                                   <div class="col-12">
                                     <table id="example1" class="table table-bordered table-striped">
                                       <thead>
-                                      <tr>
+                                      <tr style="font-size: 14px;">
                                         <th>S.No#</th>
                                         <th>MR-ID</th>
                                         <th>Name</th>
@@ -185,8 +186,7 @@
                                         <th>Procedure</th>
                                         <th>Type</th>
                                         <th>Doctor</th>
-                                        <th>Created By</th>
-                                        <th>Created On</th>
+                                        <th>Created</th>
                                         <th>Options</th>
                                       </tr>
                                       </thead>
@@ -199,7 +199,7 @@
                                           while($rs = mysqli_fetch_array($qsql))
                                           { 
                                           $date = substr($rs['SLIP_DATE_TIME'],0, 21);
-                                          echo "<tr>
+                                          echo "<tr style='font-size: 12px;'>
                                           <td>$rs[SLIP_ID]</td>
                                             <td>$rs[SLIP_MR_ID]</td>
                                             <td>$rs[SLIP_NAME]</td>
@@ -207,8 +207,10 @@
                                             <td>$rs[SLIP_PROCEDURE]</td>
                                             <td>$rs[SLIP_TYPE]</td>
                                             <td>$rs[DOCTOR_NAME]</td>
-                                            <td>$rs[ADMIN_USERNAME]</td>
-                                            <td>$date</td> 
+                                            <td>
+                                                <b>By</b>: $rs[ADMIN_USERNAME] <br>
+                                                <b>On</b>: ".$date."
+                                            </td> 
                                             <td style='display:flex;'>";
 
                                             if($rs['BILL_STATUS'] == "pending"){
@@ -255,7 +257,7 @@
                                   <div class="col-12">
                                     <table id="example1" class="table table-bordered table-striped">
                                       <thead>
-                                      <tr>
+                                      <tr style="font-size: 14px;">
                                         <th>S.No#</th>
                                         <th>MR-ID</th>
                                         <th>Name</th>
@@ -263,8 +265,7 @@
                                         <th>Department</th>
                                         <th>Consultant</th>
                                         <th>Fee</th>
-                                        <th>Created By</th>
-                                        <th>Created On</th>
+                                        <th>Created</th>
                                         <th>Options</th>
                                       </tr>
                                       </thead>
@@ -277,7 +278,7 @@
                                           while($rs = mysqli_fetch_array($qsql))
                                           { 
                                           $date = substr($rs['SLIP_DATE_TIME'],0, 21);
-                                            echo "<tr>
+                                            echo "<tr style='font-size: 12px;'>
                                             <td>$rs[SLIP_ID]</td>
                                             <td>$rs[SLIP_MR_ID]</td>
                                             <td>$rs[SLIP_NAME]</td>
@@ -285,8 +286,10 @@
                                             <td>$rs[DEPARTMENT_NAME]</td>
                                             <td>$rs[DOCTOR_NAME]</td>
                                             <td>$rs[SLIP_FEE]</td>
-                                            <td>$rs[ADMIN_USERNAME]</td>
-                                            <td>$date</td> 
+                                            <td>
+                                                <b>By</b>: $rs[ADMIN_USERNAME] <br>
+                                                <b>On</b>: ".$date."
+                                            </td> 
                                             <td style='display:flex;'>
                                                   <a href='outdoor_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
                                                   <i class='fas fa-wallet'></i> Print

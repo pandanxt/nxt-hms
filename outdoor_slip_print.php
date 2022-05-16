@@ -60,6 +60,8 @@
               </div>
               <!-- /.col -->
             </div>
+            <hr style="margin-top:5px;"/>
+            <center><h4>OPD Patient</h4></center>
             <!-- info row -->
             <div class="row invoice-info">
             <!-- /.col -->
@@ -68,18 +70,18 @@
                 <h4><b>MR_ID# </b><?php echo $dept_row['SLIP_MR_ID']; ?></h4><br>
                 <h4><b>Patient Name :</b> <?php echo $dept_row['SLIP_NAME']; ?></h4><br>
                 <h4><b>Contact :</b> <?php echo $dept_row['SLIP_MOBILE']; ?></h4><br>
-                <h4><b>Consultant :</b> <?php echo $dept_row['DOCTOR_NAME']; ?></h4><br>
-                <h4><b>Consultant Fee :</b> <?php echo $dept_row['SLIP_FEE']; ?></h4><br>
-                <h4><b>Staff :</b> <?php echo $dept_row['ADMIN_USERNAME']; ?></h4><br>
+                <!-- <h4><b>Age :</b> <?php //echo $age; ?></h4><br> -->
+                <h4><b>Gender-Age :</b> <?php echo $gender."-".$age." years"; ?></h4><br>
+                <h4><b>Address :</b> <?php echo $address; ?></h4><br>
               </div>
               <!-- /.col -->
               <div class="col-sm-6 invoice-col">
               <hr style="margin-top:5px;"/>
                 <h4><b>Date/Time :</b> <?php echo $date; ?></h4><br>
                 <h4><b>Department :</b> <?php echo $dept_row['DEPARTMENT_NAME']; ?></h4><br>
-                <h4><b>Age :</b> <?php echo $age; ?></h4><br>
-                <h4><b>Gender :</b> <?php echo $gender; ?></h4><br>
-                <h4><b>Address :</b> <?php echo $address; ?></h4><br>
+                <h4><b>Consultant :</b> <?php echo $dept_row['DOCTOR_NAME']; ?></h4><br>
+                <h4><b>Consultant Fee :</b> <?php echo $dept_row['SLIP_FEE']; ?></h4><br>
+                <h4><b>Staff :</b> <?php echo $dept_row['ADMIN_USERNAME']; ?></h4><br>
                 <!-- <h4><b>Time :</b> <?php //echo $saveOn; ?></h4><br> -->
               </div>
               <!-- /.col -->
@@ -163,6 +165,8 @@
             </div>
             <!-- /.col -->
           </div>
+          <hr style="margin-top:5px;"/>
+          <center><h4>OPD Patient</h4></center>
           <!-- info row -->
           <div class="row invoice-info">
           <!-- /.col -->
@@ -171,17 +175,18 @@
               <h4><b>MR_ID# </b><?php echo $mrid; ?></h4><br>
               <h4><b>Patient Name :</b> <?php echo $pname; ?></h4><br>
               <h4><b>Contact :</b> <?php echo $phone; ?></h4><br>
-              <h4><b>Department :</b> <?php echo $dept_row['DEPARTMENT_NAME']; ?></h4><br>
-              <h4><b>Consultant :</b> <?php echo $doctor_row['DOCTOR_NAME']; ?></h4><br>
-              <h4><b>Consultant Fee :</b> <?php echo $fee; ?></h4><br>
+              <!-- <h4><b>Age :</b> <?php //echo $age; ?></h4><br> -->
+              <h4><b>Gender-Age :</b> <?php echo $gender."-".$age." years"; ?></h4><br>
+              <h4><b>Address :</b> <?php echo $address; ?></h4><br>
             </div>
             <!-- /.col -->
             <div class="col-sm-6 invoice-col">
             <hr style="margin-top:5px;"/>
-              <h4><b>Age :</b> <?php echo $age; ?></h4><br>
-              <h4><b>Gender :</b> <?php echo $gender; ?></h4><br>
-              <h4><b>Address :</b> <?php echo $address; ?></h4><br>
+
               <h4><b>Date/Time :</b> <?php echo $date; ?></h4><br>
+              <h4><b>Department :</b> <?php echo $dept_row['DEPARTMENT_NAME']; ?></h4><br>
+              <h4><b>Consultant :</b> <?php echo $doctor_row['DOCTOR_NAME']; ?></h4><br>
+              <h4><b>Consultant Fee :</b> <?php echo $fee; ?></h4><br>
               <h4><b>Staff :</b> <?php echo $admin_row['ADMIN_USERNAME'];; ?></h4><br>
               <!-- <h4><b>Time :</b> <?php //echo $saveOn; ?></h4><br> -->
             </div>

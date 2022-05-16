@@ -7,7 +7,7 @@
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
-                  <tr>
+                  <tr style='font-size: 14px;'>
                     <th>S.No#</th>
                     <th>Full Name</th>
                     <th>Permissions</th>
@@ -15,7 +15,7 @@
                     <th>Username</th>
                     <!-- <th>Password</th> -->
                     <th>Status</th>
-                    <th>Created at</th>
+                    <th>Created</th>
                     <th>Options</th>
                   </tr>
                   </thead>
@@ -26,14 +26,17 @@
                       while($rs = mysqli_fetch_array($qsql))
                       {
                         $date = substr($rs['ADMIN_SAVE_TIME'],0, 21);
-                        echo "<tr>
+                        echo "<tr style='font-size: 12px;'>
                         <td>$rs[ADMIN_ID]</td>
                         <td>$rs[ADMIN_NAME]</td>
                         <td>$rs[ADMIN_TYPE]</td>
                         <td>$rs[ADMIN_EMAIL]</td>
                         <td>$rs[ADMIN_USERNAME]</td>
                         <td>$rs[ADMIN_STATUS]</td>
-                        <td>$date</td>
+                        <td>
+                            <b>By</b>: $rs[ADMIN_USERNAME] <br>
+                            <b>On</b>: ".$date."
+                        </td>
                         <td style='display:flex;'>
                             <a href='view_user.php?id=$rs[ADMIN_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details

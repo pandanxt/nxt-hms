@@ -10,7 +10,7 @@
   include('components/navbar.php');
   // Sidebar File
   include('components/sidebar.php');
-
+  // $dept_Id = "";
   // Save Patient Data Query
   if (isset($_POST['outdoor-patient-slip-submit'])) {
     
@@ -27,7 +27,7 @@
     $age = $_POST['age'];
     $address = $_POST['address'];
     $by = $_POST['by'];
-
+    
     // Check Data from DB
     $sql = "SELECT * FROM `patient` WHERE `PATIENT_MR_ID` = ? OR `PATIENT_MOBILE` = ?";
     $stmt = mysqli_stmt_init($db);
@@ -122,23 +122,7 @@
     ** --> 
     <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <!-- <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h3 class="card-title p-3"><a href="javascript:history.go(-1)"><i class="fas fa-arrow-alt-circle-left"></i>&nbsp;Back</a></h3>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Indoor Slip</li>
-            </ol>
-          </div>
-        </div>
-      </div> -->
-      <!-- /.container-fluid -->
-    </section>
-
+    <section class="content-header"></section>
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -146,7 +130,7 @@
         <!-- SELECT2 EXAMPLE -->
         <div class="card card-info">
           <div class="card-header">
-            <h3 class="card-title"><i class="nav-icon fas fa-procedures"></i> Indoor Patient Slip</h3>
+            <h3 class="card-title"><i class="nav-icon fas fa-procedures"></i> Outdoor Patient Slip</h3>
             <div class="card-tools">
               <span id='clockDT'></span>
             </div>
@@ -184,13 +168,8 @@
                 </div>
                   <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                     <div class="form-group col-md-6">
-                        <label>Mobile No#</label>
-                        <input type="tel" name="phone" class="form-control" id="inputPhone" placeholder="Enter Mobile No. without '-' " required>
-                    </div>
-
-                    <div class="form-group col-md-6">
                     <label>Department</label>
-                      <select class="form-control select2bs4" name="dept" style="width: 100%;">
+                      <select class="form-control select2bs4" id="dept" name="dept" style="width: 100%;" onchange="showDoctor(this.value)">
                       <option disabled selected>Select Department</option>
                           <?php
                           $dept = 'SELECT `DEPARTMENT_ID`, `DEPARTMENT_NAME` FROM `department` WHERE `DEPARTMENT_STATUS` = "active"';
@@ -203,21 +182,8 @@
                           ?>
                       </select>
                     </div>
-                    <!-- <div class="form-group col-md-6">
-                        <label>CNIC No#</label>
-                        <input type="number" name="cnic" class="form-control" id="inputPhone" placeholder="Enter CNIC No. without '-' ">
-                    </div> -->
-                </div>
-                
-              </div>
-              <!-- /.col -->
-              <div class="col-md-6">
-              <input type="text" name="addDate" id="addDate" hidden/>
-              <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
-
-                <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                    <div class="form-group col-md-6">
-                        <label id="doctor">Consultant Name</label>
+                    <div class="form-group col-md-6" id="doctor">
+                        <label>Consultant Name</label>
                         <select class="form-control select2bs4" name="doctor" style="width: 100%;">
                         <option disabled selected>Select Consultant Name</option>
                             <?php
@@ -230,6 +196,34 @@
                             }
                             ?>
                         </select>
+                    </div>
+                    <script>
+                      function showDoctor(str) {
+                        if (str=="") {
+                          return;
+                        }
+                        var xmlhttp=new XMLHttpRequest();
+                        xmlhttp.onreadystatechange=function() {
+                          if (this.readyState==4 && this.status==200) {
+                            document.getElementById("doctor").innerHTML=this.responseText;
+                          }
+                        }
+                        xmlhttp.open("GET","getDoctor.php?q="+str,true);
+                        xmlhttp.send();
+                      }
+                    </script>
+                </div>
+                
+              </div>
+              <!-- /.col -->
+              <div class="col-md-6">
+              <input type="text" name="addDate" id="addDate" hidden/>
+              <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
+
+                <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                    <div class="form-group col-md-6">
+                        <label>Mobile No#</label>
+                        <input type="tel" name="phone" class="form-control" id="inputPhone" placeholder="Enter Mobile No. without '-' " required>
                     </div>
                     <div class="form-group col-md-6">
                         <label>Consultant Fee</label>

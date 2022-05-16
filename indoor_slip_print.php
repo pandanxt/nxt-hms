@@ -7,9 +7,10 @@
       # code...
         include('backend_components/connection.php');
         // Query to get Slip Details 
-        $slipSql ="SELECT `a`.*,`c`.`DOCTOR_NAME`, `d`.`ADMIN_USERNAME`	FROM `indoor_slip` AS `a`
+        $slipSql ="SELECT `a`.*,`c`.`DOCTOR_NAME`, `d`.`ADMIN_USERNAME`,`e`.`DEPARTMENT_NAME`	FROM `indoor_slip` AS `a`
         INNER JOIN `doctor` AS `c` ON `c`.`DOCTOR_ID` = `a`.`DOCTOR_ID`
         INNER JOIN `admin` AS `d` ON `d`.`ADMIN_ID` = `a`.`STAFF_ID`
+        INNER JOIN `department` AS `e` ON `e`.`DEPARTMENT_ID` = `a`.`DEPT_ID`
         WHERE `SLIP_ID` = ".$sid;
 
         $dptsql = mysqli_query($db,$slipSql);
@@ -69,6 +70,8 @@
               </div>
               <!-- /.col -->
             </div>
+            <hr style="margin-top:5px;"/>
+            <center><h4><?php echo $newType; ?></h4></center>
             <!-- info row -->
             <div class="row invoice-info">
             <!-- /.col -->
@@ -77,18 +80,19 @@
                 <h4><b>MR_ID# </b><?php echo $dept_row['SLIP_MR_ID']; ?></h4><br>
                 <h4><b>Patient Name :</b> <?php echo $dept_row['SLIP_NAME']; ?></h4><br>
                 <h4><b>Contact :</b> <?php echo $dept_row['SLIP_MOBILE']; ?></h4><br>
-                <h4><b>Consultant :</b> <?php echo $dept_row['DOCTOR_NAME']; ?></h4><br>
-                <h4><b>Procedure :</b> <?php echo $dept_row['SLIP_PROCEDURE']; ?></h4><br>
+                <h4><b>Gender-Age :</b> <?php echo $gender."-".$age." years"; ?></h4><br>
+                <h4><b>Address :</b> <?php echo $address; ?></h4><br>
               </div>
               <!-- /.col -->
               <div class="col-sm-6 invoice-col">
               <hr style="margin-top:5px;"/>
                 <h4><b>Date/Time :</b> <?php echo $date; ?></h4><br>
-                <h4><b>Patient Type :</b> <?php echo $newType; ?></h4><br>
-                <h4><b>Age :</b> <?php echo $age; ?></h4><br>
-                <h4><b>Gender :</b> <?php echo $gender; ?></h4><br>
-                <h4><b>Address :</b> <?php echo $address; ?></h4><br>
+                <!-- <h4><b>Patient Type :</b> <?php //echo $newType; ?></h4><br> -->
+                 <h4><b>Department :</b> <?php echo $dept_row['DEPARTMENT_NAME']; ?></h4><br>
+                 <h4><b>Consultant/Surgeon :</b> <?php echo $dept_row['DOCTOR_NAME']; ?></h4><br>
+                <h4><b>Procedure/Surgery :</b> <?php echo $dept_row['SLIP_PROCEDURE']; ?></h4><br>
                 <h4><b>Staff :</b> <?php echo $dept_row['ADMIN_USERNAME']; ?></h4><br>
+                <!-- <h4><b>Gender :</b> <?php //echo $gender; ?></h4><br> -->
                 <!-- <h4><b>Time :</b> <?php //echo $saveOn; ?></h4><br> -->
               </div>
               <!-- /.col -->
@@ -113,7 +117,8 @@
         $saveOn = (isset($_GET['on']) ? $_GET['on'] : '');
         $mrid = (isset($_GET['mrid']) ? $_GET['mrid'] : '');
         $phone = (isset($_GET['phone']) ? $_GET['phone'] : '');
-        // $cnic = (isset($_GET['cnic']) ? $_GET['cnic'] : '');
+        $dept = (isset($_GET['dept']) ? $_GET['dept'] : '');
+        $pro = (isset($_GET['pro']) ? $_GET['pro'] : '');
         $gender = (isset($_GET['gender']) ? $_GET['gender'] : '');
         $doctor = (isset($_GET['doc']) ? $_GET['doc'] : '');
         $age = (isset($_GET['age']) ? $_GET['age'] : '');
@@ -140,6 +145,10 @@
         $docSql ="SELECT `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_ID` =".$doctor;
         $dsql = mysqli_query($db,$docSql);
         $doctor_row = mysqli_fetch_array($dsql);
+        // Query to get Department details from DB
+        $deptSql ="SELECT `DEPARTMENT_NAME` FROM `department` WHERE `DEPARTMENT_ID` =".$dept;
+        $dsql = mysqli_query($db,$deptSql);
+        $dept_row = mysqli_fetch_array($dsql);
         // Query to get Admin details from DB
         $adminSql ="SELECT `ADMIN_USERNAME` FROM `admin` WHERE `ADMIN_ID` =".$by;
         $asql = mysqli_query($db,$adminSql);
@@ -175,6 +184,8 @@
             </div>
             <!-- /.col -->
           </div>
+          <hr style="margin-top:5px;"/>
+          <center><h4><?php echo $newType; ?></h4></center>
           <!-- info row -->
           <div class="row invoice-info">
           <!-- /.col -->
@@ -183,18 +194,18 @@
               <h4><b>MR_ID# </b><?php echo $mrid; ?></h4><br>
               <h4><b>Patient Name :</b> <?php echo $pname; ?></h4><br>
               <h4><b>Contact :</b> <?php echo $phone; ?></h4><br>
-              <!-- <h4><b>CNIC No :</b> <?php //echo $cnic; ?></h4><br>         -->
-              <h4><b>Consultant :</b> <?php echo $doctor_row['DOCTOR_NAME']; ?></h4><br>
-              <h4><b>Staff :</b> <?php echo $admin_row['ADMIN_USERNAME'];; ?></h4><br>
+              <h4><b>Gender-Age :</b> <?php echo $gender."-".$age." years"; ?></h4><br>
+              <h4><b>Address :</b> <?php echo $address; ?></h4><br>
             </div>
             <!-- /.col -->
             <div class="col-sm-6 invoice-col">
             <hr style="margin-top:5px;"/>
-              <h4><b>Patient Type :</b> <?php echo $newType; ?></h4><br>
-              <h4><b>Age :</b> <?php echo $age; ?></h4><br>
-              <h4><b>Gender :</b> <?php echo $gender; ?></h4><br>
-              <h4><b>Address :</b> <?php echo $address; ?></h4><br>
               <h4><b>Date/Time :</b> <?php echo $date; ?></h4><br>
+              <h4><b>Department :</b> <?php echo $dept_row['DEPARTMENT_NAME']; ?></h4><br>        
+              <h4><b>Consultant/Surgeon :</b> <?php echo $doctor_row['DOCTOR_NAME']; ?></h4><br>
+              <h4><b>Procedure/Surgery :</b> <?php echo $pro; ?></h4><br>
+              <h4><b>Staff :</b> <?php echo $admin_row['ADMIN_USERNAME'];; ?></h4><br>
+              <!-- <h4><b>Gender :</b> <?php //echo $gender; ?></h4><br> -->
           </div>
             <!-- /.col -->
           </div>

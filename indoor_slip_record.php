@@ -25,16 +25,16 @@
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
-                  <tr>
+                  <tr style="font-size: 14px;">
                     <th>S.No#</th>
-                    <th>MR-ID</th>
+                    <th>MR-ID </th>
                     <th>Name</th>
                     <th>Mobile</th>
-                    <th>Procedure</th>
-                    <th>Type</th>
-                    <th>Doctor</th>
-                    <th>Created By</th>
-                    <th>Created On</th>
+                    <th>Procedure/Surgery</th>
+                    <!-- <th>Patient Type</th> -->
+                    <th>Consultant/Surgeon</th>
+                    <th>Created</th>
+                    <!-- <th>Created On</th> -->
                     <th>Options</th>
                   </tr>
                   </thead>
@@ -46,22 +46,36 @@
                       while($rs = mysqli_fetch_array($qsql))
                       { 
                        $date = substr($rs['SLIP_DATE_TIME'],0, 21);
-                       echo "<tr>
+                       $type = $rs['SLIP_TYPE'];
+                       $newType;
+          
+                       if ($type == 'gynae') {
+                           $newType = 'Gynae Patient';
+                       }else if ($type == 'gensurgery') {
+                           $newType = 'General Surgery Patient';
+                       }else if ($type == 'genillness') {
+                           $newType = 'General Illness Patient';
+                       }else if ($type == 'eye') {
+                           $newType = 'Eye Patient';
+                       }
+                       echo "<tr style='font-size: 12px;'>
                        <td>$rs[SLIP_ID]</td>
                         <td>$rs[SLIP_MR_ID]</td>
                         <td>$rs[SLIP_NAME]</td>
                         <td>$rs[SLIP_MOBILE]</td>
                         <td>$rs[SLIP_PROCEDURE]</td>
-                        <td>$rs[SLIP_TYPE]</td>
                         <td>$rs[DOCTOR_NAME]</td>
-                        <td>$rs[ADMIN_USERNAME]</td>
-                        <td>$date</td> 
+                        <td>
+                            <b>By</b>: $rs[ADMIN_USERNAME] <br>
+                            <b>On</b>: ".$date."
+                        </td>
                         <td style='display:flex;'>";
 
                         if($rs['BILL_STATUS'] == "pending"){
-                          echo "<a href='indoor_patient_bill.php?sid=$rs[SLIP_ID]' style='color:green;'>
-                            <i class='fas fa-wallet'></i> Bill</a>
-                            <br> 
+                              echo "<a href='indoor_patient_bill.php?type=".$type."&sid=$rs[SLIP_ID]' style='color:green;'>
+                              <i class='fas fa-wallet'></i> Bill</a>";
+                            
+                            echo"<br> 
                             <a href='indoor_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
                             <i class='fas fa-wallet'></i> Print</a>";
                             if ($_SESSION['type'] == "admin") {  

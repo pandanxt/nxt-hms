@@ -1,6 +1,7 @@
 <?php 
   // Session Start
   session_start(); 
+  // $type = (isset($_GET['type']) ? $_GET['type'] : '');
   if (isset($_SESSION['userid'])) {
   // Connection File
   include('backend_components/connection.php');
@@ -25,7 +26,7 @@
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
-                  <tr>
+                  <tr style="font-size: 14px;">
                     <th>S.No#</th>
                     <th>MR-ID</th>
                     <th>Name</th>
@@ -35,7 +36,7 @@
                     <th>Payment</th>
                     <!-- <th>Discount</th>
                     <th>Total</th> -->
-                    <th>Staff</th>
+                    <th>Created</th>
                     <!-- <th>Date|Time</th> -->
                     <th>Options</th>
                   </tr>
@@ -49,7 +50,7 @@
                       //  $date = substr($rs['DATE_TIME'],0, 21);
                        $admDate = substr($rs['ADMISSION_DATE'],0, 21);
                        $disDate = substr($rs['DISCHARGE_DATE'],0, 21);
-                        echo "<tr>
+                        echo "<tr style='font-size: 12px;'>
                         <td>$rs[BILL_ID]</td>
                         <td>$rs[MR_ID]</td>
                         <td>$rs[PATIENT_NAME]</td>
@@ -63,7 +64,10 @@
                           <br>
                           Total: $rs[TOTAL] 
                         </td>
-                        <td>$rs[ADMIN_USERNAME]</td>
+                        <td>
+                            <b>By</b>: $rs[ADMIN_USERNAME] <br>
+                            <b>On</b>: ".$disDate."
+                        </td>
                         <td style='display:flex;'>
                             <a href='indoor_bill_print.php?sid=$rs[BILL_ID]' style='color:green;'>
                               <i class='fas fa-wallet'></i> Print

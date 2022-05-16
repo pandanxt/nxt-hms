@@ -25,7 +25,7 @@
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
-                  <tr>
+                  <tr style="font-size: 12px;">
                     <th>S.No#</th>
                     <th>MR-ID</th>
                     <th>Name</th>
@@ -34,8 +34,9 @@
                     <th>Amount</th>
                     <th>Discount</th>
                     <th>Total</th>
-                    <th>STAFF</th>
-                    <th>DATE|TIME</th>
+                    <th>Created</th>
+                    <!-- <th>STAFF</th>
+                    <th>DATE|TIME</th> -->
                     <th>Options</th>
                   </tr>
                   </thead>
@@ -46,7 +47,7 @@
                       while($rs = mysqli_fetch_array($qsql))
                       { 
                        $date = substr($rs['DATE_TIME'],0, 21);
-                        echo "<tr>
+                        echo "<tr style='font-size: 12px;'>
                         <td>$rs[BILL_ID]</td>
                         <td>$rs[MR_ID]</td>
                         <td>$rs[PATIENT_NAME]</td>
@@ -54,8 +55,10 @@
                         <td>$rs[TOTAL_AMOUNT]</td>
                         <td>$rs[DISCOUNT]</td>
                         <td>$rs[TOTAL]</td>
-                        <td>$rs[ADMIN_USERNAME]</td>
-                        <td>$date</td> 
+                        <td>
+                            <b>By</b>: $rs[ADMIN_USERNAME] <br>
+                            <b>On</b>: ".$date."
+                        </td> 
                         <td style='display:flex;'>
                             <a href='emergency_bill_print.php?sid=$rs[BILL_ID]' style='color:green;'>
                             <i class='fas fa-wallet'></i> Print

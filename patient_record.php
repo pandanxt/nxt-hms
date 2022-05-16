@@ -38,7 +38,7 @@
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
-                  <tr>
+                  <tr style="font-size: 14px;">
                     <th>S.No#</th>
                     <th>MR-ID</th>
                     <th>Name</th>
@@ -46,8 +46,7 @@
                     <th>Gender</th>
                     <th>Age</th>
                     <th>Address</th>
-                    <th>Created By</th>
-                    <th>Created On</th>
+                    <th>Created</th>
                     <th>Options</th>
                   </tr>
                   </thead>
@@ -58,7 +57,7 @@
                       while($rs = mysqli_fetch_array($qsql))
                       { 
                        $date = substr($rs['CREATED_ON'],0, 21);
-                        echo "<tr>
+                        echo "<tr style='font-size: 12px;'>
                         <td>$rs[PATIENT_ID]</td>
                         <td>$rs[PATIENT_MR_ID]</td>
                         <td>$rs[PATIENT_NAME]</td>
@@ -66,8 +65,10 @@
                         <td>$rs[PATIENT_GENDER]</td>
                         <td>$rs[PATIENT_AGE]</td>
                         <td>$rs[PATIENT_ADDRESS]</td>
-                        <td>$rs[ADMIN_USERNAME]</td>
-                        <td>$date</td> 
+                        <td>
+                            <b>By</b>: $rs[ADMIN_USERNAME] <br>
+                            <b>On</b>: ".$date."
+                        </td> 
                         <td style='display:flex;'>
                             <a href='view_patient.php?patid=$rs[PATIENT_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details

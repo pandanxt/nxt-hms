@@ -128,8 +128,8 @@
           <!-- ./col -->
            <div class="col-lg-2 col-6">
             <?php
-              $inBill = mysqli_query($db,"SELECT COUNT(`BILL_ID`) FROM `indoor_bill`");
-              $row = mysqli_fetch_array($inBill);
+              $bill = mysqli_query($db,"SELECT COUNT(`BILL_ID`) FROM `indoor_bill`");
+              $row = mysqli_fetch_array($bill);
               $inBillTotal = $row[0];
             ?>
             <!-- small card -->
