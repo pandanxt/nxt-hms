@@ -128,13 +128,9 @@
           <!-- ./col -->
            <div class="col-lg-2 col-6">
             <?php
-              $eyeBill = mysqli_query($db,"SELECT COUNT(`BILL_ID`) FROM `indoor_eye_bill`");
-              $surgeryBill = mysqli_query($db,"SELECT COUNT(`BILL_ID`) FROM `indoor_gensurgery_bill`");
-              $illnessBill = mysqli_query($db,"SELECT COUNT(`BILL_ID`) FROM `indoor_genillness_bill`");
-              $rowOne = mysqli_fetch_array($eyeBill);
-              $rowTwo = mysqli_fetch_array($surgeryBill);
-              $rowThree = mysqli_fetch_array($illnessBill);
-              $inBillTotal = $rowOne[0] + $rowTwo[0] + $rowThree[0];
+              $bill = mysqli_query($db,"SELECT COUNT(`BILL_ID`) FROM `indoor_bill`");
+              $row = mysqli_fetch_array($bill);
+              $inBillTotal = $row[0];
             ?>
             <!-- small card -->
             <div class="small-box bg-info">

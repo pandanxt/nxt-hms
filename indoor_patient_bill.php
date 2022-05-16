@@ -13,7 +13,7 @@
   include('components/navbar.php'); 
   
   // Save Indoor Surgery Patient Data Query 
-  if (isset($_POST['surgery-submit'])) {
+  if (isset($_POST['indoor-submit'])) {
     // Post Variables from Form
     $mrid = $_POST['mrid'];
     $name = $_POST['name'];
@@ -26,21 +26,31 @@
     $admdate = $_POST['admdate'];
     $disdate = $_POST['disdate'];
 
-    $adCharge = $_POST['adCharge'];
-    $surCharge = $_POST['surCharge'];
-    $anesCharge = $_POST['anesCharge'];
-    $opCharge = $_POST['opCharge'];
-    $chargeLR = $_POST['chargeLR'];
-    $pedCharge = $_POST['pedCharge'];
-    $prChargeThree = $_POST['prChargeThree'];
-    $nurCharge = $_POST['nurCharge'];
-    $nurStCharge = $_POST['nurStCharge'];
-    $moCharge = $_POST['moCharge'];
-    $conCharge = $_POST['conCharge'];
-    $ctg = $_POST['ctg'];
-    $rrCharge = $_POST['rrCharge'];
-    $other = $_POST['other'];
-    $otherText = $_POST['otherText'];
+    if ($type == "genillness") {
+      $prChargeThree = $_POST['prChargeThree'];
+      $moChargeTwo = $_POST['moChargeTwo'];
+      $monChargeTwo = $_POST['monChargeTwo'];
+      $oxChargeTwo = $_POST['oxChargeTwo'];
+      $nurChargeTwo = $_POST['nurChargeTwo'];
+      $conChargeThree = $_POST['conChargeThree']; 
+    }
+    if ($type == "gensurgery" || $type == "gynae") {
+      $adCharge = $_POST['adCharge'];
+      $surCharge = $_POST['surCharge'];
+      $anesCharge = $_POST['anesCharge'];
+      $opCharge = $_POST['opCharge'];
+      $chargeLR = $_POST['chargeLR'];
+      $pedCharge = $_POST['pedCharge'];
+      $prChargeThree = $_POST['prChargeThree'];
+      $nurCharge = $_POST['nurCharge'];
+      $nurStCharge = $_POST['nurStCharge'];
+      $moChargeTwo = $_POST['moChargeTwo'];
+      $conChargeThree = $_POST['conChargeThree'];
+      $ctg = $_POST['ctg'];
+      $rrCharge = $_POST['rrCharge'];
+      $other = $_POST['other'];
+      $otherText = $_POST['otherText'];
+    }
     $tbill = $_POST['tbill'];
     $discount = $_POST['discount'];
     $fbill = $_POST['fbill'];
@@ -48,11 +58,11 @@
     $status = "paid";
 
     // Query to check if data exists 
-    $sql = "SELECT * FROM `indoor_gensurgery_bill` WHERE `SLIP_ID` = ?";
+    $sql = "SELECT * FROM `indoor_bill` WHERE `SLIP_ID` = ?";
     $stmt = mysqli_stmt_init($db);
           
       if (!mysqli_stmt_prepare($stmt,$sql)) {
-          echo '<script type="text/javascript">window.location = "indoor_bill.php?action=billAlreadyCreated";</script>';
+          echo '<script type="text/javascript">window.location = "indoor_patient_bill.php?action=billAlreadyCreated";</script>';
           exit();
       }else{
           mysqli_stmt_bind_param($stmt,"s",$sid);
@@ -60,51 +70,56 @@
           mysqli_stmt_store_result($stmt);
           $resultCheck = mysqli_stmt_num_rows($stmt);
 
-          $sql = "INSERT INTO `indoor_gensurgery_bill`(
-            `MR_ID`,
-            `SLIP_ID`,
-            `PATIENT_NAME`,
-            `MOBILE`,
-            `ADMISSION_DATE`, 
-            `DISCHARGE_DATE`,
-            `DATE_TIME`,
-            `ADMISSION_CHARGE`,
-            `SURGEON_CHARGE`,
-            `ANESTHETIST_CHARGE`,
-            `OPERATION_CHARGE`,
-            `LABOUR_ROOM_CHARGE`,
-            `PEDIATRIC_CHARGE`,
-            `PRIVATE_ROOM_CHARGE`,
-            `NURSURY_CHARGE`,
-            `NURSURY_STAFF_CHARGE`,
-            `MO_CHARGE`,
-            `CONSULTANT_CHARGE`,
-            `CTG_CHARGE`,
-            `RECOVERY_ROOM_CHARGE`,
-            `OTHER`,
-            `OTHER_TEXT`,
-            `TOTAL_AMOUNT`,
-            `DISCOUNT`,
-            `TOTAL`,
-            `CREATED_BY`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+          $sql = "INSERT INTO `indoor_bill`(
+          `MR_ID`,
+          `SLIP_ID`,
+          `PATIENT_NAME`,
+          `MOBILE`,
+          `ADMISSION_DATE`,
+          `DISCHARGE_DATE`,
+          `DATE_TIME`,
+          `ADMISSION_CHARGE`,
+          `SURGEON_CHARGE`,
+          `ANESTHETIST_CHARGE`,
+          `OPERATION_CHARGE`,
+          `LABOUR_ROOM_CHARGE`,
+          `PEDIATRIC_CHARGE`,
+          `PRIVATE_ROOM_CHARGE`,
+          `NURSURY_CHARGE`,
+          `NURSURY_STAFF_CHARGE`,
+          `MO_CHARGE`,
+          `CONSULTANT_CHARGE`,
+          `CTG_CHARGE`,
+          `RECOVERY_ROOM_CHARGE`,
+          `MONITOR_CHARGE`,
+          `NURSING_CHARGE`,
+          `OXYGEN_CHARGE`,
+          `OTHER`,
+          `OTHER_TEXT`,
+          `TOTAL_AMOUNT`,
+          `DISCOUNT`,
+          `TOTAL`,
+          `CREATED_BY`
+         ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+         
           mysqli_stmt_execute($stmt);
             
           if (!mysqli_stmt_prepare($stmt,$sql)) {
-              echo '<script type="text/javascript">window.location = "indoor_bill.php?action=sqlerror";</script>';
+              echo '<script type="text/javascript">window.location = "indoor_patient_bill.php?action=sqlerror";</script>';
               echo "<script>alert('Sqlerror due to DB Query...');</script>";
               exit();
-          }else{                                
-              mysqli_stmt_bind_param($stmt,"ssssssssssssssssssssssssss",
-              $mrid,$sid,$name,$phone,$admdate,$disdate,$disdate,$adCharge,$surCharge,$anesCharge,
-              $opCharge,$chargeLR,$pedCharge,
-              $prChargeThree,$nurCharge,$nurStCharge,$moCharge,$conCharge,$ctg,$rrCharge,
-              $other,$otherText,$tbill,$discount,$fbill,$by);
+          }else{    
+                  mysqli_stmt_bind_param($stmt,"sssssssssssssssssssssssssssss",
+                  $mrid,$sid,$name,$phone,$admdate,$disdate,$disdate,$adCharge,$surCharge,$anesCharge,
+                  $opCharge,$chargeLR,$pedCharge, $prChargeThree,$nurCharge,$nurStCharge,$moChargeTwo,
+                  $conChargeThree,$ctg,$rrCharge,$monChargeTwo,$nurChargeTwo, $oxChargeTwo,
+                  $other,$otherText,$tbill,$discount,$fbill,$by);
               mysqli_stmt_execute($stmt);
               // Update Status of the receipt
               $updateSql ="UPDATE `indoor_slip` SET `BILL_STATUS`='$status' WHERE `indoor_slip`.`SLIP_ID`='$sid'";
               if($querySql = mysqli_query($db,$updateSql))
               {
-                echo '<script type="text/javascript">window.location = "indoor_bill_print.php?pname='.$name.'&mrid='.$mrid.'&phone='.$phone.'&type='.$type.'&admdate='.$admdate.'&disdate='.$disdate.'&doc='.$doc.'&pro='.$pro.'&adcharge='.$adCharge.'&surcharge='.$surCharge.'&anescharge='.$anesCharge.'&opcharge='.$opCharge.'&chargelr='.$chargeLR.'&pedcharge='.$pedCharge.'&prcharge='.$prChargeThree.'&nurcharge='.$nurCharge.'&nurstcharge='.$nurStCharge.'&mocharge='.$moCharge.'&concharge='.$conCharge.'&ctg='.$ctg.'&rrcharge='.$rrCharge.'&other='.$other.'&otherText='.$otherText.'&tbill='.$tbill.'&dis='.$discount.'&fbill='.$fbill.'&by='.$by.'";</script>';                                                   
+                  echo '<script type="text/javascript">window.location = "indoor_bill_print.php?pname='.$name.'&mrid='.$mrid.'&phone='.$phone.'&type='.$type.'&admdate='.$admdate.'&disdate='.$disdate.'&doc='.$doc.'&pro='.$pro.'&adcharge='.$adCharge.'&surcharge='.$surCharge.'&anescharge='.$anesCharge.'&opcharge='.$opCharge.'&chargelr='.$chargeLR.'&pedcharge='.$pedCharge.'&nurcharge='.$nurCharge.'&nurstcharge='.$nurStCharge.'&ctg='.$ctg.'&rrcharge='.$rrCharge.'&other='.$other.'&otherText='.$otherText.'&prChargeThree='.$prChargeThree.'&mochargeTwo='.$moChargeTwo.'&monChargeTwo='.$monChargeTwo.'&oxChargeTwo='.$oxChargeTwo.'&nurChargeTwo='.$nurChargeTwo.'&conChargeThree='.$conChargeThree.'&tbill='.$tbill.'&dis='.$discount.'&fbill='.$fbill.'&by='.$by.'";</script>';
               }else
               {
                 echo mysqli_error($db);
@@ -112,163 +127,6 @@
                 exit();
             }			
         }
-    mysqli_stmt_close($stmt);
-    mysqli_close($db);
-  }
-
-  // Save Indoor Illness Patient Data Query 
-  if (isset($_POST['illness-submit'])) {
-    // Post Variables from Form
-    $mrid = $_POST['mrid'];
-    $name = $_POST['name'];
-    $phone = $_POST['phone'];
-    $type = $_POST['type'];
-
-    $doc = $_POST['doctor'];
-    $pro = $_POST['procedure'];
-
-    $admdate = $_POST['admdate'];
-    $disdate = $_POST['disdate'];
-
-    $prChargeThree = $_POST['prChargeThree'];
-    $moChargeTwo = $_POST['moChargeTwo'];
-    $monChargeTwo = $_POST['monChargeTwo'];
-    $oxChargeTwo = $_POST['oxChargeTwo'];
-    $nurChargeTwo = $_POST['nurChargeTwo'];
-    $conChargeThree = $_POST['conChargeThree'];
-
-    $tbill = $_POST['tbill'];
-    $discount = $_POST['discount'];
-    $fbill = $_POST['fbill'];
-    $by = $_POST['by'];
-    $status = "created";
-
-    // Query to check if data exists 
-    $sql = "SELECT * FROM `indoor_genillness_bill` WHERE `SLIP_ID` = ?";
-    $stmt = mysqli_stmt_init($db);
-          
-      if (!mysqli_stmt_prepare($stmt,$sql)) {
-          echo '<script type="text/javascript">window.location = "indoor_bill.php?action=billAlreadyCreated";</script>';
-          exit();
-      }else{
-          mysqli_stmt_bind_param($stmt,"s",$sid);
-          mysqli_stmt_execute($stmt);
-          mysqli_stmt_store_result($stmt);
-          $resultCheck = mysqli_stmt_num_rows($stmt);
-
-          $sql = "INSERT INTO `indoor_genillness_bill`(
-            `MR_ID`,
-            `SLIP_ID`,
-            `PATIENT_NAME`,
-            `MOBILE`,
-            `ADMISSION_DATE`,
-            `DISCHARGE_DATE`,
-            `DATE_TIME`,
-            `PRIVATE_ROOM_CHARGE`,
-            `CONSULTANT_CHARGE`,
-            `MO_CHARGE`,
-            `MONITOR_CHARGE`,
-            `NURSING_CHARGE`,
-            `OXYGEN_CHARGE`,
-            `TOTAL_AMOUNT`,
-            `DISCOUNT`,
-            `TOTAL`,
-            `CREATED_BY`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-          mysqli_stmt_execute($stmt);
-            
-          if (!mysqli_stmt_prepare($stmt,$sql)) {
-              echo '<script type="text/javascript">window.location = "indoor_bill.php?action=sqlerror";</script>';
-              echo "<script>alert('Sqlerror due to DB Query...');</script>";
-              exit();
-          }else{                                
-              mysqli_stmt_bind_param($stmt,"sssssssssssssssss",
-              $mrid,$sid,$name,$phone,$admdate,$disdate,$disdate, 
-              $prChargeThree, $conChargeThree, $moChargeTwo, $monChargeTwo, 
-              $nurChargeTwo, $oxChargeTwo, $tbill, $discount, $fbill, $by);
-              mysqli_stmt_execute($stmt);
-              // Update Status of the receipt
-              $updateSql ="UPDATE `indoor_slip` SET `BILL_STATUS`='$status' WHERE `indoor_slip`.`SLIP_ID`='$sid'";
-              if($querySql = mysqli_query($db,$updateSql))
-              {
-                echo '<script type="text/javascript">window.location = "indoor_bill_print.php?pname='.$name.'&mrid='.$mrid.'&phone='.$phone.'&type='.$type.'&admdate='.$admdate.'&disdate='.$disdate.'&doc='.$doc.'&pro='.$pro.'&prChargeThree='.$prChargeThree.'&mochargeTwo='.$moChargeTwo.'&monChargeTwo='.$monChargeTwo.'&oxChargeTwo='.$oxChargeTwo.'&nurChargeTwo='.$nurChargeTwo.'&conChargeThree='.$conChargeThree.'&tbill='.$tbill.'&dis='.$discount.'&fbill='.$fbill.'&by='.$by.'";</script>';                                                   
-              }else
-              {
-                echo mysqli_error($db);
-              }  
-                exit();
-            }			
-        }
-    mysqli_stmt_close($stmt);
-    mysqli_close($db);
-  }
-
-  // Save Indoor Eye Patient Data Query 
-  if (isset($_POST['eye-submit'])) {
-    // Post Variables from Form
-    $mrid = $_POST['mrid'];
-    $name = $_POST['name'];
-    $phone = $_POST['phone'];
-    $type = $_POST['type'];
-
-    $doc = $_POST['doctor'];
-    $pro = $_POST['procedure'];
-
-    $admdate = $_POST['admdate'];
-    $disdate = $_POST['disdate'];
-    
-    $tbill = $_POST['tbill'];
-    $discount = $_POST['discount'];
-    $fbill = $_POST['fbill'];
-    $by = $_POST['by'];
-    $status = "created";
-
-    // Query to check if data exists 
-    $sql = "SELECT * FROM `indoor_eye_bill` WHERE `SLIP_ID` = ?";
-    $stmt = mysqli_stmt_init($db);
-          
-      if (!mysqli_stmt_prepare($stmt,$sql)) {
-          echo '<script type="text/javascript">window.location = "indoor_bill.php?action=billAlreadyCreated";</script>';
-          exit();
-      }else{
-          mysqli_stmt_bind_param($stmt,"s",$sid);
-          mysqli_stmt_execute($stmt);
-          mysqli_stmt_store_result($stmt);
-          $resultCheck = mysqli_stmt_num_rows($stmt);
-
-          $sql = "INSERT INTO `indoor_eye_bill`(
-            `MR_ID`,
-            `SLIP_ID`,
-            `PATIENT_NAME`,
-            `MOBILE`,
-            `ADMISSION_DATE`, 
-            `DISCHARGE_DATE`,
-            `DATE_TIME`,
-            `TOTAL_AMOUNT`,
-            `DISCOUNT`,
-            `TOTAL`,
-            `CREATED_BY`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-          mysqli_stmt_execute($stmt);
-            
-          if (!mysqli_stmt_prepare($stmt,$sql)) {
-              echo '<script type="text/javascript">window.location = "indoor_bill.php?action=sqlerror";</script>';
-              echo "<script>alert('Sqlerror due to DB Query...');</script>";
-              exit();
-          }else{                                
-              mysqli_stmt_bind_param($stmt,"sssssssssss",
-              $mrid, $sid, $name, $phone, $admdate, $disdate, $disdate, $tbill, $discount, $fbill, $by);
-              mysqli_stmt_execute($stmt);
-              // Update Status of the receipt
-              $updateSql ="UPDATE `indoor_slip` SET `BILL_STATUS`='$status' WHERE `indoor_slip`.`SLIP_ID`='$sid'";
-              if($querySql = mysqli_query($db,$updateSql))
-              {
-                echo '<script type="text/javascript">window.location = "indoor_bill_print.php?pname='.$name.'&mrid='.$mrid.'&phone='.$phone.'&type='.$type.'&admdate='.$admdate.'&disdate='.$disdate.'&doc='.$doc.'&pro='.$pro.'&tbill='.$tbill.'&dis='.$discount.'&fbill='.$fbill.'&by='.$by.'";</script>';                                                   
-              }else
-              {
-                echo mysqli_error($db);
-              }  
-                exit();
-              }			
-          }
     mysqli_stmt_close($stmt);
     mysqli_close($db);
   }
@@ -278,8 +136,6 @@
   
   //Check if MRID is empty or not 
   if (!empty($sid) && !empty($type)) {
-    // include('components/simple_bill_form.php');  
-//   } else {
     $sql="SELECT *, `DOCTOR_NAME` FROM `indoor_slip` INNER JOIN `doctor` WHERE `SLIP_ID` = '$sid' AND `indoor_slip`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID`";
     $qsql = mysqli_query($db,$sql);
     $patdata = mysqli_fetch_array($qsql);
@@ -309,25 +165,22 @@
             </div>
           </div>
           <!-- ****************************** -->
-          <!-- **Gynae and Gen Surgery Form** -->
+          <!-- **Gynae, Gen Surgery and Gen illness Form** -->
           <!-- ****************************** -->
-          <?php if ($type == "gynae" || $type == "gensurgery") { ?>
-            <form action="" method="post" enctype="multipart/form-data">
+          <form action="" method="post" enctype="multipart/form-data">
             <!-- /.card-header -->
             <div class="card-body">
               <div class="row">
                   <div class="col-md-6">
-                      <!-- <input type="text" name="age" value="<?php //echo $patdata['PATIENT_AGE'] ; ?>" hidden readonly> -->
+
                       <input type="text" name="admdate" id="slipDate" value="<?php echo $patdata['SLIP_DATE_TIME'] ; ?>" hidden readonly>
                       <input type="text" name="doctor" value="<?php echo $patdata['DOCTOR_NAME'] ; ?>" hidden readonly>
                       <input type="text" name="procedure" value="<?php echo $patdata['SLIP_PROCEDURE'] ; ?>" hidden readonly>
                       <input type="text" name="type" value="<?php echo $patdata['SLIP_TYPE'] ; ?>" hidden readonly>
                       <input type="text" name="disdate" id="disdate" hidden/>
-                      <script>
-                          let disDate = new Date();
-                          document.getElementById('disdate').value = disDate;
-                      </script>
-      
+                      <input type="text" name="address" id="address" value="<?php echo $patrow['PATIENT_ADDRESS']; ?>" hidden readonly/>
+                      <input type="text" name="age" id="age" value="<?php echo $patrow['PATIENT_AGE']; ?>" hidden readonly/>
+                      <input type="text" name="gender" id="gender" value="<?php echo $patrow['PATIENT_GENDER']; ?>" hidden readonly/>
                       <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
 
                       <div class="col-md-12" style="display:flex;margin:0;padding:0;">
@@ -344,6 +197,7 @@
                               <input type="text" class="form-control" name="phone" value="<?php echo $patdata['SLIP_MOBILE'] ; ?>" readonly/>
                           </div>
                       </div>
+                      <?php if ($type == "gynae" || $type == "gensurgery") { ?>
                       <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                           <div class="form-group col-md-4">
                               <label>Admission Charges</label>
@@ -366,12 +220,12 @@
                             </div>
                           </div>
                           <div class="form-group col-md-4">
-                              <label>M O Charges</label>
-                              <input type="number" name="moCharge" id="moCharge" placeholder="Rate is 2000" class="form-control"/>
-                          </div>
-                          <div class="form-group col-md-4">
                               <label>CTG Charges</label>
                               <input type="number" class="form-control" name="ctg" id="ctg" placeholder="Rate is 2,000" />
+                          </div>
+                          <div class="form-group col-md-4">
+                              <label>Recovery Room</label>
+                              <input type="number" class="form-control" name="rrCharge" id="rrCharge" placeholder="Rate is 5,000" />
                           </div>
                       </div>
                       <div class="col-md-12" style="display:flex;margin:0;padding:0;">
@@ -389,12 +243,38 @@
                               </div>
                           </div>
                       </div>
-
+                      <?php } 
+                      if ($type == "genillness") { ?>
+                      <div class="form-group" style="display:flex;margin:0;">
+                        <div class="form-group col-md-4">
+                          <label>Oxygen Charges</label>
+                          <div style="display:flex;">
+                              <input type="number" style="width:40%;" name="oxChargeOne" class="form-control" id="oxChargeOne" value="0" onchange="getOxTotal()" placeholder="No. of Days"/>
+                              <input type="number" style="width:60%;" name="oxChargeTwo" class="form-control" id="oxChargeTwo"  placeholder="Total Charges" readonly/>
+                            </div>
+                        </div>
+                       
+                        <div class="form-group col-md-4">
+                          <label>Nursing Charges</label>
+                            <div style="display:flex;">
+                              <input type="number" style="width:40%;" name="nurChargeOne" class="form-control" id="nurChargeOne" value="0" onchange="getNurTotal()" placeholder="No. of Days"/>
+                              <input type="number" style="width:60%;" name="nurChargeTwo" class="form-control" id="nurChargeTwo" placeholder="Total Charges" readonly/>
+                            </div>
+                        </div>
+                       
+                        <div class="form-group col-md-4">
+                            <label>Monitoring Charges</label>
+                              <div style="display:flex;">
+                                <input type="number" style="width:40%;" name="monChargeOne" class="form-control" id="monChargeOne" value="0" onchange="getMonTotal()" placeholder="No. of Days"/>
+                                <input type="number" style="width:60%;" name="monChargeTwo" class="form-control" id="monChargeTwo"  placeholder="Total Charges" readonly/>
+                              </div>
+                          </div>
+                      </div>
+                      <?php } ?>
                   </div>
-                  
                   <!-- /.col -->
                   <div class="col-md-6">
-
+                    <?php if ($type == "gynae" || $type == "gensurgery") { ?>
                       <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                           <div class="form-group col-md-4">
                               <label>Nursury Charges</label>
@@ -409,16 +289,38 @@
                               <input type="number" name="opCharge" class="form-control" id="opCharge" placeholder="Rate is 10,000"/>
                           </div>
                       </div>
-              
+                    <?php } 
+                       if ($type == "gynae" || $type == "gensurgery" || $type == "genillness") { 
+                    ?>
                       <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                          <?php if ($type == "genillness") {
+                           ?>
+                           <div class="col-md-6">
+                            <label>Consultant Charges (Per Visit)</label>
+                            <div class="input-group mb-3">
+                                <input type="number" style="width:40%;" name="conChargeOne" class="form-control" id="conChargeOne" onchange="getConCharge(this);" value="" placeholder="Per-Visit"/>
+                                <input type="number" style="width:20%;" name="conChargeTwo" class="form-control" id="conChargeTwo" onchange="getConDay(this);" value="1" placeholder="Days"/>
+                                <input type="number" style="width:40%;" name="conChargeThree" class="form-control" id="conChargeThree"  placeholder="Total" value="" readonly/>
+                            </div>
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label>Medical Officer Charges(Per day)</label>
+                              <div style="display:flex;">
+                                <input type="number" style="width:40%;" name="moChargeOne" class="form-control" id="moChargeOne" value="0" onchange="getMoTotal()" placeholder="No. of Days"/>
+                                <input type="number" style="width:60%;" name="moChargeTwo" class="form-control" id="moChargeTwo"  placeholder="Total Charges" readonly/>
+                              </div>
+                          </div>
+                           <?php
+                          }else{?>
                           <div class="form-group col-md-6">
                               <label>Consultant Visit Charges</label>
-                              <input type="number" name="conCharge" class="form-control" id="conCharge" placeholder="Rates May Varies">
+                              <input type="number" name="conChargeThree" class="form-control" id="conCharge" placeholder="Rates May Varies">
                           </div>
                           <div class="form-group col-md-6">
-                              <label>Recovery Room Charges</label>
-                              <input type="number" class="form-control" name="rrCharge" id="rrCharge" placeholder="Rate is 5,000" />
+                              <label>M O Charges</label>
+                              <input type="number" name="moChargeTwo" id="moCharge" placeholder="Rate is 2000" class="form-control"/>
                           </div>
+                          <?php }?>
                       </div>
                       <div class="form-group col-md-12">
                           <label>Private Room Charges</label>
@@ -439,24 +341,33 @@
                               <input type="number" style="width:30%;" name="prChargeThree" class="form-control" id="prChargeThree"  placeholder="Total Charges" readonly/>
                             </div>
                       </div>
-                      <script>
-                          function getPrTotal(){
-                            var prChargeOne = document.getElementById("prChargeOne").value;
-                            var prChargeTwo = document.getElementById("prChargeTwo").value;
-                            document.getElementById("prChargeThree").value = prChargeOne*prChargeTwo;
-                          }
-                      </script>
-                    
+                      <?php } ?>
                       <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                          <div class="form-group col-md-6">
-                            <label>Total Bill</label>
-                              <div class="input-group mb-3">
-                                <input type="number" name="tbill" id="totalBill" placeholder="Total Bill" class="form-control" readonly/>
-                                <span class="input-group-append">
-                                  <button type="button" onclick="genSurgeryTotal();" class="btn btn-block btn-primary">calculate</button>
-                                </span>
-                              </div>
-                          </div>
+                          <?php if ($type != "eye") { ?>
+                              <div class="form-group col-md-6">
+                              <label>Total Bill</label>
+                                <div class="input-group mb-3">
+                                  <input type="number" name="tbill" id="totalBill" placeholder="Total Bill" class="form-control" readonly/>
+                                  <?php if ($type == "genillness") {
+                                    ?>
+                                      <span class="input-group-append">
+                                        <button type="button" onclick="genIllnessTotal();" class="btn btn-block btn-primary">calculate</button>
+                                      </span>  
+                                    <?php
+                                  } else { ?>
+                                      <span class="input-group-append">
+                                        <button type="button" onclick="genSurgeryTotal();" class="btn btn-block btn-primary">calculate</button>
+                                      </span>
+                                  <?php } ?>
+                                  
+                                </div>
+                            </div>  
+                          <?php }else { ?>
+                            <div class="form-group col-md-6">
+                              <label>Total Bill</label>
+                                  <input type="number" name="tbill" id="totalBill" placeholder="Total Bill" class="form-control"/>
+                            </div>
+                          <?php } ?>
                           <div class="form-group col-md-3">
                               <label>Discount</label>
                               <input type="number" name="discount"  onchange="discFunction(this)" class="form-control" id="discount" placeholder="Discount">
@@ -466,7 +377,6 @@
                               <input type="number" name="fbill" id="finalBill" placeholder="Final Bill" class="form-control" readonly/>
                           </div>
                       </div>
-
                   </div>
                 <!-- /.col -->
               </div>
@@ -474,281 +384,12 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer" style="text-align: right;">
-              <button type="submit" name="surgery-submit" class="btn btn-block btn-primary">Submit</button>
+              <button type="submit" name="indoor-submit" class="btn btn-block btn-primary">Submit</button>
             </div>
             </div>
           <!-- /.card -->
           </form>
 
-          <!-- ****************************** -->
-          <!-- *******Gen Illness Form******* -->
-          <!-- ****************************** -->
-          <?php }else if ($type == "genillness") { 
-          
-          $patSql="SELECT * FROM `patient` WHERE `PATIENT_MR_ID` = '$patdata[SLIP_MR_ID]'";
-          $qsql = mysqli_query($db,$patSql);
-          $patrow = mysqli_fetch_array($qsql);  
-          ?>
-            <form action="" method="post" enctype="multipart/form-data">
-            <!-- /.card-header -->
-            <div class="card-body">
-              <div class="row">
-                  <div class="col-md-6">
-                      <input type="text" name="admdate" id="slipDate" value="<?php echo $patdata['SLIP_DATE_TIME'] ; ?>" hidden readonly>
-                      <input type="text" name="doctor" value="<?php echo $patdata['DOCTOR_NAME'] ; ?>" hidden readonly>
-                      <input type="text" name="procedure" value="<?php echo $patdata['SLIP_PROCEDURE'] ; ?>" hidden readonly>
-                      <input type="text" name="type" value="<?php echo $patdata['SLIP_TYPE'] ; ?>" hidden readonly>
-                      <input type="text" name="disdate" id="disdate" hidden/>
-                      <input type="text" name="address" id="address" value="<?php echo $patrow['PATIENT_ADDRESS']; ?>" hidden readonly/>
-                      <input type="text" name="age" id="age" value="<?php echo $patrow['PATIENT_AGE']; ?>" hidden readonly/>
-                      <input type="text" name="gender" id="gender" value="<?php echo $patrow['PATIENT_GENDER']; ?>" hidden readonly/>
-                      <script>
-                          let disDate = new Date();
-                          document.getElementById('disdate').value = disDate;
-                      </script>
-      
-                      <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
-
-                      <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                          <div class="form-group col-md-3">
-                              <label>Patient MR_ID</label>
-                              <input type="text" class="form-control" name="mrid" value="<?php echo $patdata['SLIP_MR_ID'] ; ?>" readonly/>
-                          </div>
-                          <div class="form-group col-md-5">
-                              <label>Patient Name</label>
-                              <input type="text" name="name" class="form-control" value="<?php echo $patdata['SLIP_NAME'] ; ?>" readonly>
-                          </div>
-                          <div class="form-group col-md-4">
-                            <label>Patient Mobile</label>
-                            <input type="text" class="form-control" name="phone" value="<?php echo $patdata['SLIP_MOBILE'] ; ?>" readonly/>
-                          </div>
-                      </div>
-                      
-                      <div class="form-group col-md-12">
-                          <label>Private Room Charges (Per day)</label>
-                          <div style="display:flex;">
-                              <select class="form-control select2bs4"  style="width:50%;" name="prChargeOne" id="prChargeOne" onchange="getPrTotal()" style="width: 100%;">
-                                  <option selected="selected" disabled>Select Private Room Charges</option>
-                                  <?php
-                                  $room = 'SELECT `ROOM_ID`, `ROOM_NAME`,`ROOM_RATE` FROM `room` WHERE `ROOM_STATUS` = "active"';
-                                  $result = mysqli_query($db, $room) or die (mysqli_error($db));
-                                      while ($row = mysqli_fetch_array($result)) {
-                                      $id = $row['ROOM_RATE'];  
-                                      $name = $row['ROOM_NAME'];
-                                      echo '<option value="'.$id.'">'.$name.'</option>'; 
-                                  }
-                                  ?>
-                              </select> 
-                              <input type="number" style="width:20%;" name="prChargeTwo" class="form-control" id="prChargeTwo" value="1" onchange="getPrTotal()" placeholder="No. of Days"/>
-                              <input type="number" style="width:30%;" name="prChargeThree" class="form-control" id="prChargeThree"  placeholder="Total Charges" readonly/>
-                            </div>
-                      </div>
-                      <script>
-                          function getPrTotal(){
-                            var prChargeOne = document.getElementById("prChargeOne").value;
-                            var prChargeTwo = document.getElementById("prChargeTwo").value;
-                            document.getElementById("prChargeThree").value = prChargeOne*prChargeTwo;
-                          }
-                      </script>
-                      
-                      <div class="form-group" style="display:flex;margin:0;">
-                        <div class="form-group col-md-6">
-                          <label>Medical Officer Charges(Per day)</label>
-                            <div style="display:flex;">
-                              <input type="number" style="width:40%;" name="moChargeOne" class="form-control" id="moChargeOne" value="0" onchange="getMoTotal()" placeholder="No. of Days"/>
-                              <input type="number" style="width:60%;" name="moChargeTwo" class="form-control" id="moChargeTwo"  placeholder="Total Charges" readonly/>
-                            </div>
-                        </div>
-                        <script>
-                          function getMoTotal(){
-                            var moChargeOne = document.getElementById("moChargeOne").value;
-                            document.getElementById("moChargeTwo").value = moChargeOne*1000;
-                          }
-                        </script>
-                        
-                        <div class="form-group col-md-6">
-                          <label>Monitoring Charges(Per day)</label>
-                          <div style="display:flex;">
-                              <input type="number" style="width:40%;" name="monChargeOne" class="form-control" id="monChargeOne" value="0" onchange="getMonTotal()" placeholder="No. of Days"/>
-                              <input type="number" style="width:60%;" name="monChargeTwo" class="form-control" id="monChargeTwo"  placeholder="Total Charges" readonly/>
-                            </div>
-                        </div>
-                        <script>
-                            function getMonTotal(){
-                              var monChargeOne = document.getElementById("monChargeOne").value;
-                              document.getElementById("monChargeTwo").value = monChargeOne*1000;
-                            }
-                        </script>
-                      </div>
-                  </div>
-                  <!-- /.col -->
-                  <div class="col-md-6">
-                    <div class="form-group" style="display:flex;margin:0;">
-                        <div class="form-group col-md-6">
-                          <label>Oxygen Charges (Per day)</label>
-                          <div style="display:flex;">
-                              <input type="number" style="width:40%;" name="oxChargeOne" class="form-control" id="oxChargeOne" value="0" onchange="getOxTotal()" placeholder="No. of Days"/>
-                              <input type="number" style="width:60%;" name="oxChargeTwo" class="form-control" id="oxChargeTwo"  placeholder="Total Charges" readonly/>
-                            </div>
-                        </div>
-                        <script>
-                            function getOxTotal(){
-                              var oxChargeOne = document.getElementById("oxChargeOne").value;
-                              document.getElementById("oxChargeTwo").value = oxChargeOne*7000;
-                            }
-                        </script>
-                        <div class="form-group col-md-6">
-                          <label>Nursing Charges (Per day)</label>
-                            <div style="display:flex;">
-                              <input type="number" style="width:40%;" name="nurChargeOne" class="form-control" id="nurChargeOne" value="0" onchange="getNurTotal()" placeholder="No. of Days"/>
-                              <input type="number" style="width:60%;" name="nurChargeTwo" class="form-control" id="nurChargeTwo" placeholder="Total Charges" readonly/>
-                            </div>
-                        </div>
-                        <script>
-                          function getNurTotal(){
-                            var nurChargeOne = document.getElementById("nurChargeOne").value;
-                            document.getElementById("nurChargeTwo").value = nurChargeOne*1000;
-                          }
-                        </script>
-                      </div>
-                      <div class="form-group" style="display:flex;margin:0;">
-                        <div class="col-md-12">
-                          <label>Consultant Charges (Per Visit)</label>
-                          <div class="input-group mb-3">
-                              <input type="number" style="width:40%;" name="conChargeOne" class="form-control" id="conChargeOne" onchange="getConCharge(this);" value="" placeholder="Per-Visit Charges"/>
-                              <input type="number" style="width:20%;" name="conChargeTwo" class="form-control" id="conChargeTwo" onchange="getConDay(this);" value="1" placeholder="No. of Days"/>
-                              <input type="number" style="width:40%;" name="conChargeThree" class="form-control" id="conChargeThree"  placeholder="Total Charges" value="" readonly/>
-                          </div>
-                        </div>
-                        <script>
-                            function getConDay(day){
-                              document.getElementById("conChargeThree").value = document.getElementById("conChargeOne").value * day.value;
-                            }
-
-                            function getConCharge(charge) {
-                              var conChargeTwo = document.getElementById('conChargeTwo');
-                              var conChargeThree = document.getElementById('conChargeThree');
-                              conChargeThree.value = charge.value * conChargeTwo.value;
-                              console.log("this is the final result:" ,conChargeThree.value);
-                            }
-                        </script>
-                      </div>
-                      <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                          <div class="form-group col-md-6">
-                            <label>Total Bill</label>
-                              <div class="input-group mb-3">
-                                <input type="number" name="tbill" id="totalBill" placeholder="Total Bill" class="form-control" readonly/>
-                                <span class="input-group-append">
-                                  <button type="button" onclick="genIllnessTotal();" class="btn btn-block btn-primary">calculate</button>
-                                </span>
-                              </div>
-                          </div>
-                          <div class="form-group col-md-3">
-                              <label>Discount</label>
-                              <input type="number" name="discount"  onchange="discFunction(this)" class="form-control" id="discount" placeholder="Discount">
-                          </div>
-                          <div class="form-group col-md-3">
-                              <label>Final Bill</label>
-                              <input type="number" name="fbill" id="finalBill" placeholder="Final Bill" class="form-control" readonly/>
-                          </div>
-                      </div>
-
-                  </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-            </div>
-            <!-- /.card-body -->
-            <div class="card-footer" style="text-align: right;">
-              <button type="submit" name="illness-submit" class="btn btn-block btn-primary">Submit</button>
-            </div>
-            </div>
-          <!-- /.card -->
-          </form>
-
-          <!-- ****************************** -->
-          <!-- *******Eye Patient Form******* -->
-          <!-- ****************************** -->          
-          <?php }else if ($type == "eye") { 
-            
-            $patSql="SELECT * FROM `patient` WHERE `PATIENT_MR_ID` = '$patdata[SLIP_MR_ID]'";
-            $qsql = mysqli_query($db,$patSql);
-            $patrow = mysqli_fetch_array($qsql);  
-          ?>
-            <form action="" method="post" enctype="multipart/form-data">
-            <!-- /.card-header -->
-            <div class="card-body">
-              <div class="row">
-                  <div class="col-md-6">
-                      <input type="text" name="admdate" id="slipDate" value="<?php echo $patdata['SLIP_DATE_TIME'] ; ?>" hidden readonly/>
-                      <!-- <input type="text" name="doctor" value="<?php //echo $patdata['DOCTOR_NAME'] ; ?>" hidden readonly/> -->
-                      <input type="text" name="procedure" value="<?php echo $patdata['SLIP_PROCEDURE'] ; ?>" hidden readonly/>
-                      <input type="text" name="type" value="<?php echo $patdata['SLIP_TYPE'] ; ?>" hidden readonly/>
-                      <input type="text" name="disdate" id="disdate" hidden/>
-                      <input type="text" name="address" id="address" value="<?php echo $patrow['PATIENT_ADDRESS']; ?>" hidden readonly/>
-                      <script>
-                          let disDate = new Date();
-                          document.getElementById('disdate').value = disDate;
-                      </script>
-      
-                      <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
-
-                      <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                          <div class="form-group col-md-6">
-                              <label>Patient MR_ID</label>
-                              <input type="text" class="form-control" name="mrid" value="<?php echo $patdata['SLIP_MR_ID'] ; ?>" readonly/>
-                          </div>
-                          <div class="form-group col-md-6">
-                              <label>Patient Name</label>
-                              <input type="text" name="name" class="form-control" value="<?php echo $patdata['SLIP_NAME'] ; ?>" readonly>
-                          </div>
-                      </div>
-
-                      <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                         
-                         <div class="form-group col-md-4">
-                           <label>Procedure Fee</label>
-                           <div style="display:flex;">
-                             <input type="number" name="tbill" class="form-control" onchange="getFee(this)" id="totalBill" placeholder="Enter Fee">
-                           </div>
-                         </div>
-                         <div class="form-group col-md-4">
-                             <label>Discount</label>
-                             <input type="number" class="form-control" onchange="discFunction(this)" value="0" name="discount" id="discount" placeholder="Discount"/>
-                         </div>
-                         <div class="form-group col-md-4">
-                             <label>Total Fee</label>
-                             <input type="number" class="form-control" name="fbill" id="finalBill" placeholder="Amount" readonly/>
-                         </div>
-                     </div>
-                      
-                  </div>
-                  
-                  <!-- /.col -->
-                  <div class="col-md-6">
-                      <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                          <div class="form-group col-md-6">
-                              <label>Patient Mobile</label>
-                              <input type="text" class="form-control" name="phone" value="<?php echo $patdata['SLIP_MOBILE'] ; ?>" readonly/>
-                          </div>
-                          <div class="form-group col-md-6">
-                              <label>Consultant Name</label>
-                              <input type="text" name="doctor" id="doctor" value="<?php echo $patdata['DOCTOR_NAME']; ?>" class="form-control" readonly/>
-                          </div>
-                      </div>
-                  </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-            </div>
-            <!-- /.card-body -->
-            <div class="card-footer" style="text-align: right;">
-              <button type="submit" name="eye-submit" class="btn btn-block btn-primary">Submit</button>
-            </div>
-            </div>
-          <!-- /.card -->
-          </form>
-          <?php } ?>
       </div>
       <!-- /.container-fluid -->
     </section>
@@ -756,6 +397,9 @@
   </div>
   <!-- Function to calculate total amount and discount of the bill -->
   <script>
+    let disDate = new Date();
+    document.getElementById('disdate').value = disDate;
+           
     function genSurgeryTotal() {
       var adCharge = document.getElementById("adCharge").value;
       var surCharge = document.getElementById("surCharge").value;
@@ -802,8 +446,43 @@
       finalBill.value = fee.value - discount.value;
       console.log("this is the final result:" ,finalBill.value);
     }
-</script>
 
+    function getMonTotal(){
+      var monChargeOne = document.getElementById("monChargeOne").value;
+      document.getElementById("monChargeTwo").value = monChargeOne*1000;
+    }
+
+    function getPrTotal(){
+      var prChargeOne = document.getElementById("prChargeOne").value;
+      var prChargeTwo = document.getElementById("prChargeTwo").value;
+      document.getElementById("prChargeThree").value = prChargeOne*prChargeTwo;
+    }
+
+    function getNurTotal(){
+      var nurChargeOne = document.getElementById("nurChargeOne").value;
+      document.getElementById("nurChargeTwo").value = nurChargeOne*1000;
+    }
+
+    function getOxTotal(){
+      var oxChargeOne = document.getElementById("oxChargeOne").value;
+      document.getElementById("oxChargeTwo").value = oxChargeOne*7000;
+    }
+
+    function getConDay(day){
+      document.getElementById("conChargeThree").value = document.getElementById("conChargeOne").value * day.value;
+    }
+
+    function getConCharge(charge) {
+      var conChargeTwo = document.getElementById('conChargeTwo');
+      var conChargeThree = document.getElementById('conChargeThree');
+      conChargeThree.value = charge.value * conChargeTwo.value;
+      console.log("this is the final result:" ,conChargeThree.value);
+    }
+    function getMoTotal(){
+      var moChargeOne = document.getElementById("moChargeOne").value;
+      document.getElementById("moChargeTwo").value = moChargeOne*1000;
+    }
+</script>
 <?php
   }  
  //  Footer File
