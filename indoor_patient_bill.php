@@ -365,7 +365,7 @@
                           <?php }else { ?>
                             <div class="form-group col-md-6">
                               <label>Total Bill</label>
-                                  <input type="number" name="tbill" id="totalBill" placeholder="Total Bill" class="form-control"/>
+                                  <input type="number" name="tbill" id="totalBill" onchange="feeFunction(this)" placeholder="Total Bill" class="form-control"/>
                             </div>
                           <?php } ?>
                           <div class="form-group col-md-3">
@@ -431,6 +431,13 @@
       var totalBill = +prChargeThree + +moChargeTwo + +monChargeTwo+ +oxChargeTwo + +nurChargeTwo + +conChargeThree;
       document.getElementById("totalBill").value = totalBill;
       console.log("this is the total result:" ,totalBill);
+    }
+
+    function feeFunction(fee) {
+      var finalBill = document.getElementById('finalBill');
+      var discount = document.getElementById('discount');
+      finalBill.value = fee.value - discount.value;
+      console.log("this is the final result:" ,finalBill.value);
     }
 
     function discFunction(discount) {

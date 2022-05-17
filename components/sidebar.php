@@ -220,6 +220,11 @@
                         </a>
                     </li>
                   </small>
+                  
+                  <?php } ?>
+                  <?php if ($_SESSION['type'] == "admin") {  ?>
+                  
+                    <?php if (isset($_SESSION['userid'])) { ?>
                   <small>
                     <li class="nav-item">
                         <a href="add_user.php?id=<?php echo $_SESSION['userid']; ?>" class="nav-link">
@@ -228,7 +233,6 @@
                         </a>
                     </li>
                   </small>
-                  <?php } ?>
                   <small>
                     <li class="nav-item">
                         <a href="change_password.php" class="nav-link">
@@ -237,7 +241,7 @@
                         </a>
                     </li>
                   </small>
-                  <?php if ($_SESSION['type'] == "admin") {  ?>
+                  <?php } ?>  
                   <small>
                     <li class="nav-item">
                         <a href="room.php" class="nav-link">

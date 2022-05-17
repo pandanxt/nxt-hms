@@ -94,9 +94,13 @@
                     <h4><b>Date :</b> <?php echo $disDate; ?></h4><br>
                     <h4><b>Staff :</b> <?php echo $bill_row['ADMIN_USERNAME']; ?></h4><br>
                     <h4><b>Consultant :</b> <?php echo $doctor; ?></h4><br>
-                    <h4><b>Consultant Fee - Discount :</b> <?php echo $bill_row['TOTAL_AMOUNT']; ?> - <?php echo $bill_row['DISCOUNT']; ?></h4><br>
-                    <h4><b>Total Fee :</b> PKR - <?php echo $bill_row['TOTAL']; ?></h4><br>
-                    <?php }else { ?>
+                    <?php if (!$bill_row['DISCOUNT']) { ?>
+                        <h4><b>Consultant Fee: </b> PKR - <?php echo $bill_row['TOTAL']; ?></h4><br>  
+                    <?php }else{?>
+                        <h4><b>Consultant Fee - Discount :</b> <?php echo $bill_row['TOTAL_AMOUNT']; ?> - <?php echo $bill_row['DISCOUNT']; ?></h4><br>
+                        <h4><b>Total Fee :</b> PKR - <?php echo $bill_row['TOTAL']; ?></h4><br>   
+                      <?php } 
+                     }else { ?>
                       <p><b>Admit Dates :</b> <?php echo $admDate; ?> - <?php echo $disDate; ?></p>
                       <p><b>Consultant :</b> <?php echo $doctor; ?></p>
                       <p><b>Staff :</b> <?php echo $bill_row['ADMIN_USERNAME'];; ?></p>
@@ -272,6 +276,16 @@
       
                     <div class="table-responsive">
                       <table class="table">
+                      <?php if (!$bill_row['DISCOUNT']) { ?>
+                        <tr>
+                          <th style="width:50%">Subtotal:</th>
+                          <td>PKR - <?php echo $bill_row['TOTAL_AMOUNT']; ?></td>
+                        </tr>
+                        <tr>
+                          <th>Total:</th>
+                          <td>PKR - <?php echo $bill_row['TOTAL']; ?></td>
+                        </tr> 
+                    <?php }else{ ?>
                         <tr>
                           <th style="width:50%">Subtotal:</th>
                           <td>PKR - <?php echo $bill_row['TOTAL_AMOUNT']; ?></td>
@@ -284,6 +298,7 @@
                           <th>Total:</th>
                           <td>PKR - <?php echo $bill_row['TOTAL']; ?></td>
                         </tr>
+                        <?php } ?>
                       </table>
                     </div>
                   </div>
@@ -409,9 +424,13 @@
                       <h4><b>Date :</b> <?php echo $newDisdate; ?></h4><br>
                       <h4><b>Staff :</b> <?php echo $admin_row['ADMIN_USERNAME'];; ?></h4><br>
                       <h4><b>Consultant :</b> <?php echo $doctor; ?></h4><br>
+                      <?php if (!$dis) { ?>
+                        <h4><b>Consultant Fee: </b>PKR - <?php echo $fbill; ?></h4><br>  
+                    <?php }else{?>
                       <h4><b>Consultant Fee - Discount :</b> <?php echo $tbill; ?> - <?php echo $dis; ?></h4><br>
                       <h4><b>Total Fee :</b> PKR - <?php echo $fbill; ?></h4><br>
-                    <?php }else { ?>
+                    <?php }
+                    }else { ?>
                       <p><b>Admit Dates :</b> <?php echo $newAdmdate; ?> - <?php echo $newDisdate; ?></p>
                       <p><b>Staff :</b> <?php echo $admin_row['ADMIN_USERNAME'];; ?></p>
                       <p><b>Consultant :</b> <?php echo $doctor; ?></p>
@@ -608,18 +627,29 @@
                       <p class="lead">Amount Due <?php echo $newDisdate; ?></p>
                       <div class="table-responsive">
                         <table class="table">
+                        <?php if (!$dis) { ?>
                           <tr>
                             <th style="width:50%">Subtotal:</th>
                             <td>PKR - <?php echo $tbill; ?></td>
                           </tr>
                           <tr>
-                            <th>Discount:</th>
-                            <td>PKR - <?php echo $dis; ?></td>
-                          </tr>
-                          <tr>
                             <th>Total:</th>
                             <td>PKR - <?php echo $fbill; ?></td>
                           </tr>
+                          <?php }else{?> 
+                            <tr>
+                              <th style="width:50%">Subtotal:</th>
+                              <td>PKR - <?php echo $tbill; ?></td>
+                            </tr>
+                            <tr>
+                              <th>Discount:</th>
+                              <td>PKR - <?php echo $dis; ?></td>
+                            </tr>
+                            <tr>
+                              <th>Total:</th>
+                              <td>PKR - <?php echo $fbill; ?></td>
+                            </tr>
+                          <?php } ?>
                         </table>
                       </div>
                     </div>
