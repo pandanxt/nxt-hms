@@ -102,7 +102,7 @@
           `CREATED_BY`
          ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
          
-          mysqli_stmt_execute($stmt);
+          // mysqli_stmt_execute($stmt);
             
           if (!mysqli_stmt_prepare($stmt,$sql)) {
               echo '<script type="text/javascript">window.location = "indoor_patient_bill.php?action=sqlerror";</script>';
@@ -326,7 +326,7 @@
                           <label>Private Room Charges</label>
                           <div style="display:flex;">
                               <select class="form-control select2bs4"  style="width:50%;" name="prChargeOne" id="prChargeOne" onchange="getPrTotal()" style="width: 100%;">
-                                  <option selected="selected" disabled>Select Private Room Charges</option>
+                                  <option value="0" selected="selected" disabled>Select Private Room Charges</option>
                                   <?php
                                   $room = 'SELECT `ROOM_ID`, `ROOM_NAME`,`ROOM_RATE` FROM `room` WHERE `ROOM_STATUS` = "active"';
                                   $result = mysqli_query($db, $room) or die (mysqli_error($db));

@@ -56,7 +56,7 @@
         (
           `MR_ID`,`SLIP_ID`, `PATIENT_NAME`, `MOBILE`, `DATE_TIME`, `ES_MO_CHARGE`, `INJECTION_IM`, `INJECTION_IV`, `IV_LINE`, `IV_INFUSION`, `PS_IN_300`, `PS_OUT_100`, `BSF_BSR`, `SHORT_STAY`, `BP`, `ECG`, `OTHER`, `OTHER_TEXT`, `TOTAL_AMOUNT`, `DISCOUNT`, `TOTAL`, `CREATED_BY`
         ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        mysqli_stmt_execute($stmt);
+        // mysqli_stmt_execute($stmt);
         
         if (!mysqli_stmt_prepare($stmt,$sql)) {
           echo '<script type="text/javascript">window.location = "emergency_bill.php?action=sqlerror";</script>';
@@ -155,7 +155,7 @@
                         <label>I/V Line (In / Out)</label>
                         <!-- <input type="number" name="ivline" class="form-control" id="ivLine" placeholder="Total Value"/> -->
                         <select class="form-control select2bs4" name="ivline" id="ivLine" style="width: 100%;">
-                          <option selected="selected" disabled>Select I/V Line (In / Out)</option>
+                          <option value="0" selected="selected" disabled>Select I/V Line (In / Out)</option>
                           <option value="200">In - 200</option>
                           <option value="100">Out - 100</option>
                         </select>
@@ -198,7 +198,7 @@
                         <label>I/V infusion</label>
                         <!-- <input type="number" name="admitDay" onchange="myDayFunction(this)" id="day" placeholder="Admit Day" class="form-control"/> -->
                         <select class="form-control select2bs4" name="ivinfusion" id="ivInfusion" style="width: 100%;">
-                          <option selected="selected" disabled>Select I/V Infusion (100ml / 200ml / 1000ml)</option>
+                          <option value="0" selected="selected" disabled>Select I/V Infusion (100ml / 200ml / 1000ml)</option>
                           <option value="200">100ml - 200</option>
                           <option value="500">200ml - 500</option>
                           <option value="1000">1000ml - 1000</option>

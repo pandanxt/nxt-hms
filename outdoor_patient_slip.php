@@ -41,8 +41,8 @@
         mysqli_stmt_store_result($stmt);
         $resultCheck = mysqli_stmt_num_rows($stmt);
             
-        // if ($resultCheck > 0) {
-        if(!$resultCheck == 0){
+        if ($resultCheck > 0) {
+        // if(!$resultCheck == 0){
           $slipQuery = "INSERT INTO `outdoor_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DEPT_ID`, `DOCTOR_ID`, `SLIP_FEE`, `SLIP_DATE_TIME`, `STAFF_ID`) VALUES (?,?,?,?,?,?,?,?)";
            mysqli_stmt_execute($stmt);
               
@@ -89,7 +89,7 @@
              
               if (mysqli_stmt_execute($stmt)){
                 $slipQuery = "INSERT INTO `outdoor_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DEPT_ID`, `DOCTOR_ID`, `SLIP_FEE`, `SLIP_DATE_TIME`, `STAFF_ID`) VALUES (?,?,?,?,?,?,?,?)";
-                mysqli_stmt_execute($stmt);
+                // mysqli_stmt_execute($stmt);
               
                 if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
                   echo "<script>alert('Sqlerror due to DB Query...Four');</script>";
@@ -163,7 +163,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label>Patient Age</label>
-                        <input type="number" name="age" class="form-control" id="inputAge1" placeholder="Enter Age" required>
+                        <input type="number" step="0.1" name="age" class="form-control" id="inputAge1" placeholder="Enter Age" required>
                     </div>
                 </div>
                   <div class="col-md-12" style="display:flex;margin:0;padding:0;">
