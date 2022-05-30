@@ -102,7 +102,7 @@
           `CREATED_BY`
          ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
          
-          mysqli_stmt_execute($stmt);
+          // mysqli_stmt_execute($stmt);
             
           if (!mysqli_stmt_prepare($stmt,$sql)) {
               echo '<script type="text/javascript">window.location = "indoor_patient_bill.php?action=sqlerror";</script>';

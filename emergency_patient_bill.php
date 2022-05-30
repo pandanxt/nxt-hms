@@ -56,7 +56,7 @@
         (
           `MR_ID`,`SLIP_ID`, `PATIENT_NAME`, `MOBILE`, `DATE_TIME`, `ES_MO_CHARGE`, `INJECTION_IM`, `INJECTION_IV`, `IV_LINE`, `IV_INFUSION`, `PS_IN_300`, `PS_OUT_100`, `BSF_BSR`, `SHORT_STAY`, `BP`, `ECG`, `OTHER`, `OTHER_TEXT`, `TOTAL_AMOUNT`, `DISCOUNT`, `TOTAL`, `CREATED_BY`
         ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        mysqli_stmt_execute($stmt);
+        // mysqli_stmt_execute($stmt);
         
         if (!mysqli_stmt_prepare($stmt,$sql)) {
           echo '<script type="text/javascript">window.location = "emergency_bill.php?action=sqlerror";</script>';

@@ -40,8 +40,8 @@
         mysqli_stmt_store_result($stmt);
         $resultCheck = mysqli_stmt_num_rows($stmt);
             
-        // if ($resultCheck > 0) {
-        if(!$resultCheck == 0) {
+        if ($resultCheck > 0) {
+        // if(!$resultCheck == 0) {
           $slipQuery = "INSERT INTO `emergency_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DOCTOR_ID`, `SLIP_DATE_TIME`, `STAFF_ID`, `BILL_STATUS`) VALUES (?,?,?,?,?,?,?)";
           mysqli_stmt_execute($stmt);
               
@@ -85,7 +85,7 @@
              
               if (mysqli_stmt_execute($stmt)){
                 $slipQuery = "INSERT INTO `emergency_slip`(`SLIP_MR_ID`,`SLIP_NAME`,`SLIP_MOBILE`, `DOCTOR_ID`, `SLIP_DATE_TIME`, `STAFF_ID`,`BILL_STATUS`) VALUES (?,?,?,?,?,?,?)";
-                mysqli_stmt_execute($stmt);
+                // mysqli_stmt_execute($stmt);
               
                 if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
                   echo "<script>alert('Sqlerror due to DB Query...');</script>";
