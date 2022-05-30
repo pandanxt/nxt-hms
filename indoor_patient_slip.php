@@ -180,7 +180,7 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label>Age</label>
-                        <input type="number" name="age" class="form-control" id="inputAge1" placeholder="Enter Age" required>
+                        <input type="number" step="0.1" name="age" class="form-control" id="inputAge1" placeholder="Enter Age" required>
                     </div>
                 </div>
 
