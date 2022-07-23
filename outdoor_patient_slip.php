@@ -58,9 +58,17 @@
                 mysqli_stmt_bind_param($stmt,"ssssssss", $prs['PATIENT_MR_ID'],$name,$prs['PATIENT_MOBILE'],$dept,$doctor,$fee,$saveOn,$by);
                 if (mysqli_stmt_execute($stmt)) {
                     echo "<script>alert('Patient slip is created but patient data already exists...');</script>";
-                  
+                    // SELECT * FROM outdoor_slip ORDER BY SLIP_ID DESC LIMIT 1;
+                    
+                    $printQuery = "SELECT `SLIP_ID` FROM `outdoor_slip` ORDER BY `SLIP_ID` DESC LIMIT 1";
+                    $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
+                    $pResult = mysqli_fetch_array($printsql);
+
+                    if ($pResult > 0) {
+                      echo '<script type="text/javascript">window.location = "outdoor_slip_print.php?sid='.$pResult['SLIP_ID'].'&did='.$pResult['DEPT_ID'].'";</script>';
+                    }
                     // echo "<script>alert('Data fetched from DB...pname='".$prs['PATIENT_NAME']."'&on='".$saveOn."'&mrid='".$prs['PATIENT_MR_ID']."'&phone='".$prs['PATIENT_MOBILE']."'&gender='".$prs['PATIENT_GENDER']."'&doc='".$doctor."'&age='".$prs['PATIENT_AGE']."'&add='".$prs['PATIENT_ADDRESS']."'&by='".$by."');</script>";
-                    echo '<script type="text/javascript">window.location = "outdoor_slip_print.php?pname='.$prs['PATIENT_NAME'].'&on='.$saveOn.'&dept='.$dept.'&mrid='.$prs['PATIENT_MR_ID'].'&phone='.$prs['PATIENT_MOBILE'].'&gender='.$prs['PATIENT_GENDER'].'&doc='.$doctor.'&age='.$prs['PATIENT_AGE'].'&add='.$prs['PATIENT_ADDRESS'].'&fee='.$fee.'&by='.$by.'";</script>';
+                    // echo '<script type="text/javascript">window.location = "outdoor_slip_print.php?pname='.$prs['PATIENT_NAME'].'&on='.$saveOn.'&dept='.$dept.'&mrid='.$prs['PATIENT_MR_ID'].'&phone='.$prs['PATIENT_MOBILE'].'&gender='.$prs['PATIENT_GENDER'].'&doc='.$doctor.'&age='.$prs['PATIENT_AGE'].'&add='.$prs['PATIENT_ADDRESS'].'&fee='.$fee.'&by='.$by.'";</script>';
                 }
               } 
             }   
@@ -98,7 +106,16 @@
                   mysqli_stmt_bind_param($stmt,"ssssssss", $mrid,$name,$phone,$dept,$doctor,$fee,$saveOn,$by);
                   if (mysqli_stmt_execute($stmt)) {
                     echo "<script>alert('Patient slip is created and patient data is also stored...');</script>";
-                    echo '<script type="text/javascript">window.location = "outdoor_slip_print.php?dept='.$dept.'&pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&gender='.$gender.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&fee='.$fee.'&by='.$by.'";</script>';
+
+                     
+                    $printQuery = "SELECT `SLIP_ID`, `DEPT_ID` FROM `outdoor_slip` ORDER BY `SLIP_ID` DESC LIMIT 1";
+                    $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
+                    $pResult = mysqli_fetch_array($printsql);
+
+                    if ($pResult > 0) {
+                      echo '<script type="text/javascript">window.location = "outdoor_slip_print.php?sid='.$pResult['SLIP_ID'].'&did='.$pResult['DEPT_ID'].'";</script>';
+                    }
+                    // echo '<script type="text/javascript">window.location = "outdoor_slip_print.php?dept='.$dept.'&pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&gender='.$gender.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&fee='.$fee.'&by='.$by.'";</script>';
                   } 
                   exit();
                 }   
@@ -115,11 +132,9 @@
   if (empty($_GET['id'])) {
 ?>
   
-    <!-- **
-    *
-    *  Add Indoor Patient Form Start Here
-    *
-    ** --> 
+<!-- **
+*  Add Indoor Patient Form Start Here
+** --> 
     <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header"></section>
@@ -183,7 +198,7 @@
                       </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label>Consultant Name</label>
+                        <label>Consultant Name</label>&nbsp;<span id="addDoc" style="display:none;"><a href="javascript:void(0);" data-toggle="modal" data-target="#visitor-doctor"><i class="fas fa-plus"></i> VISITOR DOCTOR</a></span>
                         <select class="form-control select2bs4" name="doctor" style="width: 100%;" id="doctor" required>
                         <option disabled selected value="">----- Select Consultant Name -----</option>
                             <?php
@@ -197,21 +212,6 @@
                             ?>
                         </select>
                     </div>
-                    <script>
-                      function showDoctor(str) {
-                        if (str=="") {
-                          return;
-                        }
-                        var xmlhttp=new XMLHttpRequest();
-                        xmlhttp.onreadystatechange=function() {
-                          if (this.readyState==4 && this.status==200) {
-                            document.getElementById("doctor").innerHTML=this.responseText;
-                          }
-                        }
-                        xmlhttp.open("GET","getDoctor.php?q="+str,true);
-                        xmlhttp.send();
-                      }
-                    </script>
                 </div>
                 
               </div>
@@ -255,25 +255,112 @@
   </div>
 
 <!-- **
-*
-*  Emergency Patient Form Ends Here 
-*
+*  Outdoor Patient Form Ends Here 
 ** -->
+<!-- **
+*  Outdoor Visitor Doctor Model Popup Here 
+** -->
+<div class="modal fade" id="visitor-doctor">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i> Visitor Doctor</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <span id="err-msg" style="display: none"></span>
+            <form action="javascript:void(0)" method="post" id="visitorDoctor">
+            <div class="modal-body">
+                  <div class="form-group">
+                    <label>Doctor Name</label>
+                    <input type="text" class="form-control" name="docName" id="docName" placeholder="Enter Doctor Name ..." required>
+                  </div>
+                  <input type="text" name="userId" id="userId" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
+              </div>
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" name="submit" class="btn btn-primary">Proceed</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+<script type="text/javascript">
+  var did = null;
+    function showDoctor(str) {
+      did = str;
+      if (str=="") {
+        return;
+      }
+      if (str==0) {
+        document.getElementById("addDoc").style.display = "inline-flex";
+      }
+      var xmlhttp=new XMLHttpRequest();
+      xmlhttp.onreadystatechange=function() {
+        if (this.readyState==4 && this.status==200) {
+          document.getElementById("doctor").innerHTML=this.responseText;
+        }
+      }
+      xmlhttp.open("GET","getDoctor.php?q="+str,true);
+      xmlhttp.send();
+    }
 
+    $(document).ready(function($){
+        // on submit...
+        $('#visitorDoctor').submit(function(e){
+            e.preventDefault();
+            $("#err-msg").hide();
+            //name required
+            var dname = $("input#docName").val();
+            if(dname == ""){
+                $("#err-msg").fadeIn().text("Doctor Name required.");
+                $("input#docName").focus();
+                return false;
+            }
+            // ajax
+            $.ajax({
+                type:"POST",
+                url: "backend_components/ajax_handler.php",
+                data: $(this).serialize(), // get all form field value in serialize form
+                success: function(){   
+                let el = document.querySelector("#close-button");
+                el.click();
+                showDoctor(did);
+                  $(function() {
+                      var Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+                      Toast.fire({
+                        icon: 'success',
+                        title: 'New Visitor Doctor Successfully Saved.'
+                      })
+                  });
+                }
+            });
+        });  
+        return false;
+      });
+</script>
+<!-- **
+*  Outdoor Visitor Doctor Model Popup Ends Here 
+** -->
 <?php  
 }else{
   // Update Emergency Patient
   include('backend_components/update_patient.php');
 }
-
 // Footer File
 include('components/footer.php');
-
 echo '</div>';
-
 // Form Script Files
 include('components/form_script.php');
-
 }else{
 echo '<script type="text/javascript">window.location = "login.php";</script>';
 }

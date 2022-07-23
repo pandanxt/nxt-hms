@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 23, 2022 at 02:47 PM
+-- Generation Time: Jul 23, 2022 at 10:06 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -66,6 +66,7 @@ CREATE TABLE `department` (
 --
 
 INSERT INTO `department` (`DEPARTMENT_ID`, `DEPARTMENT_NAME`, `DEPARTMENT_STATUS`, `STAFF_ID`, `DEPARTMENT_DATE_TIME`) VALUES
+(0, 'Visiting Doctor', 'active', 1, 'Sat Jul 23 2022 04:43:26 GMT-0700 (Pacific Daylight Time)'),
 (1, 'Gyneacologist', 'active', 1, 'Fri Mar 18 2022 21:20:03 GMT+0500 (Pakistan Standard Time)'),
 (2, 'Ophthamology', 'active', 1, 'Fri Mar 18 2022 21:28:13 GMT+0500 (Pakistan Standard Time)'),
 (3, 'Pediatric', 'active', 1, 'Fri Mar 18 2022 21:28:23 GMT+0500 (Pakistan Standard Time)'),
@@ -86,8 +87,7 @@ INSERT INTO `department` (`DEPARTMENT_ID`, `DEPARTMENT_NAME`, `DEPARTMENT_STATUS
 (18, 'Cupping Therapist', 'active', 1, 'Fri Mar 18 2022 21:30:14 GMT+0500 (Pakistan Standard Time)'),
 (19, 'Speech Therapy', 'active', 1, 'Sat Jul 23 2022 00:00:13 GMT-0700 (Pacific Daylight Time)'),
 (20, 'Neurologist', 'active', 1, 'Sat Jul 23 2022 00:03:32 GMT-0700 (Pacific Daylight Time)'),
-(21, 'Medical Officer', 'active', 1, 'Sat Jul 23 2022 00:04:13 GMT-0700 (Pacific Daylight Time)'),
-(22, 'Visiting Doctor', 'active', 1, 'Sat Jul 23 2022 04:43:26 GMT-0700 (Pacific Daylight Time)');
+(21, 'Medical Officer', 'active', 1, 'Sat Jul 23 2022 00:04:13 GMT-0700 (Pacific Daylight Time)');
 
 -- --------------------------------------------------------
 
@@ -313,20 +313,11 @@ CREATE TABLE `outdoor_slip` (
 --
 
 INSERT INTO `outdoor_slip` (`SLIP_ID`, `SLIP_MR_ID`, `SLIP_NAME`, `SLIP_MOBILE`, `DEPT_ID`, `DOCTOR_ID`, `SLIP_FEE`, `SLIP_DATE_TIME`, `STAFF_ID`) VALUES
-(1, '5433918-ME', 'Test Patient', '03235156279', 3, 5, 5000, 'Sat Jul 16 2022 02:57:13 GMT-0700 (Pacific Daylight Time)', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `outsider_doctor`
---
-
-CREATE TABLE `outsider_doctor` (
-  `OUTSIDER_ID` int(10) NOT NULL,
-  `OUTSIDER_NAME` varchar(50) NOT NULL,
-  `STAFF_ID` int(10) NOT NULL,
-  `OUTSIDER_DATE_TIME` varchar(500) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+(1, '5433918-ME', 'Test Patient', '03235156279', 3, 5, 5000, 'Sat Jul 16 2022 02:57:13 GMT-0700 (Pacific Daylight Time)', 1),
+(2, '5218769-ME', 'Syed Mubeen Hussain Shah', '03234169956', 0, 1, 5000, 'Sat Jul 23 2022 12:05:11 GMT-0700 (Pacific Daylight Time)', 1),
+(3, '5129489-ME', 'Syed Test Mubeen', '03218020280', 0, 2, 2500, 'Sat Jul 23 2022 12:38:49 GMT-0700 (Pacific Daylight Time)', 1),
+(4, '5323887-ME', 'TEst Patient', '01234567899', 0, 2, 6000, 'Sat Jul 23 2022 12:42:03 GMT-0700 (Pacific Daylight Time)', 1),
+(5, '5867278-ME', 'Testing Testing', '07418529630', 0, 2, 5000, 'Sat Jul 23 2022 12:51:07 GMT-0700 (Pacific Daylight Time)', 1);
 
 -- --------------------------------------------------------
 
@@ -354,7 +345,10 @@ INSERT INTO `patient` (`PATIENT_ID`, `PATIENT_MR_ID`, `PATIENT_NAME`, `PATIENT_M
 (1, '4997234-ME', 'Zahid Shah', '03214253974', 'male', '27', 'Lahore, Pakistan', 'Tue Jul 12 2022 07:09:57 GMT-0700 (Pacific Daylight Time)', 1),
 (2, '5218769-ME', 'Hussain Shah', '03234169956', 'male', '29', 'Lahore, Pakistan', 'Tue Jul 12 2022 07:13:38 GMT-0700 (Pacific Daylight Time)', 1),
 (3, '5433918-ME', 'Test Patient', '03235156279', 'male', '42', 'Lahore, Pakistan', 'Sat Jul 16 2022 02:57:13 GMT-0700 (Pacific Daylight Time)', 1),
-(4, '9206979-ME', 'test', '03128776604', 'male', '34', 'test', 'Sat Jul 23 2022 05:26:46 GMT-0700 (Pacific Daylight Time)', 1);
+(4, '9206979-ME', 'test', '03128776604', 'male', '34', 'test', 'Sat Jul 23 2022 05:26:46 GMT-0700 (Pacific Daylight Time)', 1),
+(5, '5129489-ME', 'Syed Test Mubeen', '03218020280', 'male', '30', 'Lahore , Pakistan', 'Sat Jul 23 2022 12:38:49 GMT-0700 (Pacific Daylight Time)', 1),
+(6, '5323887-ME', 'TEst Patient', '01234567899', 'male', '30', 'Lahore, Pakistan', 'Sat Jul 23 2022 12:42:03 GMT-0700 (Pacific Daylight Time)', 1),
+(7, '5867278-ME', 'Testing Testing', '07418529630', 'male', '64', 'Lahore, Pakistan', 'Sat Jul 23 2022 12:51:07 GMT-0700 (Pacific Daylight Time)', 1);
 
 -- --------------------------------------------------------
 
@@ -379,6 +373,27 @@ INSERT INTO `room` (`ROOM_ID`, `ROOM_NAME`, `ROOM_RATE`, `ROOM_STATUS`, `STAFF_I
 (1, 'Semi Pvt Ward Charges', 5000, 'active', 1, 'Fri Mar 18 2022 22:59:10 GMT+0500 (Pakistan Standard Time)'),
 (2, 'Pvt Room Charges', 8000, 'active', 1, 'Fri Mar 18 2022 23:00:22 GMT+0500 (Pakistan Standard Time)'),
 (3, 'VIP Room Charges', 10000, 'active', 1, 'Fri Mar 18 2022 23:01:02 GMT+0500 (Pakistan Standard Time)');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `visitor_doctor`
+--
+
+CREATE TABLE `visitor_doctor` (
+  `VISITOR_ID` int(10) NOT NULL,
+  `VISITOR_NAME` varchar(50) NOT NULL,
+  `STAFF_ID` int(10) NOT NULL,
+  `VISITOR_DATE_TIME` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `visitor_doctor`
+--
+
+INSERT INTO `visitor_doctor` (`VISITOR_ID`, `VISITOR_NAME`, `STAFF_ID`, `VISITOR_DATE_TIME`) VALUES
+(1, 'Mubeen Hussain', 1, '2022-07-23 19:05:59'),
+(2, 'Ali Khan', 1, '2022-07-23 19:39:15');
 
 --
 -- Indexes for dumped tables
@@ -439,12 +454,6 @@ ALTER TABLE `outdoor_slip`
   ADD PRIMARY KEY (`SLIP_ID`);
 
 --
--- Indexes for table `outsider_doctor`
---
-ALTER TABLE `outsider_doctor`
-  ADD PRIMARY KEY (`OUTSIDER_ID`);
-
---
 -- Indexes for table `patient`
 --
 ALTER TABLE `patient`
@@ -456,6 +465,12 @@ ALTER TABLE `patient`
 --
 ALTER TABLE `room`
   ADD PRIMARY KEY (`ROOM_ID`);
+
+--
+-- Indexes for table `visitor_doctor`
+--
+ALTER TABLE `visitor_doctor`
+  ADD PRIMARY KEY (`VISITOR_ID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -513,25 +528,25 @@ ALTER TABLE `indoor_type`
 -- AUTO_INCREMENT for table `outdoor_slip`
 --
 ALTER TABLE `outdoor_slip`
-  MODIFY `SLIP_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `outsider_doctor`
---
-ALTER TABLE `outsider_doctor`
-  MODIFY `OUTSIDER_ID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `SLIP_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `PATIENT_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `PATIENT_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `room`
 --
 ALTER TABLE `room`
   MODIFY `ROOM_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `visitor_doctor`
+--
+ALTER TABLE `visitor_doctor`
+  MODIFY `VISITOR_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

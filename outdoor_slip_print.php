@@ -2,18 +2,27 @@
   // Session Start
   session_start();
   $sid = (isset($_GET['sid']) ? $_GET['sid'] : '');
+  $did = (isset($_GET['did']) ? $_GET['did'] : '');
   if (isset($_SESSION['userid'])) {
 
     if ($sid) {
       # code...
       include('backend_components/connection.php');
-
-        // Query to get Slip Details 
-        $slipSql ="SELECT `a`.*,`b`.`DEPARTMENT_NAME`,`c`.`DOCTOR_NAME`, `d`.`ADMIN_USERNAME`	FROM `outdoor_slip` AS `a`
-        INNER JOIN `department` AS `b` ON `a`.`DEPT_ID` = `b`.`DEPARTMENT_ID`
-        INNER JOIN `doctor` AS `c` ON `c`.`DOCTOR_ID` = `a`.`DOCTOR_ID`
-        INNER JOIN `admin` AS `d` ON `d`.`ADMIN_ID` = `a`.`STAFF_ID`
-        WHERE `SLIP_ID` = ".$sid;
+        if ($did == 0) {
+              // Query to get Slip Details With Visitor Doctors 
+            $slipSql ="SELECT `a`.*,`b`.`DEPARTMENT_NAME`,`c`.`VISITOR_NAME`, `d`.`ADMIN_USERNAME`	FROM `outdoor_slip` AS `a`
+            INNER JOIN `department` AS `b` ON `a`.`DEPT_ID` = `b`.`DEPARTMENT_ID`
+            INNER JOIN `visitor_doctor` AS `c` ON `c`.`VISITOR_ID` = `a`.`DOCTOR_ID`
+            INNER JOIN `admin` AS `d` ON `d`.`ADMIN_ID` = `a`.`STAFF_ID`
+            WHERE `SLIP_ID` = ".$sid;
+        } else {
+            // Query to get Slip Details With Regular Doctors 
+            $slipSql ="SELECT `a`.*,`b`.`DEPARTMENT_NAME`,`c`.`DOCTOR_NAME`, `d`.`ADMIN_USERNAME`	FROM `outdoor_slip` AS `a`
+            INNER JOIN `department` AS `b` ON `a`.`DEPT_ID` = `b`.`DEPARTMENT_ID`
+            INNER JOIN `doctor` AS `c` ON `c`.`DOCTOR_ID` = `a`.`DOCTOR_ID`
+            INNER JOIN `admin` AS `d` ON `d`.`ADMIN_ID` = `a`.`STAFF_ID`
+            WHERE `SLIP_ID` = ".$sid;
+        }
 
         $dptsql = mysqli_query($db,$slipSql);
         $dept_row = mysqli_fetch_array($dptsql);
@@ -79,7 +88,7 @@
               <hr style="margin-top:5px;"/>
                 <h4><b>Date/Time :</b> <?php echo $date; ?></h4><br>
                 <h4><b>Department :</b> <?php echo $dept_row['DEPARTMENT_NAME']; ?></h4><br>
-                <h4><b>Consultant :</b> <?php echo $dept_row['DOCTOR_NAME']; ?></h4><br>
+                <h4><b>Consultant :</b> <?php if ($did == 0) echo $dept_row['VISITOR_NAME']; else echo $dept_row['DOCTOR_NAME']; ?></h4><br>
                 <h4><b>Consultant Fee :</b> <?php echo $dept_row['SLIP_FEE']; ?></h4><br>
                 <h4><b>Staff :</b> <?php echo $dept_row['ADMIN_USERNAME']; ?></h4><br>
                 <!-- <h4><b>Time :</b> <?php //echo $saveOn; ?></h4><br> -->

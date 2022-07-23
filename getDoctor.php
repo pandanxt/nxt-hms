@@ -8,17 +8,14 @@
   include('components/form_header.php');
  
 ?>
-    <!-- <label>Consultant/Surgeon</label>
-
-    <select class="form-control select2bs4" name="doctor" style="width: 100%;"> -->
     <option disabled selected value="">----- Select Consultant Name -----</option>
-<?php
-    if ($q == "Visiting Doctor") {
-        $outsider = 'SELECT `OUTSIDER_ID`, `OUTSIDER_NAME` FROM `outsider_doctor` WHERE `DEPARTMENT_ID` = '.$q;
-        $result = mysqli_query($db, $outsider) or die (mysqli_error($db));
+    <?php
+    if ($q == 0) {
+        $visitor = 'SELECT `VISITOR_ID`, `VISITOR_NAME` FROM `visitor_doctor`';
+        $result = mysqli_query($db, $visitor) or die (mysqli_error($db));
         while ($row = mysqli_fetch_array($result)) {
-            $id = $row['OUTSIDER_ID'];  
-            $name = $row['OUTSIDER_NAME'];
+            $id = $row['VISITOR_ID'];  
+            $name = $row['VISITOR_NAME'];
             echo '<option value="'.$id.'">'.$name.'</option>'; 
         }
     }else {
@@ -30,7 +27,7 @@
             echo '<option value="'.$id.'">'.$name.'</option>'; 
         }   
     }
-?>
+    ?>
     </select>
 <?php  
     mysqli_close($db);
