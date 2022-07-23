@@ -9,19 +9,20 @@
 
      if (isset($_POST['doctor-submit'])) {
       $name =  $_POST['name'];
+      $mobile =  $_POST['mobile'];
       $status =  $_POST['status'];
       $department =  $_POST['department'];
       $by = $_POST['by'];
       $date =  $_POST['addDate'];
 
-          $sql = "SELECT * FROM `doctor` WHERE `DOCTOR_NAME` = ?";
+          $sql = "SELECT * FROM `doctor` WHERE `DOCTOR_NAME` = ? OR `DOCTOR_MOBILE` = ?";
           $stmt = mysqli_stmt_init($db);
           
           if (!mysqli_stmt_prepare($stmt,$sql)) {
               echo '<script type="text/javascript">window.location = "add_doctor.php?action=sqlerror";</script>';
               exit();
           }else{
-              mysqli_stmt_bind_param($stmt,"s",$name);
+              mysqli_stmt_bind_param($stmt,"ss",$name,$mobile);
               mysqli_stmt_execute($stmt);
               mysqli_stmt_store_result($stmt);
               $resultCheck = mysqli_stmt_num_rows($stmt);
@@ -30,17 +31,18 @@
                       echo '<script type="text/javascript">window.location = "add_doctor.php?action=nameTaken";</script>';
                       exit();
                   }else{
-                          $sql = "INSERT INTO `doctor`(`DOCTOR_NAME`, `DEPARTMENT_ID`, `DOCTOR_STATUS`, `STAFF_ID`, `DOCTOR_DATE_TIME`) VALUES (?,?,?,?,?)";
+                          $sql = "INSERT INTO `doctor`(`DOCTOR_NAME`, `DOCTOR_MOBILE`, `DEPARTMENT_ID`, `DOCTOR_STATUS`, `STAFF_ID`, `DOCTOR_DATE_TIME`) VALUES (?,?,?,?,?,?)";
                           mysqli_stmt_execute($stmt);
                       
                           if (!mysqli_stmt_prepare($stmt,$sql)) {
                               echo '<script type="text/javascript">window.location = "add_doctor.php?action=sqlerror";</script>';
                               exit();
                           }else{
-                              mysqli_stmt_bind_param($stmt,"sssss",$name,$department,$status,$by,$date);
+                              mysqli_stmt_bind_param($stmt,"ssssss",$name,$mobile,$department,$status,$by,$date);
                               mysqli_stmt_execute($stmt);
                           
-                              echo '<script type="text/javascript">window.location = "add_doctor.php?action=saved";</script>';								
+                              // echo '<script type="text/javascript">window.location = "add_doctor.php?action=saved";</script>';	
+                              echo "<script>alert('Doctor record saved successfully...');window.location = 'doctors.php';</script>";							
                               exit();
                           }			
                       }
@@ -105,6 +107,10 @@
               </div>
               <!-- /.col -->
               <div class="col-md-6">
+                <div class="form-group">
+                  <label>Mobile No.</label>
+                  <input type="tel" class="form-control" name="mobile" id="inputLoginId1" placeholder="Please Enter Phone number without '-'" pattern="[0-9]{4}[0-9]{7}" title="Please Enter Phone number with '-'" required>
+                </div>
                  <!-- /.form-group -->
                  <div class="form-group">
                   <label>Department</label>

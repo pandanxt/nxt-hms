@@ -43,7 +43,18 @@
                   <label>Department Name</label>
                   <input type="text" name="name" class="form-control" id="inputText1" value="<?php echo $rsedit['DEPARTMENT_NAME']; ?>" required>
                 </div>
-                <!-- /.form-group -->
+              </div>
+              <!-- /.col -->
+              <div class="col-md-6">
+              <input type="text" name="did" value="<?php echo $rsedit['DEPARTMENT_ID']; ?>" hidden/>
+              <!-- <input type="text" name="addDate" id="addDate" hidden/>
+              <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script> -->
+               <!-- /.form-group -->
+               <!-- <div class="form-group">
+                  <label>Department Description</label>
+                  <textarea type="text" class="form-control" name="description" id="inputLoginId1" required><?php //echo $rsedit['DEPARTMENT_DESC']; ?></textarea>
+                </div> -->
+                 <!-- /.form-group -->
                  <div class="form-group">
                   <label>User Status</label>
                   <select class="form-control select2bs4" name="status" style="width: 100%;">
@@ -52,17 +63,6 @@
                   </select>
                 </div>
                 <!-- /.form-group -->
-              </div>
-              <!-- /.col -->
-              <div class="col-md-6">
-              <input type="text" name="did" value="<?php echo $rsedit['DEPARTMENT_ID']; ?>" hidden/>
-              <!-- <input type="text" name="addDate" id="addDate" hidden/>
-              <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script> -->
-               <!-- /.form-group -->
-               <div class="form-group">
-                  <label>Department Description</label>
-                  <textarea type="text" class="form-control" name="description" id="inputLoginId1" required><?php echo $rsedit['DEPARTMENT_DESC']; ?></textarea>
-                </div>
                 <!-- /.form-group -->
               </div>
               <!-- /.col -->

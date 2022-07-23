@@ -182,10 +182,10 @@
                           ?>
                       </select>
                     </div>
-                    <div class="form-group col-md-6" id="doctor">
+                    <div class="form-group col-md-6">
                         <label>Consultant Name</label>
-                        <select class="form-control select2bs4" name="doctor" style="width: 100%;">
-                        <option disabled selected>Select Consultant Name</option>
+                        <select class="form-control select2bs4" name="doctor" style="width: 100%;" id="doctor" required>
+                        <option disabled selected value="">----- Select Consultant Name -----</option>
                             <?php
                             $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "active"';
                             $result = mysqli_query($db, $doctor) or die (mysqli_error($db));

@@ -188,7 +188,7 @@
                 <div class="form-group col-md-6">
                   <label>Department</label>
                   <select class="form-control select2bs4" id="dept" name="dept" style="width: 100%;" onchange="showDoctor(this.value)">
-                  <option disabled selected>Select Department</option>
+                  <option disabled selected  value="">----- Select Department Name -----</option>
                       <?php
                       $dept = 'SELECT `DEPARTMENT_ID`, `DEPARTMENT_NAME` FROM `department` WHERE `DEPARTMENT_STATUS` = "active"';
                       $result = mysqli_query($db, $dept) or die (mysqli_error($db));
@@ -200,10 +200,10 @@
                       ?>
                   </select>
                 </div>
-                <div class="form-group col-md-6" id="doctor">
+                <div class="form-group col-md-6">
                         <label>Consultant/Surgeon</label>
-                        <select class="form-control select2bs4" name="doctor" style="width: 100%;">
-                        <option disabled selected>Select Consultant Name</option>
+                        <select class="form-control select2bs4" name="doctor" style="width: 100%;" id="doctor">
+                        <option disabled selected value="">----- Select Consultant Name -----</option>
                             <?php
                             $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "active"';
                             $result = mysqli_query($db, $doctor) or die (mysqli_error($db));

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2022 at 10:35 PM
+-- Generation Time: May 16, 2022 at 11:35 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.23
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `med_east`
+-- Database: `medeast`
 --
 
 -- --------------------------------------------------------
@@ -45,44 +45,7 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`ADMIN_ID`, `ADMIN_NAME`, `ADMIN_TYPE`, `ADMIN_EMAIL`, `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_STATUS`, `CREATED_BY`, `ADMIN_SAVE_TIME`) VALUES
 (1, 'Syed Mubeen Hussain Shah', 'admin', 'shahmobeen333@gmail.com', 'mubeen.hussain', '$2y$10$gs1BcrN9mTXi6kZyGLpSM.gdrFF8Vff6ebwHAvaB6JVZWivnzBXAu', 'active', 0, 'Sat Feb 12 2022 02:26:44 GMT+0500 (Pakistan Standard Time)'),
-(2, 'Administrator', 'admin', 'admin@gmail.com', 'admin', '$2y$10$9m90sOlP/JVSgQFA8RZUguGen6rJTPkoaWtdU5ad6cs0/ZitZGtbu', 'active', 1, 'Tue Feb 15 2022 18:18:28 GMT+0500 (Pakistan Standard Time)');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `bill_record`
---
-
-CREATE TABLE `bill_record` (
-  `BILL_ID` int(10) NOT NULL,
-  `MR_ID` varchar(20) NOT NULL,
-  `MOBILE` varchar(50) NOT NULL,
-  `CNIC` varchar(50) DEFAULT NULL,
-  `ADMISSION_DATE` varchar(100) NOT NULL,
-  `DISCHARGE_DATE` varchar(100) DEFAULT NULL,
-  `ADMIT_DAYS` int(10) DEFAULT NULL,
-  `BILL_DATE` varchar(100) DEFAULT NULL,
-  `SERVICES` mediumtext DEFAULT NULL,
-  `BILL_AMOUNT` int(15) DEFAULT NULL,
-  `DISCOUNT` int(15) DEFAULT NULL,
-  `TOTAL` int(15) DEFAULT NULL,
-  `CREATED_BY` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `bill_service`
---
-
-CREATE TABLE `bill_service` (
-  `BILL_SERVICE_ID` int(10) NOT NULL,
-  `BILL_SERVICE_NAME` varchar(50) NOT NULL,
-  `BILL_SERVICE_AMOUNT` int(10) NOT NULL,
-  `SERVICE_STATUS` varchar(10) NOT NULL,
-  `CREATED_BY` int(10) NOT NULL,
-  `SERVICE_SAVE_TIME` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+(2, 'Staff User', 'user', 'staff.user@gmail.com', 'staff', '$2y$10$zRmX6LCWkc0UgoQNuCEe/.VjZwaUqvVhNLq7SBBuPYCUFzXq6uy4S', 'active', 1, 'Sat Apr 30 2022 13:46:30 GMT+0500 (Pakistan Standard Time)');
 
 -- --------------------------------------------------------
 
@@ -173,21 +136,6 @@ INSERT INTO `doctor` (`DOCTOR_ID`, `DOCTOR_NAME`, `DEPARTMENT_ID`, `DOCTOR_STATU
 -- --------------------------------------------------------
 
 --
--- Table structure for table `education`
---
-
-CREATE TABLE `education` (
-  `EDUCATION_ID` int(10) NOT NULL,
-  `EDUCATION_NAME` varchar(100) NOT NULL,
-  `EDUCATION_ALAIS` varchar(50) NOT NULL,
-  `EDUCATION_STATUS` varchar(50) NOT NULL,
-  `CREATED_BY` int(10) NOT NULL,
-  `EDUCATION_DATE_TIME` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `emergency_bill`
 --
 
@@ -210,32 +158,11 @@ CREATE TABLE `emergency_bill` (
   `BP` int(10) DEFAULT NULL,
   `ECG` int(10) DEFAULT NULL,
   `OTHER` int(10) DEFAULT NULL,
+  `OTHER_TEXT` varchar(250) DEFAULT NULL,
   `TOTAL_AMOUNT` int(15) DEFAULT NULL,
   `DISCOUNT` int(15) DEFAULT NULL,
   `TOTAL` int(15) DEFAULT NULL,
   `CREATED_BY` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `emergency_bill`
---
-
-INSERT INTO `emergency_bill` (`BILL_ID`, `MR_ID`, `SLIP_ID`, `PATIENT_NAME`, `MOBILE`, `DATE_TIME`, `ES_MO_CHARGE`, `INJECTION_IM`, `INJECTION_IV`, `IV_LINE`, `IV_INFUSION`, `PS_IN_300`, `PS_OUT_100`, `BSF_BSR`, `SHORT_STAY`, `BP`, `ECG`, `OTHER`, `TOTAL_AMOUNT`, `DISCOUNT`, `TOTAL`, `CREATED_BY`) VALUES
-(1, '6723935-ME', 1, 'Syed Mubeen Hussain Shah', '03128776604', 'Tue Apr 26 2022 01:25:02 GMT+0500 (Pakistan Standard Time)', 500, 500, 500, 200, 500, 1500, 500, 500, 500, 500, 500, 500, 6700, 700, 6000, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `emergency_service`
---
-
-CREATE TABLE `emergency_service` (
-  `SERVICE_ID` int(10) NOT NULL,
-  `SERVICE_NAME` varchar(100) NOT NULL,
-  `SERVICE_AMOUNT` int(20) DEFAULT NULL,
-  `SERVICE_STATUS` varchar(20) NOT NULL,
-  `STAFF_ID` int(10) NOT NULL,
-  `SERVICE_DATE_TIME` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -253,41 +180,6 @@ CREATE TABLE `emergency_slip` (
   `SLIP_DATE_TIME` varchar(100) NOT NULL,
   `STAFF_ID` int(10) NOT NULL,
   `BILL_STATUS` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `emergency_slip`
---
-
-INSERT INTO `emergency_slip` (`SLIP_ID`, `SLIP_MR_ID`, `SLIP_NAME`, `SLIP_MOBILE`, `DOCTOR_ID`, `SLIP_DATE_TIME`, `STAFF_ID`, `BILL_STATUS`) VALUES
-(1, '6723935-ME', 'Syed Mubeen Hussain Shah', '03128776604', 3, 'Tue Apr 26 2022 00:58:43 GMT+0500 (Pakistan Standard Time)', 1, 'created');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `eye_service`
---
-
-CREATE TABLE `eye_service` (
-  `SERVICE_ID` int(11) NOT NULL,
-  `SERVICE_NAME` varchar(100) NOT NULL,
-  `SERVICE_STATUS` varchar(20) NOT NULL,
-  `STAFF_ID` int(10) NOT NULL,
-  `SERVICE_DATE_TIME` varchar(500) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `illness_service`
---
-
-CREATE TABLE `illness_service` (
-  `SERVICE_ID` int(11) NOT NULL,
-  `SERVICE_NAME` varchar(100) NOT NULL,
-  `SERVICE_STATUS` varchar(20) NOT NULL,
-  `STAFF_ID` int(10) NOT NULL,
-  `SERVICE_DATE_TIME` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -318,7 +210,11 @@ CREATE TABLE `indoor_bill` (
   `CONSULTANT_CHARGE` int(10) DEFAULT NULL,
   `CTG_CHARGE` int(20) DEFAULT NULL,
   `RECOVERY_ROOM_CHARGE` int(20) DEFAULT NULL,
+  `MONITOR_CHARGE` int(20) DEFAULT NULL,
+  `NURSING_CHARGE` int(20) DEFAULT NULL,
+  `OXYGEN_CHARGE` int(20) DEFAULT NULL,
   `OTHER` int(10) DEFAULT NULL,
+  `OTHER_TEXT` varchar(250) DEFAULT NULL,
   `TOTAL_AMOUNT` int(15) DEFAULT NULL,
   `DISCOUNT` int(15) DEFAULT NULL,
   `TOTAL` int(15) DEFAULT NULL,
@@ -336,6 +232,7 @@ CREATE TABLE `indoor_slip` (
   `SLIP_MR_ID` varchar(20) NOT NULL,
   `SLIP_NAME` varchar(100) NOT NULL,
   `SLIP_MOBILE` varchar(15) NOT NULL,
+  `DEPT_ID` int(10) NOT NULL,
   `DOCTOR_ID` int(10) NOT NULL,
   `SLIP_PROCEDURE` varchar(200) NOT NULL,
   `SLIP_TYPE` varchar(20) NOT NULL,
@@ -405,28 +302,6 @@ CREATE TABLE `patient` (
   `CREATED_BY` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `patient`
---
-
-INSERT INTO `patient` (`PATIENT_ID`, `PATIENT_MR_ID`, `PATIENT_NAME`, `PATIENT_MOBILE`, `PATIENT_GENDER`, `PATIENT_AGE`, `PATIENT_ADDRESS`, `CREATED_ON`, `CREATED_BY`) VALUES
-(1, '6723935-ME', 'Syed Mubeen Hussain Shah', '03128776604', 'male', '25', 'Lahore, Pakistan', 'Tue Apr 26 2022 00:58:43 GMT+0500 (Pakistan Standard Time)', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `patient_type`
---
-
-CREATE TABLE `patient_type` (
-  `PATIENT_TYPE_ID` int(10) NOT NULL,
-  `PATIENT_TYPE_NAME` varchar(100) NOT NULL,
-  `PATIENT_TYPE_ALAIS` varchar(15) NOT NULL,
-  `TYPE_SAVE_TIME` varchar(100) NOT NULL,
-  `PATIENT_TYPE_STATUS` varchar(10) NOT NULL,
-  `CREATED_BY` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 -- --------------------------------------------------------
 
 --
@@ -451,20 +326,6 @@ INSERT INTO `room` (`ROOM_ID`, `ROOM_NAME`, `ROOM_RATE`, `ROOM_STATUS`, `STAFF_I
 (2, 'Pvt Room Charges', 8000, 'active', 1, 'Fri Mar 18 2022 23:00:22 GMT+0500 (Pakistan Standard Time)'),
 (3, 'VIP Room Charges', 10000, 'active', 1, 'Fri Mar 18 2022 23:01:02 GMT+0500 (Pakistan Standard Time)');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `surgery_service`
---
-
-CREATE TABLE `surgery_service` (
-  `SERVICE_ID` int(11) NOT NULL,
-  `SERVICE_NAME` varchar(100) NOT NULL,
-  `SERVICE_STATUS` varchar(20) NOT NULL,
-  `STAFF_ID` int(10) NOT NULL,
-  `SERVICE_DATE_TIME` varchar(500) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 --
 -- Indexes for dumped tables
 --
@@ -474,18 +335,6 @@ CREATE TABLE `surgery_service` (
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`ADMIN_ID`);
-
---
--- Indexes for table `bill_record`
---
-ALTER TABLE `bill_record`
-  ADD PRIMARY KEY (`BILL_ID`);
-
---
--- Indexes for table `bill_service`
---
-ALTER TABLE `bill_service`
-  ADD PRIMARY KEY (`BILL_SERVICE_ID`);
 
 --
 -- Indexes for table `department`
@@ -500,40 +349,16 @@ ALTER TABLE `doctor`
   ADD PRIMARY KEY (`DOCTOR_ID`);
 
 --
--- Indexes for table `education`
---
-ALTER TABLE `education`
-  ADD PRIMARY KEY (`EDUCATION_ID`);
-
---
 -- Indexes for table `emergency_bill`
 --
 ALTER TABLE `emergency_bill`
   ADD PRIMARY KEY (`BILL_ID`);
 
 --
--- Indexes for table `emergency_service`
---
-ALTER TABLE `emergency_service`
-  ADD PRIMARY KEY (`SERVICE_ID`);
-
---
 -- Indexes for table `emergency_slip`
 --
 ALTER TABLE `emergency_slip`
   ADD PRIMARY KEY (`SLIP_ID`);
-
---
--- Indexes for table `eye_service`
---
-ALTER TABLE `eye_service`
-  ADD PRIMARY KEY (`SERVICE_ID`);
-
---
--- Indexes for table `illness_service`
---
-ALTER TABLE `illness_service`
-  ADD PRIMARY KEY (`SERVICE_ID`);
 
 --
 -- Indexes for table `indoor_bill`
@@ -567,22 +392,10 @@ ALTER TABLE `patient`
   ADD UNIQUE KEY `PATIENT_MOBILE` (`PATIENT_MOBILE`);
 
 --
--- Indexes for table `patient_type`
---
-ALTER TABLE `patient_type`
-  ADD PRIMARY KEY (`PATIENT_TYPE_ID`);
-
---
 -- Indexes for table `room`
 --
 ALTER TABLE `room`
   ADD PRIMARY KEY (`ROOM_ID`);
-
---
--- Indexes for table `surgery_service`
---
-ALTER TABLE `surgery_service`
-  ADD PRIMARY KEY (`SERVICE_ID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -592,19 +405,7 @@ ALTER TABLE `surgery_service`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `ADMIN_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `bill_record`
---
-ALTER TABLE `bill_record`
-  MODIFY `BILL_ID` int(10) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `bill_service`
---
-ALTER TABLE `bill_service`
-  MODIFY `BILL_SERVICE_ID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `ADMIN_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `department`
@@ -619,40 +420,16 @@ ALTER TABLE `doctor`
   MODIFY `DOCTOR_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
--- AUTO_INCREMENT for table `education`
---
-ALTER TABLE `education`
-  MODIFY `EDUCATION_ID` int(10) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `emergency_bill`
 --
 ALTER TABLE `emergency_bill`
-  MODIFY `BILL_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `emergency_service`
---
-ALTER TABLE `emergency_service`
-  MODIFY `SERVICE_ID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `BILL_ID` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `emergency_slip`
 --
 ALTER TABLE `emergency_slip`
-  MODIFY `SLIP_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `eye_service`
---
-ALTER TABLE `eye_service`
-  MODIFY `SERVICE_ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `illness_service`
---
-ALTER TABLE `illness_service`
-  MODIFY `SERVICE_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `SLIP_ID` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `indoor_bill`
@@ -682,25 +459,13 @@ ALTER TABLE `outdoor_slip`
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `PATIENT_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `patient_type`
---
-ALTER TABLE `patient_type`
-  MODIFY `PATIENT_TYPE_ID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `PATIENT_ID` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `room`
 --
 ALTER TABLE `room`
   MODIFY `ROOM_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `surgery_service`
---
-ALTER TABLE `surgery_service`
-  MODIFY `SERVICE_ID` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
