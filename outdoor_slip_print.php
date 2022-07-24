@@ -6,17 +6,17 @@
     if ($sid) {
       include('backend_components/connection.php');
         
-            $slipSql ="SELECT `a`.*,`b`.`DEPARTMENT_NAME`,`c`.`ADMIN_USERNAME` FROM `outdoor_slip` AS `a`
-            INNER JOIN `department` AS `b` ON `a`.`DEPT_ID` = `b`.`DEPARTMENT_ID`
-            INNER JOIN `admin` AS `c` ON `c`.`ADMIN_ID` = `a`.`STAFF_ID`
-            WHERE `SLIP_ID` = ".$sid;
+        $slipSql ="SELECT `a`.*,`b`.`DEPARTMENT_NAME`,`c`.`ADMIN_USERNAME` FROM `outdoor_slip` AS `a`
+        INNER JOIN `department` AS `b` ON `a`.`DEPT_ID` = `b`.`DEPARTMENT_ID`
+        INNER JOIN `admin` AS `c` ON `c`.`ADMIN_ID` = `a`.`STAFF_ID`
+        WHERE `SLIP_ID` = ".$sid;
 
         $dptsql = mysqli_query($db,$slipSql);
         $dept_row = mysqli_fetch_array($dptsql);
 
         $date = substr($dept_row['SLIP_DATE_TIME'],0, 24);
 
-        $patSql ="SELECT * FROM `patient` WHERE `PATIENT_MR_ID` = '$dept_row[SLIP_MR_ID]'";
+        $patSql ="SELECT * FROM `patient` WHERE `PATIENT_MR_ID` = '$dept_row[SLIP_MR_ID]' OR `PATIENT_MOBILE` = '$dept_row[SLIP_MOBILE]'";
         $patsql = mysqli_query($db,$patSql);
         $patient_row = mysqli_fetch_array($patsql);
       

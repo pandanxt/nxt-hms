@@ -19,7 +19,6 @@
     $saveOn = $_POST['addDate'];  
     $mrid = $_POST['mrid'];
     $phone = $_POST['phone'];
-    // $cnic = $_POST['cnic'];
     $gender = $_POST['gender'];
     $doctor = $_POST['doctor'];
     $age = $_POST['age'];
@@ -41,8 +40,7 @@
         $resultCheck = mysqli_stmt_num_rows($stmt);
             
         if ($resultCheck > 0) {
-        // if(!$resultCheck == 0) {
-          $slipQuery = "INSERT INTO `emergency_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DOCTOR_ID`, `SLIP_DATE_TIME`, `STAFF_ID`, `BILL_STATUS`) VALUES (?,?,?,?,?,?,?)";
+          $slipQuery = "INSERT INTO `emergency_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DOCTOR_NAME`, `SLIP_DATE_TIME`, `STAFF_ID`, `BILL_STATUS`) VALUES (?,?,?,?,?,?,?)";
           mysqli_stmt_execute($stmt);
               
             if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
@@ -56,11 +54,17 @@
                   mysqli_stmt_bind_param($stmt,"sssssss", $prs['PATIENT_MR_ID'],$name,$prs['PATIENT_MOBILE'],$doctor,$saveOn,$by,$status);
                   if (mysqli_stmt_execute($stmt)) {
                     echo "<script>alert('Patient slip is created but patient data already exists...');</script>";
-                    echo '<script type="text/javascript">window.location = "emergency_slip_print.php?pname='.$prs['PATIENT_NAME'].'&on='.$saveOn.'&mrid='.$prs['PATIENT_MR_ID'].'&phone='.$prs['PATIENT_MOBILE'].'&gender='.$prs['PATIENT_GENDER'].'&doc='.$doctor.'&age='.$prs['PATIENT_AGE'].'&add='.$prs['PATIENT_ADDRESS'].'&by='.$by.'";</script>';
+                  
+                    $printQuery = "SELECT `SLIP_ID` FROM `emergency_slip` ORDER BY `SLIP_ID` DESC LIMIT 1";
+                    $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
+                    $pResult = mysqli_fetch_array($printsql);
+
+                    if ($pResult > 0) {
+                      echo '<script type="text/javascript">window.location = "emergency_slip_print.php?sid='.$pResult['SLIP_ID'].'";</script>';
+                    }
                   }
               } 
             }   
-          // echo '<script type="text/javascript">window.location = "emergency.php?action=nameTaken";</script>';
           exit();
         }else if($resultCheck == 0){
 
@@ -84,7 +88,7 @@
               mysqli_stmt_bind_param($stmt,"ssssssss", $mrid,$name,$phone,$gender,$age,$address,$saveOn,$by);
              
               if (mysqli_stmt_execute($stmt)){
-                $slipQuery = "INSERT INTO `emergency_slip`(`SLIP_MR_ID`,`SLIP_NAME`,`SLIP_MOBILE`, `DOCTOR_ID`, `SLIP_DATE_TIME`, `STAFF_ID`,`BILL_STATUS`) VALUES (?,?,?,?,?,?,?)";
+                $slipQuery = "INSERT INTO `emergency_slip`(`SLIP_MR_ID`,`SLIP_NAME`,`SLIP_MOBILE`, `DOCTOR_NAME`, `SLIP_DATE_TIME`, `STAFF_ID`,`BILL_STATUS`) VALUES (?,?,?,?,?,?,?)";
                 // mysqli_stmt_execute($stmt);
               
                 if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
@@ -93,8 +97,14 @@
                 }else{
                   mysqli_stmt_bind_param($stmt,"sssssss", $mrid,$name,$phone,$doctor,$saveOn,$by,$status);
                   if (mysqli_stmt_execute($stmt)) {
-                    echo "<script>alert('Patient slip is created and patient data is also stored...');</script>";
-                    echo '<script type="text/javascript">window.location = "emergency_slip_print.php?pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&gender='.$gender.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&by='.$by.'";</script>';
+                     
+                    $printQuery = "SELECT `SLIP_ID` FROM `emergency_slip` ORDER BY `SLIP_ID` DESC LIMIT 1";
+                    $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
+                    $pResult = mysqli_fetch_array($printsql);
+
+                    if ($pResult > 0) {
+                      echo '<script type="text/javascript">window.location = "emergency_slip_print.php?sid='.$pResult['SLIP_ID'].'";</script>';
+                    }
                   } 
                 }   
               }
@@ -164,7 +174,7 @@
                         while ($row = mysqli_fetch_array($result)) {
                           $id = $row['DOCTOR_ID'];  
                           $name = $row['DOCTOR_NAME'];
-                          echo '<option value="'.$id.'">'.$name.'</option>'; 
+                          echo '<option value="'.$name.'">'.$name.'</option>'; 
                       }
                     ?>
                   </select>
@@ -289,7 +299,7 @@
                         while ($row = mysqli_fetch_array($result)) {
                           $id = $row['DOCTOR_ID'];  
                           $name = $row['DOCTOR_NAME'];
-                          echo '<option value="'.$id.'">'.$name.'</option>'; 
+                          echo '<option value="'.$name.'">'.$name.'</option>'; 
                       }
                     ?>
                   </select>

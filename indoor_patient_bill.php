@@ -119,7 +119,13 @@
               $updateSql ="UPDATE `indoor_slip` SET `BILL_STATUS`='$status' WHERE `indoor_slip`.`SLIP_ID`='$sid'";
               if($querySql = mysqli_query($db,$updateSql))
               {
-                  echo '<script type="text/javascript">window.location = "indoor_bill_print.php?pname='.$name.'&mrid='.$mrid.'&phone='.$phone.'&type='.$type.'&admdate='.$admdate.'&disdate='.$disdate.'&doc='.$doc.'&pro='.$pro.'&adcharge='.$adCharge.'&surcharge='.$surCharge.'&anescharge='.$anesCharge.'&opcharge='.$opCharge.'&chargelr='.$chargeLR.'&pedcharge='.$pedCharge.'&nurcharge='.$nurCharge.'&nurstcharge='.$nurStCharge.'&ctg='.$ctg.'&rrcharge='.$rrCharge.'&other='.$other.'&otherText='.$otherText.'&prChargeThree='.$prChargeThree.'&mochargeTwo='.$moChargeTwo.'&monChargeTwo='.$monChargeTwo.'&oxChargeTwo='.$oxChargeTwo.'&nurChargeTwo='.$nurChargeTwo.'&conChargeThree='.$conChargeThree.'&tbill='.$tbill.'&dis='.$discount.'&fbill='.$fbill.'&by='.$by.'";</script>';
+                  $printQuery = "SELECT `BILL_ID` FROM `indoor_bill` ORDER BY `BILL_ID` DESC LIMIT 1";
+                  $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
+                  $pResult = mysqli_fetch_array($printsql);
+      
+                  if ($pResult > 0) {
+                    echo '<script type="text/javascript">window.location = "indoor_bill_print.php?sid='.$pResult['BILL_ID'].'";</script>';
+                  }
               }else
               {
                 echo mysqli_error($db);
@@ -136,7 +142,7 @@
   
   //Check if MRID is empty or not 
   if (!empty($sid) && !empty($type)) {
-    $sql="SELECT *, `DOCTOR_NAME` FROM `indoor_slip` INNER JOIN `doctor` WHERE `SLIP_ID` = '$sid' AND `indoor_slip`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID`";
+    $sql="SELECT * FROM `indoor_slip` WHERE `SLIP_ID` = '$sid'";
     $qsql = mysqli_query($db,$sql);
     $patdata = mysqli_fetch_array($qsql);
 ?>

@@ -70,8 +70,13 @@
           $updateSql ="UPDATE `emergency_slip` SET `BILL_STATUS`='$status' WHERE `emergency_slip`.`SLIP_ID`='$sid'";
           if($querySql = mysqli_query($db,$updateSql))
           {
-            // echo "<script>alert('Doctor record updated successfully...');window.location = '../doctors.php';</script>";
-            echo '<script type="text/javascript">window.location = "emergency_bill_print.php?pname='.$name.'&on='.$addDate.'&mrid='.$mrid.'&phone='.$phone.'&by='.$by.'&mo='.$medicalofficer.'&injectionim='.$injectionim.'&injectioniv='.$injectioniv.'&ivline='.$ivline.'&sin='.$stitchInTotal.'&sout='.$stitchOutTotal.'&ivinfection='.$ivinfusion.'&bsf='.$bsf.'&sstay='.$shortstay.'&bp='.$bp.'&ecg='.$ecg.'&other='.$other.'&otherText='.$otherText.'&tbill='.$tbill.'&disc='.$discount.'&fbill='.$fbill.'";</script>';                                                   
+            $printQuery = "SELECT `BILL_ID` FROM `emergency_bill` ORDER BY `BILL_ID` DESC LIMIT 1";
+            $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
+            $pResult = mysqli_fetch_array($printsql);
+
+            if ($pResult > 0) {
+              echo '<script type="text/javascript">window.location = "emergency_bill_print.php?sid='.$pResult['BILL_ID'].'";</script>';
+            }
           }else
           {
             echo mysqli_error($db);
@@ -88,10 +93,7 @@
 
   // Check if MRID is empty or not
   if (!empty($sid)) {
-    // include('components/simple_bill_form.php');  
-//   } else{
-    $sql="SELECT *, `DOCTOR_NAME` FROM `emergency_slip` INNER JOIN `doctor` WHERE `SLIP_ID` = '$sid' AND `emergency_slip`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID`";
-    // $sql="SELECT *, `DOCTOR_NAME`  FROM `emergency_slip` INNER JOIN `doctor` WHERE `emergency_slip`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID` AND `emergency_slip`.`SLIP_ID` = '$id'";
+    $sql="SELECT * FROM `emergency_slip` WHERE `SLIP_ID` = '$sid'";
     $qsql = mysqli_query($db,$sql);
     $patdata = mysqli_fetch_array($qsql);
 

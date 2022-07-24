@@ -31,17 +31,14 @@
                     <th>Name</th>
                     <th>Mobile</th>
                     <th>Procedure/Surgery</th>
-                    <!-- <th>Patient Type</th> -->
                     <th>Consultant/Surgeon</th>
                     <th>Created</th>
-                    <!-- <th>Created On</th> -->
                     <th>Options</th>
                   </tr>
                   </thead>
                   <tbody>
                   <?php
-                      $sql ="SELECT *,`DOCTOR_NAME`,`ADMIN_USERNAME` FROM `indoor_slip` INNER JOIN `admin` INNER JOIN `doctor` WHERE `indoor_slip`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID` AND `indoor_slip`.`STAFF_ID` = `admin`.`ADMIN_ID`";
-                    //   $sql ="SELECT * FROM `emergency_slip`";
+                      $sql ="SELECT *,`ADMIN_USERNAME` FROM `indoor_slip` INNER JOIN `admin` WHERE `indoor_slip`.`STAFF_ID` = `admin`.`ADMIN_ID`";
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 

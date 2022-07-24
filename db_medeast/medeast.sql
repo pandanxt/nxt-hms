@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2022 at 01:34 PM
+-- Generation Time: Jul 24, 2022 at 05:34 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -185,18 +185,11 @@ CREATE TABLE `emergency_slip` (
   `SLIP_MR_ID` varchar(20) NOT NULL,
   `SLIP_NAME` varchar(50) NOT NULL,
   `SLIP_MOBILE` varchar(15) NOT NULL,
-  `DOCTOR_ID` int(10) NOT NULL,
+  `DOCTOR_NAME` varchar(100) NOT NULL,
   `SLIP_DATE_TIME` varchar(100) NOT NULL,
   `STAFF_ID` int(10) NOT NULL,
   `BILL_STATUS` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `emergency_slip`
---
-
-INSERT INTO `emergency_slip` (`SLIP_ID`, `SLIP_MR_ID`, `SLIP_NAME`, `SLIP_MOBILE`, `DOCTOR_ID`, `SLIP_DATE_TIME`, `STAFF_ID`, `BILL_STATUS`) VALUES
-(1, '4997234-ME', 'Zahid Shah', '03214253974', 25, 'Tue Jul 12 2022 07:09:57 GMT-0700 (Pacific Daylight Time)', 1, 'pending');
 
 -- --------------------------------------------------------
 
@@ -249,20 +242,13 @@ CREATE TABLE `indoor_slip` (
   `SLIP_NAME` varchar(100) NOT NULL,
   `SLIP_MOBILE` varchar(15) NOT NULL,
   `DEPT_ID` int(10) NOT NULL,
-  `DOCTOR_ID` int(10) NOT NULL,
+  `DOCTOR_NAME` varchar(100) NOT NULL,
   `SLIP_PROCEDURE` varchar(200) NOT NULL,
   `SLIP_TYPE` varchar(20) NOT NULL,
   `SLIP_DATE_TIME` varchar(100) NOT NULL,
   `STAFF_ID` int(10) NOT NULL,
   `BILL_STATUS` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `indoor_slip`
---
-
-INSERT INTO `indoor_slip` (`SLIP_ID`, `SLIP_MR_ID`, `SLIP_NAME`, `SLIP_MOBILE`, `DEPT_ID`, `DOCTOR_ID`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `SLIP_DATE_TIME`, `STAFF_ID`, `BILL_STATUS`) VALUES
-(1, '5218769-ME', 'Hussain Shah', '03234169956', 2, 3, 'Test procedure of the patient', 'gensurgery', 'Tue Jul 12 2022 07:13:38 GMT-0700 (Pacific Daylight Time)', 1, 'pending');
 
 -- --------------------------------------------------------
 
@@ -308,14 +294,6 @@ CREATE TABLE `outdoor_slip` (
   `D_TYPE` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `outdoor_slip`
---
-
-INSERT INTO `outdoor_slip` (`SLIP_ID`, `SLIP_MR_ID`, `SLIP_NAME`, `SLIP_MOBILE`, `DEPT_ID`, `DOCTOR_NAME`, `SLIP_FEE`, `SLIP_DATE_TIME`, `STAFF_ID`, `D_TYPE`) VALUES
-(1, '1297963-ME', 'Syed Mubeen Hussain Shah', '03128776604', 3, 'Brig (R) Dr Humma Farrukh', 5000, 'Sun Jul 24 2022 04:14:57 GMT-0700 (Pacific Daylight Time)', 1, 0),
-(2, '1354799-ME', 'Zaighum Sarwar', '03234169956', 5, 'Ali Khan', 4500, 'Sun Jul 24 2022 04:15:54 GMT-0700 (Pacific Daylight Time)', 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -333,14 +311,6 @@ CREATE TABLE `patient` (
   `CREATED_ON` varchar(100) DEFAULT NULL,
   `CREATED_BY` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `patient`
---
-
-INSERT INTO `patient` (`PATIENT_ID`, `PATIENT_MR_ID`, `PATIENT_NAME`, `PATIENT_MOBILE`, `PATIENT_GENDER`, `PATIENT_AGE`, `PATIENT_ADDRESS`, `CREATED_ON`, `CREATED_BY`) VALUES
-(1, '1297963-ME', 'Syed Mubeen Hussain Shah', '03128776604', 'male', '25', 'Lahore, Pakistan', 'Sun Jul 24 2022 04:14:57 GMT-0700 (Pacific Daylight Time)', 1),
-(2, '1354799-ME', 'Zaighum Sarwar', '03234169956', 'male', '25', 'Lahore, Pakistan', 'Sun Jul 24 2022 04:15:54 GMT-0700 (Pacific Daylight Time)', 1);
 
 -- --------------------------------------------------------
 
@@ -378,13 +348,6 @@ CREATE TABLE `visitor_doctor` (
   `STAFF_ID` int(10) NOT NULL,
   `VISITOR_DATE_TIME` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `visitor_doctor`
---
-
-INSERT INTO `visitor_doctor` (`VISITOR_ID`, `VISITOR_NAME`, `STAFF_ID`, `VISITOR_DATE_TIME`) VALUES
-(1, 'Ali Khan', 1, '2022-07-24 11:16:42');
 
 --
 -- Indexes for dumped tables
@@ -495,7 +458,7 @@ ALTER TABLE `emergency_bill`
 -- AUTO_INCREMENT for table `emergency_slip`
 --
 ALTER TABLE `emergency_slip`
-  MODIFY `SLIP_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `SLIP_ID` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `indoor_bill`
@@ -507,7 +470,7 @@ ALTER TABLE `indoor_bill`
 -- AUTO_INCREMENT for table `indoor_slip`
 --
 ALTER TABLE `indoor_slip`
-  MODIFY `SLIP_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `SLIP_ID` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `indoor_type`
@@ -519,13 +482,13 @@ ALTER TABLE `indoor_type`
 -- AUTO_INCREMENT for table `outdoor_slip`
 --
 ALTER TABLE `outdoor_slip`
-  MODIFY `SLIP_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `SLIP_ID` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `PATIENT_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `PATIENT_ID` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `room`
@@ -537,7 +500,7 @@ ALTER TABLE `room`
 -- AUTO_INCREMENT for table `visitor_doctor`
 --
 ALTER TABLE `visitor_doctor`
-  MODIFY `VISITOR_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `VISITOR_ID` int(10) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
