@@ -39,7 +39,6 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr style="font-size: 14px;">
-                    <th>S.No#</th>
                     <th>MR-ID</th>
                     <th>Name</th>
                     <th>Mobile</th>
@@ -58,7 +57,6 @@
                       { 
                        $date = substr($rs['CREATED_ON'],0, 21);
                         echo "<tr style='font-size: 12px;'>
-                        <td>$rs[PATIENT_ID]</td>
                         <td>$rs[PATIENT_MR_ID]</td>
                         <td>$rs[PATIENT_NAME]</td>
                         <td>$rs[PATIENT_MOBILE]</td>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 23, 2022 at 10:06 PM
+-- Generation Time: Jul 24, 2022 at 01:34 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -66,7 +66,6 @@ CREATE TABLE `department` (
 --
 
 INSERT INTO `department` (`DEPARTMENT_ID`, `DEPARTMENT_NAME`, `DEPARTMENT_STATUS`, `STAFF_ID`, `DEPARTMENT_DATE_TIME`) VALUES
-(0, 'Visiting Doctor', 'active', 1, 'Sat Jul 23 2022 04:43:26 GMT-0700 (Pacific Daylight Time)'),
 (1, 'Gyneacologist', 'active', 1, 'Fri Mar 18 2022 21:20:03 GMT+0500 (Pakistan Standard Time)'),
 (2, 'Ophthamology', 'active', 1, 'Fri Mar 18 2022 21:28:13 GMT+0500 (Pakistan Standard Time)'),
 (3, 'Pediatric', 'active', 1, 'Fri Mar 18 2022 21:28:23 GMT+0500 (Pakistan Standard Time)'),
@@ -302,22 +301,20 @@ CREATE TABLE `outdoor_slip` (
   `SLIP_NAME` varchar(100) NOT NULL,
   `SLIP_MOBILE` varchar(15) NOT NULL,
   `DEPT_ID` int(10) NOT NULL,
-  `DOCTOR_ID` int(10) NOT NULL,
+  `DOCTOR_NAME` varchar(100) NOT NULL,
   `SLIP_FEE` int(10) NOT NULL,
   `SLIP_DATE_TIME` varchar(100) NOT NULL,
-  `STAFF_ID` int(10) NOT NULL
+  `STAFF_ID` int(10) NOT NULL,
+  `D_TYPE` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `outdoor_slip`
 --
 
-INSERT INTO `outdoor_slip` (`SLIP_ID`, `SLIP_MR_ID`, `SLIP_NAME`, `SLIP_MOBILE`, `DEPT_ID`, `DOCTOR_ID`, `SLIP_FEE`, `SLIP_DATE_TIME`, `STAFF_ID`) VALUES
-(1, '5433918-ME', 'Test Patient', '03235156279', 3, 5, 5000, 'Sat Jul 16 2022 02:57:13 GMT-0700 (Pacific Daylight Time)', 1),
-(2, '5218769-ME', 'Syed Mubeen Hussain Shah', '03234169956', 0, 1, 5000, 'Sat Jul 23 2022 12:05:11 GMT-0700 (Pacific Daylight Time)', 1),
-(3, '5129489-ME', 'Syed Test Mubeen', '03218020280', 0, 2, 2500, 'Sat Jul 23 2022 12:38:49 GMT-0700 (Pacific Daylight Time)', 1),
-(4, '5323887-ME', 'TEst Patient', '01234567899', 0, 2, 6000, 'Sat Jul 23 2022 12:42:03 GMT-0700 (Pacific Daylight Time)', 1),
-(5, '5867278-ME', 'Testing Testing', '07418529630', 0, 2, 5000, 'Sat Jul 23 2022 12:51:07 GMT-0700 (Pacific Daylight Time)', 1);
+INSERT INTO `outdoor_slip` (`SLIP_ID`, `SLIP_MR_ID`, `SLIP_NAME`, `SLIP_MOBILE`, `DEPT_ID`, `DOCTOR_NAME`, `SLIP_FEE`, `SLIP_DATE_TIME`, `STAFF_ID`, `D_TYPE`) VALUES
+(1, '1297963-ME', 'Syed Mubeen Hussain Shah', '03128776604', 3, 'Brig (R) Dr Humma Farrukh', 5000, 'Sun Jul 24 2022 04:14:57 GMT-0700 (Pacific Daylight Time)', 1, 0),
+(2, '1354799-ME', 'Zaighum Sarwar', '03234169956', 5, 'Ali Khan', 4500, 'Sun Jul 24 2022 04:15:54 GMT-0700 (Pacific Daylight Time)', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -342,13 +339,8 @@ CREATE TABLE `patient` (
 --
 
 INSERT INTO `patient` (`PATIENT_ID`, `PATIENT_MR_ID`, `PATIENT_NAME`, `PATIENT_MOBILE`, `PATIENT_GENDER`, `PATIENT_AGE`, `PATIENT_ADDRESS`, `CREATED_ON`, `CREATED_BY`) VALUES
-(1, '4997234-ME', 'Zahid Shah', '03214253974', 'male', '27', 'Lahore, Pakistan', 'Tue Jul 12 2022 07:09:57 GMT-0700 (Pacific Daylight Time)', 1),
-(2, '5218769-ME', 'Hussain Shah', '03234169956', 'male', '29', 'Lahore, Pakistan', 'Tue Jul 12 2022 07:13:38 GMT-0700 (Pacific Daylight Time)', 1),
-(3, '5433918-ME', 'Test Patient', '03235156279', 'male', '42', 'Lahore, Pakistan', 'Sat Jul 16 2022 02:57:13 GMT-0700 (Pacific Daylight Time)', 1),
-(4, '9206979-ME', 'test', '03128776604', 'male', '34', 'test', 'Sat Jul 23 2022 05:26:46 GMT-0700 (Pacific Daylight Time)', 1),
-(5, '5129489-ME', 'Syed Test Mubeen', '03218020280', 'male', '30', 'Lahore , Pakistan', 'Sat Jul 23 2022 12:38:49 GMT-0700 (Pacific Daylight Time)', 1),
-(6, '5323887-ME', 'TEst Patient', '01234567899', 'male', '30', 'Lahore, Pakistan', 'Sat Jul 23 2022 12:42:03 GMT-0700 (Pacific Daylight Time)', 1),
-(7, '5867278-ME', 'Testing Testing', '07418529630', 'male', '64', 'Lahore, Pakistan', 'Sat Jul 23 2022 12:51:07 GMT-0700 (Pacific Daylight Time)', 1);
+(1, '1297963-ME', 'Syed Mubeen Hussain Shah', '03128776604', 'male', '25', 'Lahore, Pakistan', 'Sun Jul 24 2022 04:14:57 GMT-0700 (Pacific Daylight Time)', 1),
+(2, '1354799-ME', 'Zaighum Sarwar', '03234169956', 'male', '25', 'Lahore, Pakistan', 'Sun Jul 24 2022 04:15:54 GMT-0700 (Pacific Daylight Time)', 1);
 
 -- --------------------------------------------------------
 
@@ -392,8 +384,7 @@ CREATE TABLE `visitor_doctor` (
 --
 
 INSERT INTO `visitor_doctor` (`VISITOR_ID`, `VISITOR_NAME`, `STAFF_ID`, `VISITOR_DATE_TIME`) VALUES
-(1, 'Mubeen Hussain', 1, '2022-07-23 19:05:59'),
-(2, 'Ali Khan', 1, '2022-07-23 19:39:15');
+(1, 'Ali Khan', 1, '2022-07-24 11:16:42');
 
 --
 -- Indexes for dumped tables
@@ -492,7 +483,7 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `doctor`
 --
 ALTER TABLE `doctor`
-  MODIFY `DOCTOR_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `DOCTOR_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `emergency_bill`
@@ -528,13 +519,13 @@ ALTER TABLE `indoor_type`
 -- AUTO_INCREMENT for table `outdoor_slip`
 --
 ALTER TABLE `outdoor_slip`
-  MODIFY `SLIP_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `SLIP_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `PATIENT_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `PATIENT_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `room`
@@ -546,7 +537,7 @@ ALTER TABLE `room`
 -- AUTO_INCREMENT for table `visitor_doctor`
 --
 ALTER TABLE `visitor_doctor`
-  MODIFY `VISITOR_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `VISITOR_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

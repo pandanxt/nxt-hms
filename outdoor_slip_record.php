@@ -26,7 +26,6 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr style="font-size: 14px;">
-                    <th>S.No#</th>
                     <th>MR-ID</th>
                     <th>Name</th>
                     <th>Mobile</th>
@@ -40,19 +39,19 @@
                   </thead>
                   <tbody>
                   <?php
-                      $sql ="SELECT *,`DOCTOR_NAME`,`ADMIN_USERNAME`,`DEPARTMENT_NAME` FROM `outdoor_slip` INNER JOIN `admin` INNER JOIN `doctor` INNER JOIN `department` WHERE `outdoor_slip`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID` AND `outdoor_slip`.`STAFF_ID` = `admin`.`ADMIN_ID` AND `outdoor_slip`.`DEPT_ID` = `department`.`DEPARTMENT_ID`";
-                    //   $sql ="SELECT * FROM `emergency_slip`";
+                      $sql ="SELECT *,`ADMIN_USERNAME`,`DEPARTMENT_NAME` FROM `outdoor_slip` INNER JOIN `admin` INNER JOIN `department` WHERE `outdoor_slip`.`STAFF_ID` = `admin`.`ADMIN_ID` AND `outdoor_slip`.`DEPT_ID` = `department`.`DEPARTMENT_ID`";
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
                        $date = substr($rs['SLIP_DATE_TIME'],0, 21);
                         echo "<tr style='font-size: 12px;'>
-                        <td>$rs[SLIP_ID]</td>
                         <td>$rs[SLIP_MR_ID]</td>
                         <td>$rs[SLIP_NAME]</td>
                         <td>$rs[SLIP_MOBILE]</td>
                         <td>$rs[DEPARTMENT_NAME]</td>
-                        <td>$rs[DOCTOR_NAME]</td>
+                        <td>$rs[DOCTOR_NAME] <button class='btn badge badge-info'>";
+                        if ($rs['D_TYPE'] == 1) echo "Visiting Doctor"; else echo "MedEast Doctor";
+                        echo "</button></td>
                         <td>$rs[SLIP_FEE]</td>
                         <td>
                             <b>By</b>: $rs[ADMIN_USERNAME] <br>
