@@ -155,14 +155,102 @@ if (isset($_SESSION['userid'])) {
               </tr>
               <?php
                 }
-                if (!empty($bill_row['OTHER_TEXT'])) {
+                if (!empty($bill_row['OTHER_TEXT_1'])) {
               ?>
               <tr>
-                <td><?php echo $bill_row['OTHER_TEXT'] ?></td>
-                <td><?php echo $bill_row['OTHER'] ?></td>
+                <td><?php echo $bill_row['OTHER_TEXT_1'] ?></td>
+                <td><?php echo $bill_row['OTHER_1'] ?></td>
               </tr>
               <?php
                 }
+              if (!empty($bill_row['OTHER_TEXT_2'])) {
+              ?>
+              <tr>
+                <td><?php echo $bill_row['OTHER_TEXT_2'] ?></td>
+                <td><?php echo $bill_row['OTHER_2'] ?></td>
+              </tr>
+              <?php
+              }
+              if (!empty($bill_row['OTHER_TEXT_3'])) {
+              ?>
+              <tr>
+                <td><?php echo $bill_row['OTHER_TEXT_3'] ?></td>
+                <td><?php echo $bill_row['OTHER_3'] ?></td>
+              </tr>
+              <?php
+              }
+              if (!empty($bill_row['OTHER_TEXT_4'])) {
+              ?>
+              <tr>
+                <td><?php echo $bill_row['OTHER_TEXT_4'] ?></td>
+                <td><?php echo $bill_row['OTHER_4'] ?></td>
+              </tr>
+              <?php
+              }
+              if (!empty($bill_row['OTHER_TEXT_5'])) {
+              ?>
+              <tr>
+              <td><?php echo $bill_row['OTHER_TEXT_5'] ?></td>
+              <td><?php echo $bill_row['OTHER_5'] ?></td>
+              </tr>
+              <?php
+              }
+              if (!empty($bill_row['OTHER_TEXT_6'])) {
+              ?>
+              <tr>
+                <td><?php echo $bill_row['OTHER_TEXT_6'] ?></td>
+                <td><?php echo $bill_row['OTHER_6'] ?></td>
+              </tr>
+              <?php
+              }
+              if (!empty($bill_row['OTHER_TEXT_7'])) {
+              ?>
+              <tr>
+                <td><?php echo $bill_row['OTHER_TEXT_7'] ?></td>
+                <td><?php echo $bill_row['OTHER_7'] ?></td>
+              </tr>
+              <?php
+              }
+              if (!empty($bill_row['OTHER_TEXT_8'])) {
+              ?>
+              <tr>
+                <td><?php echo $bill_row['OTHER_TEXT_8'] ?></td>
+                <td><?php echo $bill_row['OTHER_8'] ?></td>
+              </tr>
+              <?php
+                }
+              if (!empty($bill_row['OTHER_TEXT_9'])) {
+              ?>
+              <tr>
+                <td><?php echo $bill_row['OTHER_TEXT_9'] ?></td>
+                <td><?php echo $bill_row['OTHER_9'] ?></td>
+              </tr>
+              <?php
+              }
+              if (!empty($bill_row['OTHER_TEXT_10'])) {
+              ?>
+              <tr>
+                <td><?php echo $bill_row['OTHER_TEXT_10'] ?></td>
+                <td><?php echo $bill_row['OTHER_10'] ?></td>
+              </tr>
+              <?php
+              }
+              if (!empty($bill_row['OTHER_TEXT_11'])) {
+              ?>
+              <tr>
+                <td><?php echo $bill_row['OTHER_TEXT_11'] ?></td>
+                <td><?php echo $bill_row['OTHER_11'] ?></td>
+              </tr>
+              <?php
+              }
+              if (!empty($bill_row['OTHER_TEXT_12'])) {
+              ?>
+              <tr>
+                <td><?php echo $bill_row['OTHER_TEXT_12'] ?></td>
+                <td><?php echo $bill_row['OTHER_12'] ?></td>
+              </tr>
+              <?php
+              }
               ?>
               </tbody>
             </table>
@@ -181,17 +269,20 @@ if (isset($_SESSION['userid'])) {
             <div class="table-responsive">
               <table class="table">
                 <tr>
-                  <th style="width:50%">Subtotal:</th>
+                  <th style="width:50%">Total Amount:</th>
                   <td>PKR - <?php echo $bill_row['TOTAL_AMOUNT']; ?></td>
                 </tr>
+                  <?php if (!empty($bill_row['DISCOUNT']) || $bill_row['DISCOUNT'] != 0) { ?>
+                  <tr>
+                    <th>Discount:</th>
+                    <td>PKR - <?php echo $bill_row['DISCOUNT']; ?></td>
+                  </tr>
+                <?php } if (!empty($bill_row['TOTAL']) || (!empty($bill_row['DISCOUNT']))) { ?>
                 <tr>
-                  <th>Discount:</th>
-                  <td>PKR - <?php echo $bill_row['DISCOUNT']; ?></td>
-                </tr>
-                <tr>
-                  <th>Total:</th>
+                  <th>Payables:</th>
                   <td>PKR - <?php echo $bill_row['TOTAL']; ?></td>
                 </tr>
+                <?php } ?>
               </table>
             </div>
           </div>

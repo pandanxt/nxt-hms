@@ -60,7 +60,14 @@
                   mysqli_stmt_bind_param($stmt,"ssssssssss", $prs['PATIENT_MR_ID'],$name,$prs['PATIENT_MOBILE'],$dept,$doctor,$procedure,$type,$saveOn,$by,$status);
                   if (mysqli_stmt_execute($stmt)) {
                     echo "<script>alert('Patient slip is created but patient data already exists...');</script>";
-                      echo '<script type="text/javascript">window.location = "indoor_slip_print.php?pname='.$prs['PATIENT_NAME'].'&on='.$saveOn.'&type='.$type.'&mrid='.$prs['PATIENT_MR_ID'].'&phone='.$prs['PATIENT_MOBILE'].'&gender='.$prs['PATIENT_GENDER'].'&dept='.$dept.'&doc='.$doctor.'&age='.$prs['PATIENT_AGE'].'&add='.$prs['PATIENT_ADDRESS'].'&pro='.$procedure.'&by='.$by.'";</script>';
+                      // echo '<script type="text/javascript">window.location = "indoor_slip_print.php?pname='.$prs['PATIENT_NAME'].'&on='.$saveOn.'&type='.$type.'&mrid='.$prs['PATIENT_MR_ID'].'&phone='.$prs['PATIENT_MOBILE'].'&gender='.$prs['PATIENT_GENDER'].'&dept='.$dept.'&doc='.$doctor.'&age='.$prs['PATIENT_AGE'].'&add='.$prs['PATIENT_ADDRESS'].'&pro='.$procedure.'&by='.$by.'";</script>';
+                      $printQuery = "SELECT `SLIP_ID` FROM `indoor_slip` ORDER BY `SLIP_ID` DESC LIMIT 1";
+                      $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
+                      $pResult = mysqli_fetch_array($printsql);
+
+                      if ($pResult > 0) {
+                        echo '<script type="text/javascript">window.location = "indoor_slip_print.php?sid='.$pResult['SLIP_ID'].'";</script>';
+                      }
                   }
                 } 
             }   
@@ -97,7 +104,14 @@
                   mysqli_stmt_bind_param($stmt,"ssssssssss", $mrid,$name,$phone,$dept,$doctor,$procedure,$type,$saveOn,$by,$status);
                   if (mysqli_stmt_execute($stmt)) {
                     echo "<script>alert('Patient slip is created and patient data is also stored...');</script>";
-                    echo '<script type="text/javascript">window.location = "indoor_slip_print.php?type='.$type.'&pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&gender='.$gender.'&dept='.$dept.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&pro='.$procedure.'&by='.$by.'";</script>';
+                    // echo '<script type="text/javascript">window.location = "indoor_slip_print.php?type='.$type.'&pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&gender='.$gender.'&dept='.$dept.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&pro='.$procedure.'&by='.$by.'";</script>';
+                      $printQuery = "SELECT `SLIP_ID` FROM `indoor_slip` ORDER BY `SLIP_ID` DESC LIMIT 1";
+                      $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
+                      $pResult = mysqli_fetch_array($printsql);
+
+                      if ($pResult > 0) {
+                        echo '<script type="text/javascript">window.location = "indoor_slip_print.php?sid='.$pResult['SLIP_ID'].'";</script>';
+                      }
                   } 
                 }   
               }
