@@ -20,8 +20,8 @@
               $billsql = mysqli_query($db,$billSql);
               $bill_row = mysqli_fetch_array($billsql);
 
-              $admDate = substr($bill_row['ADMISSION_DATE'],0, 24);
-              $disDate = substr($bill_row['DISCHARGE_DATE'],0, 24);
+              // $admDate = substr($bill_row['ADMISSION_DATE'],0, 24);
+              // $disDate = substr($bill_row['DISCHARGE_DATE'],0, 24);
 
               $slipSql ="SELECT * FROM `indoor_slip` WHERE `SLIP_ID` = '$bill_row[SLIP_ID]'";
               $slipsql = mysqli_query($db,$slipSql);
@@ -88,7 +88,7 @@
                   <div class="col-sm-6 invoice-col">
                   <hr style="margin-top:5px;"/>
                     <?php if ($type == "eye") { ?>
-                    <h4><b>Date :</b> <?php echo $disDate; ?></h4><br>
+                    <h4><b>Date :</b> <?php echo $bill_row['DISCHARGE_DATE']; ?></h4><br>
                     <h4><b>Staff :</b> <?php echo $bill_row['ADMIN_USERNAME']; ?></h4><br>
                     <h4><b>Consultant :</b> <?php echo $doctor; ?></h4><br>
                     <?php if (!$bill_row['DISCOUNT']) { ?>
@@ -98,7 +98,7 @@
                         <h4><b>Total Fee :</b> PKR - <?php echo $bill_row['TOTAL']; ?></h4><br>   
                       <?php } 
                      }else { ?>
-                      <p><b>Admit Dates :</b> <?php echo $admDate; ?> - <?php echo $disDate; ?></p>
+                      <p><b>Admit Dates :</b> <?php echo $bill_row['ADMISSION_DATE']; ?> - <?php echo $bill_row['DISCHARGE_DATE']; ?></p>
                       <p><b>Consultant :</b> <?php echo $doctor; ?></p>
                       <p><b>Staff :</b> <?php echo $bill_row['ADMIN_USERNAME'];; ?></p>
                     <?php } ?>

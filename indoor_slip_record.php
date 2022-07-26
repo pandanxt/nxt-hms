@@ -42,7 +42,6 @@
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
-                       $date = substr($rs['SLIP_DATE_TIME'],0, 21);
                        $type = $rs['SLIP_TYPE'];
                        $newType;
           
@@ -64,7 +63,7 @@
                         <td>$rs[DOCTOR_NAME]</td>
                         <td>
                             <b>By</b>: $rs[ADMIN_USERNAME] <br>
-                            <b>On</b>: ".$date."
+                            <b>On</b>: $rs[SLIP_DATE_TIME]
                         </td>
                         <td style='display:flex;'>";
 

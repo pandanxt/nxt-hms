@@ -16,7 +16,6 @@
     
     // Post Variables
     $name = $_POST['name'];
-    $saveOn = $_POST['addDate'];  
     $mrid = $_POST['mrid'];
     $phone = $_POST['phone'];
     $gender = $_POST['gender'];
@@ -40,7 +39,7 @@
         $resultCheck = mysqli_stmt_num_rows($stmt);
             
         if ($resultCheck > 0) {
-          $slipQuery = "INSERT INTO `emergency_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DOCTOR_NAME`, `SLIP_DATE_TIME`, `STAFF_ID`, `BILL_STATUS`) VALUES (?,?,?,?,?,?,?)";
+          $slipQuery = "INSERT INTO `emergency_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DOCTOR_NAME`, `STAFF_ID`, `BILL_STATUS`) VALUES (?,?,?,?,?,?)";
           mysqli_stmt_execute($stmt);
               
             if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
@@ -51,7 +50,7 @@
               $psql = mysqli_query($db,$patientQuery);
               while($prs = mysqli_fetch_array($psql))
               {
-                  mysqli_stmt_bind_param($stmt,"sssssss", $prs['PATIENT_MR_ID'],$name,$prs['PATIENT_MOBILE'],$doctor,$saveOn,$by,$status);
+                  mysqli_stmt_bind_param($stmt,"ssssss", $prs['PATIENT_MR_ID'],$name,$prs['PATIENT_MOBILE'],$doctor,$by,$status);
                   if (mysqli_stmt_execute($stmt)) {
                     echo "<script>alert('Patient slip is created but patient data already exists...');</script>";
                   
@@ -76,26 +75,25 @@
             `PATIENT_GENDER`, 
             `PATIENT_AGE`, 
             `PATIENT_ADDRESS`, 
-            `CREATED_ON`, 
             `CREATED_BY`
-          ) VALUES (?,?,?,?,?,?,?,?)";
+          ) VALUES (?,?,?,?,?,?,?)";
           mysqli_stmt_execute($stmt);
                 
           if (!mysqli_stmt_prepare($stmt,$sql)) {
               echo "<script>alert('Sqlerror due to DB Query...');</script>";
               exit();
           }else{
-              mysqli_stmt_bind_param($stmt,"ssssssss", $mrid,$name,$phone,$gender,$age,$address,$saveOn,$by);
+              mysqli_stmt_bind_param($stmt,"sssssss", $mrid,$name,$phone,$gender,$age,$address,$by);
              
               if (mysqli_stmt_execute($stmt)){
-                $slipQuery = "INSERT INTO `emergency_slip`(`SLIP_MR_ID`,`SLIP_NAME`,`SLIP_MOBILE`, `DOCTOR_NAME`, `SLIP_DATE_TIME`, `STAFF_ID`,`BILL_STATUS`) VALUES (?,?,?,?,?,?,?)";
+                $slipQuery = "INSERT INTO `emergency_slip`(`SLIP_MR_ID`,`SLIP_NAME`,`SLIP_MOBILE`, `DOCTOR_NAME`, `STAFF_ID`,`BILL_STATUS`) VALUES (?,?,?,?,?,?)";
                 // mysqli_stmt_execute($stmt);
               
                 if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
                   echo "<script>alert('Sqlerror due to DB Query...');</script>";
                   exit();
                 }else{
-                  mysqli_stmt_bind_param($stmt,"sssssss", $mrid,$name,$phone,$doctor,$saveOn,$by,$status);
+                  mysqli_stmt_bind_param($stmt,"ssssss", $mrid,$name,$phone,$doctor,$by,$status);
                   if (mysqli_stmt_execute($stmt)) {
                      
                     $printQuery = "SELECT `SLIP_ID` FROM `emergency_slip` ORDER BY `SLIP_ID` DESC LIMIT 1";

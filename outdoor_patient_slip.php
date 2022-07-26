@@ -16,7 +16,7 @@
     
     // Post Variables
     $name = $_POST['name'];
-    $saveOn = $_POST['addDate'];  
+    // $saveOn = $_POST['addDate'];  
     $mrid = $_POST['mrid'];
     $phone = $_POST['phone'];
     $gender = $_POST['gender'];
@@ -47,7 +47,7 @@
         $resultCheck = mysqli_stmt_num_rows($stmt);
             
         if ($resultCheck > 0) {
-          $slipQuery = "INSERT INTO `outdoor_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DEPT_ID`, `DOCTOR_NAME`, `SLIP_FEE`, `SLIP_DATE_TIME`, `STAFF_ID`, `D_TYPE`) VALUES (?,?,?,?,?,?,?,?,?)";
+          $slipQuery = "INSERT INTO `outdoor_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DEPT_ID`, `DOCTOR_NAME`, `SLIP_FEE`, `STAFF_ID`, `D_TYPE`) VALUES (?,?,?,?,?,?,?,?)";
            mysqli_stmt_execute($stmt);
               
             if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
@@ -59,7 +59,7 @@
               $psql = mysqli_query($db,$patientQuery);
               while($prs = mysqli_fetch_array($psql))
               {
-                mysqli_stmt_bind_param($stmt,"sssssssss", $prs['PATIENT_MR_ID'],$name,$prs['PATIENT_MOBILE'],$dept,$doctor,$fee,$saveOn,$by,$slist);
+                mysqli_stmt_bind_param($stmt,"ssssssss", $prs['PATIENT_MR_ID'],$name,$prs['PATIENT_MOBILE'],$dept,$doctor,$fee,$by,$slist);
                 if (mysqli_stmt_execute($stmt)) {
                     echo "<script>alert('Patient slip is created but patient data already exists...');</script>";
                     
@@ -84,25 +84,24 @@
             `PATIENT_GENDER`, 
             `PATIENT_AGE`, 
             `PATIENT_ADDRESS`, 
-            `CREATED_ON`, 
             `CREATED_BY`
-          ) VALUES (?,?,?,?,?,?,?,?)";
+          ) VALUES (?,?,?,?,?,?,?)";
           mysqli_stmt_execute($stmt);
                 
           if (!mysqli_stmt_prepare($stmt,$sql)) {
               echo "<script>alert('Sqlerror due to DB Query...Three');</script>";
               exit();
           }else{
-              mysqli_stmt_bind_param($stmt,"ssssssss", $mrid,$name,$phone,$gender,$age,$address,$saveOn,$by);
+              mysqli_stmt_bind_param($stmt,"sssssss", $mrid,$name,$phone,$gender,$age,$address,$by);
              
               if (mysqli_stmt_execute($stmt)){
-                $slipQuery = "INSERT INTO `outdoor_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DEPT_ID`, `DOCTOR_NAME`, `SLIP_FEE`, `SLIP_DATE_TIME`, `STAFF_ID`, `D_TYPE`) VALUES (?,?,?,?,?,?,?,?,?)";
+                $slipQuery = "INSERT INTO `outdoor_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DEPT_ID`, `DOCTOR_NAME`, `SLIP_FEE`, `STAFF_ID`, `D_TYPE`) VALUES (?,?,?,?,?,?,?,?)";
               
                 if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
                   echo "<script>alert('Sqlerror due to DB Query...Four');</script>";
                   exit();
                 }else{
-                  mysqli_stmt_bind_param($stmt,"sssssssss", $mrid,$name,$phone,$dept,$doctor,$fee,$saveOn,$by,$slist);
+                  mysqli_stmt_bind_param($stmt,"ssssssss", $mrid,$name,$phone,$dept,$doctor,$fee,$by,$slist);
                   if (mysqli_stmt_execute($stmt)) {
                     echo "<script>alert('Patient slip is created and patient data is also stored...');</script>";
 

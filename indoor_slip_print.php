@@ -15,7 +15,7 @@
         $dptsql = mysqli_query($db,$slipSql);
         $dept_row = mysqli_fetch_array($dptsql);
 
-        $date = substr($dept_row['SLIP_DATE_TIME'],0, 24);
+        $date = $dept_row['SLIP_DATE_TIME'];
 
         $newType;
           

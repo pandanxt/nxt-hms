@@ -17,7 +17,7 @@
     $mrid = $_POST['mrid'];
     $phone = $_POST['phone'];
     $name = $_POST['name'];
-    $addDate = $_POST['addDate'];
+    // $addDate = $_POST['addDate'];
     $medicalofficer = $_POST['medicalofficer'];
     $injectionim = $_POST['injectionim'];
     $injectioniv = $_POST['injectioniv'];
@@ -80,8 +80,7 @@
         (
           `MR_ID`,`SLIP_ID`, 
           `PATIENT_NAME`, 
-          `MOBILE`, 
-          `DATE_TIME`, 
+          `MOBILE`,
           `ES_MO_CHARGE`, 
           `INJECTION_IM`, 
           `INJECTION_IV`, 
@@ -121,7 +120,7 @@
           `DISCOUNT`, 
           `TOTAL`, 
           `CREATED_BY`
-        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         // mysqli_stmt_execute($stmt);
         
         if (!mysqli_stmt_prepare($stmt,$sql)) {
@@ -129,8 +128,7 @@
           echo "<script>alert('Sqlerror due to DB Query...');</script>";
           exit();
         }else{                                
-          mysqli_stmt_bind_param($stmt,"ssssssssssssssssssssssssssssssssssssssssssss",$mrid,$sid,$name,$phone,$addDate,$medicalofficer,
-          $injectionim,$injectioniv,$ivline,$ivinfusion,$stitchInTotal,$stitchOutTotal,$bsf,$shortstay,$bp,$ecg, $other1, $otherText1, $other2, $otherText2, $other3, $otherText3, $other4, $otherText4, $other5, $otherText5, $other6,  $otherText6, $other7, $otherText7, $other8, $otherText8, $other9, $otherText9, $other10, $otherText10, $other11, $otherText11, $other12, $otherText12,$tbill,$discount,$fbill,$by);
+          mysqli_stmt_bind_param($stmt,"sssssssssssssssssssssssssssssssssssssssssss",$mrid,$sid,$name,$phone,$medicalofficer,$injectionim,$injectioniv,$ivline,$ivinfusion,$stitchInTotal,$stitchOutTotal,$bsf,$shortstay,$bp,$ecg, $other1, $otherText1, $other2, $otherText2, $other3, $otherText3, $other4, $otherText4, $other5, $otherText5, $other6,  $otherText6, $other7, $otherText7, $other8, $otherText8, $other9, $otherText9, $other10, $otherText10, $other11, $otherText11, $other12, $otherText12,$tbill,$discount,$fbill,$by);
           mysqli_stmt_execute($stmt);
           // Update Status of the receipt
           $updateSql ="UPDATE `emergency_slip` SET `BILL_STATUS`='$status' WHERE `emergency_slip`.`SLIP_ID`='$sid'";
@@ -141,7 +139,7 @@
             $pResult = mysqli_fetch_array($printsql);
 
             if ($pResult > 0) {
-              echo '<script type="text/javascript">window.location = "emergency_bill_print.php?sid='.$pResult['BILL_ID'].'";</script>';
+              // echo '<script type="text/javascript">window.location = "emergency_bill_print.php?sid='.$pResult['BILL_ID'].'";</script>';
             }
           }else
           {
@@ -330,7 +328,7 @@
                       <div class="form-group col-md-4">
                         <label>I/V infusion</label>
                         <select class="form-control select2bs4" name="ivinfusion" id="ivInfusion" style="width: 100%;">
-                          <option value="0" selected="selected" disabled>100ml/200ml/1000ml</option>
+                          <option value="10" selected="selected" disabled>100ml/200ml/1000ml</option>
                           <option value="200">100ml - 200</option>
                           <option value="500">200ml - 500</option>
                           <option value="1000">1000ml - 1000</option>

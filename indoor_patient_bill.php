@@ -24,7 +24,7 @@
     $pro = $_POST['procedure'];
 
     $admdate = $_POST['admdate'];
-    $disdate = $_POST['disdate'];
+    // $disdate = $_POST['disdate'];
 
     if ($type == "genillness") {
       $prChargeThree = $_POST['prChargeThree'];
@@ -76,8 +76,6 @@
           `PATIENT_NAME`,
           `MOBILE`,
           `ADMISSION_DATE`,
-          `DISCHARGE_DATE`,
-          `DATE_TIME`,
           `ADMISSION_CHARGE`,
           `SURGEON_CHARGE`,
           `ANESTHETIST_CHARGE`,
@@ -100,7 +98,7 @@
           `DISCOUNT`,
           `TOTAL`,
           `CREATED_BY`
-         ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+         ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
          
           // mysqli_stmt_execute($stmt);
             
@@ -109,8 +107,8 @@
               echo "<script>alert('Sqlerror due to DB Query...');</script>";
               exit();
           }else{    
-                  mysqli_stmt_bind_param($stmt,"sssssssssssssssssssssssssssss",
-                  $mrid,$sid,$name,$phone,$admdate,$disdate,$disdate,$adCharge,$surCharge,$anesCharge,
+                  mysqli_stmt_bind_param($stmt,"sssssssssssssssssssssssssss",
+                  $mrid,$sid,$name,$phone,$admdate,$adCharge,$surCharge,$anesCharge,
                   $opCharge,$chargeLR,$pedCharge, $prChargeThree,$nurCharge,$nurStCharge,$moChargeTwo,
                   $conChargeThree,$ctg,$rrCharge,$monChargeTwo,$nurChargeTwo, $oxChargeTwo,
                   $other,$otherText,$tbill,$discount,$fbill,$by);

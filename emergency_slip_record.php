@@ -42,7 +42,6 @@
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
-                       $date = substr($rs['SLIP_DATE_TIME'],0, 21);
                         echo "<tr  style='font-size: 12px;'>
                         <td>$rs[SLIP_ID]</td>
                         <td>$rs[SLIP_MR_ID]</td>
@@ -50,7 +49,7 @@
                         <td>$rs[SLIP_MOBILE]</td>
                         <td>$rs[DOCTOR_NAME]</td>
                         <td>$rs[ADMIN_USERNAME]</td>
-                        <td>$date</td> 
+                        <td>$rs[SLIP_DATE_TIME]</td> 
                         <td style='display:flex;'>";
                           if($rs['BILL_STATUS'] == "pending"){
                             echo "<a href='emergency_patient_bill.php?sid=$rs[SLIP_ID]' style='color:green;'>
