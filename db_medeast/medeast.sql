@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2022 at 05:34 PM
+-- Generation Time: Jul 26, 2022 at 11:48 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -45,7 +45,8 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`ADMIN_ID`, `ADMIN_NAME`, `ADMIN_TYPE`, `ADMIN_EMAIL`, `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_STATUS`, `CREATED_BY`, `ADMIN_SAVE_TIME`) VALUES
 (1, 'Syed Mubeen Hussain Shah', 'admin', 'shahmobeen333@gmail.com', 'mubeen.hussain', '$2y$10$gs1BcrN9mTXi6kZyGLpSM.gdrFF8Vff6ebwHAvaB6JVZWivnzBXAu', 'active', 0, 'Sat Feb 12 2022 02:26:44 GMT+0500 (Pakistan Standard Time)'),
-(2, 'Staff User', 'user', 'staff.user@gmail.com', 'staff', '$2y$10$zRmX6LCWkc0UgoQNuCEe/.VjZwaUqvVhNLq7SBBuPYCUFzXq6uy4S', 'active', 1, 'Sat Apr 30 2022 13:46:30 GMT+0500 (Pakistan Standard Time)');
+(2, 'MedEast Administrator', 'admin', 'admin.medeast@gmail.com', 'Administrator', '$2y$10$j7bfaXlX.kZHL3Yiao4Qg.iusiQRgRRv7skT7LYJKOn2L9l3cUUni', 'active', 1, 'Tue Jul 26 2022 14:41:32 GMT-0700 (Pacific Daylight Time)'),
+(3, 'MedEast Staff', 'user', 'staff.user@gmail.com', 'medeast.staff', '$2y$10$zRmX6LCWkc0UgoQNuCEe/.VjZwaUqvVhNLq7SBBuPYCUFzXq6uy4S', 'active', 1, 'Sat Apr 30 2022 13:46:30 GMT+0500 (Pakistan Standard Time)');
 
 -- --------------------------------------------------------
 
@@ -154,7 +155,7 @@ CREATE TABLE `emergency_bill` (
   `SLIP_ID` int(10) NOT NULL,
   `PATIENT_NAME` varchar(100) NOT NULL,
   `MOBILE` varchar(50) NOT NULL,
-  `DATE_TIME` varchar(1000) NOT NULL,
+  `DATE_TIME` timestamp NOT NULL DEFAULT current_timestamp(),
   `ES_MO_CHARGE` int(11) DEFAULT NULL,
   `INJECTION_IM` int(11) DEFAULT NULL,
   `INJECTION_IV` int(11) DEFAULT NULL,
@@ -166,8 +167,30 @@ CREATE TABLE `emergency_bill` (
   `SHORT_STAY` int(10) DEFAULT NULL,
   `BP` int(10) DEFAULT NULL,
   `ECG` int(10) DEFAULT NULL,
-  `OTHER` int(10) DEFAULT NULL,
-  `OTHER_TEXT` varchar(250) DEFAULT NULL,
+  `OTHER_1` int(10) DEFAULT NULL,
+  `OTHER_TEXT_1` varchar(250) DEFAULT NULL,
+  `OTHER_2` int(10) DEFAULT NULL,
+  `OTHER_TEXT_2` varchar(250) DEFAULT NULL,
+  `OTHER_3` int(10) DEFAULT NULL,
+  `OTHER_TEXT_3` varchar(250) DEFAULT NULL,
+  `OTHER_4` int(10) DEFAULT NULL,
+  `OTHER_TEXT_4` varchar(250) DEFAULT NULL,
+  `OTHER_5` int(10) DEFAULT NULL,
+  `OTHER_TEXT_5` varchar(250) DEFAULT NULL,
+  `OTHER_6` int(10) DEFAULT NULL,
+  `OTHER_TEXT_6` varchar(250) DEFAULT NULL,
+  `OTHER_7` int(10) DEFAULT NULL,
+  `OTHER_TEXT_7` varchar(250) DEFAULT NULL,
+  `OTHER_8` int(10) DEFAULT NULL,
+  `OTHER_TEXT_8` varchar(250) DEFAULT NULL,
+  `OTHER_9` int(10) DEFAULT NULL,
+  `OTHER_TEXT_9` varchar(250) DEFAULT NULL,
+  `OTHER_10` int(10) DEFAULT NULL,
+  `OTHER_TEXT_10` varchar(250) DEFAULT NULL,
+  `OTHER_11` int(10) DEFAULT NULL,
+  `OTHER_TEXT_11` varchar(250) DEFAULT NULL,
+  `OTHER_12` int(10) DEFAULT NULL,
+  `OTHER_TEXT_12` varchar(250) DEFAULT NULL,
   `TOTAL_AMOUNT` int(15) DEFAULT NULL,
   `DISCOUNT` int(15) DEFAULT NULL,
   `TOTAL` int(15) DEFAULT NULL,
@@ -186,7 +209,7 @@ CREATE TABLE `emergency_slip` (
   `SLIP_NAME` varchar(50) NOT NULL,
   `SLIP_MOBILE` varchar(15) NOT NULL,
   `DOCTOR_NAME` varchar(100) NOT NULL,
-  `SLIP_DATE_TIME` varchar(100) NOT NULL,
+  `SLIP_DATE_TIME` timestamp NOT NULL DEFAULT current_timestamp(),
   `STAFF_ID` int(10) NOT NULL,
   `BILL_STATUS` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -203,9 +226,9 @@ CREATE TABLE `indoor_bill` (
   `SLIP_ID` int(10) NOT NULL,
   `PATIENT_NAME` varchar(100) NOT NULL,
   `MOBILE` varchar(50) NOT NULL,
-  `ADMISSION_DATE` varchar(100) NOT NULL,
-  `DISCHARGE_DATE` varchar(100) DEFAULT NULL,
-  `DATE_TIME` varchar(1000) NOT NULL,
+  `ADMISSION_DATE` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `DISCHARGE_DATE` timestamp NULL DEFAULT current_timestamp(),
+  `DATE_TIME` timestamp NOT NULL DEFAULT current_timestamp(),
   `ADMISSION_CHARGE` int(11) DEFAULT NULL,
   `SURGEON_CHARGE` int(11) DEFAULT NULL,
   `ANESTHETIST_CHARGE` int(11) DEFAULT NULL,
@@ -245,7 +268,7 @@ CREATE TABLE `indoor_slip` (
   `DOCTOR_NAME` varchar(100) NOT NULL,
   `SLIP_PROCEDURE` varchar(200) NOT NULL,
   `SLIP_TYPE` varchar(20) NOT NULL,
-  `SLIP_DATE_TIME` varchar(100) NOT NULL,
+  `SLIP_DATE_TIME` timestamp NOT NULL DEFAULT current_timestamp(),
   `STAFF_ID` int(10) NOT NULL,
   `BILL_STATUS` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -289,7 +312,7 @@ CREATE TABLE `outdoor_slip` (
   `DEPT_ID` int(10) NOT NULL,
   `DOCTOR_NAME` varchar(100) NOT NULL,
   `SLIP_FEE` int(10) NOT NULL,
-  `SLIP_DATE_TIME` varchar(100) NOT NULL,
+  `SLIP_DATE_TIME` timestamp NOT NULL DEFAULT current_timestamp(),
   `STAFF_ID` int(10) NOT NULL,
   `D_TYPE` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -308,7 +331,7 @@ CREATE TABLE `patient` (
   `PATIENT_GENDER` varchar(20) NOT NULL,
   `PATIENT_AGE` varchar(10) NOT NULL,
   `PATIENT_ADDRESS` varchar(100) DEFAULT NULL,
-  `CREATED_ON` varchar(100) DEFAULT NULL,
+  `CREATED_ON` timestamp NOT NULL DEFAULT current_timestamp(),
   `CREATED_BY` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -434,7 +457,7 @@ ALTER TABLE `visitor_doctor`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `ADMIN_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ADMIN_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `department`
