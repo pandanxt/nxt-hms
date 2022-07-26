@@ -41,6 +41,7 @@
                   <tr style='font-size: 14px;'>
                     <th>S.No#</th>
                     <th>Name</th>
+                    <th>Mobile</th>
                     <th>Department</th>
                     <th>Status</th>
                     <th>Created</th>
@@ -57,6 +58,7 @@
                         echo "<tr style='font-size: 12px;'>
                         <td>$rs[DOCTOR_ID]</td>
                         <td>$rs[DOCTOR_NAME]</td>
+                        <td>$rs[DOCTOR_MOBILE]</td>
                         <td>$rs[DEPARTMENT_NAME]</td>
                         <td>$rs[DOCTOR_STATUS]</td>
                         <td>

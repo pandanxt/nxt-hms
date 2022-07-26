@@ -272,7 +272,7 @@
                                       <tbody>
                                       <?php
                                           // $sql ="SELECT *,`DOCTOR_NAME`,`ADMIN_USERNAME`,`DEPARTMENT_NAME` FROM `outdoor_slip` INNER JOIN `admin` INNER JOIN `doctor` INNER JOIN `department` WHERE `outdoor_slip`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID` AND `outdoor_slip`.`STAFF_ID` = `admin`.`ADMIN_ID` AND `outdoor_slip`.`DEPT_ID` = `department`.`DEPARTMENT_ID`";
-                                          $sql ="SELECT `a`.*,`b`.`ADMIN_USERNAME`,`c`.`DOCTOR_NAME`,`d`.`DEPARTMENT_NAME` FROM `outdoor_slip` AS `a` INNER JOIN `admin` AS `b` ON `a`.`STAFF_ID` = `b`.`ADMIN_ID` INNER JOIN `doctor` AS `c` ON `a`.`DOCTOR_ID` = `c`.`DOCTOR_ID` INNER JOIN `department` AS `d` ON `a`.`DEPT_ID` = `d`.`DEPARTMENT_ID` WHERE `a`.`SLIP_MR_ID` = '$row[PATIENT_MR_ID]'";
+                                          $sql ="SELECT `a`.*,`b`.`ADMIN_USERNAME`,`c`.`DEPARTMENT_NAME` FROM `outdoor_slip` AS `a` INNER JOIN `admin` AS `b` ON `a`.`STAFF_ID` = `b`.`ADMIN_ID` INNER JOIN `department` AS `c` ON `a`.`DEPT_ID` = `c`.`DEPARTMENT_ID` WHERE `a`.`SLIP_MR_ID` = '$row[PATIENT_MR_ID]'";
                                           //   $sql ="SELECT * FROM `emergency_slip`";
                                           $qsql = mysqli_query($db,$sql);
                                           while($rs = mysqli_fetch_array($qsql))
@@ -284,25 +284,22 @@
                                             <td>$rs[SLIP_NAME]</td>
                                             <td>$rs[SLIP_MOBILE]</td>
                                             <td>$rs[DEPARTMENT_NAME]</td>
-                                            <td>$rs[DOCTOR_NAME]</td>
+                                            <td>$rs[DOCTOR_NAME] <button class='btn badge badge-info'>";
+                                            if ($rs['D_TYPE'] == 1) echo "Visiting Doctor"; else echo "MedEast Doctor";
+                                            echo "</button></td>
                                             <td>$rs[SLIP_FEE]</td>
                                             <td>
                                                 <b>By</b>: $rs[ADMIN_USERNAME] <br>
                                                 <b>On</b>: ".$date."
                                             </td> 
-                                            <td style='display:flex;'>
-                                                  <a href='outdoor_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
-                                                  <i class='fas fa-wallet'></i> Print
-                                                </a>";
-                                                if ($_SESSION['type'] == "admin") {  
-                                                echo "<br>
-                                                <a href='add_patient.php?id=$rs[SLIP_ID]'>
-                                                  <i class='fas fa-edit'></i> Edit
-                                                </a><br>
-                                                <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?osrId=$rs[SLIP_ID]' style='color:red;'>
-                                                  <i class='fas fa-trash'></i> Delete
-                                                </a>";
-                                                }
+                                            <td>
+                                              <a href='outdoor_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
+                                              <i class='fas fa-wallet'></i> Print</a>";
+                                              if ($_SESSION['type'] == "admin") {  
+                                                  echo "<a href='add_patient.php?id=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
+                                                  <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?osrId=$rs[SLIP_ID]' style='color:red;'>
+                                                  <i class='fas fa-trash'></i> Delete</a>";
+                                              }
                                             echo "</td>
                                             </tr>"; 
                                           }

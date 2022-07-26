@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2022 at 11:35 PM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 7.4.23
+-- Generation Time: Jul 24, 2022 at 05:34 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -70,20 +70,23 @@ INSERT INTO `department` (`DEPARTMENT_ID`, `DEPARTMENT_NAME`, `DEPARTMENT_STATUS
 (2, 'Ophthamology', 'active', 1, 'Fri Mar 18 2022 21:28:13 GMT+0500 (Pakistan Standard Time)'),
 (3, 'Pediatric', 'active', 1, 'Fri Mar 18 2022 21:28:23 GMT+0500 (Pakistan Standard Time)'),
 (4, 'Pediatric Surgery', 'active', 1, 'Fri Mar 18 2022 21:28:29 GMT+0500 (Pakistan Standard Time)'),
-(5, 'Medicine', 'active', 1, 'Fri Mar 18 2022 21:28:37 GMT+0500 (Pakistan Standard Time)'),
+(5, 'Medical Specialist', 'active', 1, 'Fri Mar 18 2022 21:28:37 GMT+0500 (Pakistan Standard Time)'),
 (6, 'General Surgery', 'active', 1, 'Fri Mar 18 2022 21:28:44 GMT+0500 (Pakistan Standard Time)'),
-(7, 'Physiatery', 'active', 1, 'Fri Mar 18 2022 21:28:51 GMT+0500 (Pakistan Standard Time)'),
-(8, 'Psychology', 'active', 1, 'Fri Mar 18 2022 21:28:58 GMT+0500 (Pakistan Standard Time)'),
+(7, 'Psychiatrist', 'active', 1, 'Fri Mar 18 2022 21:28:51 GMT+0500 (Pakistan Standard Time)'),
+(8, 'Psychologist', 'active', 1, 'Fri Mar 18 2022 21:28:58 GMT+0500 (Pakistan Standard Time)'),
 (9, 'ENT', 'active', 1, 'Fri Mar 18 2022 21:29:03 GMT+0500 (Pakistan Standard Time)'),
 (10, 'Orthopedic', 'active', 1, 'Fri Mar 18 2022 21:29:09 GMT+0500 (Pakistan Standard Time)'),
 (11, 'Radiology', 'active', 1, 'Fri Mar 18 2022 21:29:16 GMT+0500 (Pakistan Standard Time)'),
 (12, 'Skin', 'active', 1, 'Fri Mar 18 2022 21:29:24 GMT+0500 (Pakistan Standard Time)'),
 (13, 'Urology', 'active', 1, 'Fri Mar 18 2022 21:29:31 GMT+0500 (Pakistan Standard Time)'),
-(14, 'Neurology', 'active', 1, 'Fri Mar 18 2022 21:29:36 GMT+0500 (Pakistan Standard Time)'),
-(15, 'Cardiology', 'active', 1, 'Fri Mar 18 2022 21:29:42 GMT+0500 (Pakistan Standard Time)'),
-(16, 'Physiotherapy', 'active', 1, 'Fri Mar 18 2022 21:29:52 GMT+0500 (Pakistan Standard Time)'),
+(14, 'Cardiology', 'active', 1, 'Fri Mar 18 2022 21:29:36 GMT+0500 (Pakistan Standard Time)'),
+(15, 'Physiotherapy', 'active', 1, 'Fri Mar 18 2022 21:29:42 GMT+0500 (Pakistan Standard Time)'),
+(16, 'General Surgery', 'active', 1, 'Fri Mar 18 2022 21:29:52 GMT+0500 (Pakistan Standard Time)'),
 (17, 'Nutrition', 'active', 1, 'Fri Mar 18 2022 21:29:58 GMT+0500 (Pakistan Standard Time)'),
-(18, 'Medical Officer', 'active', 1, 'Fri Mar 18 2022 21:30:14 GMT+0500 (Pakistan Standard Time)');
+(18, 'Cupping Therapist', 'active', 1, 'Fri Mar 18 2022 21:30:14 GMT+0500 (Pakistan Standard Time)'),
+(19, 'Speech Therapy', 'active', 1, 'Sat Jul 23 2022 00:00:13 GMT-0700 (Pacific Daylight Time)'),
+(20, 'Neurologist', 'active', 1, 'Sat Jul 23 2022 00:03:32 GMT-0700 (Pacific Daylight Time)'),
+(21, 'Medical Officer', 'active', 1, 'Sat Jul 23 2022 00:04:13 GMT-0700 (Pacific Daylight Time)');
 
 -- --------------------------------------------------------
 
@@ -94,6 +97,7 @@ INSERT INTO `department` (`DEPARTMENT_ID`, `DEPARTMENT_NAME`, `DEPARTMENT_STATUS
 CREATE TABLE `doctor` (
   `DOCTOR_ID` int(10) NOT NULL,
   `DOCTOR_NAME` varchar(50) NOT NULL,
+  `DOCTOR_MOBILE` varchar(15) NOT NULL,
   `DEPARTMENT_ID` int(10) NOT NULL,
   `DOCTOR_STATUS` varchar(50) NOT NULL,
   `STAFF_ID` int(10) NOT NULL,
@@ -104,34 +108,39 @@ CREATE TABLE `doctor` (
 -- Dumping data for table `doctor`
 --
 
-INSERT INTO `doctor` (`DOCTOR_ID`, `DOCTOR_NAME`, `DEPARTMENT_ID`, `DOCTOR_STATUS`, `STAFF_ID`, `DOCTOR_DATE_TIME`) VALUES
-(1, 'Brig (R) Dr Shamim Akhtar', 1, 'active', 1, 'Sat Feb 05 2022 01:47:14 GMT+0500 (Pakistan Standard Time)'),
-(2, 'Assist Prof Dr Riffat Sarwar', 1, 'active', 1, 'Fri Mar 18 2022 22:03:48 GMT+0500 (Pakistan Standard Time)'),
-(3, 'Dr Sohaib Malik Abbas', 2, 'active', 1, 'Fri Mar 18 2022 22:04:32 GMT+0500 (Pakistan Standard Time)'),
-(4, 'Dr Mansha', 2, 'active', 1, 'Fri Mar 18 2022 22:04:54 GMT+0500 (Pakistan Standard Time)'),
-(5, 'Brig (R) Dr Humma Farrukh', 3, 'active', 1, 'Fri Mar 18 2022 22:05:06 GMT+0500 (Pakistan Standard Time)'),
-(6, 'Brig (R) Dr Bashir Ahmad', 3, 'active', 1, 'Fri Mar 18 2022 22:05:22 GMT+0500 (Pakistan Standard Time)'),
-(7, 'Dr Hammad Aslma Butt', 4, 'active', 1, 'Fri Mar 18 2022 22:05:35 GMT+0500 (Pakistan Standard Time)'),
-(8, 'Dr Muhammad Rashid Khan', 5, 'active', 1, 'Fri Mar 18 2022 22:05:48 GMT+0500 (Pakistan Standard Time)'),
-(9, 'Lt Col (R) Dr Tahir Ibrahim', 5, 'active', 1, 'Fri Mar 18 2022 22:06:06 GMT+0500 (Pakistan Standard Time)'),
-(10, 'Dr Javariya Hammad', 6, 'active', 1, 'Fri Mar 18 2022 22:06:15 GMT+0500 (Pakistan Standard Time)'),
-(11, 'Brig (R) Dr Tariq', 6, 'active', 1, 'Fri Mar 18 2022 22:06:28 GMT+0500 (Pakistan Standard Time)'),
-(12, 'Brig (R) Dr Javaid Hashmi', 6, 'active', 1, 'Fri Mar 18 2022 22:06:39 GMT+0500 (Pakistan Standard Time)'),
-(13, 'Dr Mehdi Raza Khawaja', 7, 'active', 1, 'Fri Mar 18 2022 22:06:50 GMT+0500 (Pakistan Standard Time)'),
-(14, 'Dr Tanzeela Atif', 8, 'active', 1, 'Fri Mar 18 2022 22:07:10 GMT+0500 (Pakistan Standard Time)'),
-(15, 'Maj (R) Khalid Ahmed', 9, 'active', 1, 'Fri Mar 18 2022 22:07:27 GMT+0500 (Pakistan Standard Time)'),
-(16, 'Dr Tayyab Rehman', 10, 'active', 1, 'Fri Mar 18 2022 22:07:36 GMT+0500 (Pakistan Standard Time)'),
-(17, 'Dr Salma Muzaffar', 11, 'active', 1, 'Fri Mar 18 2022 22:07:48 GMT+0500 (Pakistan Standard Time)'),
-(18, 'Prof Col (R) Dr Asghar Bhatti', 11, 'active', 1, 'Fri Mar 18 2022 22:07:59 GMT+0500 (Pakistan Standard Time)'),
-(19, 'Dr Sidra Tariq', 12, 'active', 1, 'Fri Mar 18 2022 22:08:12 GMT+0500 (Pakistan Standard Time)'),
-(20, 'Assoc Prof Dr Hassan Raza Asghar', 13, 'active', 1, 'Fri Mar 18 2022 22:08:22 GMT+0500 (Pakistan Standard Time)'),
-(21, 'Dr Muhammad Kalim', 14, 'active', 1, 'Fri Mar 18 2022 22:08:34 GMT+0500 (Pakistan Standard Time)'),
-(22, 'Dr Usama', 15, 'active', 1, 'Fri Mar 18 2022 22:08:45 GMT+0500 (Pakistan Standard Time)'),
-(23, 'Dr Sana Ayesha', 16, 'active', 1, 'Fri Mar 18 2022 22:08:57 GMT+0500 (Pakistan Standard Time)'),
-(24, 'Dr Humaira Rashid Khan', 17, 'active', 1, 'Fri Mar 18 2022 22:09:10 GMT+0500 (Pakistan Standard Time)'),
-(25, 'Dr Muhammad Waqas', 18, 'active', 1, 'Fri Mar 18 2022 22:09:25 GMT+0500 (Pakistan Standard Time)'),
-(26, 'Dr Arslan Amjid', 18, 'active', 1, 'Fri Mar 18 2022 22:09:44 GMT+0500 (Pakistan Standard Time)'),
-(27, 'Dr M Fahad Imtiaz', 18, 'active', 1, 'Fri Mar 18 2022 22:09:53 GMT+0500 (Pakistan Standard Time)');
+INSERT INTO `doctor` (`DOCTOR_ID`, `DOCTOR_NAME`, `DOCTOR_MOBILE`, `DEPARTMENT_ID`, `DOCTOR_STATUS`, `STAFF_ID`, `DOCTOR_DATE_TIME`) VALUES
+(1, 'Brig (R) Dr Shamim Akhtar', '03351149823', 1, 'active', 1, 'Sat Feb 05 2022 01:47:14 GMT+0500 (Pakistan Standard Time)'),
+(2, 'Assist Prof Dr Riffat Sarwar', '03214822323', 1, 'active', 1, 'Fri Mar 18 2022 22:03:48 GMT+0500 (Pakistan Standard Time)'),
+(3, 'Dr Sohaib Malik Abbas', '03008016669', 2, 'active', 1, 'Fri Mar 18 2022 22:04:32 GMT+0500 (Pakistan Standard Time)'),
+(4, 'Brig (R) Dr Humma Farrukh', '03215214420', 3, 'active', 1, 'Fri Mar 18 2022 22:04:54 GMT+0500 (Pakistan Standard Time)'),
+(5, 'Brig (R) Dr Bashir Ahmad', '03459301357', 3, 'active', 1, 'Fri Mar 18 2022 22:05:06 GMT+0500 (Pakistan Standard Time)'),
+(6, 'Dr Hammad Aslma Butt', '03217121008', 4, 'active', 1, 'Fri Mar 18 2022 22:05:22 GMT+0500 (Pakistan Standard Time)'),
+(7, 'Maj Dr Bilal', '03494823007', 5, 'active', 1, 'Fri Mar 18 2022 22:05:35 GMT+0500 (Pakistan Standard Time)'),
+(8, 'Dr Muhammad Rashid Khan', '03008421108', 5, 'active', 1, 'Fri Mar 18 2022 22:05:48 GMT+0500 (Pakistan Standard Time)'),
+(9, 'Dr Javariya Hammad', '03334171809', 6, 'active', 1, 'Fri Mar 18 2022 22:06:06 GMT+0500 (Pakistan Standard Time)'),
+(10, 'Dr Mehdi Raza Khawaja', '03218401331', 7, 'active', 1, 'Fri Mar 18 2022 22:06:15 GMT+0500 (Pakistan Standard Time)'),
+(11, 'Dr Tanzeela Atif', '03226067885', 8, 'active', 1, 'Fri Mar 18 2022 22:06:28 GMT+0500 (Pakistan Standard Time)'),
+(12, 'Maj (R) Khalid Ahmed', '03224232396', 9, 'active', 1, 'Fri Mar 18 2022 22:06:39 GMT+0500 (Pakistan Standard Time)'),
+(13, 'Dr Faheem Nawaz', '03018498483', 10, 'active', 1, 'Fri Mar 18 2022 22:06:50 GMT+0500 (Pakistan Standard Time)'),
+(14, 'Dr Tayyab Rehman', '03336918555', 10, 'active', 1, 'Fri Mar 18 2022 22:07:10 GMT+0500 (Pakistan Standard Time)'),
+(15, 'Dr Salma Muzaffar', '03006355995', 11, 'active', 1, 'Fri Mar 18 2022 22:07:27 GMT+0500 (Pakistan Standard Time)'),
+(16, 'Prof Col (R) Dr Asghar Bhatti', '03218848231', 11, 'active', 1, 'Fri Mar 18 2022 22:07:36 GMT+0500 (Pakistan Standard Time)'),
+(17, 'Dr Sidra Tariq', '03235142071', 12, 'active', 1, 'Fri Mar 18 2022 22:07:48 GMT+0500 (Pakistan Standard Time)'),
+(18, 'Assoc Prof Dr Hassan Raza Asghar', '03228468880', 13, 'active', 1, 'Fri Mar 18 2022 22:07:59 GMT+0500 (Pakistan Standard Time)'),
+(19, 'Dr Kamran Zebi', '03334257695', 13, 'active', 1, 'Fri Mar 18 2022 22:08:12 GMT+0500 (Pakistan Standard Time)'),
+(20, 'Dr Sobbyal', '03338733138', 14, 'active', 1, 'Fri Mar 18 2022 22:08:22 GMT+0500 (Pakistan Standard Time)'),
+(21, 'Dr Sana Ayesha', '03124452951', 15, 'active', 1, 'Fri Mar 18 2022 22:08:57 GMT+0500 (Pakistan Standard Time)'),
+(22, 'Brig (R) Dr Tariq', '03015385256', 16, 'active', 1, 'Fri Mar 18 2022 22:08:34 GMT+0500 (Pakistan Standard Time)'),
+(23, 'Brig (R) Dr Javaid Hashmi', '03009197419', 16, 'active', 1, 'Fri Mar 18 2022 22:08:45 GMT+0500 (Pakistan Standard Time)'),
+(24, 'Dr Humaira Rashid Khan', '03008421108', 17, 'active', 1, 'Fri Mar 18 2022 22:09:10 GMT+0500 (Pakistan Standard Time)'),
+(25, 'Dr Javariya Asif', '03067029279', 17, 'active', 1, 'Fri Mar 18 2022 22:09:25 GMT+0500 (Pakistan Standard Time)'),
+(26, 'Dr Ayesha Nawaz', '71557028809', 18, 'active', 1, 'Fri Mar 18 2022 22:09:44 GMT+0500 (Pakistan Standard Time)'),
+(27, 'Dr Nida Zahid', '03311446896', 19, 'active', 1, 'Fri Mar 18 2022 22:09:53 GMT+0500 (Pakistan Standard Time)'),
+(28, 'Dr Humaira Nazir', '03234401468', 19, 'active', 1, 'Sat Jul 23 2022 00:41:10 GMT-0700 (Pacific Daylight Time)'),
+(29, 'Dr Adeeb', '03328675357', 20, 'active', 1, 'Sat Jul 23 2022 01:45:40 GMT-0700 (Pacific Daylight Time)'),
+(30, 'Dr Ayesha', '03054336062', 21, 'active', 1, 'Sat Jul 23 2022 01:47:48 GMT-0700 (Pacific Daylight Time)'),
+(31, 'Dr Arslan Amjad', '03234979798', 21, 'active', 1, 'Sat Jul 23 2022 01:48:50 GMT-0700 (Pacific Daylight Time)'),
+(32, 'Dr M Fahad Imtiaz', '03084040035', 21, 'active', 1, 'Sat Jul 23 2022 01:50:08 GMT-0700 (Pacific Daylight Time)');
 
 -- --------------------------------------------------------
 
@@ -176,7 +185,7 @@ CREATE TABLE `emergency_slip` (
   `SLIP_MR_ID` varchar(20) NOT NULL,
   `SLIP_NAME` varchar(50) NOT NULL,
   `SLIP_MOBILE` varchar(15) NOT NULL,
-  `DOCTOR_ID` int(10) NOT NULL,
+  `DOCTOR_NAME` varchar(100) NOT NULL,
   `SLIP_DATE_TIME` varchar(100) NOT NULL,
   `STAFF_ID` int(10) NOT NULL,
   `BILL_STATUS` varchar(15) NOT NULL
@@ -233,7 +242,7 @@ CREATE TABLE `indoor_slip` (
   `SLIP_NAME` varchar(100) NOT NULL,
   `SLIP_MOBILE` varchar(15) NOT NULL,
   `DEPT_ID` int(10) NOT NULL,
-  `DOCTOR_ID` int(10) NOT NULL,
+  `DOCTOR_NAME` varchar(100) NOT NULL,
   `SLIP_PROCEDURE` varchar(200) NOT NULL,
   `SLIP_TYPE` varchar(20) NOT NULL,
   `SLIP_DATE_TIME` varchar(100) NOT NULL,
@@ -278,10 +287,11 @@ CREATE TABLE `outdoor_slip` (
   `SLIP_NAME` varchar(100) NOT NULL,
   `SLIP_MOBILE` varchar(15) NOT NULL,
   `DEPT_ID` int(10) NOT NULL,
-  `DOCTOR_ID` int(10) NOT NULL,
+  `DOCTOR_NAME` varchar(100) NOT NULL,
   `SLIP_FEE` int(10) NOT NULL,
   `SLIP_DATE_TIME` varchar(100) NOT NULL,
-  `STAFF_ID` int(10) NOT NULL
+  `STAFF_ID` int(10) NOT NULL,
+  `D_TYPE` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -325,6 +335,19 @@ INSERT INTO `room` (`ROOM_ID`, `ROOM_NAME`, `ROOM_RATE`, `ROOM_STATUS`, `STAFF_I
 (1, 'Semi Pvt Ward Charges', 5000, 'active', 1, 'Fri Mar 18 2022 22:59:10 GMT+0500 (Pakistan Standard Time)'),
 (2, 'Pvt Room Charges', 8000, 'active', 1, 'Fri Mar 18 2022 23:00:22 GMT+0500 (Pakistan Standard Time)'),
 (3, 'VIP Room Charges', 10000, 'active', 1, 'Fri Mar 18 2022 23:01:02 GMT+0500 (Pakistan Standard Time)');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `visitor_doctor`
+--
+
+CREATE TABLE `visitor_doctor` (
+  `VISITOR_ID` int(10) NOT NULL,
+  `VISITOR_NAME` varchar(50) NOT NULL,
+  `STAFF_ID` int(10) NOT NULL,
+  `VISITOR_DATE_TIME` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Indexes for dumped tables
@@ -398,6 +421,12 @@ ALTER TABLE `room`
   ADD PRIMARY KEY (`ROOM_ID`);
 
 --
+-- Indexes for table `visitor_doctor`
+--
+ALTER TABLE `visitor_doctor`
+  ADD PRIMARY KEY (`VISITOR_ID`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -411,13 +440,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `department`
 --
 ALTER TABLE `department`
-  MODIFY `DEPARTMENT_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `DEPARTMENT_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `doctor`
 --
 ALTER TABLE `doctor`
-  MODIFY `DOCTOR_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `DOCTOR_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `emergency_bill`
@@ -466,6 +495,12 @@ ALTER TABLE `patient`
 --
 ALTER TABLE `room`
   MODIFY `ROOM_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `visitor_doctor`
+--
+ALTER TABLE `visitor_doctor`
+  MODIFY `VISITOR_ID` int(10) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

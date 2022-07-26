@@ -39,7 +39,6 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr style="font-size: 14px;">
-                    <th>S.No#</th>
                     <th>MR-ID</th>
                     <th>Name</th>
                     <th>Mobile</th>
@@ -56,9 +55,7 @@
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
-                       $date = substr($rs['CREATED_ON'],0, 21);
                         echo "<tr style='font-size: 12px;'>
-                        <td>$rs[PATIENT_ID]</td>
                         <td>$rs[PATIENT_MR_ID]</td>
                         <td>$rs[PATIENT_NAME]</td>
                         <td>$rs[PATIENT_MOBILE]</td>
@@ -67,7 +64,7 @@
                         <td>$rs[PATIENT_ADDRESS]</td>
                         <td>
                             <b>By</b>: $rs[ADMIN_USERNAME] <br>
-                            <b>On</b>: ".$date."
+                            <b>On</b>: $rs[CREATED_ON]
                         </td> 
                         <td style='display:flex;'>
                             <a href='view_patient.php?patid=$rs[PATIENT_ID]' style='color:green;'>

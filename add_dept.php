@@ -41,7 +41,8 @@
                               mysqli_stmt_bind_param($stmt,"ssss",$name,$status,$by,$date);
                               mysqli_stmt_execute($stmt);
                           
-                              echo '<script type="text/javascript">window.location = "add_dept.php?action=saved";</script>';								
+                              // echo '<script type="text/javascript">window.location = "add_dept.php?action=saved";</script>';
+                              echo "<script>alert('Department record saved successfully...');window.location = 'dept.php';</script>";								
                               exit();
                           }			
                       }

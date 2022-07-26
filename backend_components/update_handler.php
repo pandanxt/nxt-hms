@@ -29,11 +29,9 @@
 		$id =  $_POST['did'];
 		$name =  $_POST['name'];
 		$status =  $_POST['status'];
-        $description = $_POST['description'];
 
 			$sql ="UPDATE `department` SET 
 			`DEPARTMENT_NAME`='$name',
-			`DEPARTMENT_DESC`='$description',
 			`DEPARTMENT_STATUS`='$status' 
 			WHERE `DEPARTMENT_ID` = '$id'";
 			if($qsql = mysqli_query($db,$sql))
@@ -50,14 +48,13 @@
 		$name =  $_POST['name'];
 		$phone =  $_POST['mobile'];
         $department = $_POST['department'];
-		$education = implode(', ', $_POST['education']);
-		$experience = $_POST['experience'];
+		// $education = implode(', ', $_POST['education']);
+		// $experience = $_POST['experience'];
 		$status =  $_POST['status'];
 
 			$sql ="UPDATE `doctor` SET 
 			`DOCTOR_NAME`='$name',`DOCTOR_MOBILE`='$phone',
-			`DEPARTMENT_ID`='$department',`DOCTOR_EDUCATION`='$education',
-			`DOCTOR_EXPERIENCE`='$experience',`DOCTOR_STATUS`='$status' WHERE `DOCTOR_ID`='$id'";
+			`DEPARTMENT_ID`='$department',`DOCTOR_STATUS`='$status' WHERE `DOCTOR_ID`='$id'";
 			if($qsql = mysqli_query($db,$sql))
 			{
 				echo "<script>alert('Doctor record updated successfully...');window.location = '../doctors.php';</script>";

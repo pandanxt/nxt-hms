@@ -17,7 +17,7 @@
     
     // Post Variables
     $name = $_POST['name'];
-    $saveOn = $_POST['addDate'];  
+    // $saveOn = $_POST['addDate'];  
     $mrid = $_POST['mrid'];
     $phone = $_POST['phone'];
     $gender = $_POST['gender'];
@@ -44,9 +44,8 @@
         $resultCheck = mysqli_stmt_num_rows($stmt);
             
         if ($resultCheck > 0) {
-        // if(!$resultCheck == 0) { 
             
-          $slipQuery = "INSERT INTO `indoor_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` ,`DEPT_ID`, `DOCTOR_ID`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `SLIP_DATE_TIME`, `STAFF_ID`,`BILL_STATUS`) VALUES (?,?,?,?,?,?,?,?,?,?)";
+          $slipQuery = "INSERT INTO `indoor_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` ,`DEPT_ID`, `DOCTOR_NAME`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`,`BILL_STATUS`) VALUES (?,?,?,?,?,?,?,?,?)";
           mysqli_stmt_execute($stmt);
               
             if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
@@ -58,15 +57,20 @@
                $psql = mysqli_query($db,$patientQuery);
                while($prs = mysqli_fetch_array($psql))
                {
-                  mysqli_stmt_bind_param($stmt,"ssssssssss", $prs['PATIENT_MR_ID'],$name,$prs['PATIENT_MOBILE'],$dept,$doctor,$procedure,$type,$saveOn,$by,$status);
+                  mysqli_stmt_bind_param($stmt,"sssssssss", $prs['PATIENT_MR_ID'],$name,$prs['PATIENT_MOBILE'],$dept,$doctor,$procedure,$type,$by,$status);
                   if (mysqli_stmt_execute($stmt)) {
                     echo "<script>alert('Patient slip is created but patient data already exists...');</script>";
-                      // echo "<script>alert('Data fetched from DB...pname='".$prs['PATIENT_NAME']."'&on='".$saveOn."'&mrid='".$prs['PATIENT_MR_ID']."'&phone='".$prs['PATIENT_MOBILE']."'&gender='".$prs['PATIENT_GENDER']."'&doc='".$doctor."'&age='".$prs['PATIENT_AGE']."'&add='".$prs['PATIENT_ADDRESS']."'&by='".$by."');</script>";
-                      echo '<script type="text/javascript">window.location = "indoor_slip_print.php?pname='.$prs['PATIENT_NAME'].'&on='.$saveOn.'&type='.$type.'&mrid='.$prs['PATIENT_MR_ID'].'&phone='.$prs['PATIENT_MOBILE'].'&gender='.$prs['PATIENT_GENDER'].'&dept='.$dept.'&doc='.$doctor.'&age='.$prs['PATIENT_AGE'].'&add='.$prs['PATIENT_ADDRESS'].'&pro='.$procedure.'&by='.$by.'";</script>';
+                      // echo '<script type="text/javascript">window.location = "indoor_slip_print.php?pname='.$prs['PATIENT_NAME'].'&on='.$saveOn.'&type='.$type.'&mrid='.$prs['PATIENT_MR_ID'].'&phone='.$prs['PATIENT_MOBILE'].'&gender='.$prs['PATIENT_GENDER'].'&dept='.$dept.'&doc='.$doctor.'&age='.$prs['PATIENT_AGE'].'&add='.$prs['PATIENT_ADDRESS'].'&pro='.$procedure.'&by='.$by.'";</script>';
+                      $printQuery = "SELECT `SLIP_ID` FROM `indoor_slip` ORDER BY `SLIP_ID` DESC LIMIT 1";
+                      $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
+                      $pResult = mysqli_fetch_array($printsql);
+
+                      if ($pResult > 0) {
+                        echo '<script type="text/javascript">window.location = "indoor_slip_print.php?sid='.$pResult['SLIP_ID'].'";</script>';
+                      }
                   }
                 } 
             }   
-          // echo '<script type="text/javascript">window.location = "emergency.php?action=nameTaken";</script>';
           exit();
         }else if($resultCheck == 0){
 
@@ -78,29 +82,35 @@
             `PATIENT_GENDER`, 
             `PATIENT_AGE`, 
             `PATIENT_ADDRESS`, 
-            `CREATED_ON`, 
             `CREATED_BY`
-          ) VALUES (?,?,?,?,?,?,?,?)";
+          ) VALUES (?,?,?,?,?,?,?)";
           mysqli_stmt_execute($stmt);
                 
           if (!mysqli_stmt_prepare($stmt,$sql)) {
               echo "<script>alert('Sqlerror due to DB Query...');</script>";
               exit();
           }else{
-              mysqli_stmt_bind_param($stmt,"ssssssss", $mrid,$name,$phone,$gender,$age,$address,$saveOn,$by);
+              mysqli_stmt_bind_param($stmt,"sssssss", $mrid,$name,$phone,$gender,$age,$address,$by);
              
               if (mysqli_stmt_execute($stmt)){
-                $slipQuery = "INSERT INTO `indoor_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DEPT_ID`, `DOCTOR_ID`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `SLIP_DATE_TIME`, `STAFF_ID`,`BILL_STATUS`) VALUES (?,?,?,?,?,?,?,?,?,?)";
+                $slipQuery = "INSERT INTO `indoor_slip`(`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `DEPT_ID`, `DOCTOR_NAME`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`,`BILL_STATUS`) VALUES (?,?,?,?,?,?,?,?,?)";
                 // mysqli_stmt_execute($stmt);
               
                 if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
                   echo "<script>alert('Sqlerror due to DB Query...');</script>";
                   exit();
                 }else{
-                  mysqli_stmt_bind_param($stmt,"ssssssssss", $mrid,$name,$phone,$dept,$doctor,$procedure,$type,$saveOn,$by,$status);
+                  mysqli_stmt_bind_param($stmt,"sssssssss", $mrid,$name,$phone,$dept,$doctor,$procedure,$type,$by,$status);
                   if (mysqli_stmt_execute($stmt)) {
                     echo "<script>alert('Patient slip is created and patient data is also stored...');</script>";
-                    echo '<script type="text/javascript">window.location = "indoor_slip_print.php?type='.$type.'&pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&gender='.$gender.'&dept='.$dept.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&pro='.$procedure.'&by='.$by.'";</script>';
+                    // echo '<script type="text/javascript">window.location = "indoor_slip_print.php?type='.$type.'&pname='.$name.'&on='.$saveOn.'&mrid='.$mrid.'&phone='.$phone.'&gender='.$gender.'&dept='.$dept.'&doc='.$doctor.'&age='.$age.'&add='.$address.'&pro='.$procedure.'&by='.$by.'";</script>';
+                      $printQuery = "SELECT `SLIP_ID` FROM `indoor_slip` ORDER BY `SLIP_ID` DESC LIMIT 1";
+                      $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
+                      $pResult = mysqli_fetch_array($printsql);
+
+                      if ($pResult > 0) {
+                        echo '<script type="text/javascript">window.location = "indoor_slip_print.php?sid='.$pResult['SLIP_ID'].'";</script>';
+                      }
                   } 
                 }   
               }
@@ -188,7 +198,7 @@
                 <div class="form-group col-md-6">
                   <label>Department</label>
                   <select class="form-control select2bs4" id="dept" name="dept" style="width: 100%;" onchange="showDoctor(this.value)">
-                  <option disabled selected>Select Department</option>
+                  <option disabled selected  value="">----- Select Department Name -----</option>
                       <?php
                       $dept = 'SELECT `DEPARTMENT_ID`, `DEPARTMENT_NAME` FROM `department` WHERE `DEPARTMENT_STATUS` = "active"';
                       $result = mysqli_query($db, $dept) or die (mysqli_error($db));
@@ -200,17 +210,17 @@
                       ?>
                   </select>
                 </div>
-                <div class="form-group col-md-6" id="doctor">
+                <div class="form-group col-md-6">
                         <label>Consultant/Surgeon</label>
-                        <select class="form-control select2bs4" name="doctor" style="width: 100%;">
-                        <option disabled selected>Select Consultant Name</option>
+                        <select class="form-control select2bs4" name="doctor" style="width: 100%;" id="doctor">
+                        <option disabled selected value="">----- Select Consultant Name -----</option>
                             <?php
                             $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "active"';
                             $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
                                 while ($row = mysqli_fetch_array($result)) {
                                 $id = $row['DOCTOR_ID'];  
                                 $name = $row['DOCTOR_NAME'];
-                                echo '<option value="'.$id.'">'.$name.'</option>'; 
+                                echo '<option value="'.$name.'">'.$name.'</option>'; 
                             }
                             ?>
                         </select>
@@ -230,10 +240,6 @@
                         xmlhttp.send();
                       }
                     </script>    
-                    <!-- <div class="form-group col-md-6">
-                      <label>CNIC #</label>
-                      <input type="number" name="cnic" class="form-control" id="inputPhone" placeholder="Enter CNIC No. without '-' ">
-                    </div> -->
                 </div>
               
               </div>

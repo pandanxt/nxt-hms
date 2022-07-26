@@ -8,19 +8,26 @@
   include('components/form_header.php');
  
 ?>
-    <label>Consultant/Surgeon</label>
-
-    <select class="form-control select2bs4" name="doctor" style="width: 100%;">
-    <option disabled selected>Select Consultant Name</option>
-<?php
-    $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "active" AND `DEPARTMENT_ID` = '.$q;
-    $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
-    while ($row = mysqli_fetch_array($result)) {
-        $id = $row['DOCTOR_ID'];  
-        $name = $row['DOCTOR_NAME'];
-        echo '<option value="'.$id.'">'.$name.'</option>'; 
+    <option disabled selected value="">----- Select Consultant Name -----</option>
+    <?php
+    if ($q != 0) {
+        $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "active" AND `DEPARTMENT_ID` = '.$q;
+        $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
+        while ($row = mysqli_fetch_array($result)) {
+            $id = $row['DOCTOR_ID'];  
+            $name = $row['DOCTOR_NAME'];
+            echo '<option value="'.$name.'">'.$name.'</option>'; 
+        }   
+    } else {
+        $doctor = 'SELECT `VISITOR_ID`, `VISITOR_NAME` FROM `visitor_doctor`';
+        $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
+        while ($row = mysqli_fetch_array($result)) {
+            $id = $row['VISITOR_ID'];  
+            $name = $row['VISITOR_NAME'];
+            echo '<option value="'.$name.'">'.$name.'</option>'; 
+        }   
     }
-?>
+    ?>
     </select>
 <?php  
     mysqli_close($db);

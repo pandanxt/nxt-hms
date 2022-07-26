@@ -43,11 +43,6 @@
                   <label>Doctor Name</label>
                   <input type="text" class="form-control" name="name" id="inputText1" value="<?php echo $rsedit['DOCTOR_NAME']; ?>" required>
                 </div>
-                <!-- /.form-group -->
-                <div class="form-group">
-                  <label>Mobile No.</label>
-                  <input type="tel" class="form-control" name="mobile" id="inputLoginId1" value="<?php echo $rsedit['DOCTOR_MOBILE']; ?>" pattern="[0-9]{4}-[0-9]{7}" title="Please Enter Phone number with '-'" required>
-                </div>
                  <!-- /.form-group -->
                  <div class="form-group">
                   <label>Department</label>
@@ -69,25 +64,30 @@
               <!-- /.col -->
               <div class="col-md-6">
               <input type="text" name="docid" value="<?php echo $rsedit['DOCTOR_ID']; ?>" hidden/>
-                <div class="form-group">
+               <!-- /.form-group -->
+               <div class="form-group">
+                  <label>Mobile No.</label>
+                  <input type="tel" class="form-control" name="mobile" id="inputLoginId1" value="<?php echo $rsedit['DOCTOR_MOBILE']; ?>" pattern="[0-9]{4}[0-9]{7}" title="Please Enter Phone number with '-'" required>
+                </div>
+                <!-- <div class="form-group">
                   <label>Education</label>
                   <select class="select2bs4" multiple="multiple" name="education[]" data-placeholder="Select Education" style="width: 100%;">
                           <?php
-                      $edu = 'SELECT `EDUCATION_NAME`,`EDUCATION_ALAIS` FROM `education` WHERE `EDUCATION_STATUS` = "active"';
-                      $result = mysqli_query($db, $edu) or die (mysqli_error($db));
-                        while ($row = mysqli_fetch_array($result)) {
-                          $id = $row['EDUCATION_ALAIS'];  
-                          $name = $row['EDUCATION_NAME'];
-                          echo '<option value="'.$id.'">'.$id.' | '.$name.'</option>'; 
-                      }
+                      // $edu = 'SELECT `EDUCATION_NAME`,`EDUCATION_ALAIS` FROM `education` WHERE `EDUCATION_STATUS` = "active"';
+                      // $result = mysqli_query($db, $edu) or die (mysqli_error($db));
+                      //   while ($row = mysqli_fetch_array($result)) {
+                      //     $id = $row['EDUCATION_ALAIS'];  
+                      //     $name = $row['EDUCATION_NAME'];
+                      //     echo '<option value="'.$id.'">'.$id.' | '.$name.'</option>'; 
+                      // }
                     ?>    
                   </select>
-                </div>
+                </div> -->
                 <!-- /.form-group -->
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label>Experience</label>
-                  <input type="text" class="form-control" name="experience" id="inputPassword1" value="<?php echo $rsedit['DOCTOR_EXPERIENCE']; ?>" required>
-                </div>
+                  <input type="text" class="form-control" name="experience" id="inputPassword1" value="<?php //echo $rsedit['DOCTOR_EXPERIENCE']; ?>" required>
+                </div> -->
                 <!-- /.form-group -->
                 <div class="form-group">
                   <label>Status</label>

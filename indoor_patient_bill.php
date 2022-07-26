@@ -24,7 +24,7 @@
     $pro = $_POST['procedure'];
 
     $admdate = $_POST['admdate'];
-    $disdate = $_POST['disdate'];
+    // $disdate = $_POST['disdate'];
 
     if ($type == "genillness") {
       $prChargeThree = $_POST['prChargeThree'];
@@ -76,8 +76,6 @@
           `PATIENT_NAME`,
           `MOBILE`,
           `ADMISSION_DATE`,
-          `DISCHARGE_DATE`,
-          `DATE_TIME`,
           `ADMISSION_CHARGE`,
           `SURGEON_CHARGE`,
           `ANESTHETIST_CHARGE`,
@@ -100,7 +98,7 @@
           `DISCOUNT`,
           `TOTAL`,
           `CREATED_BY`
-         ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+         ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
          
           // mysqli_stmt_execute($stmt);
             
@@ -109,8 +107,8 @@
               echo "<script>alert('Sqlerror due to DB Query...');</script>";
               exit();
           }else{    
-                  mysqli_stmt_bind_param($stmt,"sssssssssssssssssssssssssssss",
-                  $mrid,$sid,$name,$phone,$admdate,$disdate,$disdate,$adCharge,$surCharge,$anesCharge,
+                  mysqli_stmt_bind_param($stmt,"sssssssssssssssssssssssssss",
+                  $mrid,$sid,$name,$phone,$admdate,$adCharge,$surCharge,$anesCharge,
                   $opCharge,$chargeLR,$pedCharge, $prChargeThree,$nurCharge,$nurStCharge,$moChargeTwo,
                   $conChargeThree,$ctg,$rrCharge,$monChargeTwo,$nurChargeTwo, $oxChargeTwo,
                   $other,$otherText,$tbill,$discount,$fbill,$by);
@@ -119,7 +117,13 @@
               $updateSql ="UPDATE `indoor_slip` SET `BILL_STATUS`='$status' WHERE `indoor_slip`.`SLIP_ID`='$sid'";
               if($querySql = mysqli_query($db,$updateSql))
               {
-                  echo '<script type="text/javascript">window.location = "indoor_bill_print.php?pname='.$name.'&mrid='.$mrid.'&phone='.$phone.'&type='.$type.'&admdate='.$admdate.'&disdate='.$disdate.'&doc='.$doc.'&pro='.$pro.'&adcharge='.$adCharge.'&surcharge='.$surCharge.'&anescharge='.$anesCharge.'&opcharge='.$opCharge.'&chargelr='.$chargeLR.'&pedcharge='.$pedCharge.'&nurcharge='.$nurCharge.'&nurstcharge='.$nurStCharge.'&ctg='.$ctg.'&rrcharge='.$rrCharge.'&other='.$other.'&otherText='.$otherText.'&prChargeThree='.$prChargeThree.'&mochargeTwo='.$moChargeTwo.'&monChargeTwo='.$monChargeTwo.'&oxChargeTwo='.$oxChargeTwo.'&nurChargeTwo='.$nurChargeTwo.'&conChargeThree='.$conChargeThree.'&tbill='.$tbill.'&dis='.$discount.'&fbill='.$fbill.'&by='.$by.'";</script>';
+                  $printQuery = "SELECT `BILL_ID` FROM `indoor_bill` ORDER BY `BILL_ID` DESC LIMIT 1";
+                  $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
+                  $pResult = mysqli_fetch_array($printsql);
+      
+                  if ($pResult > 0) {
+                    echo '<script type="text/javascript">window.location = "indoor_bill_print.php?sid='.$pResult['BILL_ID'].'";</script>';
+                  }
               }else
               {
                 echo mysqli_error($db);
@@ -136,7 +140,7 @@
   
   //Check if MRID is empty or not 
   if (!empty($sid) && !empty($type)) {
-    $sql="SELECT *, `DOCTOR_NAME` FROM `indoor_slip` INNER JOIN `doctor` WHERE `SLIP_ID` = '$sid' AND `indoor_slip`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID`";
+    $sql="SELECT * FROM `indoor_slip` WHERE `SLIP_ID` = '$sid'";
     $qsql = mysqli_query($db,$sql);
     $patdata = mysqli_fetch_array($qsql);
 ?>

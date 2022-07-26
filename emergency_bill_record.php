@@ -30,13 +30,8 @@
                     <th>MR-ID</th>
                     <th>Name</th>
                     <th>Mobile</th>
-                    <!-- <th>Date | Time</th> -->
-                    <th>Amount</th>
-                    <th>Discount</th>
-                    <th>Total</th>
+                    <th>Payments</th>
                     <th>Created</th>
-                    <!-- <th>STAFF</th>
-                    <th>DATE|TIME</th> -->
                     <th>Options</th>
                   </tr>
                   </thead>
@@ -52,9 +47,10 @@
                         <td>$rs[MR_ID]</td>
                         <td>$rs[PATIENT_NAME]</td>
                         <td>$rs[MOBILE]</td>
-                        <td>$rs[TOTAL_AMOUNT]</td>
-                        <td>$rs[DISCOUNT]</td>
-                        <td>$rs[TOTAL]</td>
+                        <td style='display:flex;'>
+                          <b>SubTotal</b>: $rs[TOTAL_AMOUNT]<br>
+                          <b>Discount</b>: $rs[DISCOUNT]<br>
+                          <b>Total</b>: $rs[TOTAL]</td>
                         <td>
                             <b>By</b>: $rs[ADMIN_USERNAME] <br>
                             <b>On</b>: ".$date."

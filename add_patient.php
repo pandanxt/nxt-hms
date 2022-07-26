@@ -18,7 +18,7 @@
     $age = $_POST['age'];
     $address = $_POST['address'];
     $by = $_POST['by'];
-    $saveOn = $_POST['addDate'];  
+    // $saveOn = $_POST['addDate'];  
 
     // Check Data from DB
     $sql = "SELECT * FROM `patient` WHERE `PATIENT_MR_ID` = ? OR `PATIENT_MOBILE` = ?";
@@ -44,16 +44,15 @@
             `PATIENT_GENDER`, 
             `PATIENT_AGE`, 
             `PATIENT_ADDRESS`, 
-            `CREATED_ON`, 
             `CREATED_BY`
-          ) VALUES (?,?,?,?,?,?,?,?)";
+          ) VALUES (?,?,?,?,?,?,?)";
           mysqli_stmt_execute($stmt);
               
             if (!mysqli_stmt_prepare($stmt,$patientQuery)) {
               echo "<script>alert('Sqlerror due to DB Query...');</script>";
               exit();
             }else{
-                mysqli_stmt_bind_param($stmt,"ssssssss", $mrid,$name,$phone,$gender,$age,$address,$saveOn,$by);
+                mysqli_stmt_bind_param($stmt,"sssssss", $mrid,$name,$phone,$gender,$age,$address,$by);
                 if (mysqli_stmt_execute($stmt)) {
                 echo "<script>alert('New Patient is created...');</script>";
                 echo '<script type="text/javascript">window.location = "patient_record.php";</script>';
