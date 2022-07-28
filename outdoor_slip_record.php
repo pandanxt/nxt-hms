@@ -58,7 +58,7 @@
                             <b>On</b>: ".$date."
                         </td> 
                         <td style='display:flex;'>
-                              <a href='outdoor_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
+                              <a href='javascript:void(0)' onclick='printSlip($rs[SLIP_ID]);' style='color:green;'>
                               <i class='fas fa-wallet'></i> Print
                             </a>";
                             if ($_SESSION['type'] == "admin") {  
@@ -76,6 +76,11 @@
                   ?>
                   </tbody>
                 </table>
+                <script>
+                  function printSlip(sid) {
+                    window.open(`print-page.php?sid=${sid}`, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=500");
+                   }               
+                </script>
               </div>
               <!-- /.card-body -->
             </div>
