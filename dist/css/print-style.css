@@ -11,6 +11,20 @@ body {
       width: 80mm;
       border: 1px solid black;
   }
+  .brandFooter {
+    width: 50%;
+    text-align: right;
+    padding-bottom: 1mm;
+    font-size: 8pt;
+    font-weight: bold;
+  }
+  .staffFooter {
+    width: 50%;
+    text-align: left;
+    padding-bottom: 1mm;
+    font-size: 8pt;
+    font-weight: bold;
+  }
   .orderNo {
     width: 100%;
     text-align: right;
@@ -44,7 +58,7 @@ body {
   }
   
   #date {
-    margin: 5pt 0px;
+    margin: 0px;
     text-align: center;
     font-size: 8pt;
   }
@@ -168,7 +182,7 @@ body {
   }
   
   .totals .col2 {
-     width: 22mm; 
+     width: 25mm; 
   }
   
   .totals .col2:empty {
@@ -281,16 +295,9 @@ body {
       margin-top: -36px;
   }
   .left-chars {
-    width: 28ch;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
     padding: 0rem !important;
+    width: 12ch !important;
   }
   .right-chars {
-    width: 70ch;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
     padding: 0rem !important;
   }

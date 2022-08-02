@@ -55,7 +55,7 @@
                             echo "<a href='emergency_patient_bill.php?sid=$rs[SLIP_ID]' style='color:green;'>
                               <i class='fas fa-wallet'></i> Bill</a>
                               <br> 
-                              <a href='emergency_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
+                              <a href='javascript:void(0)' onclick='printSlip($rs[SLIP_ID]);' style='color:green;'>
                               <i class='fas fa-wallet'></i> Print</a>";
                               if ($_SESSION['type'] == "admin") {  
                               echo "<br>
@@ -66,7 +66,7 @@
                               <i class='fas fa-trash'></i> Delete</a>";
                               }
                         }else{
-                            echo "<a href='emergency_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
+                            echo "<a href='javascript:void(0)' onclick='printSlip($rs[SLIP_ID]);' style='color:green;'>
                             <i class='fas fa-wallet'></i> Print</a>";
                             if ($_SESSION['type'] == "admin") {  
                             echo "<br>
@@ -83,6 +83,11 @@
                   ?>
                   </tbody>
                 </table>
+                <script>
+                  function printSlip(sid) {
+                    window.open(`print-page.php?type=imrc&sid=${sid}`, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=500");
+                   }               
+                </script>
               </div>
               <!-- /.card-body -->
             </div>

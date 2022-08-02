@@ -66,7 +66,8 @@
                       $pResult = mysqli_fetch_array($printsql);
 
                       if ($pResult > 0) {
-                        echo '<script type="text/javascript">window.location = "indoor_slip_print.php?sid='.$pResult['SLIP_ID'].'";</script>';
+                        echo '<script>window.open("print-page.php?type=indoor&sid='.$pResult['SLIP_ID'].'", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,,width=600,height=500");</script>';           
+                        echo '<script type="text/javascript">window.location = "indoor_slip_record.php";</script>';
                       }
                   }
                 } 
@@ -109,7 +110,8 @@
                       $pResult = mysqli_fetch_array($printsql);
 
                       if ($pResult > 0) {
-                        echo '<script type="text/javascript">window.location = "indoor_slip_print.php?sid='.$pResult['SLIP_ID'].'";</script>';
+                        echo '<script>window.open("print-page.php?type=indoor&sid='.$pResult['SLIP_ID'].'", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,,width=600,height=500");</script>';           
+                        echo '<script type="text/javascript">window.location = "indoor_slip_record.php";</script>';
                       }
                   } 
                 }   

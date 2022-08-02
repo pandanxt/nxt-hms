@@ -68,7 +68,7 @@
                     $pResult = mysqli_fetch_array($printsql);
 
                     if ($pResult > 0) {
-                      echo '<script>window.open("print-page.php?sid='.$pResult['SLIP_ID'].'", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,,width=600,height=500");</script>';           
+                      echo '<script>window.open("print-page.php?type=outdoor&sid='.$pResult['SLIP_ID'].'", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,,width=600,height=500");</script>';           
                       echo '<script type="text/javascript">window.location = "outdoor_slip_record.php";</script>';
                     }
                 }
@@ -112,7 +112,7 @@
                     $pResult = mysqli_fetch_array($printsql);
 
                     if ($pResult > 0) {
-                      echo '<script>window.open("print-page.php?sid='.$pResult['SLIP_ID'].'", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=500");</script>';           
+                      echo '<script>window.open("print-page.php?type=outdoor&sid='.$pResult['SLIP_ID'].'", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=500");</script>';           
                       echo '<script type="text/javascript">window.location = "outdoor_slip_record.php";</script>';
                     }
                   } 
