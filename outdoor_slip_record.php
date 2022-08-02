@@ -78,7 +78,7 @@
                 </table>
                 <script>
                   function printSlip(sid) {
-                    window.open(`print-page.php?sid=${sid}`, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=500");
+                    window.open(`print-page.php?type=outdoor&sid=${sid}`, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=500");
                    }               
                 </script>
               </div>
