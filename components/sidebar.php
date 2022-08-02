@@ -166,17 +166,6 @@
                 </a>
             </li>
 
-            <!------**************------>
-            <!------Doctor Details------>
-            <!------**************------> 
-
-            <li class="nav-item">
-                <a href="doctors.php" class="nav-link">
-                <i class="nav-icon fas fa-user-md"></i>
-                <p>Doctor Details</p>
-                </a>
-            </li>
-
             <!------******************------>
             <!------Department Details------>
             <!------******************------> 
@@ -247,6 +236,26 @@
                         <a href="room.php" class="nav-link">
                         <i class="nav-icon fas fa-procedures"></i>
                         <p>MedEast Room</p>
+                        </a>
+                    </li>
+                  </small>
+                  
+                    <!------**************------>
+                    <!------Doctor Details------>
+                    <!------**************------> 
+                  <small>
+                    <li class="nav-item">
+                        <a href="doctors.php" class="nav-link">
+                        <i class="nav-icon fas fa-user-md"></i>
+                        <p>Medeast Doctors</p>
+                        </a>
+                    </li>
+                  </small>
+                  <small>
+                    <li class="nav-item">
+                        <a href="visiting-doctors.php" class="nav-link">
+                        <i class="nav-icon fas fa-user-md"></i>
+                        <p>Visiting Doctors</p>
                         </a>
                     </li>
                   </small>
