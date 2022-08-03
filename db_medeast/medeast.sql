@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2022 at 05:34 PM
+-- Generation Time: Aug 02, 2022 at 11:38 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -191,6 +191,14 @@ CREATE TABLE `emergency_slip` (
   `BILL_STATUS` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `emergency_slip`
+--
+
+INSERT INTO `emergency_slip` (`SLIP_ID`, `SLIP_MR_ID`, `SLIP_NAME`, `SLIP_MOBILE`, `DOCTOR_NAME`, `SLIP_DATE_TIME`, `STAFF_ID`, `BILL_STATUS`) VALUES
+(1, '1258953-ME', 'Muhammad Umer', '03214253974', 'Dr Arslan Amjad', '2022-07-31 12:41:50', 1, 'pending'),
+(2, '3930434-ME', 'Muhammad Ali Khan', '03234700117', 'Dr M Fahad Imtiaz', '2022-08-02 20:59:36', 1, 'pending');
+
 -- --------------------------------------------------------
 
 --
@@ -250,6 +258,15 @@ CREATE TABLE `indoor_slip` (
   `BILL_STATUS` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `indoor_slip`
+--
+
+INSERT INTO `indoor_slip` (`SLIP_ID`, `SLIP_MR_ID`, `SLIP_NAME`, `SLIP_MOBILE`, `DEPT_ID`, `DOCTOR_NAME`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `SLIP_DATE_TIME`, `STAFF_ID`, `BILL_STATUS`) VALUES
+(1, '7929791-ME', 'Umar Saeed', '03224253974', 6, 'Dr Javariya Hammad', 'This is a Test procedure and surgery type.', 'gensurgery', '2022-08-02 19:20:00', 1, 'pending'),
+(2, '0965895-ME', 'Zahid Hussain Shah', '03214700117', 10, 'Dr Faheem Nawaz', 'This is a test procedure and surgery type with the details and other information', 'eye', '2022-08-02 20:10:35', 1, 'pending'),
+(3, '4021807-ME', 'Muhammad Zaighum Sarwar', '03234374263', 6, 'Dr Javariya Hammad', 'This is a procedure and surgery type and other options', 'genillness', '2022-08-02 21:01:45', 1, 'pending');
+
 -- --------------------------------------------------------
 
 --
@@ -294,6 +311,15 @@ CREATE TABLE `outdoor_slip` (
   `D_TYPE` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `outdoor_slip`
+--
+
+INSERT INTO `outdoor_slip` (`SLIP_ID`, `SLIP_MR_ID`, `SLIP_NAME`, `SLIP_MOBILE`, `DEPT_ID`, `DOCTOR_NAME`, `SLIP_FEE`, `SLIP_DATE_TIME`, `STAFF_ID`, `D_TYPE`) VALUES
+(1, '1140730-ME', 'Umar Saeed', '03234169956', 5, 'Dr Muhammad Rashid Khan', 4200, '2022-07-31 12:39:55', 1, 0),
+(2, '4126503-ME', 'Shehzad Iqbal', '03218776604', 5, 'Dr Mubeen Hussain', 4500, '2022-08-02 21:03:08', 1, 1),
+(3, '5192978-ME', 'Syed Nazir Hussain Shah', '03234565987', 2, 'Dr Irfan Tariq', 5200, '2022-08-02 21:21:05', 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -311,6 +337,20 @@ CREATE TABLE `patient` (
   `CREATED_ON` varchar(100) DEFAULT NULL,
   `CREATED_BY` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `patient`
+--
+
+INSERT INTO `patient` (`PATIENT_ID`, `PATIENT_MR_ID`, `PATIENT_NAME`, `PATIENT_MOBILE`, `PATIENT_GENDER`, `PATIENT_AGE`, `PATIENT_ADDRESS`, `CREATED_ON`, `CREATED_BY`) VALUES
+(1, '1140730-ME', 'Umar Saeed', '03234169956', 'male', '26', 'Lahore, Pakistan', '2022-07-31 12:39:55', 1),
+(2, '1258953-ME', 'Muhammad Umer', '03214253974', 'male', '27', 'Lahore, Pakistan', '2022-07-31 12:41:49', 1),
+(3, '7929791-ME', 'Umar Saeed', '03224253974', 'male', '27', 'Lahore, Pakistan', '2022-08-02 19:20:00', 1),
+(4, '0965895-ME', 'Zahid Hussain Shah', '03214700117', 'male', '28', 'Lahore, Pakistan', '2022-08-02 20:10:35', 1),
+(5, '3930434-ME', 'Muhammad Ali Khan', '03234700117', 'male', '27', 'Lahore, Pakistan', '2022-08-02 20:59:35', 1),
+(6, '4021807-ME', 'Muhammad Zaighum Sarwar', '03234374263', 'male', '29', 'Lahore, Pakistan', '2022-08-02 21:01:44', 1),
+(7, '4126503-ME', 'Shehzad Iqbal', '03218776604', 'male', '32', 'Lahore, Pakistan', '2022-08-02 21:03:08', 1),
+(8, '5192978-ME', 'Syed Nazir Hussain Shah', '03234565987', 'male', '32', 'Lahore, Pakistan', '2022-08-02 21:21:05', 1);
 
 -- --------------------------------------------------------
 
@@ -345,9 +385,18 @@ INSERT INTO `room` (`ROOM_ID`, `ROOM_NAME`, `ROOM_RATE`, `ROOM_STATUS`, `STAFF_I
 CREATE TABLE `visitor_doctor` (
   `VISITOR_ID` int(10) NOT NULL,
   `VISITOR_NAME` varchar(50) NOT NULL,
+  `VISITOR_STATUS` varchar(50) NOT NULL DEFAULT 'active',
   `STAFF_ID` int(10) NOT NULL,
   `VISITOR_DATE_TIME` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `visitor_doctor`
+--
+
+INSERT INTO `visitor_doctor` (`VISITOR_ID`, `VISITOR_NAME`, `VISITOR_STATUS`, `STAFF_ID`, `VISITOR_DATE_TIME`) VALUES
+(1, 'Dr Mubeen Hussain', 'active', 1, '2022-08-02 21:02:36'),
+(2, 'Dr Irfan Tariq', 'active', 1, '2022-08-02 21:20:36');
 
 --
 -- Indexes for dumped tables
@@ -363,68 +412,84 @@ ALTER TABLE `admin`
 -- Indexes for table `department`
 --
 ALTER TABLE `department`
-  ADD PRIMARY KEY (`DEPARTMENT_ID`);
+  ADD PRIMARY KEY (`DEPARTMENT_ID`),
+  ADD KEY `ADMIN_STAFF_ID` (`STAFF_ID`);
 
 --
 -- Indexes for table `doctor`
 --
 ALTER TABLE `doctor`
-  ADD PRIMARY KEY (`DOCTOR_ID`);
+  ADD PRIMARY KEY (`DOCTOR_ID`),
+  ADD KEY `DOCTOR_STAFF_ID` (`STAFF_ID`),
+  ADD KEY `DEPT_DOCTOR_ID` (`DEPARTMENT_ID`);
 
 --
 -- Indexes for table `emergency_bill`
 --
 ALTER TABLE `emergency_bill`
-  ADD PRIMARY KEY (`BILL_ID`);
+  ADD PRIMARY KEY (`BILL_ID`),
+  ADD KEY `EMERGENCY_SLIP_ID` (`SLIP_ID`),
+  ADD KEY `BILL_STAFF_ID` (`CREATED_BY`);
 
 --
 -- Indexes for table `emergency_slip`
 --
 ALTER TABLE `emergency_slip`
-  ADD PRIMARY KEY (`SLIP_ID`);
+  ADD PRIMARY KEY (`SLIP_ID`),
+  ADD KEY `FK_EMERGENCY_SLIP_ADMIN_ID` (`STAFF_ID`);
 
 --
 -- Indexes for table `indoor_bill`
 --
 ALTER TABLE `indoor_bill`
-  ADD PRIMARY KEY (`BILL_ID`);
+  ADD PRIMARY KEY (`BILL_ID`),
+  ADD KEY `FK_INDOOR_SLIP_ID` (`SLIP_ID`),
+  ADD KEY `FK_INDOOR_STAFF_ID` (`CREATED_BY`);
 
 --
 -- Indexes for table `indoor_slip`
 --
 ALTER TABLE `indoor_slip`
-  ADD PRIMARY KEY (`SLIP_ID`);
+  ADD PRIMARY KEY (`SLIP_ID`),
+  ADD KEY `FK_SLIP_DEPARTMENT_ID` (`DEPT_ID`),
+  ADD KEY `FK_SLIP_STAFF_ID` (`STAFF_ID`);
 
 --
 -- Indexes for table `indoor_type`
 --
 ALTER TABLE `indoor_type`
-  ADD PRIMARY KEY (`TYPE_ID`);
+  ADD PRIMARY KEY (`TYPE_ID`),
+  ADD KEY `FK_INDOOR_TYPE_STAFF_ID` (`STAFF_ID`);
 
 --
 -- Indexes for table `outdoor_slip`
 --
 ALTER TABLE `outdoor_slip`
-  ADD PRIMARY KEY (`SLIP_ID`);
+  ADD PRIMARY KEY (`SLIP_ID`),
+  ADD KEY `OUTDOOR_SLIP_DEPT_ID` (`DEPT_ID`),
+  ADD KEY `FK_OUTDOOR_SLIP_STAFF_ID` (`STAFF_ID`);
 
 --
 -- Indexes for table `patient`
 --
 ALTER TABLE `patient`
   ADD PRIMARY KEY (`PATIENT_ID`),
-  ADD UNIQUE KEY `PATIENT_MOBILE` (`PATIENT_MOBILE`);
+  ADD UNIQUE KEY `PATIENT_MOBILE` (`PATIENT_MOBILE`),
+  ADD KEY `FK_PATIENT_STAFF_ID` (`CREATED_BY`);
 
 --
 -- Indexes for table `room`
 --
 ALTER TABLE `room`
-  ADD PRIMARY KEY (`ROOM_ID`);
+  ADD PRIMARY KEY (`ROOM_ID`),
+  ADD KEY `FK_ROOM_STAFF_ID` (`STAFF_ID`);
 
 --
 -- Indexes for table `visitor_doctor`
 --
 ALTER TABLE `visitor_doctor`
-  ADD PRIMARY KEY (`VISITOR_ID`);
+  ADD PRIMARY KEY (`VISITOR_ID`),
+  ADD KEY `FK_VISITOR_DOCTOR_STAFF_ID` (`STAFF_ID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -458,7 +523,7 @@ ALTER TABLE `emergency_bill`
 -- AUTO_INCREMENT for table `emergency_slip`
 --
 ALTER TABLE `emergency_slip`
-  MODIFY `SLIP_ID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `SLIP_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `indoor_bill`
@@ -470,7 +535,7 @@ ALTER TABLE `indoor_bill`
 -- AUTO_INCREMENT for table `indoor_slip`
 --
 ALTER TABLE `indoor_slip`
-  MODIFY `SLIP_ID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `SLIP_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `indoor_type`
@@ -482,13 +547,13 @@ ALTER TABLE `indoor_type`
 -- AUTO_INCREMENT for table `outdoor_slip`
 --
 ALTER TABLE `outdoor_slip`
-  MODIFY `SLIP_ID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `SLIP_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `PATIENT_ID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `PATIENT_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `room`
@@ -500,7 +565,82 @@ ALTER TABLE `room`
 -- AUTO_INCREMENT for table `visitor_doctor`
 --
 ALTER TABLE `visitor_doctor`
-  MODIFY `VISITOR_ID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `VISITOR_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `department`
+--
+ALTER TABLE `department`
+  ADD CONSTRAINT `ADMIN_STAFF_ID` FOREIGN KEY (`STAFF_ID`) REFERENCES `admin` (`ADMIN_ID`);
+
+--
+-- Constraints for table `doctor`
+--
+ALTER TABLE `doctor`
+  ADD CONSTRAINT `DEPT_DOCTOR_ID` FOREIGN KEY (`DEPARTMENT_ID`) REFERENCES `department` (`DEPARTMENT_ID`),
+  ADD CONSTRAINT `DOCTOR_STAFF_ID` FOREIGN KEY (`STAFF_ID`) REFERENCES `admin` (`ADMIN_ID`);
+
+--
+-- Constraints for table `emergency_bill`
+--
+ALTER TABLE `emergency_bill`
+  ADD CONSTRAINT `BILL_STAFF_ID` FOREIGN KEY (`CREATED_BY`) REFERENCES `admin` (`ADMIN_ID`),
+  ADD CONSTRAINT `EMERGENCY_SLIP_ID` FOREIGN KEY (`SLIP_ID`) REFERENCES `emergency_slip` (`SLIP_ID`);
+
+--
+-- Constraints for table `emergency_slip`
+--
+ALTER TABLE `emergency_slip`
+  ADD CONSTRAINT `FK_EMERGENCY_SLIP_ADMIN_ID` FOREIGN KEY (`STAFF_ID`) REFERENCES `admin` (`ADMIN_ID`);
+
+--
+-- Constraints for table `indoor_bill`
+--
+ALTER TABLE `indoor_bill`
+  ADD CONSTRAINT `FK_INDOOR_SLIP_ID` FOREIGN KEY (`SLIP_ID`) REFERENCES `indoor_slip` (`SLIP_ID`),
+  ADD CONSTRAINT `FK_INDOOR_STAFF_ID` FOREIGN KEY (`CREATED_BY`) REFERENCES `admin` (`ADMIN_ID`);
+
+--
+-- Constraints for table `indoor_slip`
+--
+ALTER TABLE `indoor_slip`
+  ADD CONSTRAINT `FK_SLIP_DEPARTMENT_ID` FOREIGN KEY (`DEPT_ID`) REFERENCES `department` (`DEPARTMENT_ID`),
+  ADD CONSTRAINT `FK_SLIP_STAFF_ID` FOREIGN KEY (`STAFF_ID`) REFERENCES `admin` (`ADMIN_ID`);
+
+--
+-- Constraints for table `indoor_type`
+--
+ALTER TABLE `indoor_type`
+  ADD CONSTRAINT `FK_INDOOR_TYPE_STAFF_ID` FOREIGN KEY (`STAFF_ID`) REFERENCES `admin` (`ADMIN_ID`);
+
+--
+-- Constraints for table `outdoor_slip`
+--
+ALTER TABLE `outdoor_slip`
+  ADD CONSTRAINT `FK_OUTDOOR_SLIP_STAFF_ID` FOREIGN KEY (`STAFF_ID`) REFERENCES `admin` (`ADMIN_ID`),
+  ADD CONSTRAINT `OUTDOOR_SLIP_DEPT_ID` FOREIGN KEY (`DEPT_ID`) REFERENCES `department` (`DEPARTMENT_ID`);
+
+--
+-- Constraints for table `patient`
+--
+ALTER TABLE `patient`
+  ADD CONSTRAINT `FK_PATIENT_STAFF_ID` FOREIGN KEY (`CREATED_BY`) REFERENCES `admin` (`ADMIN_ID`);
+
+--
+-- Constraints for table `room`
+--
+ALTER TABLE `room`
+  ADD CONSTRAINT `FK_ROOM_STAFF_ID` FOREIGN KEY (`STAFF_ID`) REFERENCES `admin` (`ADMIN_ID`);
+
+--
+-- Constraints for table `visitor_doctor`
+--
+ALTER TABLE `visitor_doctor`
+  ADD CONSTRAINT `FK_VISITOR_DOCTOR_STAFF_ID` FOREIGN KEY (`STAFF_ID`) REFERENCES `admin` (`ADMIN_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
