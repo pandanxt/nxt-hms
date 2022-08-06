@@ -195,7 +195,7 @@
                         <select class="form-control select2bs4" id="dept" name="dept" style="width: 100%;" onchange="showDoctor(this.value)">
                         <option disabled selected value="">---- Select Department ----</option>
                             <?php
-                            $dept = 'SELECT `DEPARTMENT_ID`, `DEPARTMENT_NAME` FROM `department` WHERE `DEPARTMENT_STATUS` = "active"';
+                            $dept = 'SELECT `DEPARTMENT_ID`, `DEPARTMENT_NAME` FROM `department` WHERE `DEPARTMENT_STATUS` = "1"';
                             $result = mysqli_query($db, $dept) or die (mysqli_error($db));
                                 while ($row = mysqli_fetch_array($result)) {
                                 $id = $row['DEPARTMENT_ID'];  
@@ -210,7 +210,7 @@
                           <select class="form-control select2bs4" name="doctor" style="width: 100%;" id="doctor">
                           <option disabled selected value="">---- Select Consultant Name ----</option>
                               <?php
-                              $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "active"';
+                              $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "1"';
                               $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
                                   while ($row = mysqli_fetch_array($result)) {
                                   $id = $row['DOCTOR_ID'];  
@@ -228,7 +228,7 @@
                         <select class="form-control select2bs4" id="visitDept" name="visitDept" style="width: 100%;">
                         <option disabled selected value="">---- Select Department ----</option>
                             <?php
-                            $dept = 'SELECT `DEPARTMENT_ID`, `DEPARTMENT_NAME` FROM `department` WHERE `DEPARTMENT_STATUS` = "active"';
+                            $dept = 'SELECT `DEPARTMENT_ID`, `DEPARTMENT_NAME` FROM `department` WHERE `DEPARTMENT_STATUS` = "1"';
                             $result = mysqli_query($db, $dept) or die (mysqli_error($db));
                                 while ($row = mysqli_fetch_array($result)) {
                                 $id = $row['DEPARTMENT_ID'];  
@@ -246,7 +246,7 @@
                           <select class="form-control select2bs4" name="visitDoctor" style="width: 100%;" id="visitDoctor">
                           <option disabled selected value="">----- Select Consultant Name -----</option>
                               <?php
-                              $doctor = 'SELECT `VISITOR_ID`, `VISITOR_NAME` FROM `visitor_doctor`';
+                              $doctor = 'SELECT `VISITOR_ID`, `VISITOR_NAME` FROM `visitor_doctor` WHERE `VISITOR_STATUS` = "1"';
                               $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
                                   while ($row = mysqli_fetch_array($result)) {
                                   $id = $row['VISITOR_ID'];  
@@ -404,7 +404,7 @@
         // ajax
         $.ajax({
             type:"POST",
-            url: "backend_components/ajax_handler.php",
+            url: "backend_components/ajax_handler.php?q=adVtDoc",
             data: $(this).serialize(), // get all form field value in serialize form
             success: function(){   
             let el = document.querySelector("#close-button");

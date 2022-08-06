@@ -11,7 +11,7 @@
     <option disabled selected value="">----- Select Consultant Name -----</option>
     <?php
     if ($q != 0) {
-        $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "active" AND `DEPARTMENT_ID` = '.$q;
+        $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "1" AND `DEPARTMENT_ID` = '.$q;
         $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
         while ($row = mysqli_fetch_array($result)) {
             $id = $row['DOCTOR_ID'];  
@@ -19,7 +19,7 @@
             echo '<option value="'.$name.'">'.$name.'</option>'; 
         }   
     } else {
-        $doctor = 'SELECT `VISITOR_ID`, `VISITOR_NAME` FROM `visitor_doctor`';
+        $doctor = 'SELECT `VISITOR_ID`, `VISITOR_NAME` FROM `visitor_doctor` WHERE `VISITOR_STATUS` = "1"';
         $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
         while ($row = mysqli_fetch_array($result)) {
             $id = $row['VISITOR_ID'];  

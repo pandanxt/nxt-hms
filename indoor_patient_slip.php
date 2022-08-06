@@ -202,7 +202,7 @@
                   <select class="form-control select2bs4" id="dept" name="dept" style="width: 100%;" onchange="showDoctor(this.value)">
                   <option disabled selected  value="">----- Select Department Name -----</option>
                       <?php
-                      $dept = 'SELECT `DEPARTMENT_ID`, `DEPARTMENT_NAME` FROM `department` WHERE `DEPARTMENT_STATUS` = "active"';
+                      $dept = 'SELECT `DEPARTMENT_ID`, `DEPARTMENT_NAME` FROM `department` WHERE `DEPARTMENT_STATUS` = "1"';
                       $result = mysqli_query($db, $dept) or die (mysqli_error($db));
                           while ($row = mysqli_fetch_array($result)) {
                           $id = $row['DEPARTMENT_ID'];  
@@ -217,7 +217,7 @@
                         <select class="form-control select2bs4" name="doctor" style="width: 100%;" id="doctor">
                         <option disabled selected value="">----- Select Consultant Name -----</option>
                             <?php
-                            $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "active"';
+                            $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "1"';
                             $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
                                 while ($row = mysqli_fetch_array($result)) {
                                 $id = $row['DOCTOR_ID'];  

@@ -281,7 +281,7 @@
             <div class="modal-body">
                   <select class="form-control select2bs4" name="type" id="typeSelect" style="width: 100%;" required>
                   <?php
-                      $indoorType = 'SELECT `TYPE_ALAIS`, `TYPE_NAME` FROM `indoor_type` WHERE `TYPE_STATUS` = "active"';
+                      $indoorType = 'SELECT `TYPE_ALAIS`, `TYPE_NAME` FROM `indoor_type` WHERE `TYPE_STATUS` = "1"';
                       $result = mysqli_query($db, $indoorType) or die (mysqli_error($db));
                           while ($row = mysqli_fetch_array($result)) {
                           $id = $row['TYPE_ALAIS'];  
