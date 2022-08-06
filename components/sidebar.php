@@ -164,36 +164,10 @@
             </li>
             <!------Medeast Reports------>
             <li class="nav-item">
-                <a href="javascript:void(0);" class="nav-link">
+                <a href="reports.php" class="nav-link">
                 <i class="nav-icon fas fa-chart-pie"></i>
-                <p>Create Reports <i class="right fas fa-angle-left"></i></p>
+                <p>Reports</p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <small>
-                    <li class="nav-item">
-                        <a href="daily-report.php" class="nav-link">
-                        <i class="nav-icon fas fa-chart-pie"></i>
-                        <p>Daily Reports</p>
-                        </a>
-                    </li>
-                  </small>
-                  <small>
-                    <li class="nav-item">
-                      <a href="biweekly-report.php" class="nav-link">
-                        <i class="nav-icon fas fa-chart-pie"></i>
-                        <p>Bi-Weekly Reports</p>  
-                        </a>
-                    </li>
-                  </small>
-                  <small>
-                    <li class="nav-item">
-                        <a href="monthly-report.php" class="nav-link">
-                        <i class="nav-icon fas fa-chart-pie"></i>
-                        <p>Monthly Reports</p>
-                        </a>
-                    </li>
-                  </small>
-                </ul>
             </li>
         </ul>
       </nav>
