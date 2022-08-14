@@ -60,7 +60,7 @@
                           <td style='display:flex;'>
                                 <a href='javascript:void(0)' onclick='printSlip($rs[SLIP_ID]);' style='color:green;'>
                                 <i class='fas fa-wallet'></i> Print
-                              </a><br>";
+                              </a>";
                               if ($_SESSION['type'] == "user") { 
                                 $request = "SELECT * FROM `edit_request` WHERE `REQUEST_TABLE_ID` = ? AND `REQUEST_TABLE_NAME` = ? AND `REQUEST_BY` = ?";
                                 $stmt = mysqli_stmt_init($db);
@@ -71,11 +71,11 @@
                                   mysqli_stmt_store_result($stmt);
                                   $resultCheck = mysqli_stmt_num_rows($stmt);
                                   if ($resultCheck > 0) {
-                                    echo "<a href='javascript:void(0);' onclick='getOpdRequest($rs[SLIP_ID]);' data-toggle='modal' data-target='#view-request'>
+                                    echo "<br><a href='javascript:void(0);' onclick='getOpdRequest($rs[SLIP_ID]);' data-toggle='modal' data-target='#view-request'>
                                       <i class='fas fa-sticky-note'></i> Request
                                     </a>";
                                   }else{
-                                    echo "<a href='javascript:void(0);' onclick='getSlipId($rs[SLIP_ID]);' data-toggle='modal' data-target='#generate-request'>
+                                    echo "<br><a href='javascript:void(0);' onclick='getSlipId($rs[SLIP_ID]);' data-toggle='modal' data-target='#generate-request'>
                                       <i class='fas fa-edit'></i> Generate Request
                                     </a>";
                                   }

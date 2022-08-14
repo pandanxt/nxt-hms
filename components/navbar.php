@@ -155,31 +155,57 @@
       </li>
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="javascript:void(0);">
+        <a class="nav-link" data-toggle="dropdown" onClick="getRequestNotification();" href="javascript:void(0);">
           <i class="far fa-bell"></i>
           <span class="badge badge-warning navbar-badge">2</span>
         </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">2 Notifications</span>
-          <div class="dropdown-divider"></div>
-          <a href="javascript:void(0);" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="javascript:void(0);" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="javascript:void(0);" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="javascript:void(0);" class="dropdown-item dropdown-footer">See All Notifications</a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="notificationId">
         </div>
       </li>
+      <script>
+        // Get Request Data
+        function getRequestNotification(){
+          var xmlhttp=new XMLHttpRequest();
+          xmlhttp.onreadystatechange=function() {
+            if (this.readyState==4 && this.status==200) {
+              document.getElementById("notificationId").innerHTML=this.responseText;
+              console.log("Response From Request: ", this.responseText);
+            }
+          }
+          xmlhttp.open("GET","backend_components/ajax_handler.php?q=GET-ALL-REQUEST",true);
+          xmlhttp.send();
+        }
+       
+        // Get Request Data against slip Id
+        function getRequest(str){
+            if (str=="") {return;}
+              var xmlhttp=new XMLHttpRequest();
+              xmlhttp.onreadystatechange=function() {
+                if (this.readyState==4 && this.status==200) {
+                  document.getElementById("body").innerHTML=this.responseText;
+                  console.log("Response From Slip Request: ", this.responseText);
+                }
+              }
+            xmlhttp.open("GET","backend_components/ajax_handler.php?q=VIEW-REQUEST-BY-ID&id="+str,true);
+            xmlhttp.send();
+        }
+
+        // Ger Request Data Record
+        function openRequestedRecord(str) {
+          let elem = document.getElementById("view-record");
+          name = elem.getAttribute("data-type"); 
+          if (str=="" && name=="") {return;}
+              let xmlhttp=new XMLHttpRequest();
+              xmlhttp.onreadystatechange=function() {
+                if (this.readyState==4 && this.status==200) {
+                  document.getElementById("recordBody").innerHTML=this.responseText;
+                  console.log("Response From Request Record: ", this.responseText);
+                }
+              }
+            xmlhttp.open("GET","backend_components/ajax_handler.php?q=VIEW-REQUEST-RECORD&id="+str+"&val="+name,true);
+            xmlhttp.send();
+        }
+      </script>
       <!-- ./Profile Box -->
       <li class="nav-item dropdown user-menu">
         <?php
@@ -330,4 +356,66 @@
     <!-- /.modal-dialog -->
   </div>
   <!-- /.modal -->
-  
+<!-- **
+*  View Request Model Popup Here 
+** -->
+<div class="modal fade" id="view-request">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><i class="nav-icon fas fa-edit"></i> Request</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="javascript:void(0)" method="post" id="VIEW-OPD-SLIP">
+        <div class="modal-body">
+          <table class="table table-bordered table-striped">
+            <thead>
+            <tr style="font-size: 12px;">
+              <th>Title</th>
+              <th>Comment</th>
+              <th>Reference</th>
+              <th>Request By</th>
+              <th>Option</th>
+            </tr>
+            </thead>
+            <tbody id="body"></tbody>
+            </table>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- **
+*  View Requested Record Model Popup Here 
+** -->
+<div class="modal fade" id="view-record">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><i class="nav-icon fas fa-info-circle"></i> Requested Record</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="javascript:void(0)" method="post" id="VIEW-REQUEST-RECORD">
+        <div class="modal-body">
+          <table class="table table-bordered table-striped">
+            <thead>
+            <tr style="font-size: 12px;">
+              <th>Title</th>
+              <th>Comment</th>
+              <th>Reference</th>
+              <th>Request By</th>
+              <th>Option</th>
+            </tr>
+            </thead>
+            <tbody id="recordBody"></tbody>
+            </table>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

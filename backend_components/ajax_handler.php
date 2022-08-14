@@ -229,5 +229,109 @@
         }
       mysqli_stmt_close($stmt);
       mysqli_close($db);
-    }  
+    } 
+    // Get Add Requests Query
+    if ($q == 'GET-ALL-REQUEST') { 
+        echo "<span class='dropdown-item dropdown-header'>Request Notifications</span>
+        <div class='dropdown-divider'></div>";
+        $request = 'SELECT *, `ADMIN_USERNAME` FROM `edit_request` INNER JOIN `admin` WHERE `edit_request`.`REQUEST_BY` = `admin`.`ADMIN_ID`';
+        $result = mysqli_query($db, $request) or die (mysqli_error($db));
+        while ($row = mysqli_fetch_array($result)) {
+        
+        echo "<a href='javascript:void(0);' onClick='getRequest($row[REQUEST_ID]);'  data-toggle='modal' data-target='#view-request' class='dropdown-item'>
+              <i class='far fa-bell mr-2'></i>"; 
+                if ($row['REQUEST_NAME'] == 'cancel') {
+                    echo "Record Cancel Request";
+                }else if ($row['REQUEST_NAME'] == 'update') {
+                    echo "Record Update Request";
+                }
+              echo "<span class='float-right right badge badge-danger'>New</span>
+            </a>
+            <div class='dropdown-divider'></div>";
+        }
+    }
+    // View Specific Request Query Response
+    if ($q == 'VIEW-REQUEST-BY-ID') {
+        $request = 'SELECT *, `ADMIN_USERNAME` FROM `edit_request` INNER JOIN `admin` WHERE `edit_request`.`REQUEST_BY` = `admin`.`ADMIN_ID` AND `REQUEST_ID` = "'.$id.'"';
+        $result = mysqli_query($db, $request) or die (mysqli_error($db));
+        while ($row = mysqli_fetch_array($result)) {
+            $rid = $row['REQUEST_TABLE_ID'];
+            echo "<tr style='font-size: 12px;'>
+            <td>";
+            if ($row['REQUEST_NAME'] == 'cancel') {
+                echo "Cancel Request";
+            }else if ($row['REQUEST_NAME'] == 'update') {
+                echo "Update Request";
+            }
+            echo"</td>
+            <td>$row[REQUEST_COMMENT]</td>
+            <td>";
+            if ($row['REQUEST_TABLE_NAME'] == 'OPD_SLIP_REQUEST') {
+                $rname = 'outdoor';
+                echo "Requested on OPD Slip";
+            }else if ($row['REQUEST_TABLE_NAME'] == 'INDOOR_SLIP_REQUEST') {
+                $rname = 'indoor';
+                echo "Requested on Indoor Slip";
+            } else if ($row['REQUEST_TABLE_NAME'] == 'EMERGENCY_SLIP_REQUEST') {
+                $rname = 'emergency';
+                echo "Requested on Emergency Slip";
+            } 
+            echo"</td>
+            <td>
+                <b>By</b>: $row[ADMIN_USERNAME] <br>
+                <b>On</b>: $row[REQUEST_ON]
+            </td>
+            <td>
+                <a href='javascript:void(0);' id='view-record' onclick='openRequestedRecord($rid)' data-type='$rname' data-toggle='modal' data-target='#view-record'>
+                    <i class='fas fa-info-circle'></i>
+                </a>
+                <a onClick='cancelRequest($row[REQUEST_ID])' href='javascript:void(0);' style='color:red;'>
+                    <i class='fas fa-trash'></i>
+                </a>
+            </td>
+            </tr>";
+        }   
+    }
+    // View Specific Request Record Query Response
+    if ($q == 'VIEW-REQUEST-RECORD') {
+        if ($val == 'outdoor') {
+            $request ="SELECT *,`ADMIN_USERNAME`,`DEPARTMENT_NAME` FROM `outdoor_slip` INNER JOIN `admin` INNER JOIN `department` WHERE `outdoor_slip`.`STAFF_ID` = `admin`.`ADMIN_ID` AND `outdoor_slip`.`DEPT_ID` = `department`.`DEPARTMENT_ID` AND `outdoor_slip`.`SLIP_ID` = $id";
+            $result = mysqli_query($db, $request) or die (mysqli_error($db)); 
+        }else if($val == 'indoor') {
+            $request ="SELECT *,`ADMIN_USERNAME`,`DEPARTMENT_NAME` FROM `indoor_slip` INNER JOIN `admin` INNER JOIN `department` WHERE `indoor_slip`.`STAFF_ID` = `admin`.`ADMIN_ID` AND `indoor_slip`.`DEPT_ID` = `department`.`DEPARTMENT_ID` AND `indoor_slip`.`SLIP_ID` = $id";
+            $result = mysqli_query($db, $request) or die (mysqli_error($db));
+        }else if($val == 'emergency') {
+            $request ="SELECT *,`ADMIN_USERNAME`,`DEPARTMENT_NAME` FROM `emergency_slip` INNER JOIN `admin` INNER JOIN `department` WHERE `emergency_slip`.`STAFF_ID` = `admin`.`ADMIN_ID` AND `emergency_slip`.`DEPT_ID` = `department`.`DEPARTMENT_ID` AND `emergency_slip`.`SLIP_ID` = $id";
+            $result = mysqli_query($db, $request) or die (mysqli_error($db));
+        }
+        // $request ="SELECT *,`ADMIN_USERNAME`,`DEPARTMENT_NAME` FROM `outdoor_slip` INNER JOIN `admin` INNER JOIN `department` WHERE `outdoor_slip`.`STAFF_ID` = `admin`.`ADMIN_ID` AND `outdoor_slip`.`DEPT_ID` = `department`.`DEPARTMENT_ID` AND `outdoor_slip`.`SLIP_ID` = $id";
+        // $result = mysqli_query($db, $request) or die (mysqli_error($db));
+        while ($rs = mysqli_fetch_array($result)) {
+            echo "<tr style='font-size: 12px;'>
+            <td>$rs[SLIP_MR_ID]</td>
+            <td>$rs[SLIP_NAME]</td>
+            <td>$rs[SLIP_MOBILE]</td>
+            <td>$rs[DEPARTMENT_NAME]</td>
+            <td>$rs[DOCTOR_NAME] <button class='btn badge badge-info'>";
+            if ($rs['D_TYPE'] == 1) echo "Visiting Doctor"; else echo "MedEast Doctor";
+            echo "</button></td>
+            <td>$rs[SLIP_FEE]</td>
+            <td>
+                <b>By</b>: $rs[ADMIN_USERNAME] <br>
+                <b>On</b>: $rs[SLIP_DATE_TIME]
+            </td> 
+            <td style='display:flex;'>";
+                if ($_SESSION['type'] == "admin") { 
+                echo "<br>
+                <a href='add_patient.php?id=$rs[SLIP_ID]'>
+                  <i class='fas fa-edit'></i> Edit
+                </a><br>
+                <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?osrId=$rs[SLIP_ID]' style='color:red;'>
+                  <i class='fas fa-trash'></i> Delete
+                </a>";
+                }
+            echo "</td>
+            </tr>";
+        }   
+    }
 ?>
