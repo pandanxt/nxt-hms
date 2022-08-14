@@ -16,6 +16,8 @@
 <script src="plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- Select2 -->
+<script src="plugins/select2/js/select2.full.min.js"></script>
 <!-- SweetAlert2 -->
 <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- AdminLTE App -->
@@ -75,6 +77,10 @@
         title: 'Something Went Wrong. Try Again!'
       })
     }           
+  });
+
+  $(function () {
+    $('.select2').select2()
   });
 </script>
 </body>

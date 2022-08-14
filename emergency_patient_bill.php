@@ -139,7 +139,7 @@
             $pResult = mysqli_fetch_array($printsql);
 
             if ($pResult > 0) {
-              // echo '<script type="text/javascript">window.location = "emergency_bill_print.php?sid='.$pResult['BILL_ID'].'";</script>';
+              echo '<script type="text/javascript">window.location = "emergency_bill_print.php?sid='.$pResult['BILL_ID'].'";</script>';
             }
           }else
           {

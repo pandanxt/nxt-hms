@@ -66,7 +66,7 @@
                       $pResult = mysqli_fetch_array($printsql);
 
                       if ($pResult > 0) {
-                        echo '<script>window.open("print-page.php?type=indoor&sid='.$pResult['SLIP_ID'].'", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,,width=600,height=500");</script>';           
+                        echo '<script>window.open("print-page.php?type=indoor&sid='.$pResult['SLIP_ID'].'", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=100,,width=1000,height=800");</script>';           
                         echo '<script type="text/javascript">window.location = "indoor_slip_record.php";</script>';
                       }
                   }
@@ -110,7 +110,7 @@
                       $pResult = mysqli_fetch_array($printsql);
 
                       if ($pResult > 0) {
-                        echo '<script>window.open("print-page.php?type=indoor&sid='.$pResult['SLIP_ID'].'", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,,width=600,height=500");</script>';           
+                        echo '<script>window.open("print-page.php?type=indoor&sid='.$pResult['SLIP_ID'].'", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=100,,width=1000,height=800");</script>';           
                         echo '<script type="text/javascript">window.location = "indoor_slip_record.php";</script>';
                       }
                   } 
@@ -202,7 +202,7 @@
                   <select class="form-control select2bs4" id="dept" name="dept" style="width: 100%;" onchange="showDoctor(this.value)">
                   <option disabled selected  value="">----- Select Department Name -----</option>
                       <?php
-                      $dept = 'SELECT `DEPARTMENT_ID`, `DEPARTMENT_NAME` FROM `department` WHERE `DEPARTMENT_STATUS` = "active"';
+                      $dept = 'SELECT `DEPARTMENT_ID`, `DEPARTMENT_NAME` FROM `department` WHERE `DEPARTMENT_STATUS` = "1"';
                       $result = mysqli_query($db, $dept) or die (mysqli_error($db));
                           while ($row = mysqli_fetch_array($result)) {
                           $id = $row['DEPARTMENT_ID'];  
@@ -217,7 +217,7 @@
                         <select class="form-control select2bs4" name="doctor" style="width: 100%;" id="doctor">
                         <option disabled selected value="">----- Select Consultant Name -----</option>
                             <?php
-                            $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "active"';
+                            $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "1"';
                             $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
                                 while ($row = mysqli_fetch_array($result)) {
                                 $id = $row['DOCTOR_ID'];  

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 26, 2022 at 11:48 PM
+-- Generation Time: Aug 14, 2022 at 11:54 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -34,9 +34,9 @@ CREATE TABLE `admin` (
   `ADMIN_EMAIL` varchar(50) NOT NULL,
   `ADMIN_USERNAME` varchar(25) NOT NULL,
   `ADMIN_PASSWORD` varchar(100) NOT NULL,
-  `ADMIN_STATUS` varchar(25) NOT NULL,
+  `ADMIN_STATUS` int(10) NOT NULL DEFAULT 1,
   `CREATED_BY` int(10) NOT NULL,
-  `ADMIN_SAVE_TIME` varchar(100) NOT NULL
+  `ADMIN_SAVE_TIME` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -44,9 +44,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`ADMIN_ID`, `ADMIN_NAME`, `ADMIN_TYPE`, `ADMIN_EMAIL`, `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_STATUS`, `CREATED_BY`, `ADMIN_SAVE_TIME`) VALUES
-(1, 'Syed Mubeen Hussain Shah', 'admin', 'shahmobeen333@gmail.com', 'mubeen.hussain', '$2y$10$gs1BcrN9mTXi6kZyGLpSM.gdrFF8Vff6ebwHAvaB6JVZWivnzBXAu', 'active', 0, 'Sat Feb 12 2022 02:26:44 GMT+0500 (Pakistan Standard Time)'),
-(2, 'MedEast Administrator', 'admin', 'admin.medeast@gmail.com', 'Administrator', '$2y$10$j7bfaXlX.kZHL3Yiao4Qg.iusiQRgRRv7skT7LYJKOn2L9l3cUUni', 'active', 1, 'Tue Jul 26 2022 14:41:32 GMT-0700 (Pacific Daylight Time)'),
-(3, 'MedEast Staff', 'user', 'staff.user@gmail.com', 'medeast.staff', '$2y$10$zRmX6LCWkc0UgoQNuCEe/.VjZwaUqvVhNLq7SBBuPYCUFzXq6uy4S', 'active', 1, 'Sat Apr 30 2022 13:46:30 GMT+0500 (Pakistan Standard Time)');
+(1, 'MedEast Administrator', 'admin', 'admin.medeast@gmail.com', 'Administrator', '$2y$10$j7bfaXlX.kZHL3Yiao4Qg.iusiQRgRRv7skT7LYJKOn2L9l3cUUni', 1, 1, '2022-08-15 02:52:01');
 
 -- --------------------------------------------------------
 
@@ -57,9 +55,9 @@ INSERT INTO `admin` (`ADMIN_ID`, `ADMIN_NAME`, `ADMIN_TYPE`, `ADMIN_EMAIL`, `ADM
 CREATE TABLE `department` (
   `DEPARTMENT_ID` int(10) NOT NULL,
   `DEPARTMENT_NAME` varchar(100) NOT NULL,
-  `DEPARTMENT_STATUS` varchar(10) NOT NULL,
+  `DEPARTMENT_STATUS` int(10) NOT NULL DEFAULT 1,
   `STAFF_ID` int(10) NOT NULL,
-  `DEPARTMENT_DATE_TIME` varchar(500) NOT NULL
+  `DEPARTMENT_DATE_TIME` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -67,27 +65,28 @@ CREATE TABLE `department` (
 --
 
 INSERT INTO `department` (`DEPARTMENT_ID`, `DEPARTMENT_NAME`, `DEPARTMENT_STATUS`, `STAFF_ID`, `DEPARTMENT_DATE_TIME`) VALUES
-(1, 'Gyneacologist', 'active', 1, 'Fri Mar 18 2022 21:20:03 GMT+0500 (Pakistan Standard Time)'),
-(2, 'Ophthamology', 'active', 1, 'Fri Mar 18 2022 21:28:13 GMT+0500 (Pakistan Standard Time)'),
-(3, 'Pediatric', 'active', 1, 'Fri Mar 18 2022 21:28:23 GMT+0500 (Pakistan Standard Time)'),
-(4, 'Pediatric Surgery', 'active', 1, 'Fri Mar 18 2022 21:28:29 GMT+0500 (Pakistan Standard Time)'),
-(5, 'Medical Specialist', 'active', 1, 'Fri Mar 18 2022 21:28:37 GMT+0500 (Pakistan Standard Time)'),
-(6, 'General Surgery', 'active', 1, 'Fri Mar 18 2022 21:28:44 GMT+0500 (Pakistan Standard Time)'),
-(7, 'Psychiatrist', 'active', 1, 'Fri Mar 18 2022 21:28:51 GMT+0500 (Pakistan Standard Time)'),
-(8, 'Psychologist', 'active', 1, 'Fri Mar 18 2022 21:28:58 GMT+0500 (Pakistan Standard Time)'),
-(9, 'ENT', 'active', 1, 'Fri Mar 18 2022 21:29:03 GMT+0500 (Pakistan Standard Time)'),
-(10, 'Orthopedic', 'active', 1, 'Fri Mar 18 2022 21:29:09 GMT+0500 (Pakistan Standard Time)'),
-(11, 'Radiology', 'active', 1, 'Fri Mar 18 2022 21:29:16 GMT+0500 (Pakistan Standard Time)'),
-(12, 'Skin', 'active', 1, 'Fri Mar 18 2022 21:29:24 GMT+0500 (Pakistan Standard Time)'),
-(13, 'Urology', 'active', 1, 'Fri Mar 18 2022 21:29:31 GMT+0500 (Pakistan Standard Time)'),
-(14, 'Cardiology', 'active', 1, 'Fri Mar 18 2022 21:29:36 GMT+0500 (Pakistan Standard Time)'),
-(15, 'Physiotherapy', 'active', 1, 'Fri Mar 18 2022 21:29:42 GMT+0500 (Pakistan Standard Time)'),
-(16, 'General Surgery', 'active', 1, 'Fri Mar 18 2022 21:29:52 GMT+0500 (Pakistan Standard Time)'),
-(17, 'Nutrition', 'active', 1, 'Fri Mar 18 2022 21:29:58 GMT+0500 (Pakistan Standard Time)'),
-(18, 'Cupping Therapist', 'active', 1, 'Fri Mar 18 2022 21:30:14 GMT+0500 (Pakistan Standard Time)'),
-(19, 'Speech Therapy', 'active', 1, 'Sat Jul 23 2022 00:00:13 GMT-0700 (Pacific Daylight Time)'),
-(20, 'Neurologist', 'active', 1, 'Sat Jul 23 2022 00:03:32 GMT-0700 (Pacific Daylight Time)'),
-(21, 'Medical Officer', 'active', 1, 'Sat Jul 23 2022 00:04:13 GMT-0700 (Pacific Daylight Time)');
+(1, 'Gyneacologist', 1, 1, '0000-00-00 00:00:00'),
+(2, 'Ophthamology', 1, 1, '0000-00-00 00:00:00'),
+(3, 'Pediatric', 1, 1, '0000-00-00 00:00:00'),
+(4, 'Pediatric Surgery', 1, 1, '0000-00-00 00:00:00'),
+(5, 'Medical Specialist', 1, 1, '0000-00-00 00:00:00'),
+(6, 'General Surgery', 1, 1, '0000-00-00 00:00:00'),
+(7, 'Psychiatrist', 1, 1, '0000-00-00 00:00:00'),
+(8, 'Psychologist', 1, 1, '0000-00-00 00:00:00'),
+(9, 'ENT', 1, 1, '0000-00-00 00:00:00'),
+(10, 'Orthopedic', 1, 1, '0000-00-00 00:00:00'),
+(11, 'Radiology', 1, 1, '0000-00-00 00:00:00'),
+(12, 'Skin', 1, 1, '0000-00-00 00:00:00'),
+(13, 'Urology', 1, 1, '0000-00-00 00:00:00'),
+(14, 'Cardiology', 1, 1, '0000-00-00 00:00:00'),
+(15, 'Physiotherapy', 1, 1, '0000-00-00 00:00:00'),
+(16, 'General Surgery', 1, 1, '0000-00-00 00:00:00'),
+(17, 'Nutrition', 1, 1, '0000-00-00 00:00:00'),
+(18, 'Cupping Therapist', 1, 1, '0000-00-00 00:00:00'),
+(19, 'Speech Therapy', 1, 1, '0000-00-00 00:00:00'),
+(20, 'Neurologist', 1, 1, '0000-00-00 00:00:00'),
+(21, 'Medical Officer', 1, 1, '0000-00-00 00:00:00'),
+(23, 'Test Department', 0, 1, '2022-08-06 10:44:07');
 
 -- --------------------------------------------------------
 
@@ -100,9 +99,9 @@ CREATE TABLE `doctor` (
   `DOCTOR_NAME` varchar(50) NOT NULL,
   `DOCTOR_MOBILE` varchar(15) NOT NULL,
   `DEPARTMENT_ID` int(10) NOT NULL,
-  `DOCTOR_STATUS` varchar(50) NOT NULL,
+  `DOCTOR_STATUS` int(10) NOT NULL DEFAULT 1,
   `STAFF_ID` int(10) NOT NULL,
-  `DOCTOR_DATE_TIME` varchar(500) NOT NULL
+  `DOCTOR_DATE_TIME` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -110,38 +109,58 @@ CREATE TABLE `doctor` (
 --
 
 INSERT INTO `doctor` (`DOCTOR_ID`, `DOCTOR_NAME`, `DOCTOR_MOBILE`, `DEPARTMENT_ID`, `DOCTOR_STATUS`, `STAFF_ID`, `DOCTOR_DATE_TIME`) VALUES
-(1, 'Brig (R) Dr Shamim Akhtar', '03351149823', 1, 'active', 1, 'Sat Feb 05 2022 01:47:14 GMT+0500 (Pakistan Standard Time)'),
-(2, 'Assist Prof Dr Riffat Sarwar', '03214822323', 1, 'active', 1, 'Fri Mar 18 2022 22:03:48 GMT+0500 (Pakistan Standard Time)'),
-(3, 'Dr Sohaib Malik Abbas', '03008016669', 2, 'active', 1, 'Fri Mar 18 2022 22:04:32 GMT+0500 (Pakistan Standard Time)'),
-(4, 'Brig (R) Dr Humma Farrukh', '03215214420', 3, 'active', 1, 'Fri Mar 18 2022 22:04:54 GMT+0500 (Pakistan Standard Time)'),
-(5, 'Brig (R) Dr Bashir Ahmad', '03459301357', 3, 'active', 1, 'Fri Mar 18 2022 22:05:06 GMT+0500 (Pakistan Standard Time)'),
-(6, 'Dr Hammad Aslma Butt', '03217121008', 4, 'active', 1, 'Fri Mar 18 2022 22:05:22 GMT+0500 (Pakistan Standard Time)'),
-(7, 'Maj Dr Bilal', '03494823007', 5, 'active', 1, 'Fri Mar 18 2022 22:05:35 GMT+0500 (Pakistan Standard Time)'),
-(8, 'Dr Muhammad Rashid Khan', '03008421108', 5, 'active', 1, 'Fri Mar 18 2022 22:05:48 GMT+0500 (Pakistan Standard Time)'),
-(9, 'Dr Javariya Hammad', '03334171809', 6, 'active', 1, 'Fri Mar 18 2022 22:06:06 GMT+0500 (Pakistan Standard Time)'),
-(10, 'Dr Mehdi Raza Khawaja', '03218401331', 7, 'active', 1, 'Fri Mar 18 2022 22:06:15 GMT+0500 (Pakistan Standard Time)'),
-(11, 'Dr Tanzeela Atif', '03226067885', 8, 'active', 1, 'Fri Mar 18 2022 22:06:28 GMT+0500 (Pakistan Standard Time)'),
-(12, 'Maj (R) Khalid Ahmed', '03224232396', 9, 'active', 1, 'Fri Mar 18 2022 22:06:39 GMT+0500 (Pakistan Standard Time)'),
-(13, 'Dr Faheem Nawaz', '03018498483', 10, 'active', 1, 'Fri Mar 18 2022 22:06:50 GMT+0500 (Pakistan Standard Time)'),
-(14, 'Dr Tayyab Rehman', '03336918555', 10, 'active', 1, 'Fri Mar 18 2022 22:07:10 GMT+0500 (Pakistan Standard Time)'),
-(15, 'Dr Salma Muzaffar', '03006355995', 11, 'active', 1, 'Fri Mar 18 2022 22:07:27 GMT+0500 (Pakistan Standard Time)'),
-(16, 'Prof Col (R) Dr Asghar Bhatti', '03218848231', 11, 'active', 1, 'Fri Mar 18 2022 22:07:36 GMT+0500 (Pakistan Standard Time)'),
-(17, 'Dr Sidra Tariq', '03235142071', 12, 'active', 1, 'Fri Mar 18 2022 22:07:48 GMT+0500 (Pakistan Standard Time)'),
-(18, 'Assoc Prof Dr Hassan Raza Asghar', '03228468880', 13, 'active', 1, 'Fri Mar 18 2022 22:07:59 GMT+0500 (Pakistan Standard Time)'),
-(19, 'Dr Kamran Zebi', '03334257695', 13, 'active', 1, 'Fri Mar 18 2022 22:08:12 GMT+0500 (Pakistan Standard Time)'),
-(20, 'Dr Sobbyal', '03338733138', 14, 'active', 1, 'Fri Mar 18 2022 22:08:22 GMT+0500 (Pakistan Standard Time)'),
-(21, 'Dr Sana Ayesha', '03124452951', 15, 'active', 1, 'Fri Mar 18 2022 22:08:57 GMT+0500 (Pakistan Standard Time)'),
-(22, 'Brig (R) Dr Tariq', '03015385256', 16, 'active', 1, 'Fri Mar 18 2022 22:08:34 GMT+0500 (Pakistan Standard Time)'),
-(23, 'Brig (R) Dr Javaid Hashmi', '03009197419', 16, 'active', 1, 'Fri Mar 18 2022 22:08:45 GMT+0500 (Pakistan Standard Time)'),
-(24, 'Dr Humaira Rashid Khan', '03008421108', 17, 'active', 1, 'Fri Mar 18 2022 22:09:10 GMT+0500 (Pakistan Standard Time)'),
-(25, 'Dr Javariya Asif', '03067029279', 17, 'active', 1, 'Fri Mar 18 2022 22:09:25 GMT+0500 (Pakistan Standard Time)'),
-(26, 'Dr Ayesha Nawaz', '71557028809', 18, 'active', 1, 'Fri Mar 18 2022 22:09:44 GMT+0500 (Pakistan Standard Time)'),
-(27, 'Dr Nida Zahid', '03311446896', 19, 'active', 1, 'Fri Mar 18 2022 22:09:53 GMT+0500 (Pakistan Standard Time)'),
-(28, 'Dr Humaira Nazir', '03234401468', 19, 'active', 1, 'Sat Jul 23 2022 00:41:10 GMT-0700 (Pacific Daylight Time)'),
-(29, 'Dr Adeeb', '03328675357', 20, 'active', 1, 'Sat Jul 23 2022 01:45:40 GMT-0700 (Pacific Daylight Time)'),
-(30, 'Dr Ayesha', '03054336062', 21, 'active', 1, 'Sat Jul 23 2022 01:47:48 GMT-0700 (Pacific Daylight Time)'),
-(31, 'Dr Arslan Amjad', '03234979798', 21, 'active', 1, 'Sat Jul 23 2022 01:48:50 GMT-0700 (Pacific Daylight Time)'),
-(32, 'Dr M Fahad Imtiaz', '03084040035', 21, 'active', 1, 'Sat Jul 23 2022 01:50:08 GMT-0700 (Pacific Daylight Time)');
+(1, 'Brig (R) Dr Shamim Akhtar', '03351149823', 1, 1, 1, '0000-00-00 00:00:00'),
+(2, 'Assist Prof Dr Riffat Sarwar', '03214822323', 1, 0, 1, '0000-00-00 00:00:00'),
+(3, 'Dr Sohaib Malik Abbas', '03008016669', 2, 1, 1, '0000-00-00 00:00:00'),
+(4, 'Brig (R) Dr Humma Farrukh', '03215214420', 3, 1, 1, '0000-00-00 00:00:00'),
+(5, 'Brig (R) Dr Bashir Ahmad', '03459301357', 3, 1, 1, '0000-00-00 00:00:00'),
+(6, 'Dr Hammad Aslma Butt', '03217121008', 4, 1, 1, '0000-00-00 00:00:00'),
+(7, 'Maj Dr Bilal', '03494823007', 5, 1, 1, '0000-00-00 00:00:00'),
+(8, 'Dr Muhammad Rashid Khan', '03008421108', 5, 1, 1, '0000-00-00 00:00:00'),
+(9, 'Dr Javariya Hammad', '03334171809', 6, 1, 1, '0000-00-00 00:00:00'),
+(10, 'Dr Mehdi Raza Khawaja', '03218401331', 7, 1, 1, '0000-00-00 00:00:00'),
+(11, 'Dr Tanzeela Atif', '03226067885', 8, 1, 1, '0000-00-00 00:00:00'),
+(12, 'Maj (R) Khalid Ahmed', '03224232396', 9, 1, 1, '0000-00-00 00:00:00'),
+(13, 'Dr Faheem Nawaz', '03018498483', 10, 1, 1, '0000-00-00 00:00:00'),
+(14, 'Dr Tayyab Rehman', '03336918555', 10, 1, 1, '0000-00-00 00:00:00'),
+(15, 'Dr Salma Muzaffar', '03006355995', 11, 1, 1, '0000-00-00 00:00:00'),
+(16, 'Prof Col (R) Dr Asghar Bhatti', '03218848231', 11, 1, 1, '0000-00-00 00:00:00'),
+(17, 'Dr Sidra Tariq', '03235142071', 12, 1, 1, '0000-00-00 00:00:00'),
+(18, 'Assoc Prof Dr Hassan Raza Asghar', '03228468880', 13, 1, 1, '0000-00-00 00:00:00'),
+(19, 'Dr Kamran Zebi', '03334257695', 13, 1, 1, '0000-00-00 00:00:00'),
+(20, 'Dr Sobbyal', '03338733138', 14, 1, 1, '0000-00-00 00:00:00'),
+(21, 'Dr Sana Ayesha', '03124452951', 15, 1, 1, '0000-00-00 00:00:00'),
+(22, 'Brig (R) Dr Tariq', '03015385256', 16, 1, 1, '0000-00-00 00:00:00'),
+(23, 'Brig (R) Dr Javaid Hashmi', '03009197419', 16, 1, 1, '0000-00-00 00:00:00'),
+(24, 'Dr Humaira Rashid Khan', '03008421108', 17, 1, 1, '0000-00-00 00:00:00'),
+(25, 'Dr Javariya Asif', '03067029279', 17, 1, 1, '0000-00-00 00:00:00'),
+(26, 'Dr Ayesha Nawaz', '71557028809', 18, 1, 1, '0000-00-00 00:00:00'),
+(27, 'Dr Nida Zahid', '03311446896', 19, 1, 1, '0000-00-00 00:00:00'),
+(28, 'Dr Humaira Nazir', '03234401468', 19, 1, 1, '0000-00-00 00:00:00'),
+(29, 'Dr Adeeb', '03328675357', 20, 1, 1, '0000-00-00 00:00:00'),
+(30, 'Dr Ayesha', '03054336062', 21, 1, 1, '0000-00-00 00:00:00'),
+(31, 'Dr Arslan Amjad', '03234979798', 21, 1, 1, '0000-00-00 00:00:00'),
+(32, 'Dr M Fahad Imtiaz', '03084040035', 21, 1, 1, '0000-00-00 00:00:00'),
+(37, 'Test Mubeen', '03234169956', 1, 0, 1, '2022-08-06 07:58:59'),
+(38, 'Test Doctor', '03218820280', 6, 1, 1, '2022-08-06 08:17:40'),
+(39, 'Testing Doctor', '03128776604', 23, 1, 1, '2022-08-06 13:08:28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `edit_request`
+--
+
+CREATE TABLE `edit_request` (
+  `REQUEST_ID` int(10) NOT NULL,
+  `REQUEST_TABLE_ID` int(10) NOT NULL,
+  `REQUEST_TABLE_NAME` varchar(100) NOT NULL,
+  `REQUEST_NAME` varchar(50) NOT NULL,
+  `REQUEST_COMMENT` varchar(250) NOT NULL,
+  `REQUEST_STATUS` int(11) NOT NULL DEFAULT 0,
+  `REQUEST_BY` int(11) NOT NULL,
+  `REQUEST_ON` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -283,8 +302,8 @@ CREATE TABLE `indoor_type` (
   `TYPE_ID` int(11) NOT NULL,
   `TYPE_NAME` varchar(100) CHARACTER SET latin1 NOT NULL,
   `TYPE_ALAIS` varchar(15) CHARACTER SET latin1 NOT NULL,
-  `TYPE_SAVE_TIME` varchar(100) CHARACTER SET latin1 NOT NULL,
-  `TYPE_STATUS` varchar(10) CHARACTER SET latin1 NOT NULL,
+  `TYPE_SAVE_TIME` datetime NOT NULL DEFAULT current_timestamp(),
+  `TYPE_STATUS` int(10) NOT NULL DEFAULT 1,
   `STAFF_ID` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -293,10 +312,10 @@ CREATE TABLE `indoor_type` (
 --
 
 INSERT INTO `indoor_type` (`TYPE_ID`, `TYPE_NAME`, `TYPE_ALAIS`, `TYPE_SAVE_TIME`, `TYPE_STATUS`, `STAFF_ID`) VALUES
-(1, 'Gynae Patient', 'gynae', 'Sat Mar 12 2022 19:24:50 GMT+0500 (Pakistan Standard Time)', 'active', 1),
-(2, 'General Surgery', 'gensurgery', 'Sat Mar 12 2022 19:25:04 GMT+0500 (Pakistan Standard Time)', 'active', 1),
-(3, 'General Illness', 'genillness', 'Sat Mar 12 2022 19:26:30 GMT+0500 (Pakistan Standard Time)', 'active', 1),
-(4, 'Eye Patient', 'eye', 'Sat Mar 12 2022 19:27:06 GMT+0500 (Pakistan Standard Time)', 'active', 1);
+(1, 'Gynae Patient', 'gynae', '0000-00-00 00:00:00', 1, 1),
+(2, 'General Surgery', 'gensurgery', '0000-00-00 00:00:00', 1, 1),
+(3, 'General Illness', 'genillness', '0000-00-00 00:00:00', 1, 1),
+(4, 'Eye Patient', 'eye', '0000-00-00 00:00:00', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -345,19 +364,10 @@ CREATE TABLE `room` (
   `ROOM_ID` int(10) NOT NULL,
   `ROOM_NAME` varchar(100) NOT NULL,
   `ROOM_RATE` int(20) NOT NULL,
-  `ROOM_STATUS` varchar(50) NOT NULL,
+  `ROOM_STATUS` int(10) NOT NULL DEFAULT 1,
   `STAFF_ID` int(10) NOT NULL,
-  `ROOM_DATE_TIME` varchar(500) NOT NULL
+  `ROOM_DATE_TIME` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `room`
---
-
-INSERT INTO `room` (`ROOM_ID`, `ROOM_NAME`, `ROOM_RATE`, `ROOM_STATUS`, `STAFF_ID`, `ROOM_DATE_TIME`) VALUES
-(1, 'Semi Pvt Ward Charges', 5000, 'active', 1, 'Fri Mar 18 2022 22:59:10 GMT+0500 (Pakistan Standard Time)'),
-(2, 'Pvt Room Charges', 8000, 'active', 1, 'Fri Mar 18 2022 23:00:22 GMT+0500 (Pakistan Standard Time)'),
-(3, 'VIP Room Charges', 10000, 'active', 1, 'Fri Mar 18 2022 23:01:02 GMT+0500 (Pakistan Standard Time)');
 
 -- --------------------------------------------------------
 
@@ -368,6 +378,7 @@ INSERT INTO `room` (`ROOM_ID`, `ROOM_NAME`, `ROOM_RATE`, `ROOM_STATUS`, `STAFF_I
 CREATE TABLE `visitor_doctor` (
   `VISITOR_ID` int(10) NOT NULL,
   `VISITOR_NAME` varchar(50) NOT NULL,
+  `VISITOR_STATUS` int(10) NOT NULL DEFAULT 1,
   `STAFF_ID` int(10) NOT NULL,
   `VISITOR_DATE_TIME` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -386,68 +397,91 @@ ALTER TABLE `admin`
 -- Indexes for table `department`
 --
 ALTER TABLE `department`
-  ADD PRIMARY KEY (`DEPARTMENT_ID`);
+  ADD PRIMARY KEY (`DEPARTMENT_ID`),
+  ADD KEY `ADMIN_STAFF_ID` (`STAFF_ID`);
 
 --
 -- Indexes for table `doctor`
 --
 ALTER TABLE `doctor`
-  ADD PRIMARY KEY (`DOCTOR_ID`);
+  ADD PRIMARY KEY (`DOCTOR_ID`),
+  ADD KEY `DOCTOR_STAFF_ID` (`STAFF_ID`),
+  ADD KEY `DEPT_DOCTOR_ID` (`DEPARTMENT_ID`);
+
+--
+-- Indexes for table `edit_request`
+--
+ALTER TABLE `edit_request`
+  ADD PRIMARY KEY (`REQUEST_ID`),
+  ADD KEY `FK_STAFF_EDIT_REQUEST` (`REQUEST_BY`);
 
 --
 -- Indexes for table `emergency_bill`
 --
 ALTER TABLE `emergency_bill`
-  ADD PRIMARY KEY (`BILL_ID`);
+  ADD PRIMARY KEY (`BILL_ID`),
+  ADD KEY `EMERGENCY_SLIP_ID` (`SLIP_ID`),
+  ADD KEY `BILL_STAFF_ID` (`CREATED_BY`);
 
 --
 -- Indexes for table `emergency_slip`
 --
 ALTER TABLE `emergency_slip`
-  ADD PRIMARY KEY (`SLIP_ID`);
+  ADD PRIMARY KEY (`SLIP_ID`),
+  ADD KEY `FK_EMERGENCY_SLIP_ADMIN_ID` (`STAFF_ID`);
 
 --
 -- Indexes for table `indoor_bill`
 --
 ALTER TABLE `indoor_bill`
-  ADD PRIMARY KEY (`BILL_ID`);
+  ADD PRIMARY KEY (`BILL_ID`),
+  ADD KEY `FK_INDOOR_SLIP_ID` (`SLIP_ID`),
+  ADD KEY `FK_INDOOR_STAFF_ID` (`CREATED_BY`);
 
 --
 -- Indexes for table `indoor_slip`
 --
 ALTER TABLE `indoor_slip`
-  ADD PRIMARY KEY (`SLIP_ID`);
+  ADD PRIMARY KEY (`SLIP_ID`),
+  ADD KEY `FK_SLIP_DEPARTMENT_ID` (`DEPT_ID`),
+  ADD KEY `FK_SLIP_STAFF_ID` (`STAFF_ID`);
 
 --
 -- Indexes for table `indoor_type`
 --
 ALTER TABLE `indoor_type`
-  ADD PRIMARY KEY (`TYPE_ID`);
+  ADD PRIMARY KEY (`TYPE_ID`),
+  ADD KEY `FK_INDOOR_TYPE_STAFF_ID` (`STAFF_ID`);
 
 --
 -- Indexes for table `outdoor_slip`
 --
 ALTER TABLE `outdoor_slip`
-  ADD PRIMARY KEY (`SLIP_ID`);
+  ADD PRIMARY KEY (`SLIP_ID`),
+  ADD KEY `OUTDOOR_SLIP_DEPT_ID` (`DEPT_ID`),
+  ADD KEY `FK_OUTDOOR_SLIP_STAFF_ID` (`STAFF_ID`);
 
 --
 -- Indexes for table `patient`
 --
 ALTER TABLE `patient`
   ADD PRIMARY KEY (`PATIENT_ID`),
-  ADD UNIQUE KEY `PATIENT_MOBILE` (`PATIENT_MOBILE`);
+  ADD UNIQUE KEY `PATIENT_MOBILE` (`PATIENT_MOBILE`),
+  ADD KEY `FK_PATIENT_STAFF_ID` (`CREATED_BY`);
 
 --
 -- Indexes for table `room`
 --
 ALTER TABLE `room`
-  ADD PRIMARY KEY (`ROOM_ID`);
+  ADD PRIMARY KEY (`ROOM_ID`),
+  ADD KEY `FK_ROOM_STAFF_ID` (`STAFF_ID`);
 
 --
 -- Indexes for table `visitor_doctor`
 --
 ALTER TABLE `visitor_doctor`
-  ADD PRIMARY KEY (`VISITOR_ID`);
+  ADD PRIMARY KEY (`VISITOR_ID`),
+  ADD KEY `FK_VISITOR_DOCTOR_STAFF_ID` (`STAFF_ID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -457,19 +491,25 @@ ALTER TABLE `visitor_doctor`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `ADMIN_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ADMIN_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `department`
 --
 ALTER TABLE `department`
-  MODIFY `DEPARTMENT_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `DEPARTMENT_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `doctor`
 --
 ALTER TABLE `doctor`
-  MODIFY `DOCTOR_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `DOCTOR_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
+-- AUTO_INCREMENT for table `edit_request`
+--
+ALTER TABLE `edit_request`
+  MODIFY `REQUEST_ID` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `emergency_bill`
@@ -517,13 +557,94 @@ ALTER TABLE `patient`
 -- AUTO_INCREMENT for table `room`
 --
 ALTER TABLE `room`
-  MODIFY `ROOM_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ROOM_ID` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `visitor_doctor`
 --
 ALTER TABLE `visitor_doctor`
   MODIFY `VISITOR_ID` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `department`
+--
+ALTER TABLE `department`
+  ADD CONSTRAINT `ADMIN_STAFF_ID` FOREIGN KEY (`STAFF_ID`) REFERENCES `admin` (`ADMIN_ID`);
+
+--
+-- Constraints for table `doctor`
+--
+ALTER TABLE `doctor`
+  ADD CONSTRAINT `DEPT_DOCTOR_ID` FOREIGN KEY (`DEPARTMENT_ID`) REFERENCES `department` (`DEPARTMENT_ID`),
+  ADD CONSTRAINT `DOCTOR_STAFF_ID` FOREIGN KEY (`STAFF_ID`) REFERENCES `admin` (`ADMIN_ID`);
+
+--
+-- Constraints for table `edit_request`
+--
+ALTER TABLE `edit_request`
+  ADD CONSTRAINT `FK_STAFF_EDIT_REQUEST` FOREIGN KEY (`REQUEST_BY`) REFERENCES `admin` (`ADMIN_ID`);
+
+--
+-- Constraints for table `emergency_bill`
+--
+ALTER TABLE `emergency_bill`
+  ADD CONSTRAINT `BILL_STAFF_ID` FOREIGN KEY (`CREATED_BY`) REFERENCES `admin` (`ADMIN_ID`),
+  ADD CONSTRAINT `EMERGENCY_SLIP_ID` FOREIGN KEY (`SLIP_ID`) REFERENCES `emergency_slip` (`SLIP_ID`);
+
+--
+-- Constraints for table `emergency_slip`
+--
+ALTER TABLE `emergency_slip`
+  ADD CONSTRAINT `FK_EMERGENCY_SLIP_ADMIN_ID` FOREIGN KEY (`STAFF_ID`) REFERENCES `admin` (`ADMIN_ID`);
+
+--
+-- Constraints for table `indoor_bill`
+--
+ALTER TABLE `indoor_bill`
+  ADD CONSTRAINT `FK_INDOOR_SLIP_ID` FOREIGN KEY (`SLIP_ID`) REFERENCES `indoor_slip` (`SLIP_ID`),
+  ADD CONSTRAINT `FK_INDOOR_STAFF_ID` FOREIGN KEY (`CREATED_BY`) REFERENCES `admin` (`ADMIN_ID`);
+
+--
+-- Constraints for table `indoor_slip`
+--
+ALTER TABLE `indoor_slip`
+  ADD CONSTRAINT `FK_SLIP_DEPARTMENT_ID` FOREIGN KEY (`DEPT_ID`) REFERENCES `department` (`DEPARTMENT_ID`),
+  ADD CONSTRAINT `FK_SLIP_STAFF_ID` FOREIGN KEY (`STAFF_ID`) REFERENCES `admin` (`ADMIN_ID`);
+
+--
+-- Constraints for table `indoor_type`
+--
+ALTER TABLE `indoor_type`
+  ADD CONSTRAINT `FK_INDOOR_TYPE_STAFF_ID` FOREIGN KEY (`STAFF_ID`) REFERENCES `admin` (`ADMIN_ID`);
+
+--
+-- Constraints for table `outdoor_slip`
+--
+ALTER TABLE `outdoor_slip`
+  ADD CONSTRAINT `FK_OUTDOOR_SLIP_STAFF_ID` FOREIGN KEY (`STAFF_ID`) REFERENCES `admin` (`ADMIN_ID`),
+  ADD CONSTRAINT `OUTDOOR_SLIP_DEPT_ID` FOREIGN KEY (`DEPT_ID`) REFERENCES `department` (`DEPARTMENT_ID`);
+
+--
+-- Constraints for table `patient`
+--
+ALTER TABLE `patient`
+  ADD CONSTRAINT `FK_PATIENT_STAFF_ID` FOREIGN KEY (`CREATED_BY`) REFERENCES `admin` (`ADMIN_ID`);
+
+--
+-- Constraints for table `room`
+--
+ALTER TABLE `room`
+  ADD CONSTRAINT `FK_ROOM_STAFF_ID` FOREIGN KEY (`STAFF_ID`) REFERENCES `admin` (`ADMIN_ID`);
+
+--
+-- Constraints for table `visitor_doctor`
+--
+ALTER TABLE `visitor_doctor`
+  ADD CONSTRAINT `FK_VISITOR_DOCTOR_STAFF_ID` FOREIGN KEY (`STAFF_ID`) REFERENCES `admin` (`ADMIN_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

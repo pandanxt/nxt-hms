@@ -30,7 +30,7 @@
                             $_SESSION['email'] = $row['ADMIN_EMAIL'];
                             $_SESSION['fullname'] = $row['ADMIN_NAME'];
                             $_SESSION['name'] = $row['ADMIN_USERNAME'];
-                            // $_SESSION['image'] = $row['user_image'];
+                            $_SESSION['savetime'] = $row['ADMIN_SAVE_TIME'];
                             $_SESSION['type'] = $row['ADMIN_TYPE'];
                             header("Location: ../index.php?login=success");
                             exit();

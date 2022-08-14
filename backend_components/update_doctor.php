@@ -92,8 +92,8 @@
                 <div class="form-group">
                   <label>Status</label>
                   <select class="form-control select2bs4" name="status" style="width: 100%;">
-                    <option selected="selected" value="active">Active</option>
-                    <option value="unactive">Unactive</option>
+                    <option selected="selected" value="1">Active</option>
+                    <option value="0">Unactive</option>
                   </select>
                 </div>
               </div>
