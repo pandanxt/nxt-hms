@@ -214,6 +214,7 @@
         </ul>
       </li>
       <!--./Setting Box -->
+      <?php if (isset($_SESSION['userid']) && $_SESSION['type'] == "admin") {  ?>
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="javascript:void(0);">
           <i class="fas fa-cog"></i>
@@ -221,7 +222,6 @@
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">Settings</span>
           <div class="dropdown-divider"></div>
-          <?php if (isset($_SESSION['userid']) && $_SESSION['type'] == "admin") {  ?>
           <a href="doctors.php" class="dropdown-item">
             Medeast Doctors <span class="float-right text-muted text-sm"><i class="fas fa-user-md"></i></span>
           </a>
@@ -252,10 +252,10 @@
           <div class="dropdown-divider"></div>
           <a type="button" class="dropdown-item" data-toggle="modal" data-target="#modal-sm">
              Logout <span class="float-right text-muted text-sm"><i class="fas fa-sign-out-alt"></i></span>
-          </a>
-          <?php } ?>                 
+          </a>                
         </div>
       </li>
+      <?php } ?> 
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="javascript:void(0);" role="button">
           <i class="fas fa-expand-arrows-alt"></i>

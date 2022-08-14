@@ -1,5 +1,7 @@
 {
     "cSpell.words": [
+        "addroom",
+        "addvtdoc",
         "billsql",
         "dname",
         "dptsql",
@@ -21,6 +23,8 @@
         "patsql",
         "Payables",
         "printsql",
+        "rname",
+        "rrate",
         "savetime",
         "selv",
         "shortstay",
@@ -28,6 +32,7 @@
         "slipsql",
         "slist",
         "Sqlerror",
+        "Swal",
         "tbill",
         "unactive",
         "userid",
