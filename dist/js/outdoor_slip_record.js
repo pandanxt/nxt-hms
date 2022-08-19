@@ -20,7 +20,7 @@ function getOpdRequest(str){
       var xmlhttp=new XMLHttpRequest();
       xmlhttp.onreadystatechange=function() {
         if (this.readyState==4 && this.status==200) {
-          document.getElementById("body").innerHTML=this.responseText;
+          document.getElementById("requestBody").innerHTML=this.responseText;
           console.log("Response From Slip Request: ", this.responseText);
         }
       }

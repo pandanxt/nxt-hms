@@ -154,6 +154,9 @@
         </div>
       </li>
       <!-- Notifications Dropdown Menu -->
+      <?php
+        if ($_SESSION['type'] == "admin") { 
+      ?>
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" onClick="getRequestNotification();" href="javascript:void(0);">
           <i class="far fa-bell"></i>
@@ -162,50 +165,9 @@
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="notificationId">
         </div>
       </li>
-      <script>
-        // Get Request Data
-        function getRequestNotification(){
-          var xmlhttp=new XMLHttpRequest();
-          xmlhttp.onreadystatechange=function() {
-            if (this.readyState==4 && this.status==200) {
-              document.getElementById("notificationId").innerHTML=this.responseText;
-              console.log("Response From Request: ", this.responseText);
-            }
-          }
-          xmlhttp.open("GET","backend_components/ajax_handler.php?q=GET-ALL-REQUEST",true);
-          xmlhttp.send();
+      <?php
         }
-       
-        // Get Request Data against slip Id
-        function getRequest(str){
-            if (str=="") {return;}
-              var xmlhttp=new XMLHttpRequest();
-              xmlhttp.onreadystatechange=function() {
-                if (this.readyState==4 && this.status==200) {
-                  document.getElementById("body").innerHTML=this.responseText;
-                  console.log("Response From Slip Request: ", this.responseText);
-                }
-              }
-            xmlhttp.open("GET","backend_components/ajax_handler.php?q=VIEW-REQUEST-BY-ID&id="+str,true);
-            xmlhttp.send();
-        }
-
-        // Ger Request Data Record
-        function openRequestedRecord(str) {
-          let elem = document.getElementById("view-record");
-          name = elem.getAttribute("data-type"); 
-          if (str=="" && name=="") {return;}
-              let xmlhttp=new XMLHttpRequest();
-              xmlhttp.onreadystatechange=function() {
-                if (this.readyState==4 && this.status==200) {
-                  document.getElementById("recordBody").innerHTML=this.responseText;
-                  console.log("Response From Request Record: ", this.responseText);
-                }
-              }
-            xmlhttp.open("GET","backend_components/ajax_handler.php?q=VIEW-REQUEST-RECORD&id="+str+"&val="+name,true);
-            xmlhttp.send();
-        }
-      </script>
+      ?>
       <!-- ./Profile Box -->
       <li class="nav-item dropdown user-menu">
         <?php
@@ -365,7 +327,7 @@
       <div class="modal-header">
         <h4 class="modal-title"><i class="nav-icon fas fa-edit"></i> Request</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
-          <span aria-hidden="true">&times;</span>
+          <span aria-hidden="true" onclick="setPopModel();">&times;</span>
         </button>
       </div>
       <form action="javascript:void(0)" method="post" id="VIEW-OPD-SLIP">
@@ -380,42 +342,247 @@
               <th>Option</th>
             </tr>
             </thead>
-            <tbody id="body"></tbody>
-            </table>
+            <tbody id="requestBody"></tbody>
+          </table>
+          <?php if (isset($_SESSION['userid']) && $_SESSION['type'] == "admin") {  ?>
+          <div id="editBody">
+          </div>
+          <?php } ?>
         </div>
+        <?php if (isset($_SESSION['userid']) && $_SESSION['type'] == "admin") {  ?>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="setPopModel();">Cancel</button>
+          <button type="submit" name="submit" class="btn btn-primary" id="updateRecord" onclick="updateRqRecord();">Save</button>
+        </div>
+        <?php } ?>
       </form>
     </div>
   </div>
 </div>
+<script>
+  let recordType,requestId, requestStatus;
+  // Send Update Record of request Date
+  function updateRqRecord() {
+    let type, dept, doctor, fee, procedure;
+    let slipId = document.getElementById('slipId').value;
 
-<!-- **
-*  View Requested Record Model Popup Here 
-** -->
-<div class="modal fade" id="view-record">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title"><i class="nav-icon fas fa-info-circle"></i> Requested Record</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form action="javascript:void(0)" method="post" id="VIEW-REQUEST-RECORD">
-        <div class="modal-body">
-          <table class="table table-bordered table-striped">
-            <thead>
-            <tr style="font-size: 12px;">
-              <th>Title</th>
-              <th>Comment</th>
-              <th>Reference</th>
-              <th>Request By</th>
-              <th>Option</th>
-            </tr>
-            </thead>
-            <tbody id="recordBody"></tbody>
-            </table>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
+    if (recordType == 'outdoor') {
+      type = document.getElementById('docType').value;
+      fee = document.getElementById('fee').value;
+      if (type == 0) {
+        dept = document.getElementById('meDept').value;
+        doctor = document.getElementById('meDoctor').value;
+      }else if (type == 1) {
+        dept = document.getElementById('vtDept').value;
+        doctor = document.getElementById('vtDoctor').value;
+      }
+    }else if (recordType == 'indoor') {
+      type = document.getElementById('indoorType').value;
+      dept = document.getElementById('dept').value;
+      doctor = document.getElementById('doctor').value;
+      procedure = document.getElementById('procedure').value;
+    }else if (recordType == 'emergency') {
+      doctor = document.getElementById('doctor').value;
+    }
+        
+    let values = {
+      'name': document.getElementById('name').value,
+      'fee': fee ? fee : null,
+      'procedure': procedure ? procedure : null,
+      'table': recordType,
+      'type': type ? type : null,
+      'dept': dept ? dept : null,
+      'doctor': doctor
+    };
+    //name required
+    let rname = $("input#name").val();
+    if(rname == "" || dept == "" || doctor == ""){
+        $("#err-msg").fadeIn().text("Fields can't be empty.");
+        $("input#name").focus();
+        return false;
+    }
+    // ajax
+    $.ajax({
+        type:"POST",
+        url: `backend_components/ajax_handler.php?q=upRqRecord&id=${slipId}`,
+        data: values, // get all form field value in serialize form
+        success: function(){   
+        updateRequestStatus(requestId, requestStatus);
+          $(function() {
+              var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+              });
+              Toast.fire({
+                icon: 'success',
+                title: 'Request Has be updated Successfully.'
+              })
+          });
+          autoRefresh();
+        }
+    });
+  }
+  // Update Request Status
+  function updateRequestStatus(id,status){
+    var xmlhttp=new XMLHttpRequest();
+    xmlhttp.onreadystatechange=function() {
+      if (this.readyState==4 && this.status==200) {
+        console.log("Request Status updated: ",this.responseText);
+      }else { console.log("There is an error in updating the visiting doctor record."); }
+    }
+    xmlhttp.open("GET",`backend_components/ajax_handler.php?q=upRqStatus&val=${status}&id=${id}`,true);
+    xmlhttp.send();
+  }
+  // Reset Model Data
+  function setPopModel() {
+    document.getElementById("editBody").innerHTML= "";
+  }
+  // Get Request Data
+  function getRequestNotification(){
+    var xmlhttp=new XMLHttpRequest();
+    xmlhttp.onreadystatechange=function() {
+      if (this.readyState==4 && this.status==200) {
+        document.getElementById("notificationId").innerHTML=this.responseText;
+        console.log("Response From Request: ", this.responseText);
+      }
+    }
+    xmlhttp.open("GET","backend_components/ajax_handler.php?q=GET-ALL-REQUEST",true);
+    xmlhttp.send();
+  }
+  
+  // Get Request Data against slip Id
+  function getRequest(str){
+      if (str=="") {return;}
+        var xmlhttp=new XMLHttpRequest();
+        xmlhttp.onreadystatechange=function() {
+          if (this.readyState==4 && this.status==200) {
+            document.getElementById("requestBody").innerHTML=this.responseText;
+            console.log("Response From Slip Request: ", this.responseText);
+          }
+        }
+      xmlhttp.open("GET","backend_components/ajax_handler.php?q=VIEW-REQUEST-BY-ID&id="+str,true);
+      xmlhttp.send();
+  }
+
+  // Ger Request Data Record
+  function openRequestedRecord(str) {
+    let elem = document.getElementById("view-record");
+    recordType = elem.getAttribute("data-type"); 
+    requestId = elem.getAttribute("data-id");
+    requestStatus = elem.getAttribute("data-status");
+    if (str=="" && name=="") {return;}
+        let xmlhttp=new XMLHttpRequest();
+        xmlhttp.onreadystatechange=function() {
+          if (this.readyState==4 && this.status==200) {
+            document.getElementById("editBody").innerHTML=this.responseText;
+            console.log("Response From Request Record: ", this.responseText);
+          }
+        }
+      xmlhttp.open("GET","backend_components/ajax_handler.php?q=VIEW-REQUEST-RECORD&id="+str+"&val="+recordType,true);
+      xmlhttp.send();
+  }
+
+    // Switch Doctor List 
+    function switchDocList(e) { 
+    let meDoctor = document.getElementById("meDoc");
+    let vtDoctor = document.getElementById("vtDoc"); 
+    let selDoctor = document.getElementById("doctor");
+    let selDept = document.getElementById("dept");
+    let selvDoctor = document.getElementById("visitDoctor");
+    let selvDept = document.getElementById("visitDept");
+
+    if (e == 0) {
+      meDoctor.style.display = "flex"; 
+      vtDoctor.style.display = "none"; 
+      selDoctor.required = true; 
+      selDept.required = true;
+
+      selvDoctor.required = false; 
+      selvDept.required = false;
+    }
+    if (e == 1) {
+      meDoctor.style.display = "none"; 
+      vtDoctor.style.display = "flex"; 
+      selvDoctor.required = true; 
+      selvDept.required = true;
+
+      selDoctor.required = false; 
+      selDept.required = false;
+    }
+  }
+  // Dept Change Request for Regular Doctor
+  function showDoctor(str) {
+    if (str=="") {return;}
+    var xmlhttp=new XMLHttpRequest();
+    xmlhttp.onreadystatechange=function() {
+      if (this.readyState==4 && this.status==200) {
+        document.getElementById("doctor").innerHTML=this.responseText;
+      }
+    }
+    xmlhttp.open("GET","getDoctor.php?q="+str,true);
+    xmlhttp.send();
+  }
+  // Update Request for visiting Doctor 
+  function updateDoctor() {
+    let visitId = document.getElementById("visitDoctor");
+    var xmlhttp=new XMLHttpRequest();
+    xmlhttp.onreadystatechange=function() {
+      if (this.readyState==4 && this.status==200) {
+        visitId.innerHTML=this.responseText;
+      }else { console.log("There is an error in updating the visiting doctor record."); }
+    }
+    xmlhttp.open("GET","getDoctor.php?q=0",true);
+    xmlhttp.send();
+  }
+  // Show add Visitor Doctor Field
+  function showFields() {
+    let showVtField = document.getElementById("showVisitField");
+    if (showVtField.style.display === "none") {
+      showVtField.style.display = "block";
+    } else {
+      showVtField.style.display = "none";
+    }
+  }
+  // Ajax Call for Adding New Visiting Doctor 
+  function saveVtDoctor() {
+    let values = {
+          'docName': document.getElementById('docName').value,
+          'userId': document.getElementById('userId').value
+        };
+        //name required
+        let dname = $("input#docName").val();
+        if(dname == ""){
+            $("#err-msg").fadeIn().text("Doctor Name required.");
+            $("input#docName").focus();
+            return false;
+        }
+        // ajax
+        $.ajax({
+            type:"POST",
+            url: "backend_components/ajax_handler.php?q=adVtDoc",
+            data: values, // get all form field value in serialize form
+            success: function(){   
+            updateDoctor();
+              $(function() {
+                  var Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  Toast.fire({
+                    icon: 'success',
+                    title: 'New Visitor Doctor Successfully Saved.'
+                  })
+              });
+            }
+        });
+  }
+  function autoRefresh(){
+    setTimeout(() => {
+      window.location = window.location.href;
+    }, 1000);    
+  }
+</script>
