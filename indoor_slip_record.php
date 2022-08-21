@@ -180,7 +180,7 @@
                 <th>Option</th>
               </tr>
               </thead>
-              <tbody id="body"></tbody>
+              <tbody id="requestBody"></tbody>
               </table>
           </div>
         </form>

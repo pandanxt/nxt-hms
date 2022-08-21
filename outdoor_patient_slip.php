@@ -322,7 +322,7 @@
             <input type="text" name="userId" id="userId" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
         </div>
         <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-default" id="cancel" data-dismiss="modal">Cancel</button>
           <button type="submit" name="submit" class="btn btn-primary">Proceed</button>
         </div>
       </form>
@@ -401,14 +401,13 @@
             $("input#docName").focus();
             return false;
         }
+        $("#cancel").click();
         // ajax
         $.ajax({
             type:"POST",
             url: "backend_components/ajax_handler.php?q=adVtDoc",
             data: $(this).serialize(), // get all form field value in serialize form
             success: function(){   
-            let el = document.querySelector("#close-button");
-            el.click();
             updateDoctor();
               $(function() {
                   var Toast = Swal.mixin({
