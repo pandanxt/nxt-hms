@@ -155,18 +155,18 @@
       </li>
       <!-- Notifications Dropdown Menu -->
       <?php
-        if ($_SESSION['type'] == "admin") { 
+        // if ($_SESSION['type'] == "admin") { 
       ?>
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" onClick="getRequestNotification();" href="javascript:void(0);">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">2</span>
+          <span class="badge badge-warning navbar-badge">&nbsp;</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="notificationId">
         </div>
       </li>
       <?php
-        }
+        // }
       ?>
       <!-- ./Profile Box -->
       <li class="nav-item dropdown user-menu">
@@ -339,7 +339,9 @@
               <th>Comment</th>
               <th>Reference</th>
               <th>Request By</th>
-              <th>Option</th>
+              <?php if ($_SESSION['type'] == "admin") { ?>
+              <th>  Options-  </th>
+              <?php } ?>
             </tr>
             </thead>
             <tbody id="requestBody"></tbody>
@@ -429,8 +431,10 @@
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
       if (this.readyState==4 && this.status==200) {
-        console.log("Request Status updated: ",this.responseText);
-      }else { console.log("There is an error in updating the visiting doctor record."); }
+        // console.log("Request Status updated: ",this.responseText);
+      }else { 
+        // console.log("There is an error in updating the visiting doctor record."); 
+      }
     }
     xmlhttp.open("GET",`backend_components/ajax_handler.php?q=upRqStatus&val=${status}&id=${id}`,true);
     xmlhttp.send();
@@ -445,7 +449,7 @@
     xmlhttp.onreadystatechange=function() {
       if (this.readyState==4 && this.status==200) {
         document.getElementById("notificationId").innerHTML=this.responseText;
-        console.log("Response From Request: ", this.responseText);
+        // console.log("Response From Request: ", this.responseText);
       }
     }
     xmlhttp.open("GET","backend_components/ajax_handler.php?q=GET-ALL-REQUEST",true);
@@ -459,31 +463,95 @@
         xmlhttp.onreadystatechange=function() {
           if (this.readyState==4 && this.status==200) {
             document.getElementById("requestBody").innerHTML=this.responseText;
-            console.log("Response From Slip Request: ", this.responseText);
+            // console.log("Response From Slip Request: ", this.responseText);
           }
         }
       xmlhttp.open("GET","backend_components/ajax_handler.php?q=VIEW-REQUEST-BY-ID&id="+str,true);
       xmlhttp.send();
   }
 
-  // Ger Request Data Record
+  // Get Request Data Record
   function openRequestedRecord(str) {
     let elem = document.getElementById("view-record");
     recordType = elem.getAttribute("data-type"); 
     requestId = elem.getAttribute("data-id");
     requestStatus = elem.getAttribute("data-status");
-    if (str=="" && name=="") {return;}
+    if (str=="") {return;}
         let xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
           if (this.readyState==4 && this.status==200) {
             document.getElementById("editBody").innerHTML=this.responseText;
-            console.log("Response From Request Record: ", this.responseText);
+            // console.log("Response From Request Record: ", this.responseText);
           }
         }
       xmlhttp.open("GET","backend_components/ajax_handler.php?q=VIEW-REQUEST-RECORD&id="+str+"&val="+recordType,true);
       xmlhttp.send();
   }
+  // Delete Record and update request status
+  function deleteRequestRecord(str) {
+    let elem = document.getElementById("deleteRecord");
+    recordType = elem.getAttribute("data-name"); 
+    let recordId = elem.getAttribute("data-id");
+    let val = confirm('Please confirm deletion');
+      if (val === true) {
+        if (str=="") {return;}
+          let xmlhttp=new XMLHttpRequest();
+          xmlhttp.onreadystatechange=function() {
+            if (this.readyState==4 && this.status==200) {
+              $(function() {
+                  var Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  Toast.fire({
+                    icon: 'success',
+                    title: 'Requested Record Deleted Successfully.'
+                  })
+              });
+              autoRefresh();
+            }
+          }
+        xmlhttp.open("GET","backend_components/ajax_handler.php?q=REMOVE-REQUEST-RECORD&id="+str+"&rid="+recordId+"&val="+recordType,true);
+        xmlhttp.send();
+      }else {
+        // Do whatever if the user clicks cancel.
+        return;
+      }
+  }
 
+  // Cancel Request
+  function cancelRequest(str){
+    let val = confirm('Please confirm deletion');
+      if (val === true) {
+        if (str=="") {return;}
+        // Do whatever if the user clicked ok.
+        let xmlhttp=new XMLHttpRequest();
+        xmlhttp.onreadystatechange=function() {
+          if (this.readyState==4 && this.status==200) {
+            $(function() {
+                var Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000
+                });
+                Toast.fire({
+                  icon: 'success',
+                  title: 'Request Cancelled Successfully.'
+                })
+            });
+            autoRefresh();
+          }
+        }
+        xmlhttp.open("GET","backend_components/ajax_handler.php?q=cancelRqStatus&id="+str,true);
+        xmlhttp.send();
+      } else {
+        // Do whatever if the user clicks cancel.
+        return;
+      }
+  }
     // Switch Doctor List 
     function switchDocList(e) { 
     let meDoctor = document.getElementById("meDoc");
@@ -531,7 +599,10 @@
     xmlhttp.onreadystatechange=function() {
       if (this.readyState==4 && this.status==200) {
         visitId.innerHTML=this.responseText;
-      }else { console.log("There is an error in updating the visiting doctor record."); }
+      }
+      // else { 
+      //   console.log("There is an error in updating the visiting doctor record."); 
+      // }
     }
     xmlhttp.open("GET","getDoctor.php?q=0",true);
     xmlhttp.send();

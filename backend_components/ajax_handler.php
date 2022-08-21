@@ -234,21 +234,50 @@
     if ($q == 'GET-ALL-REQUEST') { 
         echo "<span class='dropdown-item dropdown-header'>Request Notifications</span>
         <div class='dropdown-divider'></div>";
-        $request = 'SELECT *, `ADMIN_USERNAME` FROM `edit_request` INNER JOIN `admin` WHERE `edit_request`.`REQUEST_BY` = `admin`.`ADMIN_ID` AND `edit_request`.`REQUEST_STATUS` = 0';
-        $result = mysqli_query($db, $request) or die (mysqli_error($db));
-        while ($row = mysqli_fetch_array($result)) {
-        
-        echo "<a href='javascript:void(0);' onClick='getRequest($row[REQUEST_ID]);'  data-toggle='modal' data-target='#view-request' class='dropdown-item'>
-              <i class='far fa-bell mr-2'></i>"; 
-                if ($row['REQUEST_NAME'] == 'cancel') {
-                    echo "Record Cancel Request";
-                }else if ($row['REQUEST_NAME'] == 'update') {
-                    echo "Record Update Request";
-                }
-              echo "<span class='float-right right badge badge-danger'>New</span>
-            </a>
-            <div class='dropdown-divider'></div>";
+        if ($_SESSION['type'] == "admin") {
+            $request = 'SELECT *, `ADMIN_USERNAME` FROM `edit_request` INNER JOIN `admin` WHERE `edit_request`.`REQUEST_BY` = `admin`.`ADMIN_ID` AND `edit_request`.`REQUEST_STATUS` = 0 ORDER BY `edit_request`.`REQUEST_ID` DESC';
+        } else if($_SESSION['type'] == "user"){
+            $request = 'SELECT *, `ADMIN_USERNAME` FROM `edit_request` INNER JOIN `admin` WHERE `edit_request`.`REQUEST_BY` = `admin`.`ADMIN_ID` AND `edit_request`.`REQUEST_STATUS` != 0 ORDER BY `edit_request`.`REQUEST_ID` DESC';
         }
+        $result = mysqli_query($db, $request) or die (mysqli_error($db));
+            $resultCheck = mysqli_num_rows($result);
+            if ($resultCheck == 0) {
+                echo "<span class='dropdown-item text-center'>No Record Found</span>";
+            }else {
+                while ($row = mysqli_fetch_array($result)) {
+                    echo "<a href='javascript:void(0);' onClick='getRequest($row[REQUEST_ID]);'  data-toggle='modal' data-target='#view-request' class='dropdown-item'> 
+                    <small><span class='float-left left badge badge-primary mr-4 mt-1'>SLIP</span></small>";  
+                    if ($row['REQUEST_TABLE_NAME'] == 'OPD_SLIP_REQUEST') {
+                        if ($row['REQUEST_NAME'] == 'cancel') {
+                            echo "<span class='text-center'><b> Cancel Request</b></span>
+                            <span class='float-right right badge badge-primary'>OPD</span>";
+                        }else if ($row['REQUEST_NAME'] == 'update') {
+                            echo "<span class='text-center'><b> Edit Request</b></span>
+                            <span class='float-right right badge badge-primary'>OPD</span>";
+                        }
+                    }
+                    if ($row['REQUEST_TABLE_NAME'] == 'INDOOR_SLIP_REQUEST') {
+                        if ($row['REQUEST_NAME'] == 'cancel') {
+                            echo "<span class='text-center'><b> Cancel Request</b></span>
+                            <span class='float-right right badge badge-primary'>INDOOR</span>";
+                        }else if ($row['REQUEST_NAME'] == 'update') {
+                            echo "<span class='text-center'><b> Edit Request</b></span>
+                            <span class='float-right right badge badge-primary'>INDOOR</span>";
+                        }
+                    }
+                    if ($row['REQUEST_TABLE_NAME'] == 'EMERGENCY_SLIP_REQUEST') {
+                        if ($row['REQUEST_NAME'] == 'cancel') {
+                            echo "<span class='text-center'><b> Cancel Request</b></span>
+                            <span class='float-right right badge badge-primary'>EMERGENCY</span>";
+                        }else if ($row['REQUEST_NAME'] == 'update') {
+                            echo "<span class='text-center'><b>Edit Request</b></span>
+                            <span class='float-right right badge badge-primary'>EMERGENCY</span>";
+                        }
+                    }
+                    echo "</a>
+                    <div class='dropdown-divider'></div>";
+                }
+            }
     }
     // View Specific Request Query Response
     if ($q == 'VIEW-REQUEST-BY-ID') {
@@ -280,16 +309,21 @@
             <td>
                 <b>By</b>: $row[ADMIN_USERNAME] <br>
                 <b>On</b>: $row[REQUEST_ON]
-            </td>
-            <td>
-                <a href='javascript:void(0);' id='view-record' onclick='openRequestedRecord($rid)' data-status='$row[REQUEST_STATUS]' data-id='$id' data-type='$rname'>
-                    <i class='fas fa-info-circle'></i>
-                </a>
-                <a onClick='cancelRequest($row[REQUEST_ID])' href='javascript:void(0);' style='color:red;'>
-                    <i class='fas fa-trash'></i>
-                </a>
-            </td>
-            </tr>";
+            </td>";
+            if ($_SESSION['type'] == "admin") {
+                echo "<td>
+                    <a href='javascript:void(0);' id='view-record' onclick='openRequestedRecord($rid)' data-status='$row[REQUEST_STATUS]' data-id='$id' data-type='$rname'>
+                        <i class='fas fa-info-circle'></i> View
+                    </a></br>
+                    <a onClick='cancelRequest($row[REQUEST_ID])' href='javascript:void(0);' style='color:red;'>
+                        <small><i class='fas fa-trash'></i> Request</small>
+                    </a></br>
+                    <a onClick='deleteRequestRecord($row[REQUEST_ID])' id='deleteRecord' data-id='$row[REQUEST_TABLE_ID]' data-name='$row[REQUEST_TABLE_NAME]' href='javascript:void(0);' style='color:red;'>
+                    <small><i class='fas fa-trash'></i> Record</small>
+                    </a></br>
+                </td>";
+            }
+            echo "</tr>";
         }   
     }
     // View Specific Request Record Query Response
@@ -484,6 +518,15 @@
             echo "Error: " . $sql . "" . mysqli_error($db);
         }
     }
+    // Cancel Request Status 
+    if ($q == 'cancelRqStatus') {
+        $val = 2; 
+        if(mysqli_query($db, "UPDATE `edit_request` SET `REQUEST_STATUS` = '$val' WHERE `REQUEST_ID` =".$id)) {
+            echo 'Form Has been submitted successfully';
+        } else {
+            echo "Error: " . $sql . "" . mysqli_error($db);
+        }
+    }
     if ($q == 'upRqRecord') {
         
         $name = mysqli_real_escape_string($db, $_POST['name']);
@@ -517,4 +560,26 @@
         }
         
     } 
+    if ($q == 'REMOVE-REQUEST-RECORD') {
+        $slipId = (isset($_GET['rid']) ? $_GET['rid'] : '');
+        if ($val == 'OPD_SLIP_REQUEST') {
+            $request ="DELETE FROM `outdoor_slip` WHERE `outdoor_slip`.`SLIP_ID` = $slipId";
+            $result = mysqli_query($db, $request) or die (mysqli_error($db)); 
+        }else if($val == 'INDOOR_SLIP_REQUEST') {
+            $request ="DELETE FROM `indoor_slip` WHERE `indoor_slip`.`SLIP_ID` = $slipId";
+            $result = mysqli_query($db, $request) or die (mysqli_error($db));
+        }else if($val == 'EMERGENCY_SLIP_REQUEST') {
+            $request ="DELETE FROM `emergency_slip` WHERE `emergency_slip`.`SLIP_ID` = $slipId";
+            $result = mysqli_query($db, $request) or die (mysqli_error($db));
+        }
+            if(mysqli_affected_rows($db) == 1)
+            {
+                echo "Record Deleted Successfully";
+                if(mysqli_query($db, "UPDATE `edit_request` SET `REQUEST_STATUS` = 1 WHERE `REQUEST_ID` =".$id)) {
+                    echo 'Form Has been submitted successfully';
+                } else {
+                    echo "Error: " . $sql . "" . mysqli_error($db);
+                }
+            }
+    }
 ?>
