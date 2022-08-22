@@ -214,7 +214,7 @@
                         <div class="form-group col-md-4">
                         <label>I/V Line (In/Out)</label>
                         <select class="form-control select2bs4" name="ivline" id="ivLine" style="width: 100%;">
-                          <option value="0" selected="selected" disabled>I/V Line (In/Out)</option>
+                          <option value="0" selected="selected">I/V Line (In/Out)</option>
                           <option value="200">In - 200</option>
                           <option value="100">Out - 100</option>
                         </select>
@@ -328,7 +328,7 @@
                       <div class="form-group col-md-4">
                         <label>I/V infusion</label>
                         <select class="form-control select2bs4" name="ivinfusion" id="ivInfusion" style="width: 100%;">
-                          <option value="10" selected="selected" disabled>100ml/200ml/1000ml</option>
+                          <option value="0" selected="selected">100ml/200ml/1000ml</option>
                           <option value="200">100ml - 200</option>
                           <option value="500">200ml - 500</option>
                           <option value="1000">1000ml - 1000</option>
