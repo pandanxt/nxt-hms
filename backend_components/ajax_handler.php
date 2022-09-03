@@ -40,14 +40,6 @@
             echo "Error: " . $sql . "" . mysqli_error($db);
         }
     }
-    // Medeast User Status Update 
-    if ($q == 'stUser') {
-        if(mysqli_query($db, "UPDATE `admin` SET `ADMIN_STATUS`= '$val' WHERE `ADMIN_ID` = ".$id)) {
-            echo 'Form Has been submitted successfully';
-        } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
-        }
-    }
 
     // Add Room Query
     if($q == 'adRoom') {
@@ -191,45 +183,7 @@
         mysqli_stmt_close($stmt);
         mysqli_close($db);
     } 
-    // Add Medeast User Query
-    if ($q == 'adUser') {
-        
-        $name = mysqli_real_escape_string($db, $_POST['userName']);
-        $email = mysqli_real_escape_string($db, $_POST['userEmail']);
-        $loginId = mysqli_real_escape_string($db, $_POST['loginId']);
-        $password = mysqli_real_escape_string($db, password_hash($_POST['userPassword'], PASSWORD_DEFAULT));
-        $permission = mysqli_real_escape_string($db, $_POST['userPermission']);
-        $by = mysqli_real_escape_string($db, $_POST['userId']);
-        
-        $sql = "SELECT * FROM `admin` WHERE `ADMIN_USERNAME` = ? OR `ADMIN_EMAIL` = ?";
-        $stmt = mysqli_stmt_init($db);
-        
-        if (!mysqli_stmt_prepare($stmt,$sql)) {
-            echo "Error: " . $sql . "" . mysqli_error($stmt); 
-        }else{
-            mysqli_stmt_bind_param($stmt,"ss",$loginId,$email);
-            mysqli_stmt_execute($stmt);
-            mysqli_stmt_store_result($stmt);
-            $resultCheck = mysqli_stmt_num_rows($stmt);
-                  
-            if ($resultCheck > 0) {
-                echo "login Id or email already taken!";
-            }else{
-                $sql = "INSERT INTO `admin`(`ADMIN_NAME`, `ADMIN_TYPE`, `ADMIN_EMAIL`, `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `CREATED_BY`) VALUES (?,?,?,?,?,?)";
-                mysqli_stmt_execute($stmt);
-            
-                if (!mysqli_stmt_prepare($stmt,$sql)) {
-                    echo "Error: " . $sql . "" . mysqli_error($stmt);
-                }else{
-                    mysqli_stmt_bind_param($stmt,"ssssss",$name,$permission,$email,$loginId,$password,$by);
-                    mysqli_stmt_execute($stmt);
-                    echo "Form Has been submitted successfully";
-                }			
-            }
-        }
-      mysqli_stmt_close($stmt);
-      mysqli_close($db);
-    } 
+    
     // Get Add Requests Query
     if ($q == 'GET-ALL-REQUEST') { 
         echo "<span class='dropdown-item dropdown-header'>Request Notifications</span>
