@@ -1,7 +1,7 @@
 <?php 
   // Session Start
   session_start();
-  if (isset($_SESSION['userid'])) {
+  if (isset($_SESSION['uuid'])) {
   // Get MRID and Type from URL  
   $sid = (isset($_GET['sid']) ? $_GET['sid'] : ''); 
   $type = (isset($_GET['type']) ? $_GET['type'] : '');
@@ -185,7 +185,7 @@
                       <input type="text" name="address" id="address" value="<?php echo $patrow['PATIENT_ADDRESS']; ?>" hidden readonly/>
                       <input type="text" name="age" id="age" value="<?php echo $patrow['PATIENT_AGE']; ?>" hidden readonly/>
                       <input type="text" name="gender" id="gender" value="<?php echo $patrow['PATIENT_GENDER']; ?>" hidden readonly/>
-                      <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
+                      <input type="text" name="by" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
 
                       <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                           <div class="form-group col-md-3">

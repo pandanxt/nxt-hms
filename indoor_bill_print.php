@@ -2,7 +2,7 @@
     session_start();
     $sid = (isset($_GET['sid']) ? $_GET['sid'] : '');
 
-    if (isset($_SESSION['userid'])) {
+    if (isset($_SESSION['uuid'])) {
       
       include('backend_components/connection.php');
       // Form Header File

@@ -2,7 +2,7 @@
   // Session Starts
   session_start(); 
   $patid = (isset($_GET['patid']) ? $_GET['patid'] : '');
-  if (isset($_SESSION['userid'])) {
+  if (isset($_SESSION['uuid'])) {
   // Connection File
   include('backend_components/connection.php');
   // Table Header File
@@ -85,7 +85,7 @@
                                       <?php echo '<div class="row"><label>Created By: </label>&nbsp; <h5>'.$row["ADMIN_USERNAME"].'</h5></div>'; ?>
                                       
                                       <?php 
-                                        if ($_SESSION['type'] == "admin") {
+                                        if ($_SESSION['role'] == "admin") {
                                           echo '<div class="row"><label>Options: </label>&nbsp; <h5>';
                                           echo '<a href="edit_patient.php?patid='.$row["PATIENT_ID"].'"><i class="fas fa-edit"></i></a>';
                                           echo '&nbsp; <a href="backend_components/delete_handler.php?prid='.$row["PATIENT_ID"].'" style="color:red;"><i class="fas fa-trash"></i></a>';
@@ -140,7 +140,7 @@
                                                     <br> 
                                                     <a href='emergency_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
                                                     <i class='fas fa-wallet'></i> Print</a>";
-                                                    if ($_SESSION['type'] == "admin") {  
+                                                    if ($_SESSION['role'] == "admin") {  
                                                     echo "<br>
                                                     <a href='emergency_patient_slip.php?epsid=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
                                                     <br>
@@ -151,7 +151,7 @@
                                               }else{
                                                   echo "<a href='emergency_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
                                                   <i class='fas fa-wallet'></i> Print</a>";
-                                                  if ($_SESSION['type'] == "admin") {  
+                                                  if ($_SESSION['role'] == "admin") {  
                                                   echo "<br>
                                                   <a href='emergency_patient_slip.php?epsid=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
                                                   <br>
@@ -219,7 +219,7 @@
                                                 <br> 
                                                 <a href='indoor_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
                                                 <i class='fas fa-wallet'></i> Print</a>";
-                                                if ($_SESSION['type'] == "admin") {  
+                                                if ($_SESSION['role'] == "admin") {  
                                                 echo "<br>
                                                 <a href='add_patient.php?id=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
                                                 <br>
@@ -229,7 +229,7 @@
                                               }else{
                                               echo "<a href='indoor_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
                                               <i class='fas fa-wallet'></i> Print</a>";
-                                              if ($_SESSION['type'] == "admin") {  
+                                              if ($_SESSION['role'] == "admin") {  
                                               echo "<br>
                                               <a href='add_patient.php?id=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
                                               <br>
@@ -295,7 +295,7 @@
                                             <td>
                                               <a href='outdoor_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
                                               <i class='fas fa-wallet'></i> Print</a>";
-                                              if ($_SESSION['type'] == "admin") {  
+                                              if ($_SESSION['role'] == "admin") {  
                                                   echo "<a href='add_patient.php?id=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
                                                   <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?osrId=$rs[SLIP_ID]' style='color:red;'>
                                                   <i class='fas fa-trash'></i> Delete</a>";

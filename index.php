@@ -1,7 +1,7 @@
 <?php
   // Session Start
   session_start();
-  if (isset($_SESSION['userid'])) { 
+  if (isset($_SESSION['uuid'])) { 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,8 +32,6 @@
   include('components/navbar.php'); 
   // Main Sidebar Container
   include('components/sidebar.php'); 
-  // Content Wrapper. Contains page content
-  // include('components/mainbody.php');
 ?>
 
 <div class="content-wrapper">
@@ -45,7 +43,7 @@
         <div class="row">
           <div class="col-lg-2 col-6">
             <?php
-              $patient = mysqli_query($db,"SELECT COUNT(`PATIENT_ID`) FROM `patient`");
+              $patient = mysqli_query($db,"SELECT COUNT(`PATIENT_MR_ID`) FROM `me_patient`");
               $row = mysqli_fetch_array($patient);
               $patTotal = $row[0];
             ?>
@@ -66,7 +64,7 @@
           <!-- ./col -->
           <div class="col-lg-2 col-6">
             <?php
-              $emergency = mysqli_query($db,"SELECT COUNT(`SLIP_ID`) FROM `emergency_slip`");
+              $emergency = mysqli_query($db,"SELECT COUNT(`SLIP_UUID`) FROM `me_emergency_slip`");
               $row = mysqli_fetch_array($emergency);
               $emTotal = $row[0];
             ?>
@@ -87,7 +85,7 @@
           <!-- ./col -->
           <div class="col-lg-2 col-6">
             <?php
-              $emBill = mysqli_query($db,"SELECT COUNT(`BILL_ID`) FROM `emergency_bill`");
+              $emBill = mysqli_query($db,"SELECT COUNT(`BILL_UUID`) FROM `me_emergency_bill`");
               $row = mysqli_fetch_array($emBill);
               $emBillTotal = $row[0];
             ?>
@@ -109,7 +107,7 @@
           <!-- ./col -->
           <div class="col-lg-2 col-6">
           <?php
-              $indoor = mysqli_query($db,"SELECT COUNT(`SLIP_ID`) FROM `indoor_slip`");
+              $indoor = mysqli_query($db,"SELECT COUNT(`SLIP_UUID`) FROM `me_indoor_slip`");
               $row = mysqli_fetch_array($indoor);
               $inTotal = $row[0];
             ?>
@@ -130,7 +128,7 @@
           <!-- ./col -->
            <div class="col-lg-2 col-6">
             <?php
-              $bill = mysqli_query($db,"SELECT COUNT(`BILL_ID`) FROM `indoor_bill`");
+              $bill = mysqli_query($db,"SELECT COUNT(`BILL_UUID`) FROM `me_indoor_bill`");
               $row = mysqli_fetch_array($bill);
               $inBillTotal = $row[0];
             ?>
@@ -152,7 +150,7 @@
           <!-- ./col -->
           <div class="col-lg-2 col-6">
             <?php
-              $outdoor = mysqli_query($db,"SELECT COUNT(`SLIP_ID`) FROM `outdoor_slip`");
+              $outdoor = mysqli_query($db,"SELECT COUNT(`SLIP_UUID`) FROM `me_outdoor_slip`");
               $row = mysqli_fetch_array($outdoor);
               $outTotal = $row[0];
             ?>

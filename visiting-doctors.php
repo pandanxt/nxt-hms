@@ -1,7 +1,7 @@
 <?php 
   // Session Start
   session_start();
-  if (isset($_SESSION['userid'])) {
+  if (isset($_SESSION['uuid'])) {
   // Connection File
   include('backend_components/connection.php');
   // Table Header File
@@ -107,7 +107,7 @@
                 <label>Doctor Name</label>
                 <input type="text" class="form-control" name="docName" id="docName" placeholder="Enter Doctor Name ..." required>
               </div>
-              <input type="text" name="userId" id="userId" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
+              <input type="text" name="userId" id="userId" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
           </div>
           <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

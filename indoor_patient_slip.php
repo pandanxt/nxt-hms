@@ -2,7 +2,7 @@
   // Start Session 
   session_start();
   $type = (isset($_GET['type']) ? $_GET['type'] : '');
-  if (isset($_SESSION['userid'])) {
+  if (isset($_SESSION['uuid'])) {
   // Connection File
   include('backend_components/connection.php');
   // Form Header File
@@ -249,7 +249,7 @@
               <div class="col-md-6">
               <input type="text" name="addDate" id="addDate" hidden/>
               <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
-              <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
+              <input type="text" name="by" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
               
                   <div class="form-group">
                     <label>Procedure/Surgery Type</label>

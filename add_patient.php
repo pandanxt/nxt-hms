@@ -1,6 +1,6 @@
 <?php 
   session_start(); 
-  if (isset($_SESSION['userid'])) {
+  if (isset($_SESSION['uuid'])) {
 
     include('backend_components/connection.php');
     include('components/form_header.php');
@@ -140,7 +140,7 @@
                     <input type="number" name="age" class="form-control" id="inputAge1" placeholder="Enter Age Here" required>
                     </div>
                     </div>   
-                    <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
+                    <input type="text" name="by" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
                     <input type="text" name="addDate" id="addDate" hidden/>
                     <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
                     <!-- /.form-group -->

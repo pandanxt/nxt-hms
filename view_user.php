@@ -1,7 +1,7 @@
 <?php 
   // Session Starts
   session_start(); 
-  if (isset($_SESSION['userid'])) {
+  if (isset($_SESSION['uuid'])) {
   // Connection File
   include('backend_components/connection.php');
   // Table Header File
@@ -43,7 +43,7 @@
                         <div class="col-md-12 clearfix">
                          <?php echo '<div class="row "><label>Service Name: </label>&nbsp; <p>'.$row["ADMIN_NAME"].'</p></div>'; ?>
                          <?php echo '<div class="row"><label>User Email: </label>&nbsp; <p>'.$row["ADMIN_TYPE"].'</p></div>'; ?>
-                         <?php if ($_SESSION['type'] == "admin") {  ?>
+                         <?php if ($_SESSION['role'] == "admin") {  ?>
                          <?php echo '<div class="row"><label>Status: </label>&nbsp; <p>'.$row["ADMIN_STATUS"].'&nbsp; <a href="#"><i class="fas fa-exchange-alt"></i></a></p></div>'; ?>
                          <?php } ?>
                         </div>
@@ -52,7 +52,7 @@
                         <div class="col-md-12 clearfix">
                           <?php echo '<div class="row "><label>Date: </label>&nbsp; <p>'. $date.'</p></div>'; ?>
                           <?php echo '<div class="row"><label>Time: </label>&nbsp; <p>'.$time.'</p></div>'; ?>
-                          <?php if ($_SESSION['type'] == "admin") {  ?>
+                          <?php if ($_SESSION['role'] == "admin") {  ?>
                           <?php echo '<div class="row"><label>Options: </label>&nbsp; <p>';
                             echo '<a href="add_user.php?id='.$row["ADMIN_ID"].'"><i class="fas fa-edit"></i></a>';
                             echo '&nbsp; <a href="backend_components/delete_handler.php?userId='.$row["ADMIN_ID"].'" style="color:red;"><i class="fas fa-trash"></i></a>';

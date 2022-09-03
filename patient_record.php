@@ -1,7 +1,7 @@
 <?php 
   // Session Start
   session_start(); 
-  if (isset($_SESSION['userid'])) {
+  if (isset($_SESSION['uuid'])) {
   // Connection File
   include('backend_components/connection.php');
   // Table Header File
@@ -70,7 +70,7 @@
                             <a href='view_patient.php?patid=$rs[PATIENT_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
                             </a>";
-                            if ($_SESSION['type'] == "admin") {  
+                            if ($_SESSION['role'] == "admin") {  
                             echo "<br>
                             <a href='edit_patient.php?patid=$rs[PATIENT_ID]'>
                               <i class='fas fa-edit'></i> Edit

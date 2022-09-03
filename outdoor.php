@@ -1,7 +1,7 @@
 <?php 
   // Session Start
   session_start();
-  if (isset($_SESSION['userid'])) {
+  if (isset($_SESSION['uuid'])) {
   // Connection File
   include('backend_components/connection.php');
   // Form Header File
@@ -185,7 +185,7 @@
                 <div class="form-group">
                   <label>Patient Address</label>
                   <textarea style="height: 120px;" name="address" type="text" class="form-control" id="inputAddress" placeholder="Enter Patient Address Here ..." required></textarea>
-                  <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
+                  <input type="text" name="by" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
                 </div>
               </div>
               <!-- /.col -->

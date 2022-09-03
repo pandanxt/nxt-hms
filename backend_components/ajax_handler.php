@@ -234,9 +234,9 @@
     if ($q == 'GET-ALL-REQUEST') { 
         echo "<span class='dropdown-item dropdown-header'>Request Notifications</span>
         <div class='dropdown-divider'></div>";
-        if ($_SESSION['type'] == "admin") {
+        if ($_SESSION['role'] == "admin") {
             $request = 'SELECT *, `ADMIN_USERNAME` FROM `edit_request` INNER JOIN `admin` WHERE `edit_request`.`REQUEST_BY` = `admin`.`ADMIN_ID` AND `edit_request`.`REQUEST_STATUS` = 0 ORDER BY `edit_request`.`REQUEST_ID` DESC';
-        } else if($_SESSION['type'] == "user"){
+        } else if($_SESSION['role'] == "user"){
             $request = 'SELECT *, `ADMIN_USERNAME` FROM `edit_request` INNER JOIN `admin` WHERE `edit_request`.`REQUEST_BY` = `admin`.`ADMIN_ID` AND `edit_request`.`REQUEST_STATUS` != 0 ORDER BY `edit_request`.`REQUEST_ID` DESC';
         }
         $result = mysqli_query($db, $request) or die (mysqli_error($db));
@@ -310,7 +310,7 @@
                 <b>By</b>: $row[ADMIN_USERNAME] <br>
                 <b>On</b>: $row[REQUEST_ON]
             </td>";
-            if ($_SESSION['type'] == "admin") {
+            if ($_SESSION['role'] == "admin") {
                 echo "<td>
                     <a href='javascript:void(0);' id='view-record' onclick='openRequestedRecord($rid)' data-status='$row[REQUEST_STATUS]' data-id='$id' data-type='$rname'>
                         <i class='fas fa-info-circle'></i> View

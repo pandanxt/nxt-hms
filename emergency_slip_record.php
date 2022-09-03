@@ -1,7 +1,7 @@
 <?php 
   // Session Start
   session_start(); 
-  if (isset($_SESSION['userid'])) {
+  if (isset($_SESSION['uuid'])) {
   // Connection File
   include('backend_components/connection.php');
   // Table Header File
@@ -58,7 +58,7 @@
                           }
                             echo "<a href='javascript:void(0)' onclick='printSlip($rs[SLIP_ID]);' style='color:green;'>
                             <i class='fas fa-wallet'></i> Print</a>";
-                          if ($_SESSION['type'] == "admin") 
+                          if ($_SESSION['role'] == "admin") 
                           {  
                             echo "<br><a href='emergency_patient_slip.php?epsid=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
                             <br>
@@ -66,12 +66,12 @@
                             href='backend_components/delete_handler.php?esrId=$rs[SLIP_ID]' style='color:red;'>
                             <i class='fas fa-trash'></i> Delete</a>";
                           }
-                          if ($_SESSION['type'] == "user") { 
+                          if ($_SESSION['role'] == "user") { 
                             $request = "SELECT * FROM `edit_request` WHERE `REQUEST_TABLE_ID` = ? AND `REQUEST_TABLE_NAME` = ? AND `REQUEST_BY` = ?";
                             $stmt = mysqli_stmt_init($db);
                             $t_name = "EMERGENCY_SLIP_REQUEST";
                             if (mysqli_stmt_prepare($stmt,$request)) {
-                              mysqli_stmt_bind_param($stmt,"sss",$rs['SLIP_ID'],$t_name,$_SESSION['userid']);
+                              mysqli_stmt_bind_param($stmt,"sss",$rs['SLIP_ID'],$t_name,$_SESSION['uuid']);
                               mysqli_stmt_execute($stmt);
                               mysqli_stmt_store_result($stmt);
                               $resultCheck = mysqli_stmt_num_rows($stmt);
@@ -131,7 +131,7 @@
               <label>Comment</label>
               <textarea type="text" name="comment" class="form-control" id="comment" placeholder="Enter Reason of Request ..." required></textarea>
             </div>
-            <input type="text" name="userId" id="userId" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
+            <input type="text" name="userId" id="userId" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
           </div>
           <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

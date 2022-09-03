@@ -3,7 +3,7 @@
    session_start();
    $sid = (isset($_GET['sid']) ? $_GET['sid'] : '');
    $type = (isset($_GET['type']) ? $_GET['type'] : '');
-   if (isset($_SESSION['userid'])) {
+   if (isset($_SESSION['uuid'])) {
      if ($sid) {
        include('backend_components/connection.php');
         

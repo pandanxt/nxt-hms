@@ -33,7 +33,7 @@
     </div>
     <div class="card-body">
 
-      <form action="backend_components/php_handler.php" method="post">
+      <form action="backend_components/login_handler.php" method="post">
         <div class="input-group mb-3">
           <input type="text" name="username" class="form-control" placeholder="Username" required>
           <div class="input-group-append">
@@ -61,7 +61,7 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button name="signin" type="submit" class="btn btn-primary btn-block">Sign In</button>
+            <button name="login" type="submit" class="btn btn-primary btn-block">Sign In</button>
           </div>
           <!-- /.col -->
         </div>

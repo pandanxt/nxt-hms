@@ -1,7 +1,7 @@
 <?php 
   // Session Start 
   session_start();
-  if (isset($_SESSION['userid'])) {
+  if (isset($_SESSION['uuid'])) {
   // Connection File 
   include('backend_components/connection.php');
   // Table Header File

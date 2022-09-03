@@ -1,7 +1,7 @@
 <?php 
   // Session Starts
   session_start();
-  if (isset($_SESSION['userid'])) {
+  if (isset($_SESSION['uuid'])) {
   // Connection File
   include('backend_components/connection.php');
   // Table Header File
@@ -55,34 +55,33 @@
                   </thead>
                   <tbody>
                   <?php
-                      $sql ="SELECT * FROM `admin`";
+                      $sql ="SELECT * FROM `me_user`";
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       {
-                        $date = substr($rs['ADMIN_SAVE_TIME'],0, 21);
                         echo "<tr style='font-size: 12px;'>
                         <td>
                         <label class='switch'>";
-                        if ($rs['ADMIN_STATUS'] == 0) {
-                          echo "<input type='checkbox' onchange='handleStatus(this);' data-room='".$rs['ADMIN_ID']."' value='".$rs['ADMIN_STATUS']."'>";                          
-                        }elseif ($rs['ADMIN_STATUS'] == 1) {
-                          echo "<input type='checkbox' checked='true' onchange='handleStatus(this);' data-room='".$rs['ADMIN_ID']."' value='".$rs['ADMIN_STATUS']."'>";
+                        if ($rs['USER_STATUS'] == 0) {
+                          echo "<input type='checkbox' onchange='handleStatus(this);' data-room='".$rs['USER_UUID']."' value='".$rs['USER_STATUS']."'>";                          
+                        }elseif ($rs['USER_STATUS'] == 1) {
+                          echo "<input type='checkbox' checked='true' onchange='handleStatus(this);' data-room='".$rs['USER_UUID']."' value='".$rs['USER_STATUS']."'>";
                         }
                         echo "<span class='slider round'></span>
                         </label>
-                        $rs[ADMIN_NAME]</td>
-                        <td>$rs[ADMIN_TYPE]</td>
-                        <td>$rs[ADMIN_EMAIL]</td>
-                        <td>$rs[ADMIN_USERNAME]</td>
-                        <td><b>On</b>: ".$date."</td>
+                        $rs[USER_NAME]</td>
+                        <td>$rs[USER_ROLE]</td>
+                        <td>$rs[USER_EMAIL]</td>
+                        <td>$rs[USER_ID]</td>
+                        <td><b>On</b>: $rs[USER_DATE_TIME]</td>
                         <td style='display:flex;'>
-                            <a href='view_user.php?id=$rs[ADMIN_ID]' style='color:green;'>
+                            <a href='view_user.php?id=$rs[USER_UUID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
                             </a><br>
-                            <a href='add_user.php?id=$rs[ADMIN_ID]'>
+                            <a href='add_user.php?id=$rs[USER_UUID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
-                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?userId=$rs[ADMIN_ID]' style='color:red;'>
+                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?userId=$rs[USER_UUID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
                             </a>
                         </td>
@@ -153,7 +152,7 @@
                   </div>
                 </div>
               </div>
-              <input type="text" name="userId" id="userId" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
+              <input type="text" name="userId" id="userId" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
           </div>
           <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

@@ -1,7 +1,7 @@
 <?php
   // Session Start
   session_start();
-  if (isset($_SESSION['userid'])) {
+  if (isset($_SESSION['uuid'])) {
   // Get variables from URL
   $type = (isset($_GET['type']) ? $_GET['type'] : ''); 
   // Connection File
@@ -192,7 +192,7 @@
                 <div class="form-group">
                   <label>Address</label>
                   <textarea style="height: 120px;" name="address" type="text" class="form-control" id="inputAddress" placeholder="Enter Patient Address Here ..." required></textarea>
-                  <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
+                  <input type="text" name="by" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
                 </div>
               </div>
               <!-- /.col -->

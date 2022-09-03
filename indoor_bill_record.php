@@ -2,7 +2,7 @@
   // Session Start
   session_start(); 
   // $type = (isset($_GET['type']) ? $_GET['type'] : '');
-  if (isset($_SESSION['userid'])) {
+  if (isset($_SESSION['uuid'])) {
   // Connection File
   include('backend_components/connection.php');
   // Table Header File
@@ -72,7 +72,7 @@
                             <a href='indoor_bill_print.php?sid=$rs[BILL_ID]' style='color:green;'>
                               <i class='fas fa-wallet'></i> Print
                             </a>";
-                            if ($_SESSION['type'] == "admin") {  
+                            if ($_SESSION['role'] == "admin") {  
                             echo "<br>
                             <a href='indoor_bill.php?id=$rs[SLIP_ID]'>
                               <i class='fas fa-edit'></i> Edit

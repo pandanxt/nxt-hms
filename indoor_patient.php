@@ -1,7 +1,7 @@
 <?php 
     // Session Starts
     session_start();
-    if (isset($_SESSION['userid'])) {
+    if (isset($_SESSION['uuid'])) {
     // Get Type from URL
     $type = (isset($_GET['type']) ? $_GET['type'] : '');
     // Connection File

@@ -72,7 +72,7 @@
       <!------*****************------>
       <!------Indoor Patient Icon------>
       <!------*****************------> 
-      <?php if ($_SESSION['type'] == "admin") {  ?>
+      <?php if ($_SESSION['role'] == "admin") {  ?>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="patient_record.php" class="nav-link">
           <i class="fas fa-users"></i> Patients
@@ -155,7 +155,7 @@
       </li>
       <!-- Notifications Dropdown Menu -->
       <?php
-        // if ($_SESSION['type'] == "admin") { 
+        // if ($_SESSION['role'] == "admin") { 
       ?>
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" onClick="getRequestNotification();" href="javascript:void(0);">
@@ -171,7 +171,7 @@
       <!-- ./Profile Box -->
       <li class="nav-item dropdown user-menu">
         <?php
-         if (isset($_SESSION['userid'])) { 
+         if (isset($_SESSION['uuid'])) { 
           echo '<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-toggle="dropdown">
                 <img src="dist/img/avatar.png" class="user-image img-circle elevation-2" alt="User Image">
                 <span class="d-none d-md-inline">'.$_SESSION['name'].'</span>';
@@ -185,10 +185,10 @@
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <!-- User image -->
           <li class="user-header bg-primary">
-          <?php if (isset($_SESSION['userid'])) {
+          <?php if (isset($_SESSION['uuid'])) {
 
             echo '<img src="dist/img/avatar.png" class="img-circle elevation-2" alt="User Image">
-            <p>'.$_SESSION['fullname'].'
+            <p>'.$_SESSION['name'].'
               <small>Member since '.$_SESSION['savetime'].'</small>
             </p>';
             }
@@ -196,13 +196,13 @@
           </li>
           <!-- Menu Footer-->
           <li class="user-footer">
-           <?php if (isset($_SESSION['userid'])) echo '<a href="view_user.php?id='.$_SESSION['userid'].'" class="btn btn-default btn-flat">Profile</a>'; ?>
+           <?php if (isset($_SESSION['uuid'])) echo '<a href="view_user.php?id='.$_SESSION['uuid'].'" class="btn btn-default btn-flat">Profile</a>'; ?>
             <button type="button" class="btn btn-default btn-flat float-right" data-toggle="modal" data-target="#modal-sm">Logout</button>
           </li>
         </ul>
       </li>
       <!--./Setting Box -->
-      <?php if (isset($_SESSION['userid']) && $_SESSION['type'] == "admin") {  ?>
+      <?php if (isset($_SESSION['uuid']) && $_SESSION['role'] == "admin") {  ?>
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="javascript:void(0);">
           <i class="fas fa-cog"></i>
@@ -230,7 +230,7 @@
              Users <span class="float-right text-muted text-sm"><i class="fas fa-users"></i></span>
           </a>
           <div class="dropdown-divider"></div>
-          <a href="add_user.php?id=<?php echo $_SESSION['userid']; ?>" class="dropdown-item">
+          <a href="add_user.php?id=<?php echo $_SESSION['uuid']; ?>" class="dropdown-item">
              Edit Profile <span class="float-right text-muted text-sm"><i class="fas fa-user-edit"></i></span>
           </a>
           <div class="dropdown-divider"></div>
@@ -269,11 +269,11 @@
             <div class="modal-body">
                   <select class="form-control select2bs4" name="type" id="typeSelect" style="width: 100%;" required>
                   <?php
-                      $indoorType = 'SELECT `TYPE_ALAIS`, `TYPE_NAME` FROM `indoor_type` WHERE `TYPE_STATUS` = "1"';
+                      $indoorType = 'SELECT `INDOOR_TYPE_ALAIS`, `INDOOR_TYPE_NAME` FROM `me_indoor_type` WHERE `INDOOR_TYPE_STATUS` = "1"';
                       $result = mysqli_query($db, $indoorType) or die (mysqli_error($db));
                           while ($row = mysqli_fetch_array($result)) {
-                          $id = $row['TYPE_ALAIS'];  
-                          $name = $row['TYPE_NAME'];
+                          $id = $row['INDOOR_TYPE_ALAIS'];  
+                          $name = $row['INDOOR_TYPE_NAME'];
                           echo '<option value="'.$id.'">'.$name.'</option>'; 
                       }
                     ?>
@@ -339,19 +339,19 @@
               <th>Comment</th>
               <th>Reference</th>
               <th>Request By</th>
-              <?php if ($_SESSION['type'] == "admin") { ?>
+              <?php if ($_SESSION['role'] == "admin") { ?>
               <th>  Options-  </th>
               <?php } ?>
             </tr>
             </thead>
             <tbody id="requestBody"></tbody>
           </table>
-          <?php if (isset($_SESSION['userid']) && $_SESSION['type'] == "admin") {  ?>
+          <?php if (isset($_SESSION['uuid']) && $_SESSION['role'] == "admin") {  ?>
           <div id="editBody">
           </div>
           <?php } ?>
         </div>
-        <?php if (isset($_SESSION['userid']) && $_SESSION['type'] == "admin") {  ?>
+        <?php if (isset($_SESSION['uuid']) && $_SESSION['role'] == "admin") {  ?>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default" data-dismiss="modal" onclick="setPopModel();">Cancel</button>
           <button type="submit" name="submit" class="btn btn-primary" id="updateRecord" onclick="updateRqRecord();">Save</button>

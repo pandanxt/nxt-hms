@@ -1,7 +1,7 @@
 <?php 
   // Session Start
   session_start();
-  if (isset($_SESSION['userid'])) {
+  if (isset($_SESSION['uuid'])) {
   // Get MRID from URL 
   $mrid = (isset($_GET['mrid']) ? $_GET['mrid'] : ''); 
   // Connection File
@@ -122,7 +122,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <input type="text" name="phone" value="<?php echo $patdata['PATIENT_MOBILE'] ; ?>" hidden readonly>
-                    <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
+                    <input type="text" name="by" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
 
                     <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                         <div class="form-group col-md-6">
