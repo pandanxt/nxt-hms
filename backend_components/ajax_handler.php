@@ -17,15 +17,6 @@
         }
     
     }
-    // Medeast Doctor Status Update 
-    if ($q == 'stMeDoc') {
-        if(mysqli_query($db, "UPDATE `doctor` SET `DOCTOR_STATUS`= '$val' WHERE `DOCTOR_ID` = ".$id)) {
-            echo 'Form Has been submitted successfully';
-        } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
-        }
-    }
-
 
     // Add Visiting Doctor Query
     if($q == 'adVtDoc') {
@@ -63,43 +54,6 @@
 
     }
 
-    // Add Medeast Doctor Query
-    if($q == 'adMeDoc') {
-        $name = mysqli_real_escape_string($db, $_POST['docName']);
-        $mobile = mysqli_real_escape_string($db, $_POST['docMobile']);
-        $department = mysqli_real_escape_string($db, $_POST['docDepartment']);
-        $by = mysqli_real_escape_string($db, $_POST['userId']);
-
-        $sql = "SELECT * FROM `doctor` WHERE `DOCTOR_NAME` = ? OR `DOCTOR_MOBILE` = ?";
-        $stmt = mysqli_stmt_init($db);
-          
-        if (!mysqli_stmt_prepare($stmt,$sql)) {
-            echo "Error: " . $sql . "" . mysqli_error($stmt);
-        }else{
-            mysqli_stmt_bind_param($stmt,"ss",$name,$mobile);
-            mysqli_stmt_execute($stmt);
-            mysqli_stmt_store_result($stmt);
-            $resultCheck = mysqli_stmt_num_rows($stmt);
-                
-                if ($resultCheck > 0) {
-                    echo "name or mobile number already taken!";
-                }else{
-                        $sql = "INSERT INTO `doctor`(`DOCTOR_NAME`, `DOCTOR_MOBILE`, `DEPARTMENT_ID`, `STAFF_ID`) VALUES (?,?,?,?)";
-                        mysqli_stmt_execute($stmt);
-                    
-                        if (!mysqli_stmt_prepare($stmt,$sql)) {
-                            echo "Error: " . $sql . "" . mysqli_error($stmt);
-                        }else{
-                            mysqli_stmt_bind_param($stmt,"ssss",$name,$mobile,$department,$by);
-                            mysqli_stmt_execute($stmt);
-                            echo "Form Has been submitted successfully";
-                        }			
-                    }
-            }
-        mysqli_stmt_close($stmt);
-        mysqli_close($db);
-    }
-    
     // Get Add Requests Query
     if ($q == 'GET-ALL-REQUEST') { 
         echo "<span class='dropdown-item dropdown-header'>Request Notifications</span>

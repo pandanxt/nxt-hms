@@ -3,7 +3,6 @@ let uuid = (new Date()).getTime() + Math.trunc(365 * Math.random());
 uuid = 'DEPT' + String(uuid).slice(-6);
 document.getElementById("uuId").value = uuid;
 
-
 // Ajax Call for Adding New Department 
 $(document).ready(function($){
   // on submit...
@@ -88,7 +87,6 @@ $(document).ready(function($){
     });  
     return false;
 });
-
 
 function handleStatus(status) {
   if(status.value !== null && status.value != ''){
