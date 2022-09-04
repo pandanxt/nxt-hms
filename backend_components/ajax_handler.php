@@ -7,53 +7,7 @@
     $val = (isset($_GET['val']) ? $_GET['val'] : '');
     // Connection File
     include "connection.php";
-    
-    // Visiting Doctor Status Update
-    if ($q == 'stVtDoc') {
-        if(mysqli_query($db, "UPDATE `visitor_doctor` SET `VISITOR_STATUS`= '$val' WHERE `VISITOR_ID` = ".$id)) {
-            echo 'Form Has been submitted successfully';
-        } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
-        }
-    
-    }
-
-    // Add Visiting Doctor Query
-    if($q == 'adVtDoc') {
-        $name = mysqli_real_escape_string($db, $_POST['docName']);
-        $by = mysqli_real_escape_string($db, $_POST['userId']);
-
-        $sql = "SELECT * FROM `visitor_doctor` WHERE `VISITOR_NAME` = ?";
-        $stmt = mysqli_stmt_init($db);
-          
-        if (!mysqli_stmt_prepare($stmt,$sql)) {
-            echo "Error: " . $sql . "" . mysqli_error($stmt);
-        }else{
-            mysqli_stmt_bind_param($stmt,"s",$name);
-            mysqli_stmt_execute($stmt);
-            mysqli_stmt_store_result($stmt);
-            $resultCheck = mysqli_stmt_num_rows($stmt);
-                
-                if ($resultCheck > 0) {
-                    echo "name already taken!";
-                }else{
-                        $sql = "INSERT INTO `visitor_doctor`(`VISITOR_NAME`, `STAFF_ID`) VALUES (?,?)";
-                        mysqli_stmt_execute($stmt);
-                    
-                        if (!mysqli_stmt_prepare($stmt,$sql)) {
-                            echo "Error: " . $sql . "" . mysqli_error($stmt);
-                        }else{
-                            mysqli_stmt_bind_param($stmt,"ss",$name,$by);
-                            mysqli_stmt_execute($stmt);
-                            echo "Form Has been submitted successfully";
-                        }			
-                    }
-            }
-        mysqli_stmt_close($stmt);
-        mysqli_close($db);
-
-    }
-
+ 
     // Get Add Requests Query
     if ($q == 'GET-ALL-REQUEST') { 
         echo "<span class='dropdown-item dropdown-header'>Request Notifications</span>

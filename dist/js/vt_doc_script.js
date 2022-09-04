@@ -1,34 +1,25 @@
 // Add unique Id for New Dept
 let uuid = (new Date()).getTime() + Math.trunc(365 * Math.random());
-uuid = 'MEDO' + String(uuid).slice(-6);
+uuid = 'VTDO' + String(uuid).slice(-6);
 document.getElementById("uuId").value = uuid;
 
-// Ajax Call for Adding New Doctor 
+// Ajax Call for Adding New Visiting Doctor 
 $(document).ready(function($){
 // on submit...
-$('#addDoctor').submit(function(e){
+$('#visitorDoctor').submit(function(e){
     e.preventDefault();
     $("#err-msg").hide();
     //name required
-    var uid = $("input#uuId").val();
-    //name required
-    var name = $("input#name").val();
-    //mobile required
-    var mobile = $("input#mobile").val();
-    //dept required
-    var dept = $("input#department").val();
-
-    if(uid == "" || name == "" || mobile == "" || dept == ""){
-        $("#err-msg").fadeIn().text("Required Fields.");
-        $("input#name").focus();
-        $("input#mobile").focus();
-        $("input#department").focus();
+    var dname = $("input#docName").val();
+    if(dname == ""){
+        $("#err-msg").fadeIn().text("Doctor Name required.");
+        $("input#docName").focus();
         return false;
     }
     // ajax
     $.ajax({
         type:"POST",
-        url: "backend_components/doctor_handler.php?q=ADD_DOCTOR",
+        url: "backend_components/vt_doc_handler.php?q=ADD_DOCTOR",
         data: $(this).serialize(), // get all form field value in serialize form
         success: function(){   
         let el = document.querySelector("#close-button");
@@ -43,7 +34,7 @@ $('#addDoctor').submit(function(e){
                 });
                 Toast.fire({
                 icon: 'success',
-                title: 'New Doctor Successfully Saved.'
+                title: 'New Visitor Doctor Successfully Saved.'
                 });
                 autoRefresh();
             });
@@ -60,23 +51,17 @@ $(document).ready(function($){
         e.preventDefault();
         $("#err-msg").hide();
         //name required
-        var name = $("input#docName").val();
-        //mobile required
-        var mobile = $("input#docMobile").val();
-        //dept required
-        var dept = $("input#docDepartment").val();
+        var name = $("input#vtName").val();
 
-        if(name == "" || mobile == "" || dept == ""){
+        if(name == ""){
             $("#err-msg").fadeIn().text("Required Fields.");
-            $("input#docName").focus();
-            $("input#docMobile").focus();
-            $("input#docDepartment").focus();
+            $("input#vtName").focus();
             return false;
         }
         // ajax
         $.ajax({
             type:"POST",
-            url: "backend_components/doctor_handler.php?q=EDIT_DOCTOR",
+            url: "backend_components/vt_doc_handler.php?q=EDIT_DOCTOR",
             data: $(this).serialize(), // get all form field value in serialize form
             success: function(){   
             let el = document.querySelector("#close-button");
@@ -101,14 +86,30 @@ $(document).ready(function($){
 });
 
 function handleStatus(status) {
-if(status.value !== null && status.value != ''){
-    let val;
-    if (status.value == 1) { val = 0;} else { val = 1;}
-    // ajax
-    $.ajax({
-        type:"POST",
-        url: `backend_components/doctor_handler.php?q=STATUS_DOCTOR&id=${status.dataset.uuid}&val=${val}`,
-        success: function(){   
+    if(status.value !== null && status.value != ''){
+        let val;
+        if (status.value == 1) { val = 0;} else { val = 1;}
+        // ajax
+        $.ajax({
+            type:"POST",
+            url: `backend_components/vt_doc_handler.php?q=STATUS_DOCTOR&id=${status.dataset.uuid}&val=${val}`,
+            success: function(){   
+            $(function() {
+                var Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1000
+                });
+                Toast.fire({
+                    icon: 'success',
+                    title: 'VisitIng Doctor Status Updated.'
+                });
+            });
+            }
+        });
+        return false;
+    }else {
         $(function() {
             var Toast = Swal.mixin({
                 toast: true,
@@ -117,29 +118,13 @@ if(status.value !== null && status.value != ''){
                 timer: 1000
             });
             Toast.fire({
-                icon: 'success',
-                title: 'MedEast Doctor Status Updated.'
+                icon: 'error',
+                title: 'Something Went Wrong.'
             });
+            autoRefresh();
         });
-        }
-    });
-    return false;
-}else {
-    $(function() {
-        var Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1000
-        });
-        Toast.fire({
-            icon: 'error',
-            title: 'Something Went Wrong.'
-        });
-        autoRefresh();
-    });
-    return false;
-}
+        return false;
+    }
 }
 
 function autoRefresh(){
@@ -159,7 +144,7 @@ function getDoctor(str){
             console.log("Response From Doctor By Id: ", this.responseText);
         }
         }
-    xmlhttp.open("GET",`backend_components/doctor_handler.php?q=GET-DOCTOR-BY-ID&id=${uuid}`,true);
+    xmlhttp.open("GET",`backend_components/vt_doc_handler.php?q=GET-DOCTOR-BY-ID&id=${uuid}`,true);
     xmlhttp.send();
  }
 
@@ -174,6 +159,6 @@ function getDoctor(str){
             console.log("Response From Doctor By Id: ", this.responseText);
         }
         }
-    xmlhttp.open("GET",`backend_components/doctor_handler.php?q=EDIT-DOCTOR-BY-ID&id=${uuid}`,true);
+    xmlhttp.open("GET",`backend_components/vt_doc_handler.php?q=EDIT-DOCTOR-BY-ID&id=${uuid}`,true);
     xmlhttp.send();
 }
