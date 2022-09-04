@@ -226,6 +226,10 @@
              Rooms <span class="float-right text-muted text-sm"><i class="fas fa-procedures"></i></span>
           </a>
           <div class="dropdown-divider"></div>
+          <a href="services.php" class="dropdown-item">
+             Services <span class="float-right text-muted text-sm"><i class="fas fa-procedures"></i></span>
+          </a>
+          <div class="dropdown-divider"></div>
           <a href="users.php" class="dropdown-item">
              Users <span class="float-right text-muted text-sm"><i class="fas fa-users"></i></span>
           </a>
