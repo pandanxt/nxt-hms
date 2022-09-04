@@ -87,14 +87,13 @@
     }
 
     // Medeast Delete Query
-    if($q == 'DELETE_USER')
-    {
-        if(mysqli_query($db, "DELETE FROM `me_user` WHERE `USER_UUID` ='$id'")) {
-            // echo 'User Deleted Successfully';
-            echo '<script>window.location = "../users.php?action=deleted";</script>';
-        } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
-        }
+    if($q == 'DELETE_USER') {
+            if(mysqli_query($db, "DELETE FROM `me_user` WHERE `USER_UUID` ='$id'")) {
+                // echo 'User Deleted Successfully';
+                echo '<script>window.location = "../users.php?action=deleted";</script>';
+            } else {
+                echo "Error: " . $sql . "" . mysqli_error($db);
+            }
     }
 
     // Get Medeast User by Id

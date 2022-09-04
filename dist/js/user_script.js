@@ -208,21 +208,6 @@
     xmlhttp.send();
  }
 
- function editPass(str) {
-    console.log("clicked Id: ", str.getAttribute("data-uuid"));
-    let uuid = str.getAttribute("data-uuid");
-    if (uuid=="") {return;}
-        var xmlhttp=new XMLHttpRequest();
-        xmlhttp.onreadystatechange=function() {
-        if (this.readyState==4 && this.status==200) {
-            document.getElementById("viewUser").innerHTML=this.responseText;
-            console.log("Response From User By Id: ", this.responseText);
-        }
-        }
-    xmlhttp.open("GET",`backend_components/user_handler.php?q=GET-USER-BY-ID&id=${uuid}`,true);
-    xmlhttp.send();
- }
-
  function editUser(str){
     console.log("clicked Id: ", str.getAttribute("data-uuid"));
     let uuid = str.getAttribute("data-uuid");
@@ -238,3 +223,17 @@
     xmlhttp.send();
  }
  
+ function editPass(str) {
+  console.log("clicked Id: ", str.getAttribute("data-uuid"));
+  let uuid = str.getAttribute("data-uuid");
+  if (uuid=="") {return;}
+      var xmlhttp=new XMLHttpRequest();
+      xmlhttp.onreadystatechange=function() {
+      if (this.readyState==4 && this.status==200) {
+          document.getElementById("viewUser").innerHTML=this.responseText;
+          console.log("Response From User By Id: ", this.responseText);
+      }
+      }
+  xmlhttp.open("GET",`backend_components/user_handler.php?q=GET-USER-BY-ID&id=${uuid}`,true);
+  xmlhttp.send();
+} 

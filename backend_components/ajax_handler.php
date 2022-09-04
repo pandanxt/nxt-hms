@@ -7,14 +7,7 @@
     $val = (isset($_GET['val']) ? $_GET['val'] : '');
     // Connection File
     include "connection.php";
-    // Room Status Update
-    if ($q == 'stRoom') {
-            if(mysqli_query($db, "UPDATE `room` SET `ROOM_STATUS`= '$val' WHERE `ROOM_ID` = ".$id)) {
-                echo 'Form Has been submitted successfully';
-            } else {
-                echo "Error: " . $sql . "" . mysqli_error($db);
-            }
-    }
+    
     // Visiting Doctor Status Update
     if ($q == 'stVtDoc') {
         if(mysqli_query($db, "UPDATE `visitor_doctor` SET `VISITOR_STATUS`= '$val' WHERE `VISITOR_ID` = ".$id)) {
@@ -41,42 +34,6 @@
         }
     }
 
-    // Add Room Query
-    if($q == 'adRoom') {
-        $name = mysqli_real_escape_string($db, $_POST['roomName']);
-        $rate = mysqli_real_escape_string($db, $_POST['roomRate']);
-        $by = mysqli_real_escape_string($db, $_POST['userId']);
-
-        $sql = "SELECT * FROM `room` WHERE `ROOM_NAME` = ?";
-        $stmt = mysqli_stmt_init($db);
-          
-        if (!mysqli_stmt_prepare($stmt,$sql)) {
-            echo "Error: " . $sql . "" . mysqli_error($stmt);
-        }else{
-            mysqli_stmt_bind_param($stmt,"s",$name);
-            mysqli_stmt_execute($stmt);
-            mysqli_stmt_store_result($stmt);
-            $resultCheck = mysqli_stmt_num_rows($stmt);
-                
-                if ($resultCheck > 0) {
-                    echo "name already taken!";
-                }else{
-                        $sql = "INSERT INTO `room`(`ROOM_NAME`, `ROOM_RATE`, `STAFF_ID`) VALUES (?,?,?)";
-                        mysqli_stmt_execute($stmt);
-                    
-                        if (!mysqli_stmt_prepare($stmt,$sql)) {
-                            echo "Error: " . $sql . "" . mysqli_error($stmt);
-                        }else{
-                            mysqli_stmt_bind_param($stmt,"sss",$name,$rate,$by);
-                            mysqli_stmt_execute($stmt);
-                            echo "Form Has been submitted successfully";
-                        }			
-                    }
-            }
-        mysqli_stmt_close($stmt);
-        mysqli_close($db);
-
-    }
     // Add Visiting Doctor Query
     if($q == 'adVtDoc') {
         $name = mysqli_real_escape_string($db, $_POST['docName']);
