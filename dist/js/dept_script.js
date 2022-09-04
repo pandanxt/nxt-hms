@@ -1,31 +1,26 @@
-// Add unique Id for New Room
+// Add unique Id for New Dept
 let uuid = (new Date()).getTime() + Math.trunc(365 * Math.random());
-uuid = 'ROOM' + String(uuid).slice(-6);
+uuid = 'DEPT' + String(uuid).slice(-6);
 document.getElementById("uuId").value = uuid;
 
-// Ajax Call for Adding New Rooms 
+
+// Ajax Call for Adding New Department 
 $(document).ready(function($){
   // on submit...
-  $('#addRoom').submit(function(e){
+  $('#addDept').submit(function(e){
       e.preventDefault();
       $("#err-msg").hide();
       //name required
-      var uid = $("input#uuId").val();
-      //name required
       var name = $("input#name").val();
-      //rate required
-      var rate = $("input#rate").val();
-      if(uid == "" || name == "" || rate == ""){
+      if(name == ""){
           $("#err-msg").fadeIn().text("Required Field.");
-          $("input#uuId").focus();
           $("input#name").focus();
-          $("input#rate").focus();
           return false;
       }
       // ajax
       $.ajax({
           type:"POST",
-          url: "backend_components/room_handler.php?q=ADD_ROOM",
+          url: "backend_components/dept_handler.php?q=ADD_DEPT",
           data: $(this).serialize(), // get all form field value in serialize form
           success: function(){   
           let el = document.querySelector("#close-button");
@@ -40,7 +35,7 @@ $(document).ready(function($){
                 });
                 Toast.fire({
                   icon: 'success',
-                  title: 'New Room Successfully Saved.'
+                  title: 'New Department Successfully Saved.'
                 });
                 autoRefresh();
             });
@@ -50,30 +45,27 @@ $(document).ready(function($){
   return false;
 });
 
-// Ajax Call for Editing Rooms
+// Ajax Call for Editing Department
 $(document).ready(function($){
     // on submit...
-    $('#editRoom').submit(function(e){
+    $('#editDept').submit(function(e){
         e.preventDefault();
         $("#err-msg").hide();
         //name required
-        var name = $("input#roomName").val();
-        //rate required
-        var rate = $("input#roomRate").val();
+        var name = $("input#deptName").val();
         //uuId required
         var uuId = $("input#uuid").val();
-        console.log("Edit Response data: ", name, rate, uuId);
-        if(name == "" || rate == "" || uuId == ""){
+        console.log("Edit Response data: ", name, uuId);
+        if(name == "" || uuId == ""){
             $("#err-msg").fadeIn().text("Required Fields.");
-            $("input#roomName").focus();
-            $("input#roomRate").focus();
+            $("input#deptName").focus();
             $("input#uuid").focus();
             return false;
         }
         // ajax
         $.ajax({
             type:"POST",
-            url: "backend_components/room_handler.php?q=EDIT_ROOM",
+            url: "backend_components/dept_handler.php?q=EDIT_DEPT",
             data: $(this).serialize(), // get all form field value in serialize form
             success: function(){   
             let el = document.querySelector("#close-button");
@@ -87,7 +79,7 @@ $(document).ready(function($){
                   });
                   Toast.fire({
                     icon: 'success',
-                    title: 'Room Updated Successfully.'
+                    title: 'Department Updated Successfully.'
                   });
                   autoRefresh();
               });
@@ -97,6 +89,7 @@ $(document).ready(function($){
     return false;
 });
 
+
 function handleStatus(status) {
   if(status.value !== null && status.value != ''){
     let val;
@@ -104,7 +97,7 @@ function handleStatus(status) {
       // ajax
       $.ajax({
         type:"POST",
-        url: `backend_components/room_handler.php?q=STATUS_ROOM&id=${status.dataset.uuid}&val=${val}`,
+        url: `backend_components/dept_handler.php?q=STATUS_DEPT&id=${status.dataset.uuid}&val=${val}`,
         success: function(){   
           $(function() {
               var Toast = Swal.mixin({
@@ -115,7 +108,7 @@ function handleStatus(status) {
               });
               Toast.fire({
                 icon: 'success',
-                title: 'Room Status Updated.'
+                title: 'Department Status Updated.'
               });
           });
         }
@@ -137,30 +130,29 @@ function handleStatus(status) {
       });
     return false;
   }
-} 
+}
 
 function autoRefresh(){
   setTimeout(() => {
     window.location = window.location.href;
   }, 1000);    
 }
-
-function getRoom(str){
+function getDept(str){
     console.log("clicked Id: ", str.getAttribute("data-uuid"));
     let uuid = str.getAttribute("data-uuid");
     if (uuid=="") {return;}
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
         if (this.readyState==4 && this.status==200) {
-            document.getElementById("viewRoom").innerHTML=this.responseText;
-            console.log("Response From Room By Id: ", this.responseText);
+            document.getElementById("viewDept").innerHTML=this.responseText;
+            console.log("Response From Dept By Id: ", this.responseText);
         }
         }
-    xmlhttp.open("GET",`backend_components/room_handler.php?q=GET-ROOM-BY-ID&id=${uuid}`,true);
+    xmlhttp.open("GET",`backend_components/dept_handler.php?q=GET-DEPT-BY-ID&id=${uuid}`,true);
     xmlhttp.send();
  }
 
- function editRoom(str){
+ function editDept(str){
     console.log("clicked Id: ", str.getAttribute("data-uuid"));
     let uuid = str.getAttribute("data-uuid");
     if (uuid=="") {return;}
@@ -171,6 +163,6 @@ function getRoom(str){
             console.log("Response From User By Id: ", this.responseText);
         }
         }
-    xmlhttp.open("GET",`backend_components/room_handler.php?q=EDIT-ROOM-BY-ID&id=${uuid}`,true);
+    xmlhttp.open("GET",`backend_components/dept_handler.php?q=EDIT-DEPT-BY-ID&id=${uuid}`,true);
     xmlhttp.send();
 }

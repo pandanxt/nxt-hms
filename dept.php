@@ -50,34 +50,34 @@
                   </thead>
                   <tbody>
                   <?php
-                      $sql ="SELECT *,`ADMIN_USERNAME` FROM `department` INNER JOIN `admin` WHERE `department`.`STAFF_ID` = `admin`.`ADMIN_ID`";
+                      $sql ="SELECT *,`USER_NAME` FROM `me_department` INNER JOIN `me_user` WHERE `me_department`.`STAFF_ID` = `me_user`.`USER_UUID`";
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
-                        $date = substr($rs['DEPARTMENT_DATE_TIME'],0, 21);
                         echo "<tr style='font-size: 12px;'>
                         <td>
                         <label class='switch'>";
                         if ($rs['DEPARTMENT_STATUS'] == 0) {
-                          echo "<input type='checkbox' onchange='handleStatus(this);' data-room='".$rs['DEPARTMENT_ID']."' value='".$rs['DEPARTMENT_STATUS']."'>";                          
+                          echo "<input type='checkbox' onchange='handleStatus(this);' data-uuid='".$rs['DEPARTMENT_UUID']."' value='".$rs['DEPARTMENT_STATUS']."'>";                          
                         }elseif ($rs['DEPARTMENT_STATUS'] == 1) {
-                          echo "<input type='checkbox' checked='true' onchange='handleStatus(this);' data-room='".$rs['DEPARTMENT_ID']."' value='".$rs['DEPARTMENT_STATUS']."'>";
+                          echo "<input type='checkbox' checked='true' onchange='handleStatus(this);' data-uuid='".$rs['DEPARTMENT_UUID']."' value='".$rs['DEPARTMENT_STATUS']."'>";
                         }
                         echo "<span class='slider round'></span>
                         </label>
                         $rs[DEPARTMENT_NAME]</td>
                         <td>
-                            <b>By</b>: $rs[ADMIN_USERNAME] <br>
-                            <b>On</b>: ".$date."
+                            <b>By</b>: $rs[USER_NAME] <br>
+                            <b>On</b>: $rs[DEPARTMENT_DATE_TIME]
                         </td>
                         <td style='display:flex;'>
-                            <a href='view_dept.php?id=$rs[DEPARTMENT_ID]' style='color:green;'>
+                            <a href='javascript:void(0);' onclick='getDept(this);' data-uuid='$rs[DEPARTMENT_UUID]' data-toggle='modal' data-target='#view-dept' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
-                            </a><br>
-                            <a href='add_dept.php?id=$rs[DEPARTMENT_ID]'>
+                            </a>
+                            <br>
+                            <a href='javascript:void(0);' onclick='editDept(this);' data-uuid='$rs[DEPARTMENT_UUID]' data-toggle='modal' data-target='#edit-dept'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
-                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?deptId=$rs[DEPARTMENT_ID]' style='color:red;'>
+                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/dept_handler.php?q=DELETE_DEPT&id=$rs[DEPARTMENT_UUID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
                             </a>
                         </td>
@@ -116,9 +116,10 @@
           <div class="modal-body">
             <div class="form-group">
               <label>Name</label>
-              <input type="text" name="deptName" class="form-control" id="deptName" placeholder="Department Name ..." required>
+              <input type="text" name="name" class="form-control" id="name" placeholder="Department Name ..." required>
             </div>
-            <input type="text" name="userId" id="userId" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
+            <input type="text" name="staffId" id="staffId" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
+              <input type="text" name="uuId" id="uuId" hidden readonly>
           </div>
           <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -131,98 +132,52 @@
     <!-- /.modal-dialog -->
   </div>
   <!-- **
-  *  Add Dept Model Popup Ends Here 
+  *  View User Model Popup Ends Here 
   ** -->
-  <script type="text/javascript">
-      // Ajax Call for Adding New Visiting Doctor 
-      $(document).ready(function($){
-        // on submit...
-        $('#addDept').submit(function(e){
-            e.preventDefault();
-            $("#err-msg").hide();
-            //name required
-            var name = $("input#deptName").val();
-            if(name == ""){
-                $("#err-msg").fadeIn().text("Required Field.");
-                $("input#deptName").focus();
-                return false;
-            }
-            // ajax
-            $.ajax({
-                type:"POST",
-                url: "backend_components/ajax_handler.php?q=adDept",
-                data: $(this).serialize(), // get all form field value in serialize form
-                success: function(){   
-                let el = document.querySelector("#close-button");
-                el.click();
-                // updateDoctorList();
-                  $(function() {
-                      var Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 1000
-                      });
-                      Toast.fire({
-                        icon: 'success',
-                        title: 'New Department Successfully Saved.'
-                      });
-                      autoRefresh();
-                  });
-                }
-            });
-        });  
-        return false;
-      });
+  <div class="modal fade" id="view-dept">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i> Medeast Department</h4>
+          <button onclick="autoRefresh()" type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <span id="err-msg" style="display: none"></span>
+        <div class="modal-body" id="viewDept">
+        </div>
+      </div>
+    </div>
+  </div>
 
-      function handleStatus(status) {
-        if(status.value !== null && status.value != ''){
-          let val;
-            if (status.value == 1) { val = 0;} else { val = 1;}
-            // ajax
-            $.ajax({
-              type:"POST",
-              url: `backend_components/ajax_handler.php?q=stDept&id=${status.dataset.room}&val=${val}`,
-              success: function(){   
-                $(function() {
-                    var Toast = Swal.mixin({
-                      toast: true,
-                      position: 'top-end',
-                      showConfirmButton: false,
-                      timer: 1000
-                    });
-                    Toast.fire({
-                      icon: 'success',
-                      title: 'Department Status Updated.'
-                    });
-                });
-              }
-            });
-          return false;
-        }else {
-            $(function() {
-                var Toast = Swal.mixin({
-                  toast: true,
-                  position: 'top-end',
-                  showConfirmButton: false,
-                  timer: 1000
-                });
-                Toast.fire({
-                  icon: 'error',
-                  title: 'Something Went Wrong.'
-                });
-                autoRefresh();
-            });
-          return false;
-        }
-      }
-
-      function autoRefresh(){
-        setTimeout(() => {
-          window.location = window.location.href;
-        }, 1000);    
-      }
-</script>
+  <!-- **
+  *  Update User Model Popup Here 
+  ** -->
+  <div class="modal fade" id="edit-dept">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i> Medeast Department</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <span id="err-msg" style="display: none"></span>
+        <form action='javascript:void(0)' method='post' id='editDept'>
+          <div class='modal-body' id='editForm'>
+          </div>
+          <div class='modal-footer justify-content-between'>
+              <button type='button' class='btn btn-default' data-dismiss='modal'>Cancel</button>
+              <button type='submit' name='submit' class='btn btn-primary'>Save</button>
+          </div>
+        </form>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+ <script src="dist/js/dept_script.js"></script>
   <!-- /.Footer -->
 <?php 
     // Footer File 
