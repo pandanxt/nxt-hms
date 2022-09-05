@@ -149,5 +149,7 @@ function autoRefresh(){
 }
 
 function printSlip(sid) {
-  window.open(`print-page.php?type=imrc&sid=${sid}`, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=100,width=1000,height=800");
+  console.log("clicked Id: ", sid.getAttribute("data-uuid"));
+  let str = sid.getAttribute("data-uuid");
+  window.open(`print-page.php?type=imrc&sid=${str}`, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=100,width=1000,height=800");
 }               

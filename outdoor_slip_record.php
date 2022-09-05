@@ -14,13 +14,10 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <section class="content-header"></section>
-
-      <!-- Table Data of Patient -->
       <section class="content">
         <div class="container-fluid">
           <div class="row">
             <div class="col-12">
-
               <div class="card">
                 <div class="card-body">
                   <table id="example1" class="table table-bordered table-striped">
@@ -33,13 +30,12 @@
                       <th>Consultant</th>
                       <th>Fee</th>
                       <th>Created</th>
-                      <!-- <th>Created On</th> -->
                       <th>Options</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
-                        $sql ="SELECT *,`ADMIN_USERNAME`,`DEPARTMENT_NAME` FROM `outdoor_slip` INNER JOIN `admin` INNER JOIN `department` WHERE `outdoor_slip`.`STAFF_ID` = `admin`.`ADMIN_ID` AND `outdoor_slip`.`DEPT_ID` = `department`.`DEPARTMENT_ID`";
+                        $sql ="SELECT *,`USER_NAME`,`DEPARTMENT_NAME` FROM `me_outdoor_slip` INNER JOIN `me_user` INNER JOIN `me_department` WHERE `me_outdoor_slip`.`STAFF_ID` = `me_user`.`USER_UUID` AND `me_outdoor_slip`.`SLIP_DEPARTMENT` = `me_department`.`DEPARTMENT_UUID`";
                         $qsql = mysqli_query($db,$sql);
                         while($rs = mysqli_fetch_array($qsql))
                         { 
@@ -49,33 +45,43 @@
                           <td>$rs[SLIP_NAME]</td>
                           <td>$rs[SLIP_MOBILE]</td>
                           <td>$rs[DEPARTMENT_NAME]</td>
-                          <td>$rs[DOCTOR_NAME] <button class='btn badge badge-info'>";
-                          if ($rs['D_TYPE'] == 1) echo "Visiting Doctor"; else echo "MedEast Doctor";
-                          echo "</button></td>
+                          <td>";
+                            $docId = substr($rs['SLIP_DOCTOR'],0, 4);
+                            if($docId == 'VTDO') {$docSql ="SELECT `VISITOR_NAME` FROM `vt_doctor` WHERE `VISITOR_UUID` = '$rs[SLIP_DOCTOR]'";}
+                            if($docId == 'MEDO') {$docSql ="SELECT `DOCTOR_NAME` FROM `me_doctor` WHERE `DOCTOR_UUID` = '$rs[SLIP_DOCTOR]'";}
+                            $dtsql = mysqli_query($db,$docSql);
+                            $dt_row = mysqli_fetch_array($dtsql);
+                            if($docId == 'MEDO'){
+                              echo "$dt_row[DOCTOR_NAME]&nbsp;<button class='btn badge badge-info'>Visiting Doctor</button>";
+                            } 
+                            if($docId == 'VTDO'){
+                              echo "$dt_row[VISITOR_NAME]&nbsp;<button class='btn badge badge-info'>MedEast Doctor</button>";
+                            }
+                          echo "</td>
                           <td>$rs[SLIP_FEE]</td>
                           <td>
-                              <b>By</b>: $rs[ADMIN_USERNAME] <br>
-                              <b>On</b>: ".$date."
+                              <b>By</b>: $rs[USER_NAME] <br>
+                              <b>On</b>: $rs[SLIP_DATE_TIME]
                           </td> 
                           <td style='display:flex;'>
-                                <a href='javascript:void(0)' onclick='printSlip($rs[SLIP_ID]);' style='color:green;'>
+                                <a href='javascript:void(0)' onclick='printSlip(this);' data-uuid='$rs[SLIP_UUID]' style='color:green;'>
                                 <i class='fas fa-wallet'></i> Print
                               </a>";
                               if ($_SESSION['role'] == "user") { 
-                                $request = "SELECT * FROM `edit_request` WHERE `REQUEST_TABLE_ID` = ? AND `REQUEST_TABLE_NAME` = ? AND `REQUEST_BY` = ?";
+                                $request = "SELECT * FROM `me_request` WHERE `REQUEST_UUID` = ? AND `REQUEST_REFERENCE_UUID` = ? AND `STAFF_ID` = ?";
                                 $stmt = mysqli_stmt_init($db);
-                                $t_name = "OPD_SLIP_REQUEST";
+                                // $t_name = "OPD_SLIP_REQUEST";
                                 if (mysqli_stmt_prepare($stmt,$request)) {
-                                  mysqli_stmt_bind_param($stmt,"sss",$rs['SLIP_ID'],$t_name,$_SESSION['uuid']);
+                                  mysqli_stmt_bind_param($stmt,"sss",$rs['REQUEST_UUID'],$rs['SLIP_UUID'],$_SESSION['uuid']);
                                   mysqli_stmt_execute($stmt);
                                   mysqli_stmt_store_result($stmt);
                                   $resultCheck = mysqli_stmt_num_rows($stmt);
                                   if ($resultCheck > 0) {
-                                    echo "<br><a href='javascript:void(0);' onclick='getOpdRequest($rs[SLIP_ID]);' data-toggle='modal' data-target='#view-request'>
+                                    echo "<br><a href='javascript:void(0);' onclick='getRequest(this);' data-uuid='$rs[SLIP_UUID]' data-toggle='modal' data-target='#view-request'>
                                       <i class='fas fa-sticky-note'></i> Request
                                     </a>";
                                   }else{
-                                    echo "<br><a href='javascript:void(0);' onclick='getSlipId($rs[SLIP_ID]);' data-toggle='modal' data-target='#generate-request'>
+                                    echo "<br><a href='javascript:void(0);' onclick='getSlipId(this);' data-uuid='$rs[SLIP_UUID]' data-toggle='modal' data-target='#generate-request'>
                                       <i class='fas fa-edit'></i> Generate Request
                                     </a>";
                                   }
@@ -83,10 +89,10 @@
                               }
                               if ($_SESSION['role'] == "admin") { 
                               echo "<br>
-                              <a href='add_patient.php?id=$rs[SLIP_ID]'>
+                              <a href='add_patient.php?id=$rs[SLIP_UUID]'>
                                 <i class='fas fa-edit'></i> Edit
                               </a><br>
-                              <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?osrId=$rs[SLIP_ID]' style='color:red;'>
+                              <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?osrId=$rs[SLIP_UUID]' style='color:red;'>
                                 <i class='fas fa-trash'></i> Delete
                               </a>";
                               }
@@ -97,17 +103,11 @@
                     </tbody>
                   </table>
                 </div>
-                <!-- /.card-body -->
               </div>
-              <!-- /.card -->
             </div>
-            <!-- /.col -->
           </div>
-          <!-- /.row -->
         </div>
-        <!-- /.container-fluid -->
       </section>
-      <!-- /.content -->
   </div>
   <!-- **
   *  Generate Edit Request Model Popup Here 
@@ -122,7 +122,7 @@
           </button>
         </div>
         <span id="err-msg" style="display: none"></span>
-        <form action="javascript:void(0)" method="post" id="GENERATE-OPD-SLIP">
+        <form action="javascript:void(0)" method="post" id="ADD_REQUEST">
           <div class="modal-body">
             <div class="form-group">
               <label>Title</label>
@@ -136,7 +136,8 @@
               <label>Comment</label>
               <textarea type="text" name="comment" class="form-control" id="comment" placeholder="Enter Reason of Request ..." required></textarea>
             </div>
-            <input type="text" name="userId" id="userId" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
+            <input type="text" name="staffId" id="staffId" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
+            <input type="text" name="reqId" id="reqId" hidden readonly>
           </div>
           <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -158,7 +159,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="javascript:void(0)" method="post" id="VIEW-OPD-SLIP">
+        <form action="javascript:void(0)" method="post" id="VIEW_REQUEST">
           <div class="modal-body">
             <table id="example1" class="table table-bordered table-striped">
               <thead>
@@ -190,13 +191,13 @@
           </button>
         </div>
         <span id="err-msg" style="display: none"></span>
-        <form action="javascript:void(0)" method="post" id="EDIT-OPD-SLIP">
+        <form action="javascript:void(0)" method="post" id="EDIT_REQUEST">
         </form>
       </div>
     </div>
   </div>
   <!-- Javascript Script File -->
- <script src="dist/js/outdoor_slip_record.js"></script>
+ <script src="dist/js/opd_script.js"></script>
   <!-- /.Footer -->
 <?php 
   // Footer File
