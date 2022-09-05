@@ -1,7 +1,7 @@
 <?php 
   // Start Session 
   session_start();
-  $q = intval($_GET['q']);
+  $q = (isset($_GET['q']) ? $_GET['q'] : '');
   // Connection File
   include('backend_components/connection.php');
   // Form Header File
@@ -10,19 +10,19 @@
 ?>
     <option disabled selected value="">----- Select Consultant Name -----</option>
     <?php
-    if ($q != 0) {
-        $doctor = 'SELECT `DOCTOR_ID`, `DOCTOR_NAME` FROM `doctor` WHERE `DOCTOR_STATUS` = "1" AND `DEPARTMENT_ID` = '.$q;
+    if ($q != 'vt') {
+        $doctor = "SELECT `DOCTOR_UUID`, `DOCTOR_NAME` FROM `me_doctor` WHERE `DOCTOR_STATUS` = 1 AND `DEPARTMENT_UUID` = '$q'";
         $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
         while ($row = mysqli_fetch_array($result)) {
-            $id = $row['DOCTOR_ID'];  
+            $id = $row['DOCTOR_UUID'];  
             $name = $row['DOCTOR_NAME'];
             echo '<option value="'.$name.'">'.$name.'</option>'; 
         }   
     } else {
-        $doctor = 'SELECT `VISITOR_ID`, `VISITOR_NAME` FROM `visitor_doctor` WHERE `VISITOR_STATUS` = "1"';
+        $doctor = 'SELECT `VISITOR_UUID`, `VISITOR_NAME` FROM `vt_doctor` WHERE `VISITOR_STATUS` = "1"';
         $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
         while ($row = mysqli_fetch_array($result)) {
-            $id = $row['VISITOR_ID'];  
+            $id = $row['VISITOR_UUID'];  
             $name = $row['VISITOR_NAME'];
             echo '<option value="'.$name.'">'.$name.'</option>'; 
         }   

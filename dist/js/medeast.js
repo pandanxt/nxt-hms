@@ -3,8 +3,8 @@ var unid = Date.now() +"-"+ "ME";
 var MR_ID = unid.slice(6,16);
 
 // console.log(MR_ID+" | "+unid+" | "+currentDT);
-if(document.getElementById('inputMR1')){
-    document.getElementById('inputMR1').value = MR_ID;
+if(document.getElementById('mrid')){
+    document.getElementById('mrid').value = MR_ID;
 }
 if(document.getElementById('inputDT')){
     document.getElementById('inputDT').value = currentDT;

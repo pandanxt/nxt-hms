@@ -9,23 +9,23 @@
         
         if ($type == "imrc") {
             // Query to get Emergency Slip Details 
-            $slipSql ="SELECT `a`.*, `b`.`ADMIN_USERNAME`	FROM `emergency_slip` AS `a`
-            INNER JOIN `admin` AS `b` ON `b`.`ADMIN_ID` = `a`.`STAFF_ID`
-            WHERE `SLIP_ID` = ".$sid;
+            $slipSql ="SELECT `a`.*, `b`.`USER_NAME` FROM `me_emergency_slip` AS `a`
+            INNER JOIN `me_user` AS `b` ON `b`.`USER_UUID` = `a`.`STAFF_ID`
+            WHERE `SLIP_UUID` = '$sid'";
          }
          if ($type == "outdoor") {
             // Query to get Outdoor Slip Details
-            $slipSql ="SELECT `a`.*,`b`.`DEPARTMENT_NAME`,`c`.`ADMIN_USERNAME` FROM `outdoor_slip` AS `a`
-            INNER JOIN `department` AS `b` ON `a`.`DEPT_ID` = `b`.`DEPARTMENT_ID`
-            INNER JOIN `admin` AS `c` ON `c`.`ADMIN_ID` = `a`.`STAFF_ID`
-            WHERE `SLIP_ID` = ".$sid;
+            $slipSql ="SELECT `a`.*,`b`.`DEPARTMENT_NAME`,`c`.`USER_NAME` FROM `me_outdoor_slip` AS `a`
+            INNER JOIN `me_department` AS `b` ON `a`.`SLIP_DEPARTMENT` = `b`.`DEPARTMENT_UUID`
+            INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID`
+            WHERE `SLIP_UUID` = '$sid'";
          }
          if ($type == "indoor") {
             // Query to get Indoor Slip Details 
-            $slipSql ="SELECT `a`.*, `b`.`ADMIN_USERNAME`,`c`.`DEPARTMENT_NAME`	FROM `indoor_slip` AS `a`
-            INNER JOIN `admin` AS `b` ON `b`.`ADMIN_ID` = `a`.`STAFF_ID`
-            INNER JOIN `department` AS `c` ON `c`.`DEPARTMENT_ID` = `a`.`DEPT_ID`
-            WHERE `SLIP_ID` = ".$sid;
+            $slipSql ="SELECT `a`.*, `b`.`USER_NAME`,`c`.`DEPARTMENT_NAME`	FROM `me_indoor_slip` AS `a`
+            INNER JOIN `me_user` AS `b` ON `b`.`USER_UUID` = `a`.`STAFF_ID`
+            INNER JOIN `me_department` AS `c` ON `c`.`SLIP_DEPARTMENT` = `a`.`DEPARTMENT_UUID`
+            WHERE `SLIP_UUID` = '$sid'";
          }
  
          $dptsql = mysqli_query($db,$slipSql);
@@ -33,7 +33,7 @@
  
          $date = substr($dept_row['SLIP_DATE_TIME'],0, 24);
  
-         $patSql ="SELECT * FROM `patient` WHERE `PATIENT_MR_ID` = '$dept_row[SLIP_MR_ID]' OR `PATIENT_MOBILE` = '$dept_row[SLIP_MOBILE]'";
+         $patSql ="SELECT * FROM `me_patient` WHERE `PATIENT_MR_ID` = '$dept_row[SLIP_MR_ID]' OR `PATIENT_MOBILE` = '$dept_row[SLIP_MOBILE]'";
          $patsql = mysqli_query($db,$patSql);
          $patient_row = mysqli_fetch_array($patsql);
        
@@ -88,13 +88,6 @@
                         echo '<div class="headerSubTitle">MedEast Patient</div>';
                     }
                 ?>
-                
-                <!-- <div id="location">
-                
-                </div> -->
-                <!-- <div id="location">
-                AP 29 CH 7553
-                </div> -->
                 <div id="date">
                 C-1 Commercial Office Block, Paragon City, Lahore.
                 </div>
@@ -118,9 +111,19 @@
                         </tr>
                         <?php
                             }
+                            $docId = substr($dept_row['SLIP_DOCTOR'],0, 4);
+                            if($docId == 'VTDO') {$docSql ="SELECT `VISITOR_NAME` FROM `vt_doctor` WHERE `VISITOR_UUID` = '$dept_row[SLIP_DOCTOR]'";}
+                            if($docId == 'MEDO') {$docSql ="SELECT `DOCTOR_NAME` FROM `me_doctor` WHERE `DOCTOR_UUID` = '$dept_row[SLIP_DOCTOR]'";}
+                            $dtsql = mysqli_query($db,$docSql);
+                            $dt_row = mysqli_fetch_array($dtsql);
                         ?>
                         <tr>
-                            <td class="right-chars"><img style="width:25px;margin-left:10px;" src="dist/img/doctor-icon.png"> <?php echo $dept_row['DOCTOR_NAME']; ?></td>
+                            <td class="right-chars"><img style="width:25px;margin-left:10px;" src="dist/img/doctor-icon.png"> 
+                            <?php    
+                                if($docId == 'MEDO'){echo $dt_row['DOCTOR_NAME'];} 
+                                if($docId == 'VTDO'){echo $dt_row['VISITOR_NAME'];} 
+                            ?>
+                            </td>
                         </tr>
                         <tr>
                             <td class="right-chars"><img style="width:25px;margin-left:10px;" src="dist/img/gender-icon.png"> <?php echo $age." years - ".$gender; ?></td>
@@ -174,7 +177,7 @@
                 </div>
                 <div style="display:flex;">
                     <div class="staffFooter">
-                        staff id# <span><?php echo $dept_row['ADMIN_USERNAME']; ?></span>
+                        staff id# <span><?php echo $dept_row['USER_NAME']; ?></span>
                     </div>
                     <div class="brandFooter">
                         powered by: <span>PandaNxt</span>
