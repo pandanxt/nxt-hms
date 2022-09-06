@@ -51,7 +51,7 @@
                   </thead>
                   <tbody>
                   <?php
-                      $sql ="SELECT *,`ADMIN_USERNAME` FROM `patient` INNER JOIN `admin` WHERE `patient`.`CREATED_BY` = `admin`.`ADMIN_ID`";
+                      $sql ="SELECT *,`USER_NAME` FROM `me_patient` INNER JOIN `me_user` WHERE `me_patient`.`STAFF_ID` = `me_user`.`USER_UUID`";
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
@@ -63,19 +63,19 @@
                         <td>$rs[PATIENT_AGE]</td>
                         <td>$rs[PATIENT_ADDRESS]</td>
                         <td>
-                            <b>By</b>: $rs[ADMIN_USERNAME] <br>
-                            <b>On</b>: $rs[CREATED_ON]
+                            <b>By</b>: $rs[USER_NAME] <br>
+                            <b>On</b>: $rs[STAFF_ID]
                         </td> 
                         <td style='display:flex;'>
-                            <a href='view_patient.php?patid=$rs[PATIENT_ID]' style='color:green;'>
+                            <a href='view_patient.php?patid=$rs[PATIENT_MR_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
                             </a>";
                             if ($_SESSION['role'] == "admin") {  
                             echo "<br>
-                            <a href='edit_patient.php?patid=$rs[PATIENT_ID]'>
+                            <a href='edit_patient.php?patid=$rs[PATIENT_MR_ID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
-                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?prId=$rs[PATIENT_ID]' style='color:red;'>
+                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?prId=$rs[PATIENT_MR_ID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
                             </a>";
                             }

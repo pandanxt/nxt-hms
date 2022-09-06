@@ -2,6 +2,15 @@ let data;
 let slipId;
 let list = 'me';
 
+let mrId = Date.now() +"-"+ "ME";
+let MRID = mrId.slice(6,16);
+
+if(document.getElementById('mrId')){
+    document.getElementById('mrId').value = MRID;
+}
+
+console.log(MRID+" | "+mrId);
+
 // Add unique Id for New Slip and visiting doctor
 let uuid = (new Date()).getTime() + Math.trunc(365 * Math.random());
 if (document.getElementById("slipId")) {document.getElementById("slipId").value = 'SOPD' + String(uuid).slice(-6);}
@@ -57,12 +66,6 @@ xmlhttp.open("GET",`backend_components/opd_handler.php?q=GET_DOCTOR&id=${list}`,
 xmlhttp.send();
 }
 
-// Slip Print Function
-function printSlip(sid) {
-    console.log("clicked Id: ", sid.getAttribute("data-uuid"));
-    let str = sid.getAttribute("data-uuid");
-    window.open(`print-page.php?type=outdoor&sid=${str}`, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=100,width=1000,height=800");
-}
 // Auto Fresh Function
 function autoRefresh(){
     setTimeout(() => {
@@ -117,7 +120,7 @@ $(document).ready(function($){
         e.preventDefault();
         $("#err-msg").hide();
         var uuid = $("input#slipId").val();
-        var mrid = $("input#mrid").val();
+        var mrId = $("input#mrId").val();
         var name = $("input#name").val();
         var doctor = $("input#doctor").val();
         var dept = $("input#dept").val();
@@ -128,10 +131,10 @@ $(document).ready(function($){
         var gender = $("input#gender").val();
         var age = $("input#age").val();
 
-        if(uuid == "" || mrid == "" || name == "" || doctor == "" || dept == "" || phone == "" || fee == "" || address == "" || staffId == "" || gender == "" || age == ""){
+        if(uuid == "" || mrId == "" || name == "" || doctor == "" || dept == "" || phone == "" || fee == "" || address == "" || staffId == "" || gender == "" || age == ""){
             $("#err-msg").fadeIn().text("Required Field.");
             $("input#uuId").focus();
-            $("input#mrid").focus();
+            $("input#mrId").focus();
             $("input#name").focus();
             $("input#doctor").focus();
             $("input#dept").focus();
@@ -173,6 +176,17 @@ $(document).ready(function($){
     });  
     return false;
 });
+
+// Slip Print Function
+function printSlip(sid) {
+  window.open(`print-page.php?type=outdoor&sid=${sid}`, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=100,width=1000,height=800");
+}
+
+// Slip Print Function
+function printSlipRecord(sid) {
+  let str = sid.getAttribute("data-uuid");
+  window.open(`print-page.php?type=outdoor&sid=${str}`, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=100,width=1000,height=800");
+}
 
 function updateRequest(str){
   let req = str.getAttribute("data-uuid");

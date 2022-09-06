@@ -20,12 +20,12 @@
     <section class="content">
         <div class="container-fluid">
         <?php
-          $patSql="SELECT `a`.*,`b`.`ADMIN_USERNAME` FROM `patient` AS `a` INNER JOIN `admin` AS `b` ON `a`.`CREATED_BY` = `b`.`ADMIN_ID` WHERE `PATIENT_ID` = " .$patid;
+          $patSql="SELECT `a`.*,`b`.`USER_NAME` FROM `me_patient` AS `a` INNER JOIN `me_user` AS `b` ON `a`.`STAFF_ID` = `b`.`USER_UUID` WHERE `PATIENT_MR_ID` = '$patid'";
           
           $qsql = mysqli_query($db,$patSql);
           $row = mysqli_fetch_array($qsql);
           
-          $date = substr($row["CREATED_ON"],0,24);
+          $date = substr($row["PATIENT_DATE_TIME"],0,24);
         ?>
             <div class="card">
               <div class="card-header d-flex p-0">
@@ -77,18 +77,18 @@
                                   <div class="col-md-4">
                                     <div class="col-md-12 clearfix">
                                       <?php echo '<div class="row"><label>Address: </label>&nbsp; <h5>'.$row["PATIENT_ADDRESS"].'</h5></div>'; ?>
-                                      <?php echo '<div class="row "><label>Date: </label>&nbsp; <h5>'. $date.'</h5></div>'; ?>
+                                      <?php echo '<div class="row "><label>Date: </label>&nbsp; <h5>'.$row["PATIENT_DATE_TIME"].'</h5></div>'; ?>
                                     </div>
                                   </div>
                                   <div class="col-md-4">
                                     <div class="col-md-12 clearfix">
-                                      <?php echo '<div class="row"><label>Created By: </label>&nbsp; <h5>'.$row["ADMIN_USERNAME"].'</h5></div>'; ?>
+                                      <?php echo '<div class="row"><label>Created By: </label>&nbsp; <h5>'.$row["USER_NAME"].'</h5></div>'; ?>
                                       
                                       <?php 
                                         if ($_SESSION['role'] == "admin") {
                                           echo '<div class="row"><label>Options: </label>&nbsp; <h5>';
-                                          echo '<a href="edit_patient.php?patid='.$row["PATIENT_ID"].'"><i class="fas fa-edit"></i></a>';
-                                          echo '&nbsp; <a href="backend_components/delete_handler.php?prid='.$row["PATIENT_ID"].'" style="color:red;"><i class="fas fa-trash"></i></a>';
+                                          echo '<a href="edit_patient.php?patid='.$row["PATIENT_MR_ID"].'"><i class="fas fa-edit"></i></a>';
+                                          echo '&nbsp; <a href="backend_components/delete_handler.php?prid='.$row["PATIENT_MR_ID"].'" style="color:red;"><i class="fas fa-trash"></i></a>';
                                           echo '</h5></div>'; 
                                         }
                                       ?>    
@@ -105,7 +105,6 @@
                                       <table id="example1" class="table table-bordered table-striped">
                                         <thead>
                                         <tr style="font-size: 14px;">
-                                          <th>S.No#</th>
                                           <th>MR-ID</th>
                                           <th>Name</th>
                                           <th>Mobile</th>
@@ -117,46 +116,45 @@
                                         <tbody>
                                         <?php
                                             // $sql ="SELECT *,`DOCTOR_NAME`,`ADMIN_USERNAME` FROM `emergency_slip` INNER JOIN `admin` INNER JOIN `doctor` WHERE `emergency_slip`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID` AND `emergency_slip`.`STAFF_ID` = `admin`.`ADMIN_ID`";
-                                            $sql ="SELECT `a`.*,`b`.`ADMIN_USERNAME`,`c`.`DOCTOR_NAME` FROM `emergency_slip` AS `a` INNER JOIN `admin` AS `b` ON `a`.`STAFF_ID` = `b`.`ADMIN_ID` INNER JOIN `doctor` AS `c` ON `a`.`DOCTOR_ID` = `c`.`DOCTOR_ID` WHERE `a`.`SLIP_MR_ID` = '$row[PATIENT_MR_ID]'";
-                                          //   $sql ="SELECT * FROM `emergency_slip`";
+                                            $sql ="SELECT `a`.*,`b`.`USER_NAME`,`c`.`DOCTOR_NAME` FROM `me_emergency_slip` AS `a` 
+                                            INNER JOIN `me_user` AS `b` ON `a`.`STAFF_ID` = `b`.`USER_UUID` 
+                                            INNER JOIN `me_doctor` AS `c` ON `a`.`SLIP_DOCTOR` = `c`.`DOCTOR_UUID` WHERE `a`.`SLIP_MR_ID` = '$row[PATIENT_MR_ID]'";
                                             $qsql = mysqli_query($db,$sql);
                                             while($rs = mysqli_fetch_array($qsql))
                                             { 
-                                            $date = substr($rs['SLIP_DATE_TIME'],0, 21);
                                               echo "<tr style='font-size: 12px;'>
-                                              <td>$rs[SLIP_ID]</td>
                                               <td>$rs[SLIP_MR_ID]</td>
                                               <td>$rs[SLIP_NAME]</td>
                                               <td>$rs[SLIP_MOBILE]</td>
                                               <td>$rs[DOCTOR_NAME]</td>
                                               <td>
-                                                  <b>By</b>: $rs[ADMIN_USERNAME] <br>
-                                                  <b>On</b>: ".$date."
+                                                  <b>By</b>: $rs[USER_NAME] <br>
+                                                  <b>On</b>: $rs[SLIP_DATE_TIME]
                                               </td> 
                                               <td style='display:flex;'>";
                                                 if($rs['BILL_STATUS'] == "pending"){
-                                                  echo "<a href='emergency_patient_bill.php?sid=$rs[SLIP_ID]' style='color:green;'>
+                                                  echo "<a href='emergency_patient_bill.php?sid=$rs[SLIP_UUID]' style='color:green;'>
                                                     <i class='fas fa-wallet'></i> Bill</a>
                                                     <br> 
-                                                    <a href='emergency_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
+                                                    <a href='emergency_slip_print.php?sid=$rs[SLIP_UUID]' style='color:green;'>
                                                     <i class='fas fa-wallet'></i> Print</a>";
                                                     if ($_SESSION['role'] == "admin") {  
                                                     echo "<br>
-                                                    <a href='emergency_patient_slip.php?epsid=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
+                                                    <a href='emergency_patient_slip.php?epsid=$rs[SLIP_UUID]'><i class='fas fa-edit'></i> Edit</a>
                                                     <br>
                                                     <a onClick=\"javascript: return confirm('Please confirm deletion');\" 
-                                                    href='backend_components/delete_handler.php?esrId=$rs[SLIP_ID]' style='color:red;'>
+                                                    href='backend_components/delete_handler.php?esrId=$rs[SLIP_UUID]' style='color:red;'>
                                                     <i class='fas fa-trash'></i> Delete</a>";
                                                     }
                                               }else{
-                                                  echo "<a href='emergency_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
+                                                  echo "<a href='emergency_slip_print.php?sid=$rs[SLIP_UUID]' style='color:green;'>
                                                   <i class='fas fa-wallet'></i> Print</a>";
                                                   if ($_SESSION['role'] == "admin") {  
                                                   echo "<br>
-                                                  <a href='emergency_patient_slip.php?epsid=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
+                                                  <a href='emergency_patient_slip.php?epsid=$rs[SLIP_UUID]'><i class='fas fa-edit'></i> Edit</a>
                                                   <br>
                                                   <a onClick=\"javascript: return confirm('Please confirm deletion');\" 
-                                                  href='backend_components/delete_handler.php?esrId=$rs[SLIP_ID]' style='color:red;'>
+                                                  href='backend_components/delete_handler.php?esrId=$rs[SLIP_UUID]' style='color:red;'>
                                                   <i class='fas fa-trash'></i> Delete</a>";
                                                   }
                                               }
@@ -179,7 +177,6 @@
                                     <table id="example1" class="table table-bordered table-striped">
                                       <thead>
                                       <tr style="font-size: 14px;">
-                                        <th>S.No#</th>
                                         <th>MR-ID</th>
                                         <th>Name</th>
                                         <th>Mobile</th>
@@ -193,14 +190,12 @@
                                       <tbody>
                                       <?php
                                           // $sql ="SELECT *,`DOCTOR_NAME`,`ADMIN_USERNAME` FROM `indoor_slip` INNER JOIN `admin` INNER JOIN `doctor` WHERE `indoor_slip`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID` AND `indoor_slip`.`STAFF_ID` = `admin`.`ADMIN_ID`";
-                                          $sql ="SELECT `a`.*,`b`.`ADMIN_USERNAME`,`c`.`DOCTOR_NAME` FROM `indoor_slip` AS `a` INNER JOIN `admin` AS `b` ON `a`.`STAFF_ID` = `b`.`ADMIN_ID` INNER JOIN `doctor` AS `c` ON `a`.`DOCTOR_ID` = `c`.`DOCTOR_ID` WHERE `a`.`SLIP_MR_ID` = '$row[PATIENT_MR_ID]'";
+                                          $sql ="SELECT `a`.*,`b`.`USER_NAME`,`c`.`DOCTOR_NAME` FROM `me_indoor_slip` AS `a` INNER JOIN `me_user` AS `b` ON `a`.`STAFF_ID` = `b`.`USER_UUID` INNER JOIN `me_doctor` AS `c` ON `a`.`SLIP_DOCTOR` = `c`.`DOCTOR_UUID` WHERE `a`.`SLIP_MR_ID` = '$row[PATIENT_MR_ID]'";
                                           //   $sql ="SELECT * FROM `emergency_slip`";
                                           $qsql = mysqli_query($db,$sql);
                                           while($rs = mysqli_fetch_array($qsql))
                                           { 
-                                          $date = substr($rs['SLIP_DATE_TIME'],0, 21);
                                           echo "<tr style='font-size: 12px;'>
-                                          <td>$rs[SLIP_ID]</td>
                                             <td>$rs[SLIP_MR_ID]</td>
                                             <td>$rs[SLIP_NAME]</td>
                                             <td>$rs[SLIP_MOBILE]</td>
@@ -209,31 +204,31 @@
                                             <td>$rs[DOCTOR_NAME]</td>
                                             <td>
                                                 <b>By</b>: $rs[ADMIN_USERNAME] <br>
-                                                <b>On</b>: ".$date."
+                                                <b>On</b>: $rs[SLIP_DATE_TIME]
                                             </td> 
                                             <td style='display:flex;'>";
 
                                             if($rs['BILL_STATUS'] == "pending"){
-                                              echo "<a href='indoor_patient_bill.php?sid=$rs[SLIP_ID]' style='color:green;'>
+                                              echo "<a href='indoor_patient_bill.php?sid=$rs[SLIP_UUID]' style='color:green;'>
                                                 <i class='fas fa-wallet'></i> Bill</a>
                                                 <br> 
-                                                <a href='indoor_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
+                                                <a href='indoor_slip_print.php?sid=$rs[SLIP_UUID]' style='color:green;'>
                                                 <i class='fas fa-wallet'></i> Print</a>";
                                                 if ($_SESSION['role'] == "admin") {  
                                                 echo "<br>
-                                                <a href='add_patient.php?id=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
+                                                <a href='add_patient.php?id=$rs[SLIP_UUID]'><i class='fas fa-edit'></i> Edit</a>
                                                 <br>
-                                                <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?isrId=$rs[SLIP_ID]' style='color:red;'>
+                                                <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?isrId=$rs[SLIP_UUID]' style='color:red;'>
                                                 <i class='fas fa-trash'></i> Delete</a>";
                                                 }
                                               }else{
-                                              echo "<a href='indoor_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
+                                              echo "<a href='indoor_slip_print.php?sid=$rs[SLIP_UUID]' style='color:green;'>
                                               <i class='fas fa-wallet'></i> Print</a>";
                                               if ($_SESSION['role'] == "admin") {  
                                               echo "<br>
-                                              <a href='add_patient.php?id=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
+                                              <a href='add_patient.php?id=$rs[SLIP_UUID]'><i class='fas fa-edit'></i> Edit</a>
                                               <br>
-                                              <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?isrId=$rs[SLIP_ID]' style='color:red;'>
+                                              <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?isrId=$rs[SLIP_UUID]' style='color:red;'>
                                               <i class='fas fa-trash'></i> Delete</a>";
                                             }
                                             }
@@ -258,7 +253,6 @@
                                     <table id="example1" class="table table-bordered table-striped">
                                       <thead>
                                       <tr style="font-size: 14px;">
-                                        <th>S.No#</th>
                                         <th>MR-ID</th>
                                         <th>Name</th>
                                         <th>Mobile</th>
@@ -272,14 +266,11 @@
                                       <tbody>
                                       <?php
                                           // $sql ="SELECT *,`DOCTOR_NAME`,`ADMIN_USERNAME`,`DEPARTMENT_NAME` FROM `outdoor_slip` INNER JOIN `admin` INNER JOIN `doctor` INNER JOIN `department` WHERE `outdoor_slip`.`DOCTOR_ID` = `doctor`.`DOCTOR_ID` AND `outdoor_slip`.`STAFF_ID` = `admin`.`ADMIN_ID` AND `outdoor_slip`.`DEPT_ID` = `department`.`DEPARTMENT_ID`";
-                                          $sql ="SELECT `a`.*,`b`.`ADMIN_USERNAME`,`c`.`DEPARTMENT_NAME` FROM `outdoor_slip` AS `a` INNER JOIN `admin` AS `b` ON `a`.`STAFF_ID` = `b`.`ADMIN_ID` INNER JOIN `department` AS `c` ON `a`.`DEPT_ID` = `c`.`DEPARTMENT_ID` WHERE `a`.`SLIP_MR_ID` = '$row[PATIENT_MR_ID]'";
-                                          //   $sql ="SELECT * FROM `emergency_slip`";
+                                          $sql ="SELECT `a`.*,`b`.`USER_NAME`,`c`.`DEPARTMENT_NAME` FROM `me_outdoor_slip` AS `a` INNER JOIN `me_user` AS `b` ON `a`.`STAFF_ID` = `b`.`USER_UUID` INNER JOIN `me_department` AS `c` ON `a`.`SLIP_DEPARTMENT` = `c`.`DEPARTMENT_UUID` WHERE `a`.`SLIP_MR_ID` = '$row[PATIENT_MR_ID]'";
                                           $qsql = mysqli_query($db,$sql);
                                           while($rs = mysqli_fetch_array($qsql))
                                           { 
-                                          $date = substr($rs['SLIP_DATE_TIME'],0, 21);
                                             echo "<tr style='font-size: 12px;'>
-                                            <td>$rs[SLIP_ID]</td>
                                             <td>$rs[SLIP_MR_ID]</td>
                                             <td>$rs[SLIP_NAME]</td>
                                             <td>$rs[SLIP_MOBILE]</td>
@@ -289,15 +280,15 @@
                                             echo "</button></td>
                                             <td>$rs[SLIP_FEE]</td>
                                             <td>
-                                                <b>By</b>: $rs[ADMIN_USERNAME] <br>
-                                                <b>On</b>: ".$date."
+                                                <b>By</b>: $rs[USER_NAME] <br>
+                                                <b>On</b>: $rs[SLIP_DATE_TIME]
                                             </td> 
                                             <td>
-                                              <a href='outdoor_slip_print.php?sid=$rs[SLIP_ID]' style='color:green;'>
+                                              <a href='outdoor_slip_print.php?sid=$rs[SLIP_UUID]' style='color:green;'>
                                               <i class='fas fa-wallet'></i> Print</a>";
                                               if ($_SESSION['role'] == "admin") {  
-                                                  echo "<a href='add_patient.php?id=$rs[SLIP_ID]'><i class='fas fa-edit'></i> Edit</a>
-                                                  <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?osrId=$rs[SLIP_ID]' style='color:red;'>
+                                                  echo "<a href='add_patient.php?id=$rs[SLIP_UUID]'><i class='fas fa-edit'></i> Edit</a>
+                                                  <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?osrId=$rs[SLIP_UUID]' style='color:red;'>
                                                   <i class='fas fa-trash'></i> Delete</a>";
                                               }
                                             echo "</td>

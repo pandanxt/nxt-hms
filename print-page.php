@@ -33,14 +33,15 @@
  
          $date = substr($dept_row['SLIP_DATE_TIME'],0, 24);
  
-         $patSql ="SELECT * FROM `me_patient` WHERE `PATIENT_MR_ID` = '$dept_row[SLIP_MR_ID]' OR `PATIENT_MOBILE` = '$dept_row[SLIP_MOBILE]'";
-         $patsql = mysqli_query($db,$patSql);
-         $patient_row = mysqli_fetch_array($patsql);
-       
-         $gender = $patient_row['PATIENT_GENDER'];
-         $address = $patient_row['PATIENT_ADDRESS'];
-         $age = $patient_row['PATIENT_AGE'];
-
+        //  $patQSql ="SELECT * FROM `me_patient` WHERE `PATIENT_MR_ID` = '$dept_row[SLIP_MR_ID]' AND `PATIENT_MOBILE` = '$dept_row[SLIP_MOBILE]'";
+         $patQSql ="SELECT * FROM `me_patient` WHERE `PATIENT_MR_ID` = '".$dept_row["SLIP_MR_ID"]."' AND `PATIENT_MOBILE` = '".$dept_row["SLIP_MOBILE"]."'";
+         $patsql = mysqli_query($db,$patQSql) or die (mysqli_error($db));
+         $row = mysqli_fetch_array($patsql);
+         
+         $gender = $row['PATIENT_GENDER'];
+         $address = $row['PATIENT_ADDRESS'];
+         $age = $row['PATIENT_AGE'];
+        //  echo "<script>alert('1- ".$dept_row["SLIP_MR_ID"]." | 2- ".$dept_row["SLIP_MOBILE"]."');</script>";
          // Form Header File 
         include('components/form_header.php');
 ?>

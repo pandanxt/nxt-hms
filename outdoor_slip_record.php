@@ -52,10 +52,10 @@
                             $dtsql = mysqli_query($db,$docSql);
                             $dt_row = mysqli_fetch_array($dtsql);
                             if($docId == 'MEDO'){
-                              echo "$dt_row[DOCTOR_NAME]&nbsp;<button class='btn badge badge-info'>Visiting Doctor</button>";
+                              echo "$dt_row[DOCTOR_NAME]&nbsp;<button class='btn badge badge-info'>MedEast Doctor</button>";
                             } 
                             if($docId == 'VTDO'){
-                              echo "$dt_row[VISITOR_NAME]&nbsp;<button class='btn badge badge-info'>MedEast Doctor</button>";
+                              echo "$dt_row[VISITOR_NAME]&nbsp;<button class='btn badge badge-info'>Visiting Doctor</button>";
                             }
                           echo "</td>
                           <td>$rs[SLIP_FEE]</td>
@@ -64,7 +64,7 @@
                               <b>On</b>: $rs[SLIP_DATE_TIME]
                           </td> 
                           <td style='display:flex;'>
-                                <a href='javascript:void(0)' onclick='printSlip(this);' data-uuid='$rs[SLIP_UUID]' style='color:green;'>
+                                <a href='javascript:void(0)' onclick='printSlipRecord(this);' data-uuid='$rs[SLIP_UUID]' style='color:green;'>
                                 <i class='fas fa-wallet'></i> Print
                               </a>";
                               if ($_SESSION['role'] == "user") {

@@ -33,7 +33,7 @@
                   <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                       <div class="form-group col-md-4">
                           <label>Patient MR-ID #</label>
-                          <input type="text" name="mrid" id="mrid" class="form-control" readonly>
+                          <input type="text" name="mrId" id="mrId" class="form-control" readonly>
                       </div>
                       <div class="form-group col-md-8">
                           <label>Patient Name</label>

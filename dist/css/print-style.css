@@ -1,11 +1,11 @@
 /* TODO: optimize */
 
-body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0px;
-    padding: 0px;
-  }
-  
+   body
+   {
+      font-family: 'Helvetica', 'Arial', sans-serif;
+      margin: 0px;
+      padding: 0px;
+   }
   .receipt {
       padding: 3mm;
       width: 80mm;

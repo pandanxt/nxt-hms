@@ -13,7 +13,7 @@ if ($q == 'ADD_SLIP') {
 
     // Post Variables
     $uuId = mysqli_real_escape_string($db, $_POST['slipId']);  
-    $mrid = mysqli_real_escape_string($db, $_POST['mrid']);
+    $mrId = mysqli_real_escape_string($db, $_POST['mrId']);
     $name = mysqli_real_escape_string($db, $_POST['name']);
     $phone = mysqli_real_escape_string($db, $_POST['phone']);
     $gender = mysqli_real_escape_string($db, $_POST['gender']);
@@ -35,7 +35,7 @@ if ($q == 'ADD_SLIP') {
         echo json_encode($result);
         exit();
     }else{
-        mysqli_stmt_bind_param($stmt,"ss",$mrid,$phone);
+        mysqli_stmt_bind_param($stmt,"ss",$mrId,$phone);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_store_result($stmt);
         $resultCheck = mysqli_stmt_num_rows($stmt);
@@ -52,7 +52,7 @@ if ($q == 'ADD_SLIP') {
               exit();
             }else{
               // Get Data of Patient from DB
-              $patientQuery = "SELECT * FROM `me_patient` WHERE `PATIENT_MR_ID` = '$mrid' OR `PATIENT_MOBILE` = '$phone'";
+              $patientQuery = "SELECT * FROM `me_patient` WHERE `PATIENT_MR_ID` = '$mrId' OR `PATIENT_MOBILE` = '$phone'";
               $psql = mysqli_query($db,$patientQuery);
               while($prs = mysqli_fetch_array($psql))
               {
@@ -93,7 +93,7 @@ if ($q == 'ADD_SLIP') {
                 echo json_encode($result);
                 exit();
             }else{
-                mysqli_stmt_bind_param($stmt,"sssssss", $mrid,$name,$phone,$gender,$age,$address,$by);
+                mysqli_stmt_bind_param($stmt,"sssssss", $mrId,$name,$phone,$gender,$age,$address,$by);
                 if (mysqli_stmt_execute($stmt)){
                     $slipQuery = "INSERT INTO `me_outdoor_slip`(`SLIP_UUID`,`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `STAFF_ID`) VALUES (?,?,?,?,?,?,?,?)";
                     if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
@@ -103,7 +103,7 @@ if ($q == 'ADD_SLIP') {
                         echo json_encode($result);
                         exit();
                     }else{
-                        mysqli_stmt_bind_param($stmt,"ssssssss", $uuId,$mrid,$name,$phone,$dept,$doctor,$fee,$by);
+                        mysqli_stmt_bind_param($stmt,"ssssssss", $uuId,$mrId,$name,$phone,$dept,$doctor,$fee,$by);
                             if (mysqli_stmt_execute($stmt)) {
                                 $printQuery = "SELECT `SLIP_UUID` FROM `me_outdoor_slip` ORDER BY `SLIP_DATE_TIME` DESC LIMIT 1";
                                 $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
