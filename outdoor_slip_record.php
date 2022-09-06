@@ -67,12 +67,12 @@
                                 <a href='javascript:void(0)' onclick='printSlip(this);' data-uuid='$rs[SLIP_UUID]' style='color:green;'>
                                 <i class='fas fa-wallet'></i> Print
                               </a>";
-                              if ($_SESSION['role'] == "user") { 
-                                $request = "SELECT * FROM `me_request` WHERE `REQUEST_UUID` = ? AND `REQUEST_REFERENCE_UUID` = ? AND `STAFF_ID` = ?";
+                              if ($_SESSION['role'] == "user") {
+                                $request = "SELECT * FROM `me_request` WHERE `REQUEST_REFERENCE_UUID` = ? AND `STAFF_ID` = ?";
                                 $stmt = mysqli_stmt_init($db);
                                 // $t_name = "OPD_SLIP_REQUEST";
                                 if (mysqli_stmt_prepare($stmt,$request)) {
-                                  mysqli_stmt_bind_param($stmt,"sss",$rs['REQUEST_UUID'],$rs['SLIP_UUID'],$_SESSION['uuid']);
+                                  mysqli_stmt_bind_param($stmt,"ss",$rs['SLIP_UUID'],$_SESSION['uuid']);
                                   mysqli_stmt_execute($stmt);
                                   mysqli_stmt_store_result($stmt);
                                   $resultCheck = mysqli_stmt_num_rows($stmt);

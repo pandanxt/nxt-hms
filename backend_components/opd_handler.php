@@ -195,8 +195,7 @@ if ($q == 'ADD_REQUEST') {
 }
 // View Edit Request Query Response
 if ($q == 'VIEW_REQUEST') {
-    $str = "OPD_SLIP_REQUEST";
-    $request = 'SELECT *, `ADMIN_USERNAME` FROM `edit_request` INNER JOIN `admin` WHERE `edit_request`.`REQUEST_BY` = `admin`.`ADMIN_ID` AND `edit_request`.`REQUEST_BY` = '.$_SESSION["userid"].' AND `REQUEST_TABLE_ID` = '.$id.' AND `REQUEST_TABLE_NAME` = "'.$str.'"';
+    $request = "SELECT *, `USER_NAME` FROM `me_request` INNER JOIN `me_user` WHERE `me_request`.`STAFF_ID` = `me_user`.`USER_UUID` AND `REQUEST_UUID` = '$id'";
     $result = mysqli_query($db, $request) or die (mysqli_error($db));
     while ($row = mysqli_fetch_array($result)) {
         echo "<tr style='font-size: 12px;'>
@@ -218,14 +217,14 @@ if ($q == 'VIEW_REQUEST') {
         } 
         echo"</td>
         <td>
-            <b>By</b>: $row[ADMIN_USERNAME] <br>
-            <b>On</b>: $row[REQUEST_ON]
+            <b>By</b>: $row[USER_NAME] <br>
+            <b>On</b>: $row[REQUEST_DATE_TIME]
         </td>
         <td>
-            <a href='javascript:void(0);' onclick='updateOpdRequest($row[REQUEST_ID])' data-toggle='modal' data-target='#edit-request'>
+            <a href='javascript:void(0);' onclick='updateRequest(this)' data-uuid='$row[REQUEST_UUID]' data-toggle='modal' data-target='#edit-request'>
                 <i class='fas fa-edit'></i>
             </a>
-            <a onClick='deleteOptRequest($row[REQUEST_ID])' href='javascript:void(0);' style='color:red;'>
+            <a onClick='deleteRequest(this)' data-uuid='$row[REQUEST_UUID]' href='javascript:void(0);' style='color:red;'>
                 <i class='fas fa-trash'></i>
             </a>
         </td>
@@ -237,17 +236,17 @@ if ($q == 'EDIT_REQUEST') {
 
     $title = mysqli_real_escape_string($db, $_POST['eTitle']);
     $comment = mysqli_real_escape_string($db, $_POST['eComment']);
-    $by = mysqli_real_escape_string($db, $_POST['userId']);
+    $by = mysqli_real_escape_string($db, $_POST['staffId']);
 
-    if(mysqli_query($db, "UPDATE `edit_request` SET `REQUEST_NAME`= '$title',`REQUEST_COMMENT`='$comment',`REQUEST_BY`='$by' WHERE `REQUEST_ID`= ".$id)) {
-        echo 'Form Has been submitted successfully';
+    if(mysqli_query($db, "UPDATE `me_request` SET `REQUEST_NAME`= '$title',`REQUEST_COMMENT`='$comment',`STAFF_ID`='$by' WHERE `REQUEST_UUID`= '$id'")) {
+        echo 'Edit Request is updated successfully';
     }else {
         echo "Error: " . $sql . "" . mysqli_error($db);
     }
 }
 // View Update Request Query Response
 if ($q == 'GET_REQUEST') {
-    $request = 'SELECT * FROM `edit_request` WHERE `REQUEST_ID` = "'.$id.'"';
+    $request = "SELECT * FROM `me_request` WHERE `REQUEST_UUID` = '$id'";
     $result = mysqli_query($db, $request) or die (mysqli_error($db));
     while ($row = mysqli_fetch_array($result)) {
         echo "<div class='modal-body'>
@@ -267,7 +266,7 @@ if ($q == 'GET_REQUEST') {
             <label>Comment</label>
             <textarea type='text' name='eComment' class='form-control' id='eComment' value='$row[REQUEST_COMMENT]' required>$row[REQUEST_COMMENT]</textarea>
         </div>
-        <input type='text' name='userId' id='userId' value='$_SESSION[userid]' hidden readonly>
+        <input type='text' name='staffId' id='staffId' value='$_SESSION[uuid]' hidden readonly>
         <input type='text' name='eId' id='eId' value='$id' hidden readonly>
         </div>
         <div class='modal-footer justify-content-between'>
@@ -278,7 +277,7 @@ if ($q == 'GET_REQUEST') {
 }
 // Request Record Delete Query
 if($q == 'REMOVE_REQUEST') {
-    $sql ='DELETE FROM `edit_request` WHERE `REQUEST_ID` ="'.$id.'"';
+    $sql ="DELETE FROM `me_request` WHERE `REQUEST_UUID` = '$id'";
     $qsql=mysqli_query($db,$sql);
     if(mysqli_affected_rows($db) == 1)
     {  

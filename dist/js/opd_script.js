@@ -175,7 +175,8 @@ $(document).ready(function($){
 });
 
 function updateRequest(str){
-  if (str=="") {return;}
+  let req = str.getAttribute("data-uuid");
+  if (req=="") {return;}
     var xmlhttp=new XMLHttpRequest();
       xmlhttp.onreadystatechange=function() {
         if (this.readyState==4 && this.status==200) {
@@ -183,13 +184,14 @@ function updateRequest(str){
           console.log("Response From Slip Request: ", this.responseText);
         }
       }
-  xmlhttp.open("GET","backend_components/opd_handler.php?q=GET_REQUEST&id="+str,true);
+  xmlhttp.open("GET",`backend_components/opd_handler.php?q=GET_REQUEST&id=${req}`,true);
   xmlhttp.send();
 }
 
 // Get Request Data against slip Id
 function getRequest(str){
-    if (str=="") {return;}
+    let req = str.getAttribute("data-uuid");
+    if (req=="") {return;}
       var xmlhttp=new XMLHttpRequest();
       xmlhttp.onreadystatechange=function() {
         if (this.readyState==4 && this.status==200) {
@@ -197,14 +199,15 @@ function getRequest(str){
           console.log("Response From Slip Request: ", this.responseText);
         }
       }
-    xmlhttp.open("GET","backend_components/opd_handler.php?q=VIEW_REQUEST&id="+str,true);
+    xmlhttp.open("GET",`backend_components/opd_handler.php?q=VIEW_REQUEST&id=${req}`,true);
     xmlhttp.send();
 }
 
 // Delete Outdoor Request
 function deleteRequest(str){
-  if (str=="") {return;}
-  slipId = str;
+  let req = str.getAttribute("data-uuid");
+  if (req=="") {return;}
+  slipId = req;
   let checkConfirm = confirm('Please confirm deletion');
   if (checkConfirm) {
       // ajax

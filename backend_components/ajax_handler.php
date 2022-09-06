@@ -9,13 +9,13 @@
     include "connection.php";
  
     // Get Add Requests Query
-    if ($q == 'GET-ALL-REQUEST') { 
+    if ($q == 'GET_ALL_REQUEST') { 
         echo "<span class='dropdown-item dropdown-header'>Request Notifications</span>
         <div class='dropdown-divider'></div>";
         if ($_SESSION['role'] == "admin") {
-            $request = 'SELECT *, `ADMIN_USERNAME` FROM `edit_request` INNER JOIN `admin` WHERE `edit_request`.`REQUEST_BY` = `admin`.`ADMIN_ID` AND `edit_request`.`REQUEST_STATUS` = 0 ORDER BY `edit_request`.`REQUEST_ID` DESC';
+            $request = 'SELECT *, `USER_NAME` FROM `me_request` INNER JOIN `me_user` WHERE `me_request`.`STAFF_ID` = `me_user`.`USER_UUID` AND `me_request`.`REQUEST_STATUS` = 0 ORDER BY `me_request`.`REQUEST_UUID` DESC';
         } else if($_SESSION['role'] == "user"){
-            $request = 'SELECT *, `ADMIN_USERNAME` FROM `edit_request` INNER JOIN `admin` WHERE `edit_request`.`REQUEST_BY` = `admin`.`ADMIN_ID` AND `edit_request`.`REQUEST_STATUS` != 0 ORDER BY `edit_request`.`REQUEST_ID` DESC';
+            $request = 'SELECT *, `USER_NAME` FROM `me_request` INNER JOIN `me_user` WHERE `me_request`.`STAFF_ID` = `me_user`.`USER_UUID` AND `me_request`.`REQUEST_STATUS` != 0 ORDER BY `me_request`.`REQUEST_UUID` DESC';
         }
         $result = mysqli_query($db, $request) or die (mysqli_error($db));
             $resultCheck = mysqli_num_rows($result);
@@ -23,9 +23,10 @@
                 echo "<span class='dropdown-item text-center'>No Record Found</span>";
             }else {
                 while ($row = mysqli_fetch_array($result)) {
-                    echo "<a href='javascript:void(0);' onClick='getRequest($row[REQUEST_ID]);'  data-toggle='modal' data-target='#view-request' class='dropdown-item'> 
-                    <small><span class='float-left left badge badge-primary mr-4 mt-1'>SLIP</span></small>";  
-                    if ($row['REQUEST_TABLE_NAME'] == 'OPD_SLIP_REQUEST') {
+                    echo "<a href='javascript:void(0);' onClick='getRequest(this);' data-uuid='$row[REQUEST_UUID]' data-toggle='modal' data-target='#view-request' class='dropdown-item'> 
+                    <small><span class='float-left left badge badge-primary mr-4 mt-1'>SLIP</span></small>"; 
+                    $refUuid = substr($row['REQUEST_REFERENCE_UUID'],0, 4);
+                    if ($refUuid == "SOPD") {
                         if ($row['REQUEST_NAME'] == 'cancel') {
                             echo "<span class='text-center'><b> Cancel Request</b></span>
                             <span class='float-right right badge badge-primary'>OPD</span>";
@@ -34,7 +35,7 @@
                             <span class='float-right right badge badge-primary'>OPD</span>";
                         }
                     }
-                    if ($row['REQUEST_TABLE_NAME'] == 'INDOOR_SLIP_REQUEST') {
+                    if ($refUuid == "SIPD") {
                         if ($row['REQUEST_NAME'] == 'cancel') {
                             echo "<span class='text-center'><b> Cancel Request</b></span>
                             <span class='float-right right badge badge-primary'>INDOOR</span>";
@@ -43,7 +44,7 @@
                             <span class='float-right right badge badge-primary'>INDOOR</span>";
                         }
                     }
-                    if ($row['REQUEST_TABLE_NAME'] == 'EMERGENCY_SLIP_REQUEST') {
+                    if ($refUuid == "SMRC") {
                         if ($row['REQUEST_NAME'] == 'cancel') {
                             echo "<span class='text-center'><b> Cancel Request</b></span>
                             <span class='float-right right badge badge-primary'>EMERGENCY</span>";
@@ -51,18 +52,19 @@
                             echo "<span class='text-center'><b>Edit Request</b></span>
                             <span class='float-right right badge badge-primary'>EMERGENCY</span>";
                         }
-                    }
+                    } 
+                    
                     echo "</a>
                     <div class='dropdown-divider'></div>";
                 }
             }
     }
     // View Specific Request Query Response
-    if ($q == 'VIEW-REQUEST-BY-ID') {
-        $request = 'SELECT *, `ADMIN_USERNAME` FROM `edit_request` INNER JOIN `admin` WHERE `edit_request`.`REQUEST_BY` = `admin`.`ADMIN_ID` AND `REQUEST_ID` = "'.$id.'"';
+    if ($q == 'VIEW_REQUEST_BY_ID') {
+        $request = "SELECT *, `USER_NAME` FROM `me_request` INNER JOIN `me_user` WHERE `me_request`.`STAFF_ID` = `me_user`.`USER_UUID` AND `REQUEST_UUID` = '$id'";
         $result = mysqli_query($db, $request) or die (mysqli_error($db));
         while ($row = mysqli_fetch_array($result)) {
-            $rid = $row['REQUEST_TABLE_ID'];
+            $rid = $row['REQUEST_REFERENCE_UUID'];
             echo "<tr style='font-size: 12px;'>
             <td>";
             if ($row['REQUEST_NAME'] == 'cancel') {
@@ -73,30 +75,24 @@
             echo"</td>
             <td>$row[REQUEST_COMMENT]</td>
             <td>";
-            if ($row['REQUEST_TABLE_NAME'] == 'OPD_SLIP_REQUEST') {
-                $rname = 'outdoor';
-                echo "Requested on OPD Slip";
-            }else if ($row['REQUEST_TABLE_NAME'] == 'INDOOR_SLIP_REQUEST') {
-                $rname = 'indoor';
-                echo "Requested on Indoor Slip";
-            } else if ($row['REQUEST_TABLE_NAME'] == 'EMERGENCY_SLIP_REQUEST') {
-                $rname = 'emergency';
-                echo "Requested on Emergency Slip";
-            } 
+            $refUuid = substr($row['REQUEST_REFERENCE_UUID'],0, 4);
+            if ($refUuid == "SOPD") {$rname = 'outdoor';echo "Requested on OPD Slip";}
+            if ($refUuid == "SIPD") {$rname = 'indoor';echo "Requested on Indoor Slip";}
+            if ($refUuid == "SMRC") {$rname = 'emergency'; echo "Requested on Emergency Slip";}
             echo"</td>
             <td>
-                <b>By</b>: $row[ADMIN_USERNAME] <br>
-                <b>On</b>: $row[REQUEST_ON]
+                <b>By</b>: $row[USER_NAME] <br>
+                <b>On</b>: $row[REQUEST_DATE_TIME]
             </td>";
             if ($_SESSION['role'] == "admin") {
                 echo "<td>
                     <a href='javascript:void(0);' id='view-record' onclick='openRequestedRecord($rid)' data-status='$row[REQUEST_STATUS]' data-id='$id' data-type='$rname'>
                         <i class='fas fa-info-circle'></i> View
                     </a></br>
-                    <a onClick='cancelRequest($row[REQUEST_ID])' href='javascript:void(0);' style='color:red;'>
+                    <a onClick='cancelRequest($row[REQUEST_UUID])' href='javascript:void(0);' style='color:red;'>
                         <small><i class='fas fa-trash'></i> Request</small>
                     </a></br>
-                    <a onClick='deleteRequestRecord($row[REQUEST_ID])' id='deleteRecord' data-id='$row[REQUEST_TABLE_ID]' data-name='$row[REQUEST_TABLE_NAME]' href='javascript:void(0);' style='color:red;'>
+                    <a onClick='deleteRequestRecord($row[REQUEST_UUID])' id='deleteRecord' data-id='$row[REQUEST_REFERENCE_UUID]' href='javascript:void(0);' style='color:red;'>
                     <small><i class='fas fa-trash'></i> Record</small>
                     </a></br>
                 </td>";

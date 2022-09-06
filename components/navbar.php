@@ -456,13 +456,14 @@
         // console.log("Response From Request: ", this.responseText);
       }
     }
-    xmlhttp.open("GET","backend_components/ajax_handler.php?q=GET-ALL-REQUEST",true);
+    xmlhttp.open("GET","backend_components/ajax_handler.php?q=GET_ALL_REQUEST",true);
     xmlhttp.send();
   }
   
   // Get Request Data against slip Id
   function getRequest(str){
-      if (str=="") {return;}
+    let req = str.getAttribute("data-uuid");
+      if (req=="") {return;}
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
           if (this.readyState==4 && this.status==200) {
@@ -470,7 +471,7 @@
             // console.log("Response From Slip Request: ", this.responseText);
           }
         }
-      xmlhttp.open("GET","backend_components/ajax_handler.php?q=VIEW-REQUEST-BY-ID&id="+str,true);
+      xmlhttp.open("GET",`backend_components/ajax_handler.php?q=VIEW_REQUEST_BY_ID&id=${req}`,true);
       xmlhttp.send();
   }
 
