@@ -2,140 +2,86 @@
    // Session Start
    session_start();
    $sid = (isset($_GET['sid']) ? $_GET['sid'] : '');
-   $type = (isset($_GET['type']) ? $_GET['type'] : '');
    if (isset($_SESSION['uuid'])) {
      if ($sid) {
        include('backend_components/connection.php');
-        
-        if ($type == "imrc") {
-            // Query to get Emergency Slip Details 
-            $slipSql ="SELECT `a`.*, `b`.`USER_NAME` FROM `me_emergency_slip` AS `a`
-            INNER JOIN `me_user` AS `b` ON `b`.`USER_UUID` = `a`.`STAFF_ID`
-            WHERE `SLIP_UUID` = '$sid'";
-         }
-         if ($type == "outdoor") {
-            // Query to get Outdoor Slip Details
-            $slipSql ="SELECT `a`.*,`b`.`DEPARTMENT_NAME`,`c`.`USER_NAME` FROM `me_outdoor_slip` AS `a`
-            INNER JOIN `me_department` AS `b` ON `a`.`SLIP_DEPARTMENT` = `b`.`DEPARTMENT_UUID`
-            INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID`
-            WHERE `SLIP_UUID` = '$sid'";
-         }
-         if ($type == "indoor") {
-            // Query to get Indoor Slip Details 
-            $slipSql ="SELECT `a`.*, `b`.`USER_NAME`,`c`.`DEPARTMENT_NAME`	FROM `me_indoor_slip` AS `a`
-            INNER JOIN `me_user` AS `b` ON `b`.`USER_UUID` = `a`.`STAFF_ID`
-            INNER JOIN `me_department` AS `c` ON `c`.`SLIP_DEPARTMENT` = `a`.`DEPARTMENT_UUID`
-            WHERE `SLIP_UUID` = '$sid'";
-         }
- 
-         $dptsql = mysqli_query($db,$slipSql);
-         $dept_row = mysqli_fetch_array($dptsql);
- 
-         $date = substr($dept_row['SLIP_DATE_TIME'],0, 24);
- 
-        //  $patQSql ="SELECT * FROM `me_patient` WHERE `PATIENT_MR_ID` = '$dept_row[SLIP_MR_ID]' AND `PATIENT_MOBILE` = '$dept_row[SLIP_MOBILE]'";
-         $patQSql ="SELECT * FROM `me_patient` WHERE `PATIENT_MR_ID` = '".$dept_row["SLIP_MR_ID"]."' AND `PATIENT_MOBILE` = '".$dept_row["SLIP_MOBILE"]."'";
-         $patsql = mysqli_query($db,$patQSql) or die (mysqli_error($db));
-         $row = mysqli_fetch_array($patsql);
-         
-         $gender = $row['PATIENT_GENDER'];
-         $address = $row['PATIENT_ADDRESS'];
-         $age = $row['PATIENT_AGE'];
-        //  echo "<script>alert('1- ".$dept_row["SLIP_MR_ID"]." | 2- ".$dept_row["SLIP_MOBILE"]."');</script>";
-         // Form Header File 
+
+        // Query to get Outdoor Slip Details
+        $slipQuery ="SELECT `a`.*,`b`.`DEPARTMENT_NAME`,`c`.`USER_NAME`,`d`.`DOCTOR_NAME`, `e`.* FROM `me_slip` AS `a` 
+        INNER JOIN `me_department` AS `b` ON `a`.`SLIP_DEPARTMENT` = `b`.`DEPARTMENT_UUID`
+        INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID`
+        INNER JOIN `me_doctors` AS `d` ON `d`.`DOCTOR_UUID` = `a`.`SLIP_DOCTOR`
+        INNER JOIN `me_patient` AS `e` ON `e`.`PATIENT_MR_ID` = `a`.`SLIP_MRID`
+        WHERE `a`.`SLIP_UUID` = '$sid'";
+
+        $sql = mysqli_query($db,$slipQuery);
+        $slip_row = mysqli_fetch_array($sql);
+        $slipId = $slip_row['SLIP_UUID'];
+        $mrId = $slip_row['SLIP_MRID'];
+        $name = $slip_row['SLIP_NAME'];
+        $phone = $slip_row['SLIP_MOBILE'];
+        $dept = $slip_row['DEPARTMENT_NAME'];
+        $doctor = $slip_row['DOCTOR_NAME'];
+        $gender = $slip_row['PATIENT_GENDER'];
+        $address = $slip_row['PATIENT_ADDRESS'];
+        $age = $slip_row['PATIENT_AGE'];
+        $date = $slip_row['SLIP_DATE_TIME'];
+        $fee = $slip_row['SLIP_FEE'];
+        $procedure = $slip_row['SLIP_PROCEDURE'];
+        $type = $slip_row['SLIP_TYPE'];
+        $subType = $slip_row['SLIP_SUB_TYPE'];
+        $staff = $slip_row['USER_NAME'];
+    
         include('components/form_header.php');
 ?>
         <!-- START RECEIPT -->
             <div class="receipt">
                 <img class="watermark" src="dist/img/medeast-logo-icon.png">
                 <div class="orderNo">
-                    Slip ID# <span><?php echo $dept_row['SLIP_MR_ID']; ?></span> - 
-                    <?php 
-                        if ($type == "outdoor") {
-                            echo '<span>OUTDOOR</span>';
-                        } else if ($type == "indoor") {
-                            echo '<span>INDOOR</span>';
-                        } else if ($type == "imrc") {
-                            echo '<span>EMERGENCY</span>';
-                        } else {
-                            echo '<span>MEDEAST</span>';
-                        }
-                    ?>
+                    Slip ID# <span><?php echo $mrId; ?></span>
                 </div>
                 <div class="headerSubTitle">
-                <?php echo $dept_row['SLIP_DATE_TIME']; ?>
+                <?php echo $date; ?>
                 </div>
                 <div class="headerTitle">
                 Medeast Hospital
                 </div>
-                <?php 
-                    if ($type == "outdoor") {
-                        echo '<div class="headerSubTitle">OPD Patient</div>';
-                    } else if ($type == "indoor") {
-                        $newType;
-                        if ($dept_row['SLIP_TYPE'] == 'gynae') {
-                            $newType = 'Gynae Patient';
-                        }else if ($dept_row['SLIP_TYPE'] == 'gensurgery') {
-                            $newType = 'General Surgery Patient';
-                        }else if ($dept_row['SLIP_TYPE'] == 'genillness') {
-                            $newType = 'General Illness Patient';
-                        }else if ($dept_row['SLIP_TYPE'] == 'eye') {
-                            $newType = 'Eye Patient';
-                        }
-                        echo '<div class="headerSubTitle">'.$newType.'</div>';
-                    } else if ($type == "imrc") {
-                        echo '<div class="headerSubTitle">Emergency Patient</div>';
-                    } else {
-                        echo '<div class="headerSubTitle">MedEast Patient</div>';
-                    }
-                ?>
+                <?php echo '<div class="headerSubTitle">'.$type.'</div>'; ?>
                 <div id="date">
                 C-1 Commercial Office Block, Paragon City, Lahore.
                 </div>
                 <div id="date">
                 0300 4133102, 0320 4707070, 042 37165549
                 </div>
-                <!-- <hr> -->
-                <!-- <svg id="barcode"></svg> -->
-                    <table class="table table-bordered" style="font-size: 16px;padding: 0rem !important;margin-bottom: 0px;">
-                        <tr>
-                            <td class="right-chars"><img style="width:20px;margin-left:15px;" src="dist/img/name-icon.png"> <?php echo $dept_row['SLIP_NAME']; ?></td>
-                        </tr>
-                        <tr>
-                            <td class="right-chars"><img style="width:25px;margin-left:10px;" src="dist/img/phone-icon.png"> <?php echo $dept_row['SLIP_MOBILE']; ?></td>
-                        </tr>
-                        <?php
-                            if ($type != "imrc") {
-                        ?>
-                        <tr>
-                            <td class="right-chars"><img style="width:25px;margin-left:10px;" src="dist/img/department-icon.png"> <?php echo $dept_row['DEPARTMENT_NAME']; ?></td>
-                        </tr>
-                        <?php
-                            }
-                            $docId = substr($dept_row['SLIP_DOCTOR'],0, 4);
-                            if($docId == 'VTDO') {$docSql ="SELECT `VISITOR_NAME` FROM `vt_doctor` WHERE `VISITOR_UUID` = '$dept_row[SLIP_DOCTOR]'";}
-                            if($docId == 'MEDO') {$docSql ="SELECT `DOCTOR_NAME` FROM `me_doctor` WHERE `DOCTOR_UUID` = '$dept_row[SLIP_DOCTOR]'";}
-                            $dtsql = mysqli_query($db,$docSql);
-                            $dt_row = mysqli_fetch_array($dtsql);
-                        ?>
-                        <tr>
-                            <td class="right-chars"><img style="width:25px;margin-left:10px;" src="dist/img/doctor-icon.png"> 
-                            <?php    
-                                if($docId == 'MEDO'){echo $dt_row['DOCTOR_NAME'];} 
-                                if($docId == 'VTDO'){echo $dt_row['VISITOR_NAME'];} 
-                            ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="right-chars"><img style="width:25px;margin-left:10px;" src="dist/img/gender-icon.png"> <?php echo $age." years - ".$gender; ?></td>
-                        </tr>
-                    </table>
-                <!-- Items Purchased -->
+                <table class="table table-bordered" style="font-size: 16px;padding: 0rem !important;margin-bottom: 0px;">
+                    <tr>
+                        <td class="right-chars"><img style="width:20px;margin-left:15px;" src="dist/img/name-icon.png"> <?php echo $name; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="right-chars"><img style="width:25px;margin-left:10px;" src="dist/img/phone-icon.png"> <?php echo $phone; ?></td>
+                    </tr>
+                    <?php
+                        if ($type != "EMERGENCY_SLIP") {
+                    ?>
+                    <tr>
+                        <td class="right-chars"><img style="width:25px;margin-left:10px;" src="dist/img/department-icon.png"> <?php echo $dept; ?></td>
+                    </tr>
+                    <?php
+                        }
+                    ?>
+                    <tr>
+                        <td class="right-chars"><img style="width:25px;margin-left:10px;" src="dist/img/doctor-icon.png"> 
+                        <?php echo $doctor; ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right-chars"><img style="width:25px;margin-left:10px;" src="dist/img/gender-icon.png"> <?php echo $age." years - ".$gender; ?></td>
+                    </tr>
+                </table>
                 <?php 
-                    if ($type == "outdoor") {
+                    if ($type == "OUTDOOR_SLIP") {
                 ?>
                 <div class="flex">
-                    <!-- <div id="qrcode"></div> -->
                     <div class="totals">
                         <div class="section">
                         <div class="row">
@@ -146,14 +92,14 @@
                         <div class="row">
                             <div class="col1"></div>
                             <div class="col2">Consultant Fee: </div>
-                            <div class="col3">&#8360;-<b><?php echo $dept_row['SLIP_FEE']; ?></b></div>
+                            <div class="col3">&#8360;-<b><?php echo $fee; ?></b></div>
                         </div>
                         </div>
                         <div class="section">
                         <div class="row">
                             <div class="col1"></div>
                             <div class="col2">Payable: </div>
-                            <div class="col3">&#8360;-<b><?php echo $dept_row['SLIP_FEE']; ?></b></div>
+                            <div class="col3">&#8360;-<b><?php echo $fee; ?></b></div>
                         </div>
                         </div>
                     </div>
@@ -162,10 +108,10 @@
                     }
                 ?>
                 <?php
-                    if ($type == "indoor") {
+                    if ($type == "INDOOR_SLIP") {
                 ?>
                 <div class="keepItBody">
-                   <b>Procedure:</b> <?php echo $dept_row['SLIP_PROCEDURE']; ?>
+                   <b>Procedure:</b> <?php echo $procedure; ?>
                 </div>
                 <?php
                     }
@@ -178,7 +124,7 @@
                 </div>
                 <div style="display:flex;">
                     <div class="staffFooter">
-                        staff id# <span><?php echo $dept_row['USER_NAME']; ?></span>
+                        staff id# <span><?php echo $staff; ?></span>
                     </div>
                     <div class="brandFooter">
                         powered by: <span>PandaNxt</span>

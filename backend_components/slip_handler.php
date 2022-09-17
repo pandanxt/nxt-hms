@@ -10,20 +10,37 @@
   
 // Save Patient Data Query
 if ($q == 'ADD_SLIP') {
-
     // Post Variables
-    $uuId = mysqli_real_escape_string($db, $_POST['slipId']);  
-    $mrId = mysqli_real_escape_string($db, $_POST['mrId']);
+    $type = mysqli_real_escape_string($db, $_POST['type']);
+
+    $slipId = mysqli_real_escape_string($db, $_POST['slipId']);  
+    $patId = mysqli_real_escape_string($db, $_POST['patId']);
     $name = mysqli_real_escape_string($db, $_POST['name']);
     $phone = mysqli_real_escape_string($db, $_POST['phone']);
     $gender = mysqli_real_escape_string($db, $_POST['gender']);
     $doctor = mysqli_real_escape_string($db, $_POST['doctor']);
-    $dept = mysqli_real_escape_string($db, $_POST['dept']);
-    $fee = mysqli_real_escape_string($db, $_POST['fee']);
+    
     $age = mysqli_real_escape_string($db, $_POST['age']);
     $address = mysqli_real_escape_string($db, $_POST['address']);
+    
     $by = mysqli_real_escape_string($db, $_POST['staffId']);
 
+    if ($type == 'INDOOR_SLIP') {
+        $dept = mysqli_real_escape_string($db, $_POST['dept']);
+        $fee = NULL;
+        $procedure = mysqli_real_escape_string($db, $_POST['procedure']);
+        $subType = mysqli_real_escape_string($db, $_POST['subType']);
+    }else if ($type == 'OUTDOOR_SLIP') {
+        $fee = mysqli_real_escape_string($db, $_POST['fee']);
+        $dept = mysqli_real_escape_string($db, $_POST['dept']);
+        $procedure = NULL;
+        $subType = NULL;
+    }else if ($type == 'EMERGENCY_SLIP') {
+        $dept = NULL;
+        $fee = NULL;
+        $procedure = NULL;
+        $subType = NULL;
+    }
     // Check Data from DB
     $sql = "SELECT * FROM `me_patient` WHERE `PATIENT_MR_ID` = ? OR `PATIENT_MOBILE` = ?";
     $stmt = mysqli_stmt_init($db);
@@ -35,13 +52,24 @@ if ($q == 'ADD_SLIP') {
         echo json_encode($result);
         exit();
     }else{
-        mysqli_stmt_bind_param($stmt,"ss",$mrId,$phone);
+        mysqli_stmt_bind_param($stmt,"ss",$patId,$phone);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_store_result($stmt);
         $resultCheck = mysqli_stmt_num_rows($stmt);
             
         if ($resultCheck > 0) {
-          $slipQuery = "INSERT INTO `me_outdoor_slip`(`SLIP_UUID`,`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `STAFF_ID`) VALUES (?,?,?,?,?,?,?,?)";
+          $slipQuery = "INSERT INTO `me_slip`(
+            `SLIP_UUID`, 
+            `SLIP_MRID`, 
+            `SLIP_NAME`, 
+            `SLIP_MOBILE`, 
+            `SLIP_DEPARTMENT`, 
+            `SLIP_DOCTOR`, 
+            `SLIP_FEE`, 
+            `SLIP_PROCEDURE`, 
+            `SLIP_TYPE`, 
+            `SLIP_SUB_TYPE`, 
+            `STAFF_ID`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
            mysqli_stmt_execute($stmt);
               
             if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
@@ -52,13 +80,13 @@ if ($q == 'ADD_SLIP') {
               exit();
             }else{
               // Get Data of Patient from DB
-              $patientQuery = "SELECT * FROM `me_patient` WHERE `PATIENT_MR_ID` = '$mrId' OR `PATIENT_MOBILE` = '$phone'";
+              $patientQuery = "SELECT * FROM `me_patient` WHERE `PATIENT_MR_ID` = '$patId' OR `PATIENT_MOBILE` = '$phone'";
               $psql = mysqli_query($db,$patientQuery);
               while($prs = mysqli_fetch_array($psql))
               {
-                  mysqli_stmt_bind_param($stmt,"ssssssss", $uuId,$prs['PATIENT_MR_ID'],$name,$prs['PATIENT_MOBILE'],$dept,$doctor,$fee,$by);
+                  mysqli_stmt_bind_param($stmt,"sssssssssss", $slipId,$prs['PATIENT_MR_ID'],$name,$prs['PATIENT_MOBILE'],$dept,$doctor,$fee,$procedure,$type,$subType,$by);
                 if (mysqli_stmt_execute($stmt)) {
-                    $printQuery = "SELECT `SLIP_UUID` FROM `me_outdoor_slip` ORDER BY `SLIP_DATE_TIME` DESC LIMIT 1";
+                    $printQuery = "SELECT `SLIP_UUID` FROM `me_slip` ORDER BY `SLIP_DATE_TIME` DESC LIMIT 1";
                     $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
                     $pResult = mysqli_fetch_array($printsql);
 
@@ -93,9 +121,20 @@ if ($q == 'ADD_SLIP') {
                 echo json_encode($result);
                 exit();
             }else{
-                mysqli_stmt_bind_param($stmt,"sssssss", $mrId,$name,$phone,$gender,$age,$address,$by);
+                mysqli_stmt_bind_param($stmt,"sssssss", $patId,$name,$phone,$gender,$age,$address,$by);
                 if (mysqli_stmt_execute($stmt)){
-                    $slipQuery = "INSERT INTO `me_outdoor_slip`(`SLIP_UUID`,`SLIP_MR_ID`,`SLIP_NAME` ,`SLIP_MOBILE` , `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `STAFF_ID`) VALUES (?,?,?,?,?,?,?,?)";
+                    $slipQuery = "INSERT INTO `me_slip`(
+                        `SLIP_UUID`, 
+                        `SLIP_MRID`, 
+                        `SLIP_NAME`, 
+                        `SLIP_MOBILE`, 
+                        `SLIP_DEPARTMENT`, 
+                        `SLIP_DOCTOR`, 
+                        `SLIP_FEE`, 
+                        `SLIP_PROCEDURE`, 
+                        `SLIP_TYPE`, 
+                        `SLIP_SUB_TYPE`, 
+                        `STAFF_ID`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
                     if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
                         $result = [];
                         $result['status'] = "error";
@@ -103,15 +142,15 @@ if ($q == 'ADD_SLIP') {
                         echo json_encode($result);
                         exit();
                     }else{
-                        mysqli_stmt_bind_param($stmt,"ssssssss", $uuId,$mrId,$name,$phone,$dept,$doctor,$fee,$by);
+                        mysqli_stmt_bind_param($stmt,"sssssssssss", $slipId,$patId,$name,$phone,$dept,$doctor,$fee,$procedure,$type,$subType,$by);
                             if (mysqli_stmt_execute($stmt)) {
-                                $printQuery = "SELECT `SLIP_UUID` FROM `me_outdoor_slip` ORDER BY `SLIP_DATE_TIME` DESC LIMIT 1";
+                                $printQuery = "SELECT `SLIP_UUID` FROM `me_slip` ORDER BY `SLIP_DATE_TIME` DESC LIMIT 1";
                                 $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
                                 $pResult = mysqli_fetch_array($printsql);
                                 if ($pResult > 0) {
                                     $result = [];
                                     $result['status'] = "success";
-                                    $result['message'] = "Patient slip is created and Patient data already exists.";
+                                    $result['message'] = "Patient slip and record is created successfully.";
                                     $result['data'] = $pResult['SLIP_UUID'];
                                     echo json_encode($result);
                                 }
@@ -129,46 +168,35 @@ if ($q == 'ADD_SLIP') {
 if ($q == 'GET_DOCTOR') {
     echo '<option disabled selected value="">---- Select Consultant Name ----</option>';
     if ($id == 'me') {
-        $doctor = "SELECT `DOCTOR_UUID`, `DOCTOR_NAME` FROM `me_doctor` WHERE `DOCTOR_STATUS` = 1";
+        $doctor = "SELECT `DOCTOR_UUID`, `DOCTOR_NAME` FROM `me_doctors` WHERE `DOCTOR_TYPE` = 'medeast' AND `DOCTOR_STATUS` = 1";
         $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
         while ($row = mysqli_fetch_array($result)) {
             $id = $row['DOCTOR_UUID'];  
             $name = $row['DOCTOR_NAME'];
             echo '<option value="'.$id.'">'.$name.'</option>'; 
         }
-    }else if ($id == 'vt') {
-        $doctor = 'SELECT `VISITOR_UUID`, `VISITOR_NAME` FROM `vt_doctor` WHERE `VISITOR_STATUS` = "1"';
+    } else if ($id == 'vt') {
+        $doctor = "SELECT `DOCTOR_UUID`, `DOCTOR_NAME` FROM `me_doctors` WHERE `DOCTOR_TYPE` = 'visitor' AND `DOCTOR_STATUS` = 1";
         $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
         while ($row = mysqli_fetch_array($result)) {
-            $id = $row['VISITOR_UUID'];  
-            $name = $row['VISITOR_NAME'];
+            $id = $row['DOCTOR_UUID'];  
+            $name = $row['DOCTOR_NAME'];
             echo '<option value="'.$id.'">'.$name.'</option>'; 
         }
-    }
-       
+    }  
 }
 // Get Doctor List by Department
 if ($q == 'GET_DOCTOR_BY_DEPT') {
     echo '<option disabled selected value="">---- Select Consultant Name ----</option>';
     if ($id == 'me') {
-        $doctor = "SELECT `DOCTOR_UUID`, `DOCTOR_NAME` FROM `me_doctor` WHERE `DOCTOR_STATUS` = 1 AND `DEPARTMENT_UUID` = '$val'";
+        $doctor = "SELECT `DOCTOR_UUID`, `DOCTOR_NAME` FROM `me_doctors` WHERE `DOCTOR_DEPARTMENT` = '$val' AND `DOCTOR_TYPE` = 'medeast' AND `DOCTOR_STATUS` = 1";
         $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
         while ($row = mysqli_fetch_array($result)) {
             $id = $row['DOCTOR_UUID'];  
             $name = $row['DOCTOR_NAME'];
             echo '<option value="'.$id.'">'.$name.'</option>'; 
         }
-    }
-    if ($id == 'vt') {
-        $doctor = 'SELECT `VISITOR_UUID`, `VISITOR_NAME` FROM `vt_doctor` WHERE `VISITOR_STATUS` = "1"';
-        $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
-        while ($row = mysqli_fetch_array($result)) {
-            $id = $row['VISITOR_UUID'];  
-            $name = $row['VISITOR_NAME'];
-            echo '<option value="'.$id.'">'.$name.'</option>'; 
-        }
-    }
-       
+    }  
 } 
 // Add OPD-SLIP Request Query
 if ($q == 'ADD_REQUEST') {

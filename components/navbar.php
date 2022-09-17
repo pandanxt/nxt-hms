@@ -720,7 +720,7 @@
      $('#type').change(function () {
          $('#select').hide();
          $('#subType').prop('required',false);
-         if (this.options[this.selectedIndex].value == 'INDOOR_PATIENT') {
+         if (this.options[this.selectedIndex].value == 'INDOOR_SLIP') {
              $('#select').show();
              $('#subType').prop('required',true);
          }

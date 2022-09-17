@@ -4,27 +4,23 @@
   $type = (isset($_GET['type']) ? $_GET['type'] : '');
   $subType = (isset($_GET['subType']) ? $_GET['subType'] : '');
   if (isset($_SESSION['uuid'])) {
-  // Connection File
-  include('backend_components/connection.php');
-  // Form Header File
-  include('components/form_header.php');
-  // Navbar File
-  include('components/navbar.php');
-  // Sidebar File
-  include('components/sidebar.php');
-  
-  // Check if ID is empty
-  if (empty($_GET['id'])) {
-  
-  if ($type == 'OUTDOOR_SLIP') {
-    $title = 'OPD SLIP';
-  }else if ($type == 'INDOOR_SLIP') {
-    $title = 'INDOOR SLIP';
-  }else if ($type == 'EMERGENCY_SLIP') {
-    $title = 'EMERGENCY SLIP';
-  }
+    // Connection File
+    include('backend_components/connection.php');
+    // Form Header File
+    include('components/form_header.php');
+    // Navbar File
+    include('components/navbar.php');
+    // Sidebar File
+    include('components/sidebar.php');
+    
+    if ($type == 'OUTDOOR_SLIP') {
+      $title = 'OPD SLIP';
+    }else if ($type == 'INDOOR_SLIP') {
+      $title = 'INDOOR SLIP';
+    }else if ($type == 'EMERGENCY_SLIP') {
+      $title = 'EMERGENCY SLIP';
+    }
 ?>
-
 <div class="content-wrapper">
   <section class="content-header"></section>
   <section class="content">
@@ -39,19 +35,16 @@
             <span id='clockDT'></span>
           </div>
         </div>
-        <!-- Outdoor Slip -->
+        <!-- Add Slip Form -->
         <form action="javascript:void(0)" method="post" enctype="multipart/form-data" id="addSlip">
-          <input type="text" name="staffId" id="staffId" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
-          <input type="text" name="slipId" id="slipId" hidden readonly>
-          <input type="text" name="type" id="type" value="<?php echo $type; ?>" hidden readonly>
-          <input type="text" name="subType" id="subType" value="<?php echo $subType; ?>" hidden readonly>
+
           <div class="card-body">
             <div class="row">
               <div class="col-md-6">
                 <div class="col-md-12" style="display:flex;">
                     <div class="form-group col-md-4">
                         <label>Patient MR-ID #</label>
-                        <input type="text" name="mrId" id="mrId" class="form-control" readonly>
+                        <input type="text" name="patId" id="patId" class="form-control" readonly>
                     </div>
                     <div class="form-group col-md-8">
                         <label>Patient Name</label>
@@ -61,7 +54,7 @@
                 <div class="col-md-12" style="display:flex;">
                     <div class="form-group col-md-6">
                     <label>Patient Gender</label>
-                    <select class="form-control select2bs4" name="gender" id="gender" style="width: 100%;">
+                    <select class="form-control select2bs4" name="gender" id="gender" required style="width: 100%;">
                         <option selected="selected" value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="other">Other</option>
@@ -73,21 +66,26 @@
                     </div>
                 </div>
                 <?php if ($type == 'OUTDOOR_SLIP') {?>
-                <div class="form-group col-md-12" >
-                  <label for="switchList">Switch List: </label>
-                  <select name="switchList" id="switchList" onchange="switchDocList(this.value);">
-                    <option value="me">MedEast Doctors</option>
-                    <option value="vt">Visiting Doctors</option>
-                  </select>
-                  <span id="addDoc" style="display:none;">
-                    <a href="javascript:void(0);" data-toggle="modal" data-target="#visitor-doctor"><i class="fas fa-plus"></i> VISITOR DOCTOR</a>
-                  </span>
+                <div class="col-md-12" style="display:flex;">
+                  <div class="col-md-6">
+                    <label for="switchList">Switch List: </label>
+                    <select name="switchList" id="switchList" onchange="switchDocList(this.value);">
+                      <option value="me">MedEast Doctors</option>
+                      <option value="vt">Visiting Doctors</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <span id="addDoc" style="display:none;">
+                      <a href="javascript:void(0);" data-toggle="modal" data-target="#visitor-doctor"><i class="fas fa-plus"></i> VISITOR DOCTOR</a>
+                    </span>
+                  </div>
                 </div>
                 <?php } ?>
                 <div class="col-md-12" style="display:flex;">
+                  <?php if ($type != 'EMERGENCY_SLIP') {?>
                   <div class="form-group col-md-6">
                     <label>Department</label>
-                    <select class="form-control select2bs4" id="dept" name="dept" style="width: 100%;" onchange="showDoctor(this.value)">
+                    <select class="form-control select2bs4" id="dept" name="dept" style="width: 100%;" required onchange="showDoctor(this.value)">
                     <option disabled selected value="">---- Select Department ----</option>
                         <?php
                         $dept = 'SELECT `DEPARTMENT_UUID`, `DEPARTMENT_NAME` FROM `me_department` WHERE `DEPARTMENT_STATUS` = "1"';
@@ -100,17 +98,18 @@
                         ?>
                     </select>
                   </div>
+                  <?php } ?>
                   <div class="form-group col-md-6" id="meDoc">
                     <label>Consultant Name</label>
-                      <select class="form-control select2bs4" name="doctor" style="width: 100%;" id="doctor">
+                      <select class="form-control select2bs4" name="doctor" style="width: 100%;" id="doctor" required>
                           <option disabled selected value="">---- Select Consultant Name ----</option>
                           <?php
-                          $doctor = 'SELECT `DOCTOR_UUID`, `DOCTOR_NAME` FROM `me_doctor` WHERE `DOCTOR_STATUS` = "1"';
+                          $doctor = 'SELECT `DOCTOR_UUID`, `DOCTOR_NAME` FROM `me_doctors` WHERE `DOCTOR_TYPE` = "medeast" AND `DOCTOR_STATUS` = "1"';
                           $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
                               while ($row = mysqli_fetch_array($result)) {
                               $id = $row['DOCTOR_UUID'];  
                               $name = $row['DOCTOR_NAME'];
-                              echo '<option value="'.$name.'">'.$name.'</option>'; 
+                              echo '<option value="'.$id.'">'.$name.'</option>'; 
                           }
                           ?>
                       </select>
@@ -123,10 +122,12 @@
                         <label>Mobile No#</label>
                         <input type="tel" name="phone" id="phone" class="form-control" placeholder="Enter Mobile No. without '-' " required>
                     </div>
+                    <?php if ($type == 'OUTDOOR_SLIP') {?>
                     <div class="form-group col-md-6">
                         <label>Consultant Fee</label>
                         <input type="number" name="fee" id="fee" class="form-control" placeholder="Enter Consultant Fee" required>
                     </div>
+                    <?php }?>
                 </div>
                 <?php if ($type == 'INDOOR_SLIP') {?>
                 <div class="form-group col-md-12">
@@ -141,6 +142,10 @@
               </div>
             </div>
           </div>
+          <input type="text" name="staffId" id="staffId" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
+          <input type="text" name="slipId" id="slipId" hidden readonly>
+          <input type="text" name="type" id="type" value="<?php echo $type; ?>" hidden readonly>
+          <input type="text" name="subType" id="subType" value="<?php echo $subType; ?>" hidden readonly>
           <div class="card-footer">
             <button type="submit" name="submit" class="btn btn-block btn-primary">Submit</button>
           </div>
@@ -164,9 +169,19 @@
       <span id="err-msg" style="display: none"></span>
       <form action="javascript:void(0)" method="post" id="visitorDoctor">
       <div class="modal-body">
-            <div class="form-group">
-              <label>Doctor Name</label>
-              <input type="text" class="form-control" name="docName" id="docName" placeholder="Enter Doctor Name ..." required>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" class="form-control" name="vtName" id="vtName" placeholder="Enter Doctor Name ..." required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Mobile</label>
+                  <input type="text" class="form-control" name="vtMobile" id="vtMobile" placeholder="Enter Doctor Mobile ...">
+                </div>
+              </div>
             </div>
             <input type="text" name="staffId" id="staffId" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
             <input type="text" name="uuId" id="uuId" hidden readonly>
@@ -182,12 +197,9 @@
 <!-- **
 *  Outdoor Visitor Doctor Model Popup Ends Here 
 ** -->
-<script src="dist/js/opd_script.js"></script>
+<!-- Slip Script -->
+<script src="dist/js/slip_script.js"></script>
 <?php  
-}else{
-  // Update Emergency Patient
-  include('backend_components/update_patient.php');
-}
 // Footer File
 include('components/footer.php');
 echo '</div>';

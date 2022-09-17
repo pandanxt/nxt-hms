@@ -2,20 +2,11 @@ let data;
 let slipId;
 let list = 'me';
 
-let mrId = Date.now() +"-"+ "ME";
-let MRID = mrId.slice(6,16);
-
-if(document.getElementById('mrId')){
-    document.getElementById('mrId').value = MRID;
-}
-
-console.log(MRID+" | "+mrId);
-
 // Add unique Id for New Slip and visiting doctor
 let uuid = (new Date()).getTime() + Math.trunc(365 * Math.random());
-if (document.getElementById("slipId")) {document.getElementById("slipId").value = 'SOPD' + String(uuid).slice(-6);}
-if (document.getElementById("uuId")) {document.getElementById("uuId").value = 'VTDO' + String(uuid).slice(-6);}
-if (document.getElementById("reqId")) {document.getElementById("reqId").value = 'SREQ' + String(uuid).slice(-6);}
+if (document.getElementById("patId")) {document.getElementById("patId").value = String(uuid).slice(-6) +'-MRD';}
+if (document.getElementById("slipId")) {document.getElementById("slipId").value = String(uuid).slice(-6) +'-SLP';}
+if (document.getElementById("uuId")) {document.getElementById("uuId").value = String(uuid).slice(-6) +'-DOC';}
 
 // Get Slip Id to Assign to slipId Variable
 function getSlipId(id){ slipId = id.getAttribute("data-uuid");}
@@ -36,20 +27,20 @@ xmlhttp.onreadystatechange=function() {
     document.getElementById("doctor").innerHTML=this.responseText;
     }
 }
-xmlhttp.open("GET",`backend_components/opd_handler.php?q=GET_DOCTOR&id=${list}`,true);
+xmlhttp.open("GET",`backend_components/slip_handler.php?q=GET_DOCTOR&id=${list}`,true);
 xmlhttp.send();
 }
 
 // Dept Change Request for Regular Doctor
 function showDoctor(str) {
-if (str=="" || list =="") {return;}
+if (str=="" || list =="" || list =="vt") {return;}
 var xmlhttp=new XMLHttpRequest();
 xmlhttp.onreadystatechange=function() {
     if (this.readyState==4 && this.status==200) {
     document.getElementById("doctor").innerHTML=this.responseText;
     }
 }
-xmlhttp.open("GET",`backend_components/opd_handler.php?q=GET_DOCTOR_BY_DEPT&id=${list}&val=${str}`,true);
+xmlhttp.open("GET",`backend_components/slip_handler.php?q=GET_DOCTOR_BY_DEPT&id=${list}&val=${str}`,true);
 xmlhttp.send();
 }
 
@@ -62,7 +53,7 @@ xmlhttp.onreadystatechange=function() {
     visitId.innerHTML=this.responseText;
     }else { console.log("There is an error in updating the visiting doctor record."); }
 }
-xmlhttp.open("GET",`backend_components/opd_handler.php?q=GET_DOCTOR&id=${list}`,true);
+xmlhttp.open("GET",`backend_components/slip_handler.php?q=GET_DOCTOR&id=${list}`,true);
 xmlhttp.send();
 }
 
@@ -76,87 +67,68 @@ function autoRefresh(){
 
 // Ajax Call for Adding New Visiting Doctor 
 $(document).ready(function($){
-// on submit...
-$('#visitorDoctor').submit(function(e){
-    e.preventDefault();
-    $("#err-msg").hide();
-    //name required
-    var dname = $("input#docName").val();
-    if(dname == ""){
-        $("#err-msg").fadeIn().text("Doctor Name required.");
-        $("input#docName").focus();
-        return false;
-    }
-    $("#cancel").click();
-    // ajax
-    $.ajax({
-        type:"POST",
-        url: "backend_components/vt_doc_handler.php?q=ADD_DOCTOR",
-        data: $(this).serialize(), // get all form field value in serialize form
-        success: function(){   
-        updateDoctor();
-            $(function() {
-                var Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000
-                });
-                Toast.fire({
-                icon: 'success',
-                title: 'New Visitor Doctor Successfully Saved.'
-                })
-            });
-        }
-    });
-});  
-return false;
-});
+  $('#visitorDoctor').submit(function(e){
+      e.preventDefault();
+      $("#err-msg").hide();
+      var dname = $("input#vtName").val();
+      if(dname == ""){
+          $("#err-msg").fadeIn().text("Doctor Name required.");
+          $("input#vtName").focus();
+          return false;
+      }
+      // ajax
+      $.ajax({
+          type:"POST",
+          url: "backend_components/doctor_handler.php?q=ADD_VT_DOCTOR",
+          data: $(this).serialize(), // get all form field value in serialize form
+          success: function(){   
+          let el = document.querySelector("#cancel");
+            el.click();
+            updateDoctor();
+              $(function() {
+                  var Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 1000
+                  });
+                  Toast.fire({
+                  icon: 'success',
+                  title: 'New Visitor Doctor Successfully Saved.'
+                  });
+              });
+          }
+      });
+  });  
+  return false;
+  });
 
 // Ajax Call for Adding New Slip 
 $(document).ready(function($){
-    // on submit...
     $('#addSlip').submit(function(e){
         e.preventDefault();
         $("#err-msg").hide();
-        var uuid = $("input#slipId").val();
-        var mrId = $("input#mrId").val();
-        var name = $("input#name").val();
-        var doctor = $("input#doctor").val();
-        var dept = $("input#dept").val();
-        var phone = $("input#phone").val();
-        var fee = $("input#fee").val();
-        var address = $("input#address").val();
-        var staffId = $("input#staffId").val();
-        var gender = $("input#gender").val();
-        var age = $("input#age").val();
+        let uuid = $("input#slipId").val();
+        let patId = $("input#patId").val();
+        let staffId = $("input#staffId").val();
 
-        if(uuid == "" || mrId == "" || name == "" || doctor == "" || dept == "" || phone == "" || fee == "" || address == "" || staffId == "" || gender == "" || age == ""){
+        if(uuid == "" || patId == "" || staffId == ""){
             $("#err-msg").fadeIn().text("Required Field.");
             $("input#uuId").focus();
             $("input#mrId").focus();
-            $("input#name").focus();
-            $("input#doctor").focus();
-            $("input#dept").focus();
-            $("input#phone").focus();
-            $("input#fee").focus();
-            $("input#address").focus();
             $("input#staffId").focus();
-            $("input#gender").focus();
-            $("input#age").focus();
             return false;
         }
         // ajax
         $.ajax({
             type:"POST",
-            url: "backend_components/opd_handler.php?q=ADD_SLIP",
+            url: "backend_components/slip_handler.php?q=ADD_SLIP",
             data: $(this).serialize(), // get all form field value in serialize form
             success: function(res){   
 
             //parse json
             res = JSON.parse(res);
             console.log(res);
-            // updateDoctorList();
               $(function() {
                   var Toast = Swal.mixin({
                     toast: true,
@@ -179,7 +151,7 @@ $(document).ready(function($){
 
 // Slip Print Function
 function printSlip(sid) {
-  window.open(`print-page.php?type=outdoor&sid=${sid}`, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=100,width=1000,height=800");
+  window.open(`print-page.php?sid=${sid}`, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=100,width=1000,height=800");
 }
 
 // Slip Print Function
@@ -198,7 +170,7 @@ function updateRequest(str){
           console.log("Response From Slip Request: ", this.responseText);
         }
       }
-  xmlhttp.open("GET",`backend_components/opd_handler.php?q=GET_REQUEST&id=${req}`,true);
+  xmlhttp.open("GET",`backend_components/slip_handler.php?q=GET_REQUEST&id=${req}`,true);
   xmlhttp.send();
 }
 
@@ -213,7 +185,7 @@ function getRequest(str){
           console.log("Response From Slip Request: ", this.responseText);
         }
       }
-    xmlhttp.open("GET",`backend_components/opd_handler.php?q=VIEW_REQUEST&id=${req}`,true);
+    xmlhttp.open("GET",`backend_components/slip_handler.php?q=VIEW_REQUEST&id=${req}`,true);
     xmlhttp.send();
 }
 
@@ -227,7 +199,7 @@ function deleteRequest(str){
       // ajax
       $.ajax({
           type:"POST",
-          url: `backend_components/opd_handler.php?q=REMOVE_REQUEST&id=${slipId}`,
+          url: `backend_components/slip_handler.php?q=REMOVE_REQUEST&id=${slipId}`,
           success: function(){   
           let el = document.querySelector("#close-button");
           el.click();
@@ -269,7 +241,7 @@ $(document).ready(function($){
       // ajax
       $.ajax({
           type:"POST",
-          url: `backend_components/opd_handler.php?q=ADD_REQUEST&id=${slipId}`,
+          url: `backend_components/slip_handler.php?q=ADD_REQUEST&id=${slipId}`,
           data: $(this).serialize(), // get all form field value in serialize form
           success: function(){   
           let el = document.querySelector("#close-button");
@@ -310,7 +282,7 @@ $(document).ready(function($){
       // ajax
       $.ajax({
           type:"POST",
-          url: `backend_components/opd_handler.php?q=EDIT_REQUEST&id=${id}`,
+          url: `backend_components/slip_handler.php?q=EDIT_REQUEST&id=${id}`,
           data: $(this).serialize(), // get all form field value in serialize form
           success: function(){   
           let el = document.querySelector("#close-button");

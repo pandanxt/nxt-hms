@@ -42,64 +42,55 @@
                     <thead>
                     <tr style="font-size: 14px;">
                       <th>MR-ID</th>
+                      <th>Type</th>
                       <th>Name</th>
                       <th>Mobile</th>
-                      <th>Department</th>
-                      <th>Consultant</th>
-                      <th>Fee</th>
+                      <th>Doctor</th>
                       <th>Created</th>
                       <th>Options</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
-                        $sql ="SELECT *,`USER_NAME`,`DEPARTMENT_NAME` FROM `me_outdoor_slip` INNER JOIN `me_user` INNER JOIN `me_department` WHERE `me_outdoor_slip`.`STAFF_ID` = `me_user`.`USER_UUID` AND `me_outdoor_slip`.`SLIP_DEPARTMENT` = `me_department`.`DEPARTMENT_UUID`";
-                        $qsql = mysqli_query($db,$sql);
-                        while($rs = mysqli_fetch_array($qsql))
+                    
+
+                        $recordQuery ="SELECT `a`.*,`c`.`USER_NAME`,`d`.`DOCTOR_NAME`,`d`.`DOCTOR_TYPE` FROM `me_slip` AS `a` 
+                        INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID`
+                        INNER JOIN `me_doctors` AS `d` ON `d`.`DOCTOR_UUID` = `a`.`SLIP_DOCTOR`";
+                        $sql = mysqli_query($db,$recordQuery);
+                        while($slip_row = mysqli_fetch_array($sql))
                         { 
-                        $date = substr($rs['SLIP_DATE_TIME'],0, 21);
+
                           echo "<tr style='font-size: 12px;'>
-                          <td>$rs[SLIP_MR_ID]</td>
-                          <td>$rs[SLIP_NAME]</td>
-                          <td>$rs[SLIP_MOBILE]</td>
-                          <td>$rs[DEPARTMENT_NAME]</td>
-                          <td>";
-                            $docId = substr($rs['SLIP_DOCTOR'],0, 4);
-                            if($docId == 'VTDO') {$docSql ="SELECT `VISITOR_NAME` FROM `vt_doctor` WHERE `VISITOR_UUID` = '$rs[SLIP_DOCTOR]'";}
-                            if($docId == 'MEDO') {$docSql ="SELECT `DOCTOR_NAME` FROM `me_doctor` WHERE `DOCTOR_UUID` = '$rs[SLIP_DOCTOR]'";}
-                            $dtsql = mysqli_query($db,$docSql);
-                            $dt_row = mysqli_fetch_array($dtsql);
-                            if($docId == 'MEDO'){
-                              echo "$dt_row[DOCTOR_NAME]&nbsp;<button class='btn badge badge-info'>MedEast Doctor</button>";
-                            } 
-                            if($docId == 'VTDO'){
-                              echo "$dt_row[VISITOR_NAME]&nbsp;<button class='btn badge badge-info'>Visiting Doctor</button>";
-                            }
-                          echo "</td>
-                          <td>$rs[SLIP_FEE]</td>
+                          <td>$slip_row[SLIP_MRID]</td>
+                          <td>$slip_row[SLIP_TYPE]</td>
+                          <td>$slip_row[SLIP_NAME]</td>
+                          <td>$slip_row[SLIP_MOBILE]</td>
+                          <td>$slip_row[DOCTOR_NAME]&nbsp;
+                            <button class='btn badge badge-info'>$slip_row[DOCTOR_TYPE] doctor</button>
+                          </td>
                           <td>
-                              <b>By</b>: $rs[USER_NAME] <br>
-                              <b>On</b>: $rs[SLIP_DATE_TIME]
+                              <b>By</b>: $slip_row[USER_NAME] <br>
+                              <b>On</b>: $slip_row[SLIP_DATE_TIME]
                           </td> 
                           <td style='display:flex;'>
-                                <a href='javascript:void(0)' onclick='printSlipRecord(this);' data-uuid='$rs[SLIP_UUID]' style='color:green;'>
+                                <a href='javascript:void(0)' onclick='printSlipRecord(this);' data-uuid='$slip_row[SLIP_UUID]' style='color:green;'>
                                 <i class='fas fa-wallet'></i> Print
                               </a>";
                               if ($_SESSION['role'] == "user") {
                                 $request = "SELECT * FROM `me_request` WHERE `REQUEST_REFERENCE_UUID` = ? AND `STAFF_ID` = ?";
                                 $stmt = mysqli_stmt_init($db);
-                                // $t_name = "OPD_SLIP_REQUEST";
                                 if (mysqli_stmt_prepare($stmt,$request)) {
-                                  mysqli_stmt_bind_param($stmt,"ss",$rs['SLIP_UUID'],$_SESSION['uuid']);
+                                  mysqli_stmt_bind_param($stmt,"ss",$slip_row['SLIP_UUID'],$_SESSION['uuid']);
                                   mysqli_stmt_execute($stmt);
                                   mysqli_stmt_store_result($stmt);
                                   $resultCheck = mysqli_stmt_num_rows($stmt);
                                   if ($resultCheck > 0) {
-                                    echo "<br><a href='javascript:void(0);' onclick='getRequest(this);' data-uuid='$rs[SLIP_UUID]' data-toggle='modal' data-target='#view-request'>
+                                    echo "<br><a href='javascript:void(0);' onclick='getRequest(this);' data-uuid='$slip_row[SLIP_UUID]' data-toggle='modal' data-target='#view-request'>
                                       <i class='fas fa-sticky-note'></i> Request
                                     </a>";
                                   }else{
-                                    echo "<br><a href='javascript:void(0);' onclick='getSlipId(this);' data-uuid='$rs[SLIP_UUID]' data-toggle='modal' data-target='#generate-request'>
+                                    echo "<br><a href='javascript:void(0);' onclick='getSlipId(this);' data-uuid='$slip_row[SLIP_UUID]' data-toggle='modal' data-target='#generate-request'>
                                       <i class='fas fa-edit'></i> Generate Request
                                     </a>";
                                   }
@@ -107,10 +98,10 @@
                               }
                               if ($_SESSION['role'] == "admin") { 
                               echo "<br>
-                              <a href='add_patient.php?id=$rs[SLIP_UUID]'>
+                              <a href='add_patient.php?id=$slip_row[SLIP_UUID]'>
                                 <i class='fas fa-edit'></i> Edit
                               </a><br>
-                              <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?osrId=$rs[SLIP_UUID]' style='color:red;'>
+                              <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?osrId=$slip_row[SLIP_UUID]' style='color:red;'>
                                 <i class='fas fa-trash'></i> Delete
                               </a>";
                               }
