@@ -16,13 +16,13 @@
         $department = mysqli_real_escape_string($db, $_POST['department']);
         $by = mysqli_real_escape_string($db, $_POST['staffId']);
 
-        $sql = "SELECT * FROM `me_doctor` WHERE `DOCTOR_NAME` = ? OR `DOCTOR_MOBILE` = ?";
+        $sql = "SELECT * FROM `me_doctors` WHERE `DOCTOR_NAME` = ?";
         $stmt = mysqli_stmt_init($db);
             
         if (!mysqli_stmt_prepare($stmt,$sql)) {
             echo "Error: " . $sql . "" . mysqli_error($stmt);
         }else{
-            mysqli_stmt_bind_param($stmt,"ss",$name,$mobile);
+            mysqli_stmt_bind_param($stmt,"s",$name);
             mysqli_stmt_execute($stmt);
             mysqli_stmt_store_result($stmt);
             $resultCheck = mysqli_stmt_num_rows($stmt);

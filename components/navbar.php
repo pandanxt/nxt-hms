@@ -21,23 +21,8 @@
       <!------*********------> 
 
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index.php" class="nav-link">
+        <a type="button" class="dropdown-item nav-link" href="index.php">
           <i class="fas fa-home"></i> Home
-        </a>
-      </li>
-
-      <!------*********------>
-      <!------Home Icon------>
-      <!------*********------> 
-
-      <li class="nav-item d-none d-sm-inline-block">
-        <a type="button" class="dropdown-item" data-toggle="modal" data-target="#modal-slip">
-          <i class="fas fa-plus"></i> Add Slip
-        </a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a type="button" href="slips.php" class="dropdown-item">
-          <i class="fas fa-plus"></i> View Slip
         </a>
       </li>
 
@@ -45,32 +30,25 @@
       <!------Create Slip Icon------>
       <!------*****************------> 
 
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="javascript:void(0);">
-           <i class="fas fa-plus"></i> Slip
+      <li class="nav-item d-none d-sm-inline-block">
+        <a type="button" class="dropdown-item nav-link" data-toggle="modal" data-target="#modal-slip">
+          <i class="fas fa-plus"></i> Add Slip
         </a>
-        <div class="dropdown-menu dropdown-menu-mg dropdown-menu-right">
-          <a href="emergency_patient_slip.php" class="dropdown-item">
-            <i class="fas fa-user-injured mr-2"></i> Emergency Slip
-          </a>
-          <div class="dropdown-divider"></div>
-          <!-- <a href="indoor_patient_slip.php" class="dropdown-item"> -->
-          <a type="button" class="dropdown-item" data-toggle="modal" data-target="#modal-indoor">
-            <i class="fas fa-procedures mr-2"></i> Indoor Slip
-          </a>
-        <div class="dropdown-divider"></div>
-          <a href="outdoor_patient_slip.php" class="dropdown-item">
-            <i class="fas fa-user mr-2"></i> Outdoor Slip
-          </a>
-        </div>
-       </li>
-
+      </li>
+      <!------*****************------>
+      <!------View Slip Icon------>
+      <!------*****************------> 
+      <li class="nav-item d-none d-sm-inline-block">
+        <a type="button" href="slips.php" class="dropdown-item nav-link">
+          <i class="fas fa-wallet"></i> Slip Records
+        </a>
+      </li>
       <!------*****************------>
       <!------Create Bill Icon------>
       <!------*****************------> 
 
        <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="javascript:void(0);">
+        <a type="button" class="dropdown-item nav-link" data-toggle="dropdown" href="javascript:void(0);">
            <i class="fas fa-plus"></i> Bill
         </a>
         <div class="dropdown-menu dropdown-menu-mg dropdown-menu-right">
@@ -89,40 +67,17 @@
       <!------*****************------> 
       <?php if ($_SESSION['role'] == "admin") {  ?>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="patient_record.php" class="nav-link">
+        <a type="button" href="patient_record.php" class="dropdown-item nav-link">
           <i class="fas fa-users"></i> Patients
         </a>
       </li>
       <?php } ?>
       <!------*****************------>
-      <!------Patient Slip Icon------>
-      <!------*****************------> 
-
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="javascript:void(0);">
-           <i class="fas fa-wallet"></i> Slip Records
-        </a>
-        <div class="dropdown-menu dropdown-menu-mg dropdown-menu-right">
-          <a href="emergency_slip_record.php" class="dropdown-item">
-            <i class="fas fa-user-injured mr-2"></i> Emergency Records
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="indoor_slip_record.php" class="dropdown-item">
-            <i class="fas fa-procedures mr-2"></i> Indoor Records
-          </a>
-        <div class="dropdown-divider"></div>
-          <a href="outdoor_slip_record.php" class="dropdown-item">
-            <i class="fas fa-user mr-2"></i> Outdoor Records
-          </a>
-        </div>
-       </li>
-
-      <!------*****************------>
       <!------Patient Bill Icon------>
       <!------*****************------> 
 
       <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="javascript:void(0);">
+        <a type="button" class="dropdown-item nav-link" data-toggle="dropdown" href="javascript:void(0);">
            <i class="fas fa-wallet"></i> Bill Records
         </a>
         <div class="dropdown-menu dropdown-menu-mg dropdown-menu-right">
@@ -149,7 +104,7 @@
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
       <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="javascript:void(0);" role="button">
+        <a type="button" class="dropdown-item nav-link" data-widget="navbar-search" href="javascript:void(0);" role="button">
           <i class="fas fa-search"></i>
         </a>
         <div class="navbar-search-block">
@@ -173,7 +128,7 @@
         // if ($_SESSION['role'] == "admin") { 
       ?>
       <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" onClick="getRequestNotification();" href="javascript:void(0);">
+        <a type="button" class="dropdown-item nav-link" data-toggle="dropdown" onClick="getRequestNotification();" href="javascript:void(0);">
           <i class="far fa-bell"></i>
           <span class="badge badge-warning navbar-badge">&nbsp;</span>
         </a>

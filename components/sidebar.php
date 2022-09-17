@@ -19,42 +19,22 @@
           </div>
         </div>
       </div>
-
        <!-- Sidebar Menu -->
        <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!------Create Patient Slip------>
             <li class="nav-item">
-                <a href="javascript:void(0);" class="nav-link">
+              <a type="button" class="dropdown-item nav-link" data-toggle="modal" data-target="#modal-slip" href="javascript:void(0);">
                 <i class="nav-icon fa fa-clipboard"></i>
-                <p>Create Slips<i class="right fas fa-angle-left"></i></p>
+                <p>Create Slip</p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <small>
-                    <li class="nav-item">
-                        <a href="emergency_patient_slip.php" class="nav-link">
-                        <i class="nav-icon fas fa-user-injured"></i>
-                        <p>Emergency Slip</p>
-                        </a>
-                    </li>
-                  </small>
-                  <small>
-                    <li class="nav-item">
-                        <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-indoor">
-                        <i class="nav-icon fas fa-procedures"></i>
-                        <p>Indoor Slip</p>  
-                        </a>
-                    </li>
-                  </small>
-                  <small>
-                    <li class="nav-item">
-                        <a href="outdoor_patient_slip.php" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>Outdoor Slip</p>
-                        </a>
-                    </li>
-                  </small>
-                </ul>
+            </li>
+            <!------Patient Slip Record------>
+            <li class="nav-item">
+              <a type="button" href="slips.php" class="dropdown-item nav-link">
+              <i class="nav-icon fa fa-print"></i>
+              <p>Slip Records</p>
+              </a>
             </li>
             <!------Create Patient Bill------>
             <li class="nav-item">
@@ -84,39 +64,6 @@
                         <a href="outdoor_slip_record.php" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>Outdoor Bill</p>
-                        </a>
-                    </li>
-                  </small>
-                </ul>
-            </li>
-             <!------Patient Slip Record------>
-             <li class="nav-item">
-                <a href="javascript:void(0);" class="nav-link">
-                <i class="nav-icon fa fa-print"></i>
-                <p>Slip Records<i class="right fas fa-angle-left"></i></p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <small>
-                    <li class="nav-item">
-                        <a href="emergency_slip_record.php" class="nav-link">
-                        <i class="nav-icon fas fa-user-injured"></i>
-                        <p>Emergency Slips</p>
-                        </a>
-                    </li>
-                  </small>
-                  <small>
-                    <li class="nav-item">
-                    <a href="indoor_slip_record.php" class="nav-link">
-                        <i class="nav-icon fas fa-procedures"></i>
-                        <p>Indoor Slips</p>  
-                        </a>
-                    </li>
-                  </small>
-                  <small>
-                    <li class="nav-item">
-                        <a href="outdoor_slip_record.php" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>Outdoor Slips</p>
                         </a>
                     </li>
                   </small>

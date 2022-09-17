@@ -64,7 +64,7 @@
                         <td>$rs[PATIENT_ADDRESS]</td>
                         <td>
                             <b>By</b>: $rs[USER_NAME] <br>
-                            <b>On</b>: $rs[STAFF_ID]
+                            <b>On</b>: $rs[PATIENT_DATE_TIME]
                         </td> 
                         <td style='display:flex;'>
                             <a href='view_patient.php?patid=$rs[PATIENT_MR_ID]' style='color:green;'>

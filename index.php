@@ -66,7 +66,7 @@
           <!-- ./col -->
           <div class="col-lg-2 col-6">
             <?php
-              $emergency = mysqli_query($db,"SELECT COUNT(`SLIP_UUID`) FROM `me_emergency_slip`");
+              $emergency = mysqli_query($db,"SELECT COUNT(`SLIP_UUID`) FROM `me_slip`");
               $row = mysqli_fetch_array($emergency);
               $emTotal = $row[0];
             ?>
@@ -109,7 +109,7 @@
           <!-- ./col -->
           <div class="col-lg-2 col-6">
           <?php
-              $indoor = mysqli_query($db,"SELECT COUNT(`SLIP_UUID`) FROM `me_indoor_slip`");
+              $indoor = mysqli_query($db,"SELECT COUNT(`SLIP_UUID`) FROM `me_slip`");
               $row = mysqli_fetch_array($indoor);
               $inTotal = $row[0];
             ?>
@@ -152,7 +152,7 @@
           <!-- ./col -->
           <div class="col-lg-2 col-6">
             <?php
-              $outdoor = mysqli_query($db,"SELECT COUNT(`SLIP_UUID`) FROM `me_outdoor_slip`");
+              $outdoor = mysqli_query($db,"SELECT COUNT(`SLIP_UUID`) FROM `me_slip`");
               $row = mysqli_fetch_array($outdoor);
               $outTotal = $row[0];
             ?>
