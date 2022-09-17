@@ -26,9 +26,10 @@
     <!-- Toastr -->
     <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
     <link rel="stylesheet" href="dist/css/print-style.css">
-  <!-- JQUERY File -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-  <style>
+  <!-- jQuery -->
+  <script src="plugins/jquery/jquery.min.js"></script>
+  
+    <style>
     /* Rounded Switches CSS */
   .switch {
     position: relative;

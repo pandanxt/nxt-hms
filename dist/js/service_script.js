@@ -1,6 +1,6 @@
 // Add unique Id for New Services
 let uuid = (new Date()).getTime() + Math.trunc(365 * Math.random());
-uuid = 'SERV' + String(uuid).slice(-6);
+uuid = String(uuid).slice(-6) + '-SER';
 document.getElementById("uuId").value = uuid;
 
 // Ajax Call for Adding New Services 

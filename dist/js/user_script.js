@@ -1,6 +1,6 @@
 // Add unique Id for New User
  let uuid = (new Date()).getTime() + Math.trunc(365 * Math.random());
- uuid = 'USER' + String(uuid).slice(-6);
+ uuid = String(uuid).slice(-6) + '-USR';
  document.getElementById("uuId").value = uuid;
 
  let passUuid = "";

@@ -52,7 +52,7 @@
                   </thead>
                   <tbody>
                   <?php
-                      $sql ="SELECT *,`DEPARTMENT_NAME`, `USER_NAME` FROM `me_doctor` INNER JOIN `me_user` INNER JOIN `me_department` WHERE `me_doctor`.`STAFF_ID` = `me_user`.`USER_UUID` AND `me_doctor`.`DEPARTMENT_UUID` = `me_department`.`DEPARTMENT_UUID`";
+                      $sql ="SELECT *,`DEPARTMENT_NAME`, `USER_NAME` FROM `me_doctors` INNER JOIN `me_user` INNER JOIN `me_department` WHERE `me_doctors`.`STAFF_ID` = `me_user`.`USER_UUID` AND `me_doctors`.`DOCTOR_DEPARTMENT` = `me_department`.`DEPARTMENT_UUID` AND `me_doctors`.`DOCTOR_TYPE` = 'medeast'";
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
@@ -81,7 +81,7 @@
                             <a href='javascript:void(0);' onclick='editDoctor(this);' data-uuid='$rs[DOCTOR_UUID]' data-toggle='modal' data-target='#edit-doctor'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
-                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/doctor_handler.php?q=DELETE_DOCTOR&id=$rs[DOCTOR_UUID]' style='color:red;'>
+                            <a href='javascript:void(0);' onClick='deleteDoctor(this)' data-uuid='$rs[DOCTOR_UUID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
                             </a>
                         </td>

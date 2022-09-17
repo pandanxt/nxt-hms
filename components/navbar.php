@@ -26,6 +26,21 @@
         </a>
       </li>
 
+      <!------*********------>
+      <!------Home Icon------>
+      <!------*********------> 
+
+      <li class="nav-item d-none d-sm-inline-block">
+        <a type="button" class="dropdown-item" data-toggle="modal" data-target="#modal-slip">
+          <i class="fas fa-plus"></i> Add Slip
+        </a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a type="button" href="slips.php" class="dropdown-item">
+          <i class="fas fa-plus"></i> View Slip
+        </a>
+      </li>
+
       <!------*****************------>
       <!------Create Slip Icon------>
       <!------*****************------> 
@@ -261,37 +276,74 @@
   <!------*******************------> 
 
   <div class="modal fade" id="modal-indoor">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Choose Indoor Patient Type</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <form action="indoor_patient_slip.php">
-            <div class="modal-body">
-                  <select class="form-control select2bs4" name="type" id="typeSelect" style="width: 100%;" required>
-                  <?php
-                      $indoorType = 'SELECT `INDOOR_TYPE_ALAIS`, `INDOOR_TYPE_NAME` FROM `me_indoor_type` WHERE `INDOOR_TYPE_STATUS` = "1"';
-                      $result = mysqli_query($db, $indoorType) or die (mysqli_error($db));
-                          while ($row = mysqli_fetch_array($result)) {
-                          $id = $row['INDOOR_TYPE_ALAIS'];  
-                          $name = $row['INDOOR_TYPE_NAME'];
-                          echo '<option value="'.$id.'">'.$name.'</option>'; 
-                      }
-                    ?>
-                  </select>
-              </div>
-              <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary">Proceed</button>
-              </div>
-            </form>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Choose Indoor Patient Type</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="indoor_patient_slip.php">
+        <div class="modal-body">
+              <select class="form-control select2bs4" name="type" id="typeSelect" style="width: 100%;" required>
+              <?php
+                  $indoorType = 'SELECT `INDOOR_TYPE_ALAIS`, `INDOOR_TYPE_NAME` FROM `me_indoor_type` WHERE `INDOOR_TYPE_STATUS` = "1"';
+                  $result = mysqli_query($db, $indoorType) or die (mysqli_error($db));
+                      while ($row = mysqli_fetch_array($result)) {
+                      $id = $row['INDOOR_TYPE_ALAIS'];  
+                      $name = $row['INDOOR_TYPE_NAME'];
+                      echo '<option value="'.$id.'">'.$name.'</option>'; 
+                  }
+                ?>
+              </select>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Proceed</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="modal-slip">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Choose Slip Type</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="add_slip.php">
+        <div class="modal-body">
+          <select class="form-control select2bs4" name="type" id="type" style="width: 100%;" required>
+            <option value="" selected disabled>Select Slip Type</option>
+            <option value="OUTDOOR_SLIP">OUTDOOR PATIENT SLIP</option>
+            <option value="INDOOR_SLIP">INDOOR PATIENT SLIP</option>
+            <option value="EMERGENCY_SLIP">EMERGENCY PATIENT SLIP</option>      
+          </select>
+          <div id="select">
+            <br>
+            <select class="form-control select2bs4" name="subType" id="subType" style="width: 100%;">
+              <option value="" selected disabled>Select Indoor Type</option>
+              <option value="GYNEACOLOGY_PATIENT">GYNEACOLOGY PATIENT</option>
+              <option value="GENERAL_SURGERY_PATIENT">GENERAL SURGERY PATIENT</option>
+              <option value="GENERAL_ILLNESS_PATIENT">GENERAL ILLNESS PATIENT</option>
+              <option value="EYE_PATIENT">EYE PATIENT</option>
+            </select>
           </div>
         </div>
-      </div>
-
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Proceed</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
       
     <!-- **
     *
@@ -661,4 +713,17 @@
       window.location = window.location.href;
     }, 1000);    
   }
+  
+  $(function () {
+     $('#select').hide();
+     $('#subType').prop('required',false);
+     $('#type').change(function () {
+         $('#select').hide();
+         $('#subType').prop('required',false);
+         if (this.options[this.selectedIndex].value == 'INDOOR_PATIENT') {
+             $('#select').show();
+             $('#subType').prop('required',true);
+         }
+     });
+  });
 </script>

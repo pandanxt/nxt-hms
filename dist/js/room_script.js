@@ -1,6 +1,6 @@
 // Add unique Id for New Room
 let uuid = (new Date()).getTime() + Math.trunc(365 * Math.random());
-uuid = 'ROOM' + String(uuid).slice(-6);
+uuid = String(uuid).slice(-6) + 'ROM';
 document.getElementById("uuId").value = uuid;
 
 // Ajax Call for Adding New Rooms 
