@@ -140,7 +140,7 @@ $(document).ready(function($){
                     icon: res.status,
                     title: res.message
                   });
-                  printSlip(res.data);
+                  printSlip(res.data['id'], res.data['type']);
                   autoRefresh();
               });
             }
@@ -150,14 +150,15 @@ $(document).ready(function($){
 });
 
 // Slip Print Function
-function printSlip(sid) {
-  window.open(`print-page.php?sid=${sid}`, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=100,width=1000,height=800");
+function printSlip(id,type) {
+  window.open(`print-page.php?type=${type}&sid=${id}`, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=100,width=1000,height=800");
 }
 
 // Slip Print Function
 function printSlipRecord(sid) {
-  let str = sid.getAttribute("data-uuid");
-  window.open(`print-page.php?type=outdoor&sid=${str}`, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=100,width=1000,height=800");
+  let id = sid.getAttribute("data-uuid");
+  let type = sid.getAttribute("data-type");
+  printSlip(id,type);
 }
 
 function updateRequest(str){

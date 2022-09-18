@@ -52,15 +52,12 @@
                     </thead>
                     <tbody>
                     <?php
-                    
-
                         $recordQuery ="SELECT `a`.*,`c`.`USER_NAME`,`d`.`DOCTOR_NAME`,`d`.`DOCTOR_TYPE` FROM `me_slip` AS `a` 
                         INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID`
                         INNER JOIN `me_doctors` AS `d` ON `d`.`DOCTOR_UUID` = `a`.`SLIP_DOCTOR`";
                         $sql = mysqli_query($db,$recordQuery);
                         while($slip_row = mysqli_fetch_array($sql))
                         { 
-
                           echo "<tr style='font-size: 12px;'>
                           <td>$slip_row[SLIP_MRID]</td>
                           <td>$slip_row[SLIP_TYPE]</td>
@@ -74,8 +71,11 @@
                               <b>On</b>: $slip_row[SLIP_DATE_TIME]
                           </td> 
                           <td style='display:flex;'>
-                                <a href='javascript:void(0)' onclick='printSlipRecord(this);' data-uuid='$slip_row[SLIP_UUID]' style='color:green;'>
+                              <a href='javascript:void(0)' onclick='printSlipRecord(this);' data-uuid='$slip_row[SLIP_UUID]' data-type='$slip_row[SLIP_TYPE]' style='color:green;'>
                                 <i class='fas fa-wallet'></i> Print
+                              </a></br>
+                              <a href='bills.php?type=$slip_row[SLIP_TYPE]&sid=$slip_row[SLIP_UUID]'>
+                                <i class='fas fa-wallet'></i> Bill
                               </a>";
                               if ($_SESSION['role'] == "user") {
                                 $request = "SELECT * FROM `me_request` WHERE `REQUEST_REFERENCE_UUID` = ? AND `STAFF_ID` = ?";
@@ -86,11 +86,11 @@
                                   mysqli_stmt_store_result($stmt);
                                   $resultCheck = mysqli_stmt_num_rows($stmt);
                                   if ($resultCheck > 0) {
-                                    echo "<br><a href='javascript:void(0);' onclick='getRequest(this);' data-uuid='$slip_row[SLIP_UUID]' data-toggle='modal' data-target='#view-request'>
+                                    echo "<br><a href='javascript:void(0);' onclick='getRequest(this);' data-uuid='$slip_row[SLIP_UUID]' data-type='$slip_row[SLIP_TYPE]' data-toggle='modal' data-target='#view-request'>
                                       <i class='fas fa-sticky-note'></i> Request
                                     </a>";
                                   }else{
-                                    echo "<br><a href='javascript:void(0);' onclick='getSlipId(this);' data-uuid='$slip_row[SLIP_UUID]' data-toggle='modal' data-target='#generate-request'>
+                                    echo "<br><a href='javascript:void(0);' onclick='getSlipId(this);' data-uuid='$slip_row[SLIP_UUID]' data-type='$slip_row[SLIP_TYPE]' data-toggle='modal' data-target='#generate-request'>
                                       <i class='fas fa-edit'></i> Generate Request
                                     </a>";
                                   }

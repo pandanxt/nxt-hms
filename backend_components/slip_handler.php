@@ -144,14 +144,16 @@ if ($q == 'ADD_SLIP') {
                     }else{
                         mysqli_stmt_bind_param($stmt,"sssssssssss", $slipId,$patId,$name,$phone,$dept,$doctor,$fee,$procedure,$type,$subType,$by);
                             if (mysqli_stmt_execute($stmt)) {
-                                $printQuery = "SELECT `SLIP_UUID` FROM `me_slip` ORDER BY `SLIP_DATE_TIME` DESC LIMIT 1";
+                                $printQuery = "SELECT `SLIP_UUID`,`SLIP_TYPE` FROM `me_slip` ORDER BY `SLIP_DATE_TIME` DESC LIMIT 1";
                                 $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
                                 $pResult = mysqli_fetch_array($printsql);
                                 if ($pResult > 0) {
                                     $result = [];
                                     $result['status'] = "success";
                                     $result['message'] = "Patient slip and record is created successfully.";
-                                    $result['data'] = $pResult['SLIP_UUID'];
+                                    $result['data'] = [];
+                                    $result['data']['id'] = $pResult['SLIP_UUID'];
+                                    $result['data']['type'] = $pResult['SLIP_TYPE'];
                                     echo json_encode($result);
                                 }
                             } 

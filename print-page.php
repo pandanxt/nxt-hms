@@ -2,25 +2,35 @@
    // Session Start
    session_start();
    $sid = (isset($_GET['sid']) ? $_GET['sid'] : '');
+   $stype = (isset($_GET['type']) ? $_GET['type'] : '');
    if (isset($_SESSION['uuid'])) {
      if ($sid) {
        include('backend_components/connection.php');
-
         // Query to get Outdoor Slip Details
-        $slipQuery ="SELECT `a`.*,`b`.`DEPARTMENT_NAME`,`c`.`USER_NAME`,`d`.`DOCTOR_NAME`, `e`.* FROM `me_slip` AS `a` 
-        INNER JOIN `me_department` AS `b` ON `a`.`SLIP_DEPARTMENT` = `b`.`DEPARTMENT_UUID`
-        INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID`
-        INNER JOIN `me_doctors` AS `d` ON `d`.`DOCTOR_UUID` = `a`.`SLIP_DOCTOR`
-        INNER JOIN `me_patient` AS `e` ON `e`.`PATIENT_MR_ID` = `a`.`SLIP_MRID`
-        WHERE `a`.`SLIP_UUID` = '$sid'";
-
+       if ($stype == 'EMERGENCY_SLIP') {
+            $slipQuery ="SELECT `a`.*,`c`.`USER_NAME`,`d`.`DOCTOR_NAME`, `e`.* FROM `me_slip` AS `a`  
+            INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID` 
+            INNER JOIN `me_doctors` AS `d` ON `d`.`DOCTOR_UUID` = `a`.`SLIP_DOCTOR` 
+            INNER JOIN `me_patient` AS `e` ON `e`.`PATIENT_MR_ID` = `a`.`SLIP_MRID` 
+            WHERE `a`.`SLIP_UUID` = '$sid'";
+        }else {
+            $slipQuery ="SELECT `a`.*,`b`.`DEPARTMENT_NAME`,`c`.`USER_NAME`,`d`.`DOCTOR_NAME`, `e`.* FROM `me_slip` AS `a` 
+            INNER JOIN `me_department` AS `b` ON `a`.`SLIP_DEPARTMENT` = `b`.`DEPARTMENT_UUID`
+            INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID`
+            INNER JOIN `me_doctors` AS `d` ON `d`.`DOCTOR_UUID` = `a`.`SLIP_DOCTOR`
+            INNER JOIN `me_patient` AS `e` ON `e`.`PATIENT_MR_ID` = `a`.`SLIP_MRID`
+            WHERE `a`.`SLIP_UUID` = '$sid'";
+        }
+        
         $sql = mysqli_query($db,$slipQuery);
         $slip_row = mysqli_fetch_array($sql);
         $slipId = $slip_row['SLIP_UUID'];
         $mrId = $slip_row['SLIP_MRID'];
         $name = $slip_row['SLIP_NAME'];
         $phone = $slip_row['SLIP_MOBILE'];
-        $dept = $slip_row['DEPARTMENT_NAME'];
+        if ($stype != 'EMERGENCY_SLIP') {
+            $dept = $slip_row['DEPARTMENT_NAME'];
+        }
         $doctor = $slip_row['DOCTOR_NAME'];
         $gender = $slip_row['PATIENT_GENDER'];
         $address = $slip_row['PATIENT_ADDRESS'];
