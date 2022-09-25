@@ -87,7 +87,7 @@
           <!-- ./col -->
           <div class="col-lg-2 col-6">
             <?php
-              $emBill = mysqli_query($db,"SELECT COUNT(`BILL_UUID`) FROM `me_emergency_bill`");
+              $emBill = mysqli_query($db,"SELECT COUNT(`EMERGENCY_UUID`) FROM `me_emergency`");
               $row = mysqli_fetch_array($emBill);
               $emBillTotal = $row[0];
             ?>
@@ -130,7 +130,7 @@
           <!-- ./col -->
            <div class="col-lg-2 col-6">
             <?php
-              $bill = mysqli_query($db,"SELECT COUNT(`BILL_UUID`) FROM `me_indoor_bill`");
+              $bill = mysqli_query($db,"SELECT COUNT(`INDOOR_UUID`) FROM `me_indoor`");
               $row = mysqli_fetch_array($bill);
               $inBillTotal = $row[0];
             ?>
