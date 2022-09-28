@@ -74,7 +74,7 @@
                               <a href='javascript:void(0)' onclick='printSlipRecord(this);' data-uuid='$slip_row[SLIP_UUID]' data-type='$slip_row[SLIP_TYPE]' style='color:green;'>
                                 <i class='fas fa-wallet'></i> Print
                               </a>";
-                              if($slip_row['SLIP_TYPE'] != "OUTDOOR_SLIP" && $slip_row['SLIP_STATUS'] != 0) {
+                              if($slip_row['SLIP_TYPE'] != "OUTDOOR" && $slip_row['SLIP_STATUS'] != 0) {
                                 if($slip_row['SLIP_SUB_TYPE'] != NULL) {
                                   echo "</br>
                                   <a href='bills.php?type=$slip_row[SLIP_TYPE]&subtype=$slip_row[SLIP_SUB_TYPE]&sid=$slip_row[SLIP_UUID]'>

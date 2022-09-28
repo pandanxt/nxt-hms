@@ -19,9 +19,9 @@
         <div class="card-header">
           <h3 class="card-title">
             <i class="nav-icon fas fa-hospital-user"></i> 
-            <?php if ($type == "EMERGENCY_SLIP") {
+            <?php if ($type == "EMERGENCY") {
               echo "Emergency Bill";
-            } else if($type == "INDOOR_SLIP") {
+            } else if($type == "INDOOR") {
               if ($subtype == "GYNEACOLOGY_PATIENT") {
                 echo "Indoor Gyneacology Bill";
               }else if ($subtype == "GENERAL_SURGERY_PATIENT") {
@@ -38,191 +38,288 @@
           </div>
         </div>
         <!-- Indoor Bill Form -->
-        <?php if ($type == 'INDOOR_SLIP') {
+        <?php if ($type == 'INDOOR') {
           $indoor_sql = "SELECT * FROM `me_slip` WHERE `SLIP_UUID` = '$sid' AND `SLIP_TYPE` = '$type' AND `SLIP_SUB_TYPE` = '$subtype'";
           $query_indoor = mysqli_query($db,$indoor_sql);
           $result = mysqli_fetch_array($query_indoor);
         ?>
-          <form action="javascript:void(0)" method="post" enctype="multipart/form-data" id="ADD_INDOOR_BILL">
+          <form action="javascript:void(0)" method="post" enctype="multipart/form-data" id="addIndoorBill">
           <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
                     <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                        <div class="form-group col-md-3">
-                            <label>Patient MR_ID</label>
-                            <input type="text" class="form-control" name="slipId" id="slipId" value="<?php echo $result['SLIP_MRID'] ; ?>" readonly/>
-                        </div>
-                        <div class="form-group col-md-5">
-                            <label>Patient Name</label>
-                            <input type="text" name="name" id="name" class="form-control" value="<?php echo $result['SLIP_NAME'] ; ?>" readonly>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label>Patient Mobile</label>
-                            <input type="text" class="form-control" name="phone" id="phone" value="<?php echo $result['SLIP_MOBILE'] ; ?>" readonly/>
-                        </div>
+                      <input type="text" name="billId" id="billId" hidden readonly/>
+                      <input type="text" name="slipId" id="slipId" value="<?php echo $result['SLIP_UUID'] ; ?>" hidden readonly/>
+                      <input type="text" name="staffId" id="staffId" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
+                      <div class="form-group col-md-3">
+                        <label>MRD Number</label>
+                        <input type="text" class="form-control" name="mrId" id="mrId" value="<?php echo $result['SLIP_MRID'] ; ?>" readonly/>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label>Patient Name</label>
+                        <input type="text" name="name" id="name" class="form-control" value="<?php echo $result['SLIP_NAME'] ; ?>" readonly>
+                      </div>
+                      <div class="form-group col-md-3">
+                        <label>Patient Mobile</label>
+                        <input type="text" class="form-control" name="phone" id="phone" value="<?php echo $result['SLIP_MOBILE'] ; ?>" readonly/>
+                      </div>
+                    </div>
+                    <?php if ($subtype == "GYNEACOLOGY_PATIENT" || $subtype == "GENERAL_SURGERY_PATIENT") { ?>
+                    <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                      <div class="form-group col-md-4">
+                        <label>Admission Charges</label>
+                        <input type="number" name="adCharge" id="adCharge" placeholder="Rate is 2000" class="form-control"/>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label>Surgeon Charges</label>
+                        <input type="number" name="surCharge" class="form-control" id="surCharge" placeholder="Rates Varies">
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label>Anesthetist Charges</label>
+                        <input type="number" class="form-control" name="anesCharge" id="anesCharge" placeholder="Rates Varies"/>
+                      </div>
                     </div>
                     <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                        <div class="form-group col-md-4">
-                            <label>Admission Charges</label>
-                            <input type="number" name="adCharge" id="adCharge" placeholder="Rate is 2000" class="form-control"/>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label>Surgeon Charges</label>
-                            <input type="number" name="surCharge" class="form-control" id="surCharge" placeholder="Rates Varies">
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label>Anesthetist Charges</label>
-                            <input type="number" class="form-control" name="anesCharge" id="anesCharge" placeholder="Rates Varies"/>
-                        </div>
+                      <div class="form-group col-md-4">
+                        <label>Pediatric Charges</label>
+                        <input type="number" name="pedCharge" class="form-control" id="pedCharge" placeholder="Rate Varies">
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label>CTG Charges</label>
+                        <input type="number" class="form-control" name="ctg" id="ctg" placeholder="Rate is 700" />
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label>Recovery Room</label>
+                        <input type="number" class="form-control" name="rrCharge" id="rrCharge" placeholder="Rate is 5,000" />
+                      </div>
                     </div>
-                    <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                        <div class="form-group col-md-4">
-                          <label>Pediatric Charges</label>
-                          <div style="display:flex;">
-                            <input type="number" name="pedCharge" class="form-control" id="pedCharge" placeholder="Rate Varies">
-                          </div>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label>CTG Charges</label>
-                            <input type="number" class="form-control" name="ctg" id="ctg" placeholder="Rate is 700" />
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label>Recovery Room</label>
-                            <input type="number" class="form-control" name="rrCharge" id="rrCharge" placeholder="Rate is 5,000" />
-                        </div>
-                    </div>
-                    <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                        <div class="form-group col-md-5">
-                            <label>Labour Room Charges</label>
-                            <div style="display:flex;">
-                                <input type="number" name="chargeLR" class="form-control" id="chargeLR" placeholder="Rate is 8,000">
-                            </div>
-                        </div>
-                        <div class="col-md-7">
-                            <label>Other</label>
-                            <div class="input-group mb-3">
-                              <input type="text" name="otherText" class="form-control" id="otherText" placeholder="Description" style="width:65%;"/>
-                                <input type="number" name="other" id="other" placeholder="Charges" class="form-control" style="width:35%;"/>
-                            </div>
-                        </div>
-                    </div>
+                    <?php 
+                      } 
+                      if ($subtype == "GENERAL_ILLNESS_PATIENT") {
+                    ?>
                     <div class="form-group" style="display:flex;margin:0;">
                       <div class="form-group col-md-4">
                         <label>Oxygen Charges</label>
                         <div style="display:flex;">
-                            <input type="number" style="width:40%;" name="oxChargeOne" class="form-control" id="oxChargeOne" value="0" onchange="getOxTotal()" placeholder="No. of Days"/>
-                            <input type="number" style="width:60%;" name="oxChargeTwo" class="form-control" id="oxChargeTwo"  placeholder="Total Charges" readonly/>
-                          </div>
+                          <input type="number" style="width:40%;" name="oxChargeOne" class="form-control" id="oxChargeOne" value="0" onchange="getOxTotal()" placeholder="No. of Days"/>
+                          <input type="number" style="width:60%;" name="oxCharge" class="form-control" id="oxCharge"  placeholder="Total Charges" readonly/>
+                        </div>
                       </div>                       
                       <div class="form-group col-md-4">
                         <label>Nursing Charges</label>
-                          <div style="display:flex;">
-                            <input type="number" style="width:40%;" name="nurChargeOne" class="form-control" id="nurChargeOne" value="0" onchange="getNurTotal()" placeholder="No. of Days"/>
-                            <input type="number" style="width:60%;" name="nurChargeTwo" class="form-control" id="nurChargeTwo" placeholder="Total Charges" readonly/>
-                          </div>
+                        <div style="display:flex;">
+                          <input type="number" style="width:40%;" name="nurChargeOne" class="form-control" id="nurChargeOne" value="0" onchange="getNurTotal()" placeholder="No. of Days"/>
+                          <input type="number" style="width:60%;" name="nurCharge" class="form-control" id="nurCharge" placeholder="Total Charges" readonly/>
+                        </div>
                       </div>
                       <div class="form-group col-md-4">
                         <label>Monitoring Charges</label>
-                          <div style="display:flex;">
-                            <input type="number" style="width:40%;" name="monChargeOne" class="form-control" id="monChargeOne" value="0" onchange="getMonTotal()" placeholder="No. of Days"/>
-                            <input type="number" style="width:60%;" name="monChargeTwo" class="form-control" id="monChargeTwo"  placeholder="Total Charges" readonly/>
-                          </div>
+                        <div style="display:flex;">
+                          <input type="number" style="width:40%;" name="monChargeOne" class="form-control" id="monChargeOne" value="0" onchange="getMonTotal()" placeholder="No. of Days"/>
+                          <input type="number" style="width:60%;" name="monCharge" class="form-control" id="monCharge"  placeholder="Total Charges" readonly/>
+                        </div>
                       </div>
                     </div>
+                    <?php } ?>
+                    <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                      <?php if ($subtype == "GYNEACOLOGY_PATIENT" || $subtype == "GENERAL_SURGERY_PATIENT") { ?>
+                      <div class="form-group col-md-8">
+                        <label>Labour Room Charges</label>
+                        <input type="number" name="chargeLR" class="form-control" id="chargeLR" placeholder="Rate is 8,000">
+                      </div>
+                      <?php 
+                        } 
+                        if ($subtype == "GYNEACOLOGY_PATIENT" || $subtype == "GENERAL_SURGERY_PATIENT" || $subtype == "GENERAL_ILLNESS_PATIENT") 
+                        {
+                      ?>
+                        <!-- Extra Field Button -->
+                        <div class="card-tools mt-3">
+                          <br>
+                          <button type="button" class="btn btn-tool" data-toggle="collapse" data-target="#multiFieldLeft" aria-expanded="false" aria-controls="multiFieldRight">
+                            <i class="fas fa-plus"></i> More Fields
+                          </button>
+                        </div>
+                      <?php } ?>
+                    </div>
+                    <?php 
+                      if ($subtype == "GYNEACOLOGY_PATIENT" || $subtype == "GENERAL_SURGERY_PATIENT" || $subtype == "GENERAL_ILLNESS_PATIENT") 
+                      {
+                    ?>
+                    <!-- Extra Fields -->
+                    <div class="card-body collapse multi-collapse" id="multiFieldLeft">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                              <div class="input-group mb-3">
+                                <input type="text" name="otherText1" class="form-control" id="otherText1" placeholder="Description" style="width:65%;"/>
+                                  <input type="number" name="other1" id="other1" placeholder="Charges" class="form-control" style="width:35%;"/>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="input-group mb-3">
+                              <input type="text" name="otherText2" class="form-control" id="otherText2" placeholder="Description" style="width:65%;"/>
+                                <input type="number" name="other2" id="other2" placeholder="Charges" class="form-control" style="width:35%;"/>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                              <div class="input-group mb-3">
+                                <input type="text" name="otherText3" class="form-control" id="otherText3" placeholder="Description" style="width:65%;"/>
+                                  <input type="number" name="other3" id="other3" placeholder="Charges" class="form-control" style="width:35%;"/>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                              <div class="input-group mb-3">
+                                <input type="text" name="otherText4" class="form-control" id="otherText4" placeholder="Description" style="width:65%;"/>
+                                  <input type="number" name="other4" id="other4" placeholder="Charges" class="form-control" style="width:35%;"/>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="input-group mb-3">
+                              <input type="text" name="otherText5" class="form-control" id="otherText5" placeholder="Description" style="width:65%;"/>
+                                <input type="number" name="other5" id="other5" placeholder="Charges" class="form-control" style="width:35%;"/>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="input-group mb-3">
+                              <input type="text" name="otherText6" class="form-control" id="otherText6" placeholder="Description" style="width:65%;"/>
+                                <input type="number" name="other6" id="other6" placeholder="Charges" class="form-control" style="width:35%;"/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <?php } ?>
                 </div>
 
                 <div class="col-md-6">
+                  <?php if ($subtype == "GYNEACOLOGY_PATIENT" || $subtype == "GENERAL_SURGERY_PATIENT") { ?>
                   <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                     <div class="form-group col-md-4">
-                        <label>Nursury Charges</label>
-                        <input type="number" name="nurCharge" id="nurCharge" placeholder="Rate is 8,000" class="form-control"/>
+                      <label>Nursury Charges</label>
+                      <input type="number" name="nurCharge" id="nurCharge" placeholder="Rate is 8,000" class="form-control"/>
                     </div>
                     <div class="form-group col-md-4">
-                        <label>Nursury Staff Charges</label>
-                        <input type="number" name="nurStCharge" class="form-control" id="nurStCharge" placeholder="Rate is 1500"/>
+                      <label>Nursury Staff Charges</label>
+                      <input type="number" name="nurStCharge" class="form-control" id="nurStCharge" placeholder="Rate is 1500"/>
                     </div>
                     <div class="form-group col-md-4">
-                        <label>Operation Charges</label>
-                        <input type="number" name="opCharge" class="form-control" id="opCharge" placeholder="Rate is 10,000"/>
+                      <label>Operation Charges</label>
+                      <input type="number" name="opCharge" class="form-control" id="opCharge" placeholder="Rate is 10,000"/>
                     </div>
                   </div>
+                  <!-- <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                    <div class="form-group col-md-6">
+                      <label>Consultant Visit Charges</label>
+                      <input type="number" name="conCharge" class="form-control" id="conCharge" placeholder="Rates May Varies">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>M O Charges</label>
+                      <input type="number" name="moCharge" id="moCharge" placeholder="Rate is 2000" class="form-control"/>
+                    </div>
+                  </div> -->
+                  <?php 
+                    } 
+                    if ($subtype == "GENERAL_ILLNESS_PATIENT" || $subtype == "GYNEACOLOGY_PATIENT" || $subtype == "GENERAL_SURGERY_PATIENT") {
+                  ?>
                   <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                     <div class="col-md-6">
                       <label>Consultant Charges (Per Visit)</label>
                       <div class="input-group mb-3">
-                          <input type="number" style="width:40%;" name="conChargeOne" class="form-control" id="conChargeOne" onchange="getConCharge(this);" value="" placeholder="Per-Visit"/>
-                          <input type="number" style="width:20%;" name="conChargeTwo" class="form-control" id="conChargeTwo" onchange="getConDay(this);" value="1" placeholder="Days"/>
-                          <input type="number" style="width:40%;" name="conChargeThree" class="form-control" id="conChargeThree"  placeholder="Total" value="" readonly/>
+                        <input type="number" style="width:40%;" name="conChargeOne" class="form-control" id="conChargeOne" onchange="getConCharge(this);" value="" placeholder="Per-Visit"/>
+                        <input type="number" style="width:20%;" name="conChargeTwo" class="form-control" id="conChargeTwo" onchange="getConDay(this);" value="1" placeholder="Days"/>
+                        <input type="number" style="width:40%;" name="conCharge" class="form-control" id="conCharge"  placeholder="Total" value="" readonly/>
                       </div>
                     </div>
                     <div class="form-group col-md-6">
                       <label>Medical Officer Charges(Per day)</label>
                         <div style="display:flex;">
                           <input type="number" style="width:40%;" name="moChargeOne" class="form-control" id="moChargeOne" value="0" onchange="getMoTotal()" placeholder="No. of Days"/>
-                          <input type="number" style="width:60%;" name="moChargeTwo" class="form-control" id="moChargeTwo"  placeholder="Total Charges" readonly/>
+                          <input type="number" style="width:60%;" name="moCharge" class="form-control" id="moCharge"  placeholder="Total Charges" readonly/>
                         </div>
                     </div>
                   </div>
-                  <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                    <div class="form-group col-md-6">
-                        <label>Consultant Visit Charges</label>
-                        <input type="number" name="conChargeThree" class="form-control" id="conCharge" placeholder="Rates May Varies">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>M O Charges</label>
-                        <input type="number" name="moChargeTwo" id="moCharge" placeholder="Rate is 2000" class="form-control"/>
-                    </div>
-                  </div>
+                  <?php
+                   }
+                   if ($subtype != "EYE_PATIENT") {
+                  ?>
                   <div class="form-group col-md-12">
                       <label>Private Room Charges</label>
                       <div style="display:flex;">
-                          <select class="form-control select2bs4"  style="width:50%;" name="prChargeOne" id="prChargeOne" onchange="getPrTotal()" style="width: 100%;">
-                            <option value="0" selected="selected">Select Private Room Charges</option>
-                          </select> 
-                          <input type="number" style="width:20%;" name="prChargeTwo" class="form-control" id="prChargeTwo" value="1" onchange="getPrTotal()" placeholder="No. of Days"/>
-                          <input type="number" style="width:30%;" name="prChargeThree" class="form-control" id="prChargeThree"  placeholder="Total Charges" readonly/>
-                        </div>
+                        <select class="form-control select2bs4"  style="width:50%;" name="prChargeOne" id="prChargeOne" onchange="getPrTotal()" style="width: 100%;">
+                          <option value="0" selected="selected">Select Private Room Charges</option>
+                          <?php
+                            $room = 'SELECT `ROOM_UUID`, `ROOM_NAME`,`ROOM_RATE` FROM `me_room` WHERE `ROOM_STATUS` = 1';
+                            $result = mysqli_query($db, $room) or die (mysqli_error($db));
+                              while ($row = mysqli_fetch_array($result)) {
+                              $id = $row['ROOM_RATE'];  
+                              $name = $row['ROOM_NAME'];
+                              echo '<option value="'.$id.'">'.$name.'</option>'; 
+                            }
+                          ?>
+                        </select> 
+                        <input type="number" style="width:20%;" name="prChargeTwo" class="form-control" id="prChargeTwo" value="1" onchange="getPrTotal()" placeholder="No. of Days"/>
+                        <input type="number" style="width:30%;" name="prCharge" class="form-control" id="prCharge"  placeholder="Total Charges" readonly/>
+                      </div>
                   </div>                    
                   <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-5">
                       <label>Total Bill</label>
                         <div class="input-group mb-3">
-                          <input type="number" name="tbill" id="totalBill" placeholder="Total Bill" class="form-control" readonly/>
-                              <span class="input-group-append">
-                                <button type="button" onclick="genIllnessTotal();" class="btn btn-block btn-primary">calculate</button>
-                              </span>  
-                              <!-- <span class="input-group-append">
-                                <button type="button" onclick="genSurgeryTotal();" class="btn btn-block btn-primary">calculate</button>
-                              </span> -->
+                          <input type="number" name="totalBill" id="totalBill" placeholder="Total Bill" class="form-control" readonly/>
+                          <?php if ($subtype == "GENERAL_ILLNESS_PATIENT") { ?>
+                            <span class="input-group-append">
+                              <button type="button" onclick="genIllnessTotal();" class="btn btn-block btn-primary">calculate</button>
+                            </span>  
+                          <?php }else if ($subtype == "GENERAL_SURGERY_PATIENT" || $subtype == "GYNEACOLOGY_PATIENT") { ?>
+                            <span class="input-group-append">
+                              <button type="button" onclick="genSurgeryTotal();" class="btn btn-block btn-primary">calculate</button>
+                            </span>
+                          <?php } ?>
                         </div>
                     </div>  
                     <div class="form-group col-md-3">
-                      <label>Total Bill</label>
-                      <input type="number" name="tbill" id="totalBill" onchange="feeFunction(this)" placeholder="Total Bill" class="form-control"/>
-                    </div>
-                    <div class="form-group col-md-2">
                       <label>Discount</label>
                       <input type="number" name="discount"  onchange="discFunction(this)" class="form-control" id="discount" placeholder="Discount">
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-4">
                       <label>Final Bill</label>
-                      <input type="number" name="fbill" id="finalBill" placeholder="Final Bill" class="form-control" readonly/>
+                      <input type="number" name="finalBill" id="finalBill" placeholder="Final Bill" class="form-control" readonly/>
                     </div>
                   </div>
+                  <?php } if ($subtype == "EYE_PATIENT") { ?>
+                    <div class="col-md-12" style="display:flex;margin:0;padding:0;">
+                      <div class="form-group col-md-4">
+                        <label>Total Bill</label>
+                        <input type="number" name="totalBill" id="totalBill" onchange="feeFunction(this)" placeholder="Total Bill" class="form-control"/>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label>Discount</label>
+                        <input type="number" name="discount"  onchange="discFunction(this)" class="form-control" id="discount" placeholder="Discount">
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label>Final Bill</label>
+                        <input type="number" name="finalBill" id="finalBill" placeholder="Final Bill" class="form-control" readonly/>
+                      </div>
+                    </div>
+                    <?php } ?>
                 </div>
+                
             </div>
           </div>
           <div class="card-footer" style="text-align: right;">
-            <button type="submit" name="indoor-submit" class="btn btn-block btn-primary">Submit</button>
+            <button type="submit" name="submit" class="btn btn-block btn-primary">Submit</button>
           </div>
           </div>
         </form>
-        <?php }else if ($type == 'EMERGENCY_SLIP') { 
+
+        <?php }else if ($type == 'EMERGENCY') { 
           $emergency_sql = "SELECT * FROM `me_slip` WHERE `SLIP_UUID` = '$sid' AND `SLIP_TYPE` = '$type'";
           $query_emergency = mysqli_query($db,$emergency_sql);
           $result = mysqli_fetch_array($query_emergency);
         ?>
-            <!-- Emergency Bill Form -->
+        <!-- Emergency Bill Form -->
         <form action="javascript:void(0)" method="post" enctype="multipart/form-data" id="addEmergencyBill">
           <div class="card-body">
             <div class="row">

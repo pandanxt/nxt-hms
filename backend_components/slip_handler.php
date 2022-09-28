@@ -25,17 +25,17 @@ if ($q == 'ADD_SLIP') {
     
     $by = mysqli_real_escape_string($db, $_POST['staffId']);
 
-    if ($type == 'INDOOR_SLIP') {
+    if ($type == 'INDOOR') {
         $dept = mysqli_real_escape_string($db, $_POST['dept']);
         $fee = NULL;
         $procedure = mysqli_real_escape_string($db, $_POST['procedure']);
         $subType = mysqli_real_escape_string($db, $_POST['subType']);
-    }else if ($type == 'OUTDOOR_SLIP') {
+    }else if ($type == 'OUTDOOR') {
         $fee = mysqli_real_escape_string($db, $_POST['fee']);
         $dept = mysqli_real_escape_string($db, $_POST['dept']);
         $procedure = NULL;
         $subType = NULL;
-    }else if ($type == 'EMERGENCY_SLIP') {
+    }else if ($type == 'EMERGENCY') {
         $dept = NULL;
         $fee = NULL;
         $procedure = NULL;

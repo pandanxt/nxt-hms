@@ -16,30 +16,15 @@
       //*****************************************//
             if ($sid){
               // Query to get Slip Details 
-              $billSql ="SELECT `a`.*, `b`.`ADMIN_USERNAME`	FROM `indoor_bill` AS `a` INNER JOIN `admin` AS `b` ON `b`.`ADMIN_ID` = `a`.`CREATED_BY` WHERE `BILL_ID` = ".$sid;
+              $billSql ="SELECT `a`.*, `b`.`USER_NAME`, `c`.* ,`d`.* , `e`.`DOCTOR_NAME`	
+              FROM `me_bill` AS `a` 
+              INNER JOIN `me_user` AS `b` ON `b`.`USER_UUID` = `a`.`STAFF_ID` 
+              INNER JOIN `me_indoor` AS `c` ON `c`.`INDOOR_UUID` = `a`.`BILL_UUID` 
+              INNER JOIN `me_slip` AS `d` ON `d`.`SLIP_UUID` = `a`.`BILL_SLIP_UUID`
+              INNER JOIN `me_doctors` AS `e` ON `e`.`DOCTOR_UUID` = `d`.`SLIP_DOCTOR`
+              WHERE `BILL_UUID` = '$sid'";
               $billsql = mysqli_query($db,$billSql);
               $bill_row = mysqli_fetch_array($billsql);
-
-              // $admDate = substr($bill_row['ADMISSION_DATE'],0, 24);
-              // $disDate = substr($bill_row['DISCHARGE_DATE'],0, 24);
-
-              $slipSql ="SELECT * FROM `indoor_slip` WHERE `SLIP_ID` = '$bill_row[SLIP_ID]'";
-              $slipsql = mysqli_query($db,$slipSql);
-              $slip_row = mysqli_fetch_array($slipsql);
-            
-              $doctor = $slip_row['DOCTOR_NAME'];
-              $procedure = $slip_row['SLIP_PROCEDURE'];
-              $type = $slip_row['SLIP_TYPE'];
-              $newType;
-              if ($type == 'gynae') {
-                  $newType = 'Gynae Patient';
-              }else if ($type == 'gensurgery') {
-                  $newType = 'General Surgery Patient';
-              }else if ($type == 'genillness') {
-                  $newType = 'General Illness Patient';
-              }else if ($type == 'eye') {
-                  $newType = 'Eye Patient';
-              }
 
     ?>
               <div class="content-wrapper">
@@ -50,7 +35,7 @@
                   <div class="col-md-12">
                     <h2 class="page-header">
                       <img src="dist/img/medeast-logo-icon.png" alt="MedEast Logo"/><b> MEDEAST HOSPITAL</b>
-                      <small class="float-right" style="font-size:12px;">Slip Date: <?php echo $bill_row['DATE_TIME']; ?></small>
+                      <small class="float-right" style="font-size:12px;">Slip Date: <?php echo $bill_row['BILL_DATE_TIME']; ?></small>
                     </h2>
                     <div class="float-right" style="margin-top: -125px;">
                       <div style="display:flex;">
@@ -66,46 +51,62 @@
                   <!-- /.col -->
                 </div>
                 <hr style="margin-top:5px;"/>
-                <center><h4><?php echo $newType;?></h4></center>
+                <center>
+                  <h4>
+                    <?php 
+                    if ($bill_row['SLIP_TYPE'] == 'INDOOR') {
+                      if ($bill_row['SLIP_SUB_TYPE'] == 'GYNEACOLOGY_PATIENT') {
+                        echo "INDOOR GYNEACOLOGY BILL";
+                      }else if ($bill_row['SLIP_SUB_TYPE'] == 'GENERAL_SURGERY_PATIENT') {
+                        echo "INDOOR GENERAL SURGERY BILL";
+                      }else if ($bill_row['SLIP_SUB_TYPE'] == 'GENERAL_ILLNESS_PATIENT') {
+                        echo "INDOOR GENERAL ILLNESS BILL";
+                      }else if ($bill_row['SLIP_SUB_TYPE'] == 'EYE_PATIENT') {
+                        echo "INDOOR EYE BILL";
+                      }
+                    }  
+                    ?>
+                  </h4>
+                </center>
                 <!-- info row -->
                 <div class="row invoice-info">
                 <!-- /.col -->
-                <div class="col-sm-6 invoice-col">
+                <div class="col-sm-6 invoice-col" style="font-size:12px;">
                 <hr style="margin-top:5px;"/>
-                    <?php if ($type == "eye") { ?>
-                        <h4><b>MR_ID# </b> <?php echo $bill_row['MR_ID']; ?></h4><br>
-                        <h4><b>Patient Name :</b> <?php echo $bill_row['PATIENT_NAME']; ?></h4><br>
-                        <h4><b>Contact :</b> <?php echo $bill_row['MOBILE']; ?></h4><br>
-                        <h4><b>Procedure :</b> <?php echo $procedure; ?></h4><br>
+                    <?php if ($bill_row['SLIP_SUB_TYPE'] == 'EYE_PATIENT') { ?>
+                        <h4><b>MR_ID# </b> <?php echo $bill_row['BILL_MRID']; ?></h4><br>
+                        <h4><b>Patient Name :</b> <?php echo $bill_row['BILL_NAME']; ?></h4><br>
+                        <h4><b>Contact :</b> <?php echo $bill_row['BILL_MOBILE']; ?></h4><br>
+                        <h4><b>Procedure :</b> <?php echo $bill_row['SLIP_PROCEDURE']; ?></h4><br>
                     <?php }else { ?>
-                        <p><b>MR_ID# </b><?php echo $bill_row['MR_ID']; ?></p>
-                        <p><b>Patient Name :</b> <?php echo $bill_row['PATIENT_NAME']; ?></p>
-                        <p><b>Contact :</b> <?php echo $bill_row['MOBILE']; ?></p>
-                        <p><b>Procedure :</b> <?php echo $procedure; ?></p>
+                        <p><b>MR_ID# </b><?php echo $bill_row['BILL_MRID']; ?></p>
+                        <p><b>Patient Name :</b> <?php echo $bill_row['BILL_NAME']; ?></p>
+                        <p><b>Contact :</b> <?php echo $bill_row['BILL_MOBILE']; ?></p>
+                        <p><b>Procedure :</b> <?php echo $bill_row['SLIP_PROCEDURE']; ?></p>
                     <?php } ?>
                   </div>
                   <!-- /.col -->
-                  <div class="col-sm-6 invoice-col">
+                  <div class="col-sm-6 invoice-col" style="font-size:12px;">
                   <hr style="margin-top:5px;"/>
-                    <?php if ($type == "eye") { ?>
-                    <h4><b>Date :</b> <?php echo $bill_row['DISCHARGE_DATE']; ?></h4><br>
-                    <h4><b>Staff :</b> <?php echo $bill_row['ADMIN_USERNAME']; ?></h4><br>
-                    <h4><b>Consultant :</b> <?php echo $doctor; ?></h4><br>
-                    <?php if (!$bill_row['DISCOUNT']) { ?>
-                        <h4><b>Consultant Fee: </b> PKR - <?php echo $bill_row['TOTAL']; ?></h4><br>  
+                    <?php if ($bill_row['SLIP_SUB_TYPE'] == 'EYE_PATIENT') { ?>
+                    <h4><b>Date :</b> <?php echo $bill_row['DISCHARGE_DATE_TIME']; ?></h4><br>
+                    <h4><b>Staff :</b> <?php echo $bill_row['USER_NAME']; ?></h4><br>
+                    <h4><b>Consultant :</b> <?php echo $bill_row['DOCTOR_NAME']; ?></h4><br>
+                    <?php if (!$bill_row['BILL_DISCOUNT']) { ?>
+                        <h4><b>Consultant Fee: </b> PKR - <?php echo $bill_row['BILL_TOTAL']; ?></h4><br>  
                     <?php }else{?>
-                        <h4><b>Consultant Fee - Discount :</b> <?php echo $bill_row['TOTAL_AMOUNT']; ?> - <?php echo $bill_row['DISCOUNT']; ?></h4><br>
-                        <h4><b>Total Fee :</b> PKR - <?php echo $bill_row['TOTAL']; ?></h4><br>   
+                        <h4><b>Consultant Fee - Discount :</b> <?php echo $bill_row['BILL_AMOUNT']; ?> - <?php echo $bill_row['BILL_DISCOUNT']; ?></h4><br>
+                        <h4><b>Total Fee :</b> PKR - <?php echo $bill_row['BILL_TOTAL']; ?></h4><br>   
                       <?php } 
                      }else { ?>
-                      <p><b>Admit Dates :</b> <?php echo $bill_row['ADMISSION_DATE']; ?> - <?php echo $bill_row['DISCHARGE_DATE']; ?></p>
-                      <p><b>Consultant :</b> <?php echo $doctor; ?></p>
-                      <p><b>Staff :</b> <?php echo $bill_row['ADMIN_USERNAME'];; ?></p>
+                      <p><b>Admit Dates :</b> <?php echo $bill_row['ADMISSION_DATE_TIME']; ?> - <?php echo $bill_row['DISCHARGE_DATE_TIME']; ?></p>
+                      <p><b>Consultant :</b> <?php echo $bill_row['DOCTOR_NAME']; ?></p>
+                      <p><b>Staff :</b> <?php echo $bill_row['USER_NAME']; ?></p>
                     <?php } ?>
                   </div>
                   <!-- /.col -->
                 </div>
-                <?php if ($type != "eye") { ?>
+                <?php if ($bill_row['SLIP_SUB_TYPE'] != 'EYE_PATIENT') { ?>
                 <!-- /.row -->
                   <!-- Table row -->
                 <div class="row">
@@ -221,14 +222,6 @@
                         <td>Private Room Charges</td>
                         <td><?php echo $bill_row['PRIVATE_ROOM_CHARGE']; ?></td>
                       </tr>
-                      <?php
-                          } 
-                          if (!empty($bill_row['OTHER_TEXT'])) {
-                      ?>
-                      <tr>
-                        <td><?php echo $bill_row['OTHER_TEXT']; ?></td>
-                        <td><?php echo $bill_row['OTHER']; ?></td>
-                      </tr>
                         <?php
                             } 
                             if (!empty($bill_row['MONITOR_CHARGE'])) {
@@ -254,7 +247,103 @@
                           <td><?php echo $bill_row['OXYGEN_CHARGE']; ?></td>
                         </tr>
                         <?php
-                            } 
+                          }
+                          if (!empty($bill_row['OTHER_TEXT_1'])) {
+                        ?>
+                        <tr>
+                          <td><?php echo $bill_row['OTHER_TEXT_1'] ?></td>
+                          <td><?php echo $bill_row['OTHER_1'] ?></td>
+                        </tr>
+                        <?php
+                          }
+                        if (!empty($bill_row['OTHER_TEXT_2'])) {
+                        ?>
+                        <tr>
+                          <td><?php echo $bill_row['OTHER_TEXT_2'] ?></td>
+                          <td><?php echo $bill_row['OTHER_2'] ?></td>
+                        </tr>
+                        <?php
+                        }
+                        if (!empty($bill_row['OTHER_TEXT_3'])) {
+                        ?>
+                        <tr>
+                          <td><?php echo $bill_row['OTHER_TEXT_3'] ?></td>
+                          <td><?php echo $bill_row['OTHER_3'] ?></td>
+                        </tr>
+                        <?php
+                        }
+                        if (!empty($bill_row['OTHER_TEXT_4'])) {
+                        ?>
+                        <tr>
+                          <td><?php echo $bill_row['OTHER_TEXT_4'] ?></td>
+                          <td><?php echo $bill_row['OTHER_4'] ?></td>
+                        </tr>
+                        <?php
+                        }
+                        if (!empty($bill_row['OTHER_TEXT_5'])) {
+                        ?>
+                        <tr>
+                        <td><?php echo $bill_row['OTHER_TEXT_5'] ?></td>
+                        <td><?php echo $bill_row['OTHER_5'] ?></td>
+                        </tr>
+                        <?php
+                        }
+                        if (!empty($bill_row['OTHER_TEXT_6'])) {
+                        ?>
+                        <tr>
+                          <td><?php echo $bill_row['OTHER_TEXT_6'] ?></td>
+                          <td><?php echo $bill_row['OTHER_6'] ?></td>
+                        </tr>
+                        <?php
+                        }
+                        if (!empty($bill_row['OTHER_TEXT_7'])) {
+                        ?>
+                        <tr>
+                          <td><?php echo $bill_row['OTHER_TEXT_7'] ?></td>
+                          <td><?php echo $bill_row['OTHER_7'] ?></td>
+                        </tr>
+                        <?php
+                        }
+                        if (!empty($bill_row['OTHER_TEXT_8'])) {
+                        ?>
+                        <tr>
+                          <td><?php echo $bill_row['OTHER_TEXT_8'] ?></td>
+                          <td><?php echo $bill_row['OTHER_8'] ?></td>
+                        </tr>
+                        <?php
+                          }
+                        if (!empty($bill_row['OTHER_TEXT_9'])) {
+                        ?>
+                        <tr>
+                          <td><?php echo $bill_row['OTHER_TEXT_9'] ?></td>
+                          <td><?php echo $bill_row['OTHER_9'] ?></td>
+                        </tr>
+                        <?php
+                        }
+                        if (!empty($bill_row['OTHER_TEXT_10'])) {
+                        ?>
+                        <tr>
+                          <td><?php echo $bill_row['OTHER_TEXT_10'] ?></td>
+                          <td><?php echo $bill_row['OTHER_10'] ?></td>
+                        </tr>
+                        <?php
+                        }
+                        if (!empty($bill_row['OTHER_TEXT_11'])) {
+                        ?>
+                        <tr>
+                          <td><?php echo $bill_row['OTHER_TEXT_11'] ?></td>
+                          <td><?php echo $bill_row['OTHER_11'] ?></td>
+                        </tr>
+                        <?php
+                        }
+                        if (!empty($bill_row['OTHER_TEXT_12'])) {
+                        ?>
+                        <tr>
+                          <td><?php echo $bill_row['OTHER_TEXT_12'] ?></td>
+                          <td><?php echo $bill_row['OTHER_12'] ?></td>
+                        </tr>
+                        <?php
+                        }
                         ?>
                           
                       </tbody>
@@ -269,31 +358,31 @@
                   <div class="col-6"></div>
                   <!-- /.col -->
                   <div class="col-6">
-                    <p class="lead">Amount Due <?php echo substr($bill_row['DATE_TIME'],0, 24); ?></p>
+                    <p class="lead">Amount Due <?php echo $bill_row['BILL_DATE_TIME']; ?></p>
       
                     <div class="table-responsive">
                       <table class="table">
-                      <?php if (!$bill_row['DISCOUNT']) { ?>
+                      <?php if (!$bill_row['BILL_DISCOUNT']) { ?>
                         <tr>
                           <th style="width:50%">Subtotal:</th>
-                          <td>PKR - <?php echo $bill_row['TOTAL_AMOUNT']; ?></td>
+                          <td>PKR - <?php echo $bill_row['BILL_AMOUNT']; ?></td>
                         </tr>
                         <tr>
                           <th>Total:</th>
-                          <td>PKR - <?php echo $bill_row['TOTAL']; ?></td>
+                          <td>PKR - <?php echo $bill_row['BILL_TOTAL']; ?></td>
                         </tr> 
                     <?php }else{ ?>
                         <tr>
                           <th style="width:50%">Subtotal:</th>
-                          <td>PKR - <?php echo $bill_row['TOTAL_AMOUNT']; ?></td>
+                          <td>PKR - <?php echo $bill_row['BILL_AMOUNT']; ?></td>
                         </tr>
                         <tr>
                           <th>Discount:</th>
-                          <td>PKR - <?php echo $bill_row['DISCOUNT']; ?></td>
+                          <td>PKR - <?php echo $bill_row['BILL_DISCOUNT']; ?></td>
                         </tr>
                         <tr>
                           <th>Total:</th>
-                          <td>PKR - <?php echo $bill_row['TOTAL']; ?></td>
+                          <td>PKR - <?php echo $bill_row['BILL_TOTAL']; ?></td>
                         </tr>
                         <?php } ?>
                       </table>

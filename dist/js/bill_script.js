@@ -1,105 +1,110 @@
 // Add unique Id for New Bill
 let uuid = (new Date()).getTime() + Math.trunc(365 * Math.random());
 if (document.getElementById("billId")) {document.getElementById("billId").value = String(uuid).slice(-6) +'-BID';}
+  //Get Surgery Total       
+  function genSurgeryTotal() {
+    let adCharge = document.getElementById("adCharge").value;
+    let surCharge = document.getElementById("surCharge").value;
+    let anesCharge = document.getElementById("anesCharge").value;
+    let opCharge = document.getElementById("opCharge").value;
+    let chargeLR = document.getElementById("chargeLR").value;
+    let pedCharge = document.getElementById("pedCharge").value;
+    let prCharge = document.getElementById("prCharge").value;
+    let nurCharge = document.getElementById("nurCharge").value;
+    let nurStCharge = document.getElementById("nurStCharge").value;
+    let moCharge = document.getElementById("moCharge").value;
+    let conCharge = document.getElementById("conCharge").value;
+    let ctg = document.getElementById("ctg").value;
+    let rrCharge = document.getElementById("rrCharge").value;
+    
+    let other1 = document.getElementById("other1").value;
+    let other2 = document.getElementById("other2").value;
+    let other3 = document.getElementById("other3").value;
+    let other4 = document.getElementById("other4").value;
+    let other5 = document.getElementById("other5").value;
+    let other6 = document.getElementById("other6").value;
 
-// let disDate = new Date();
-// document.getElementById('disdate').value = disDate;
-       
-function genSurgeryTotal() {
-  let adCharge = document.getElementById("adCharge").value;
-  let surCharge = document.getElementById("surCharge").value;
-  let anesCharge = document.getElementById("anesCharge").value;
-  let opCharge = document.getElementById("opCharge").value;
-  let chargeLR = document.getElementById("chargeLR").value;
-  let pedCharge = document.getElementById("pedCharge").value;
-  let prChargeThree = document.getElementById("prChargeThree").value;
-  let nurCharge = document.getElementById("nurCharge").value;
-  let nurStCharge = document.getElementById("nurStCharge").value;
-  let moCharge = document.getElementById("moCharge").value;
-  let conCharge = document.getElementById("conCharge").value;
-  let ctg = document.getElementById("ctg").value;
-  let rrCharge = document.getElementById("rrCharge").value;
-  let other = document.getElementById("other").value;
-  let totalBill = +adCharge + +surCharge + +anesCharge+ +opCharge + +chargeLR + +pedCharge+ +prChargeThree + +nurCharge+ +nurStCharge + +moCharge+ +conCharge+ +ctg+ +rrCharge+ +other;
-  document.getElementById("totalBill").value = totalBill;
-  console.log("this is the total result:" ,totalBill);
-}
+    let totalBill = +adCharge + +surCharge + +anesCharge+ +opCharge + +chargeLR + +pedCharge+ +prCharge + +nurCharge+ +nurStCharge + +moCharge+ +conCharge+ +ctg+ +rrCharge+ +other1+ +other2+ +other3+ +other4+ +other5+ +other6;
+    document.getElementById("totalBill").value = totalBill;
+    console.log("this is the total result:" ,totalBill);
+  }
+  // Get General illness Total
+  function genIllnessTotal() {
+    let prCharge = document.getElementById("prCharge").value;
+    let moCharge = document.getElementById("moCharge").value;
+    let monCharge = document.getElementById("monCharge").value;
+    let oxCharge = document.getElementById("oxCharge").value;
+    let nurCharge = document.getElementById("nurCharge").value;
+    let conCharge = document.getElementById("conCharge").value;
 
-function genIllnessTotal() {
-  let prChargeThree = document.getElementById("prChargeThree").value;
-  let moChargeTwo = document.getElementById("moChargeTwo").value;
-  let monChargeTwo = document.getElementById("monChargeTwo").value;
-  let oxChargeTwo = document.getElementById("oxChargeTwo").value;
-  let nurChargeTwo = document.getElementById("nurChargeTwo").value;
-  let conChargeThree = document.getElementById("conChargeThree").value;
-  
-  let totalBill = +prChargeThree + +moChargeTwo + +monChargeTwo+ +oxChargeTwo + +nurChargeTwo + +conChargeThree;
-  document.getElementById("totalBill").value = totalBill;
-  console.log("this is the total result:" ,totalBill);
-}
-
-function feeFunction(fee) {
-  let finalBill = document.getElementById('finalBill');
-  let discount = document.getElementById('discount');
-  finalBill.value = fee.value - discount.value;
-  console.log("this is the final result:" ,finalBill.value);
-}
-
-function discFunction(discount) {
-  let finalBill = document.getElementById('finalBill');
-  let totalBill = document.getElementById('totalBill');
-  finalBill.value = totalBill.value - discount.value;
-  console.log("this is the final result:" ,finalBill.value);
-}
-
-function getFee(fee) {
-  let finalBill = document.getElementById('finalBill');
-  let discount = document.getElementById('discount');
-  finalBill.value = fee.value - discount.value;
-  console.log("this is the final result:" ,finalBill.value);
-}
-
-function getMonTotal(){
-  let monChargeOne = document.getElementById("monChargeOne").value;
-  document.getElementById("monChargeTwo").value = monChargeOne*1200;
-}
-
-function getPrTotal(){
-  let prChargeOne = document.getElementById("prChargeOne").value;
-  let prChargeTwo = document.getElementById("prChargeTwo").value;
-  document.getElementById("prChargeThree").value = prChargeOne*prChargeTwo;
-}
-
-function getNurTotal(){
-  let nurChargeOne = document.getElementById("nurChargeOne").value;
-  document.getElementById("nurChargeTwo").value = nurChargeOne*1000;
-}
-
-function getOxTotal(){
-  let oxChargeOne = document.getElementById("oxChargeOne").value;
-  document.getElementById("oxChargeTwo").value = oxChargeOne*7000;
-}
-
-function getConDay(day){
-  document.getElementById("conChargeThree").value = document.getElementById("conChargeOne").value * day.value;
-}
-
-function getConCharge(charge) {
-  let conChargeTwo = document.getElementById('conChargeTwo');
-  let conChargeThree = document.getElementById('conChargeThree');
-  conChargeThree.value = charge.value * conChargeTwo.value;
-  console.log("this is the final result:" ,conChargeThree.value);
-}
-function getMoTotal(){
-  let moChargeOne = document.getElementById("moChargeOne").value;
-  document.getElementById("moChargeTwo").value = moChargeOne*1000;
-}
-
+    let other1 = document.getElementById("other1").value;
+    let other2 = document.getElementById("other2").value;
+    let other3 = document.getElementById("other3").value;
+    let other4 = document.getElementById("other4").value;
+    let other5 = document.getElementById("other5").value;
+    let other6 = document.getElementById("other6").value;
+    
+    let totalBill = +prCharge+ +moCharge+ +monCharge+ +oxCharge+ +nurCharge+ +conCharge+ +other1+ +other2+ +other3+ +other4+ +other5+ +other6;
+    document.getElementById("totalBill").value = totalBill;
+    console.log("this is the total result:" ,totalBill);
+  }
+  // Get Fee Function
+  function feeFunction(fee) {
+    let finalBill = document.getElementById('finalBill');
+    let discount = document.getElementById('discount');
+    finalBill.value = fee.value - discount.value;
+    console.log("this is the final result:" ,finalBill.value);
+  }
+  // Get Fee
+  function getFee(fee) {
+    let finalBill = document.getElementById('finalBill');
+    let discount = document.getElementById('discount');
+    finalBill.value = fee.value - discount.value;
+    console.log("this is the final result:" ,finalBill.value);
+  }
+  // Get Monitor Total
+  function getMonTotal(){
+    let monChargeOne = document.getElementById("monChargeOne").value;
+    document.getElementById("monCharge").value = monChargeOne*1200;
+  }
+  // Private Room Charges
+  function getPrTotal(){
+    let prChargeOne = document.getElementById("prChargeOne").value;
+    let prChargeTwo = document.getElementById("prChargeTwo").value;
+    document.getElementById("prCharge").value = prChargeOne*prChargeTwo;
+  }
+  // Get Nursery Total
+  function getNurTotal(){
+    let nurChargeOne = document.getElementById("nurChargeOne").value;
+    document.getElementById("nurCharge").value = nurChargeOne*1000;
+  }
+  // Get Oxygen Total
+  function getOxTotal(){
+    let oxChargeOne = document.getElementById("oxChargeOne").value;
+    document.getElementById("oxCharge").value = oxChargeOne*7000;
+  }
+  // Get Consultant Day
+  function getConDay(day){
+    document.getElementById("conCharge").value = document.getElementById("conChargeOne").value * day.value;
+  }
+  // Get Consultant Charges
+  function getConCharge(charge) {
+    let conChargeTwo = document.getElementById('conChargeTwo');
+    let conCharge = document.getElementById('conCharge');
+    conCharge.value = charge.value * conChargeTwo.value;
+    console.log("this is the final result:" ,conCharge.value);
+  }
+  // Get Medical Officer Total
+  function getMoTotal(){
+    let moChargeOne = document.getElementById("moChargeOne").value;
+    document.getElementById("moCharge").value = moChargeOne*1000;
+  }
+  // Get Stitch In Total
   function getStitchInTotal(){
     let stitchIn = document.getElementById("stitchIn").value;
     document.getElementById("stitchInTotal").value = stitchIn*350;
   }
-
+  // Get Stitch Out Total
   function getStitchOutTotal(){
     let stitchOut = document.getElementById("stitchOut").value;
     document.getElementById("stitchOutTotal").value = stitchOut*150;
@@ -152,14 +157,13 @@ function getMoTotal(){
       document.getElementById("totalBill").value = totalBill;
       console.log("this is the total result:" ,totalBill);
   }
-
+  // Get Discount Function
   function discFunction(discount) {
     let finalBill = document.getElementById('finalBill');
     let totalBill = document.getElementById('totalBill');
     finalBill.value = totalBill.value - discount.value;
     console.log("this is the final result:" ,finalBill.value);
   }
-
   // ADD EMERGENCY BILL AJAX CALL
   $(document).ready(function($){
     // on submit...
@@ -214,9 +218,62 @@ function getMoTotal(){
     return false;
   });
 
-// Bill Print Function
-function printBill(id,type) {
-  if (type == 'EMERGENCY_BILL') {
-    location.href =`emergency_bill_print.php?sid=${id}`;
+  // ADD INDOOR BILL AJAX CALL
+  $(document).ready(function($){
+    // on submit...
+    $('#addIndoorBill').submit(function(e){
+        e.preventDefault();
+        $("#err-msg").hide();
+        //slipId required
+        let slipId = $("input#slipId").val();
+        //billId required
+        let billId = $("input#billId").val();
+        //mrId required
+        let mrId = $("input#mrId").val();
+        //name required
+        let name = $("input#name").val();
+        //phone required
+        let phone = $("input#phone").val();
+        if(name == "" || slipId == "" || phone == "" || mrId == "" || billId == ""){
+            $("#err-msg").fadeIn().text("Required Field.");
+            $("input#slipId").focus();
+            $("input#billId").focus();
+            $("input#mrId").focus();
+            $("input#name").focus();
+            $("input#phone").focus();
+            return false;
+        }
+        // ajax
+        $.ajax({
+            type:"POST",
+            url: "backend_components/bill_handler.php?q=ADD_INDOOR_BILL",
+            data: $(this).serialize(), // get all form field value in serialize form
+            success: function(res){
+              //parse json
+              res = JSON.parse(res);
+              console.log(res);   
+              $(function() {
+                var Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 1000
+                });
+                Toast.fire({
+                  icon: res.status,
+                  title: res.message
+                });
+                printBill(res.data['id'], res.data['type']);
+                // autoRefresh();
+              });
+            }
+        });
+    });  
+    return false;
+  });
+
+  // Bill Print Function
+  function printBill(id,type) {
+    if (type == 'EMERGENCY_BILL') { location.href =`emergency_bill_print.php?sid=${id}` }
+    else if (type == 'INDOOR_BILL'){ location.href =`indoor_bill_print.php?sid=${id}`;}
   }
-}

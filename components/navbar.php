@@ -32,7 +32,7 @@
 
       <li class="nav-item d-none d-sm-inline-block">
         <a type="button" class="dropdown-item nav-link" data-toggle="modal" data-target="#modal-slip">
-          <i class="fas fa-plus"></i> Add Slip
+          <i class="fas fa-plus"></i> Slips
         </a>
       </li>
       <!------*****************------>
@@ -40,7 +40,7 @@
       <!------*****************------> 
       <li class="nav-item d-none d-sm-inline-block">
         <a type="button" href="slips.php" class="dropdown-item nav-link">
-          <i class="fas fa-wallet"></i> Slip Records
+          <i class="fas fa-wallet"></i> View Slips
         </a>
       </li>
       <!------*****************------>
@@ -48,54 +48,30 @@
       <!------*****************------> 
 
        <li class="nav-item dropdown">
-        <a type="button" class="dropdown-item nav-link" data-toggle="dropdown" href="javascript:void(0);">
-           <i class="fas fa-plus"></i> Bill
-        </a>
-        <div class="dropdown-menu dropdown-menu-mg dropdown-menu-right">
-          <a href="emergency_slip_record.php" class="dropdown-item">
-            <i class="fas fa-user-injured mr-2"></i> Emergency Bill
+          <a type="button" class="dropdown-item nav-link" data-toggle="modal" data-target="#modal-bill">
+            <i class="fas fa-plus"></i> Bills
           </a>
-          <div class="dropdown-divider"></div>
-          <a href="indoor_slip_record.php" class="dropdown-item">
-            <i class="fas fa-procedures mr-2"></i> Indoor Bill
-          </a>
-        </div>
        </li>
 
       <!------*****************------>
-      <!------Indoor Patient Icon------>
+      <!------Patient Bill Icon------>
       <!------*****************------> 
-      <?php if ($_SESSION['role'] == "admin") {  ?>
+
+      <li class="nav-item dropdown">
+        <a type="button" class="dropdown-item nav-link" href="bill_records.php">
+           <i class="fas fa-wallet"></i> View Bills
+        </a>
+      </li>
+     
+    </ul> 
+
+    <?php if ($_SESSION['role'] == "admin") {  ?>
       <li class="nav-item d-none d-sm-inline-block">
         <a type="button" href="patient_record.php" class="dropdown-item nav-link">
           <i class="fas fa-users"></i> Patients
         </a>
       </li>
       <?php } ?>
-      <!------*****************------>
-      <!------Patient Bill Icon------>
-      <!------*****************------> 
-
-      <li class="nav-item dropdown">
-        <a type="button" class="dropdown-item nav-link" data-toggle="dropdown" href="javascript:void(0);">
-           <i class="fas fa-wallet"></i> Bill Records
-        </a>
-        <div class="dropdown-menu dropdown-menu-mg dropdown-menu-right">
-          <a href="emergency_bill_record.php" class="dropdown-item">
-            <i class="fas fa-user-injured mr-2"></i> Emergency Records
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="indoor_bill_record.php" class="dropdown-item">
-            <i class="fas fa-procedures mr-2"></i> Indoor Records
-          </a>
-        <div class="dropdown-divider"></div>
-          <a href="outdoor_slip_record.php" class="dropdown-item">
-            <i class="fas fa-user mr-2"></i> Outdoor Records
-          </a>
-        </div>
-       </li>
-     
-    </ul> 
 
     <!------******************------>
     <!------Right Navbar Links------>
@@ -276,9 +252,9 @@
         <div class="modal-body">
           <select class="form-control select2bs4" name="type" id="type" style="width: 100%;" required>
             <option value="" selected disabled>Select Slip Type</option>
-            <option value="OUTDOOR_SLIP">OUTDOOR PATIENT SLIP</option>
-            <option value="INDOOR_SLIP">INDOOR PATIENT SLIP</option>
-            <option value="EMERGENCY_SLIP">EMERGENCY PATIENT SLIP</option>      
+            <option value="OUTDOOR">OUTDOOR PATIENT SLIP</option>
+            <option value="INDOOR">INDOOR PATIENT SLIP</option>
+            <option value="EMERGENCY">EMERGENCY PATIENT SLIP</option>      
           </select>
           <div id="select">
             <br>
@@ -675,7 +651,7 @@
      $('#type').change(function () {
          $('#select').hide();
          $('#subType').prop('required',false);
-         if (this.options[this.selectedIndex].value == 'INDOOR_SLIP') {
+         if (this.options[this.selectedIndex].value == 'INDOOR') {
              $('#select').show();
              $('#subType').prop('required',true);
          }

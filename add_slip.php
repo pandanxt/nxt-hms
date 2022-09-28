@@ -13,11 +13,11 @@
     // Sidebar File
     include('components/sidebar.php');
     
-    if ($type == 'OUTDOOR_SLIP') {
+    if ($type == 'OUTDOOR') {
       $title = 'OPD SLIP';
-    }else if ($type == 'INDOOR_SLIP') {
+    }else if ($type == 'INDOOR') {
       $title = 'INDOOR SLIP';
-    }else if ($type == 'EMERGENCY_SLIP') {
+    }else if ($type == 'EMERGENCY') {
       $title = 'EMERGENCY SLIP';
     }
 ?>
@@ -65,7 +65,7 @@
                         <input type="number" step="0.1" name="age" id="age" class="form-control" placeholder="Enter Age" required>
                     </div>
                 </div>
-                <?php if ($type == 'OUTDOOR_SLIP') {?>
+                <?php if ($type == 'OUTDOOR') {?>
                 <div class="col-md-12" style="display:flex;">
                   <div class="col-md-6">
                     <label for="switchList">Switch List: </label>
@@ -82,7 +82,7 @@
                 </div>
                 <?php } ?>
                 <div class="col-md-12" style="display:flex;">
-                  <?php if ($type != 'EMERGENCY_SLIP') {?>
+                  <?php if ($type != 'EMERGENCY') {?>
                   <div class="form-group col-md-6">
                     <label>Department</label>
                     <select class="form-control select2bs4" id="dept" name="dept" style="width: 100%;" required onchange="showDoctor(this.value)">
@@ -122,14 +122,14 @@
                         <label>Mobile No#</label>
                         <input type="tel" name="phone" id="phone" class="form-control" placeholder="Enter Mobile No. without '-' " required>
                     </div>
-                    <?php if ($type == 'OUTDOOR_SLIP') {?>
+                    <?php if ($type == 'OUTDOOR') {?>
                     <div class="form-group col-md-6">
                         <label>Consultant Fee</label>
                         <input type="number" name="fee" id="fee" class="form-control" placeholder="Enter Consultant Fee" required>
                     </div>
                     <?php }?>
                 </div>
-                <?php if ($type == 'INDOOR_SLIP') {?>
+                <?php if ($type == 'INDOOR') {?>
                 <div class="form-group col-md-12">
                   <label>Procedure/Surgery Type</label>
                   <textarea style="height: 60px;" name="procedure" id="procedure" placeholder="Enter Procedure/Surgery Details Here ..." type="text" class="form-control" required></textarea>

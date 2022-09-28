@@ -7,7 +7,7 @@
      if ($sid) {
        include('backend_components/connection.php');
         // Query to get Outdoor Slip Details
-       if ($stype == 'EMERGENCY_SLIP') {
+       if ($stype == 'EMERGENCY') {
             $slipQuery ="SELECT `a`.*,`c`.`USER_NAME`,`d`.`DOCTOR_NAME`, `e`.* FROM `me_slip` AS `a`  
             INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID` 
             INNER JOIN `me_doctors` AS `d` ON `d`.`DOCTOR_UUID` = `a`.`SLIP_DOCTOR` 
@@ -28,7 +28,7 @@
         $mrId = $slip_row['SLIP_MRID'];
         $name = $slip_row['SLIP_NAME'];
         $phone = $slip_row['SLIP_MOBILE'];
-        if ($stype != 'EMERGENCY_SLIP') {
+        if ($stype != 'EMERGENCY') {
             $dept = $slip_row['DEPARTMENT_NAME'];
         }
         $doctor = $slip_row['DOCTOR_NAME'];
@@ -71,7 +71,7 @@
                         <td class="right-chars"><img style="width:25px;margin-left:10px;" src="dist/img/phone-icon.png"> <?php echo $phone; ?></td>
                     </tr>
                     <?php
-                        if ($type != "EMERGENCY_SLIP") {
+                        if ($type != "EMERGENCY") {
                     ?>
                     <tr>
                         <td class="right-chars"><img style="width:25px;margin-left:10px;" src="dist/img/department-icon.png"> <?php echo $dept; ?></td>
@@ -89,7 +89,7 @@
                     </tr>
                 </table>
                 <?php 
-                    if ($type == "OUTDOOR_SLIP") {
+                    if ($type == "OUTDOOR") {
                 ?>
                 <div class="flex">
                     <div class="totals">
@@ -118,7 +118,7 @@
                     }
                 ?>
                 <?php
-                    if ($type == "INDOOR_SLIP") {
+                    if ($type == "INDOOR") {
                 ?>
                 <div class="keepItBody">
                    <b>Procedure:</b> <?php echo $procedure; ?>
