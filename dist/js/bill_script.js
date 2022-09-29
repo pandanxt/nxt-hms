@@ -272,6 +272,39 @@ if (document.getElementById("billId")) {document.getElementById("billId").value 
     return false;
   });
 
+  // Delete Bill Record
+  function deleteBill(str){
+    let billId = str.getAttribute("data-billId");
+    let slipId = str.getAttribute("data-slipId");
+    if (billId=="" || slipId=="") {return;}
+    
+    let checkConfirm = confirm('Please confirm deletion');
+    if (checkConfirm) {
+        // ajax
+        $.ajax({
+            type:"POST",
+            url: `backend_components/bill_handler.php?q=DELETE_BILL&id=${billId}&val=${slipId}`,
+            success: function(){   
+            $(function() {
+                var Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1000
+                });
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Bill Record Deleted Successfully.'
+                });
+                autoRefresh();
+            });
+            }
+        });
+    } else {
+        return;
+    }
+  }
+
   // Bill Print Function
   function printBill(id,type) {
     if (type == 'EMERGENCY_BILL') { location.href =`emergency_bill_print.php?sid=${id}` }

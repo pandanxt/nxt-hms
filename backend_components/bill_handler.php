@@ -41,10 +41,7 @@
     $oxCharge = (!empty($_POST['oxCharge'])) ? mysqli_real_escape_string($db, $_POST['oxCharge']) : 0;  
     $nurCharge = (!empty($_POST['nurCharge'])) ? mysqli_real_escape_string($db, $_POST['nurCharge']) : 0;
     $monCharge = (!empty($_POST['monCharge'])) ? mysqli_real_escape_string($db, $_POST['monCharge']) : 0;
-    // $conChargeTwo = (!empty($_POST['conChargeTwo'])) ? mysqli_real_escape_string($db, $_POST['conChargeTwo']) : 0;  
-    // $conChargeThree = (!empty($_POST['conChargeThree'])) ? mysqli_real_escape_string($db, $_POST['conChargeThree']) : 0;
-    // $moChargeTwo = (!empty($_POST['moChargeTwo'])) ? mysqli_real_escape_string($db, $_POST['moChargeTwo']) : 0;
-
+   
     $other1 = (!empty($_POST['other1'])) ? mysqli_real_escape_string($db, $_POST['other1']) : 0;
     $otherText1 = (!empty($_POST['otherText1'])) ? mysqli_real_escape_string($db, $_POST['otherText1']) : NULL;
 
@@ -216,7 +213,6 @@
     mysqli_stmt_close($stmt);
     mysqli_close($db);
   }
-
   //   Emergency Handler
   // Save Patient Data Query
   if ($q == 'ADD_EMERGENCY_BILL') {
@@ -432,4 +428,17 @@
     mysqli_stmt_close($stmt);
     mysqli_close($db);
   }
-?>
+// Delete Patient Data Query
+if($q == 'DELETE_BILL') {
+  if(mysqli_query($db, "DELETE FROM `me_bill` WHERE `BILL_UUID` ='$id'")) {
+     // Update Status of the receipt
+     $updateSql ="UPDATE `me_slip` SET `SLIP_STATUS`= 1 WHERE `SLIP_UUID` = '$val'";
+     if($querySql = mysqli_query($db,$updateSql))
+     {
+      echo 'Form Has been submitted successfully';
+     }
+  } else {
+      echo "Error: " . $sql . "" . mysqli_error($db);
+  }
+}  
+  ?>

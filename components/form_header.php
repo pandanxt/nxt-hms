@@ -40,4 +40,6 @@
   <script src="plugins/jquery/jquery.min.js"></script>
 </head>
 <body class="hold-transition sidebar-mini">
+  <!-- Medeast JS -->
+<script src="dist/js/medeast.js"></script>  
 <div class="wrapper">

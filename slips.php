@@ -96,7 +96,7 @@
                                   mysqli_stmt_store_result($stmt);
                                   $resultCheck = mysqli_stmt_num_rows($stmt);
                                   if ($resultCheck > 0) {
-                                    echo "<br><a href='javascript:void(0);' onclick='getRequest(this);' data-uuid='$slip_row[SLIP_UUID]' data-type='$slip_row[SLIP_TYPE]' data-toggle='modal' data-target='#view-request'>
+                                    echo "<br><a href='javascript:void(0);' onclick='getRequest(this);' data-uuid='$slip_row[SLIP_UUID]' data-toggle='modal' data-target='#view-request'>
                                       <i class='fas fa-sticky-note'></i> Request
                                     </a>";
                                   }else{
@@ -111,7 +111,7 @@
                               <a href='add_patient.php?id=$slip_row[SLIP_UUID]'>
                                 <i class='fas fa-edit'></i> Edit
                               </a><br>
-                              <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?osrId=$slip_row[SLIP_UUID]' style='color:red;'>
+                              <a onClick='deleteSlip(this)' data-uuid='$slip_row[SLIP_UUID]' href='javascript:void(0);' style='color:red;'>
                                 <i class='fas fa-trash'></i> Delete
                               </a>";
                               }
@@ -127,93 +127,6 @@
           </div>
         </div>
       </section>
-  </div>
-  <!-- **
-  *  Generate Edit Request Model Popup Here 
-  ** -->
-  <div class="modal fade" id="generate-request">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title"><i class="nav-icon fas fa-edit"></i> Request</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <span id="err-msg" style="display: none"></span>
-        <form action="javascript:void(0)" method="post" id="ADD_REQUEST">
-          <div class="modal-body">
-            <div class="form-group">
-              <label>Title</label>
-              <select class="form-control select2bs4" name="title" id="title" style="width: 100%;">
-                <option disabled selected>Select Title</option>
-                <option value="cancel">Cancel Slip</option>
-                <option value="update">Update Slip</option> 
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Comment</label>
-              <textarea type="text" name="comment" class="form-control" id="comment" placeholder="Enter Reason of Request ..." required></textarea>
-            </div>
-            <input type="text" name="staffId" id="staffId" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
-            <input type="text" name="reqId" id="reqId" hidden readonly>
-          </div>
-          <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <button type="submit" name="submit" class="btn btn-primary">Save</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <!-- **
-  *  View Request Model Popup Here 
-  ** -->
-  <div class="modal fade" id="view-request">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title"><i class="nav-icon fas fa-edit"></i> Request</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form action="javascript:void(0)" method="post" id="VIEW_REQUEST">
-          <div class="modal-body">
-            <table id="example1" class="table table-bordered table-striped">
-              <thead>
-              <tr style="font-size: 14px;">
-                <th>Title</th>
-                <th>Comment</th>
-                <th>Status</th>
-                <th>Created</th>
-                <th>Option</th>
-              </tr>
-              </thead>
-              <tbody id="body"></tbody>
-              </table>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <!-- **
-  *  Edit Request Model Popup Here 
-  ** -->
-  <div class="modal fade" id="edit-request">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title"><i class="nav-icon fas fa-edit"></i> Request</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <span id="err-msg" style="display: none"></span>
-        <form action="javascript:void(0)" method="post" id="EDIT_REQUEST">
-        </form>
-      </div>
-    </div>
   </div>
   <!-- Javascript Script File -->
  <script src="dist/js/slip_script.js"></script>

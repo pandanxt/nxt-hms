@@ -67,7 +67,7 @@
                             <b>On</b>: $rs[PATIENT_DATE_TIME]
                         </td> 
                         <td style='display:flex;'>
-                            <a href='view_patient.php?patid=$rs[PATIENT_MR_ID]' style='color:green;'>
+                            <a href='view_patient.php?id=$rs[PATIENT_MR_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
                             </a>";
                             if ($_SESSION['role'] == "admin") {  

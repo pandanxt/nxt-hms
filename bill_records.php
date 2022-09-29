@@ -78,8 +78,8 @@
                             <a href='indoor_bill.php?id=$rs[BILL_UUID]'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
-                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?ibrId=$rs[BILL_UUID]' style='color:red;'>
-                              <i class='fas fa-trash'></i> Delete
+                            <a onClick='deleteBill(this)' data-billId='$rs[BILL_UUID]' data-slipId='$rs[BILL_SLIP_UUID]' href='javascript:void(0);' style='color:red;'>
+                                <i class='fas fa-trash'></i> Delete
                             </a>";
                             }
                         echo "</td>
@@ -102,6 +102,7 @@
     <!-- /.content -->
   </div>
   <!-- /.Footer -->
+  <script src="dist/js/bill_script.js"></script>
 <?php 
   // Footer File
   include ('components/footer.php'); 

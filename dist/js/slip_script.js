@@ -1,12 +1,18 @@
-let data;
-let slipId;
-let list = 'me';
+let data, slipId, list = 'me';
 
 // Add unique Id for New Slip and visiting doctor
 let uuid = (new Date()).getTime() + Math.trunc(365 * Math.random());
 if (document.getElementById("patId")) {document.getElementById("patId").value = String(uuid).slice(-6) +'-MRD';}
 if (document.getElementById("slipId")) {document.getElementById("slipId").value = String(uuid).slice(-6) +'-SLP';}
 if (document.getElementById("uuId")) {document.getElementById("uuId").value = String(uuid).slice(-6) +'-DOC';}
+if (document.getElementById("reqId")) {document.getElementById("reqId").value = String(uuid).slice(-6) +'-REQ';}
+
+// Auto Fresh Function
+function autoRefresh(){
+  setTimeout(() => {
+    window.location = window.location.href;
+  }, 1000);    
+}
 
 // Get Slip Id to Assign to slipId Variable
 function getSlipId(id){ slipId = id.getAttribute("data-uuid");}
@@ -55,14 +61,6 @@ xmlhttp.onreadystatechange=function() {
 }
 xmlhttp.open("GET",`backend_components/slip_handler.php?q=GET_DOCTOR&id=${list}`,true);
 xmlhttp.send();
-}
-
-// Auto Fresh Function
-function autoRefresh(){
-    setTimeout(() => {
-      window.location = window.location.href;
-    // window.location = "outdoor_slip_record.php";   
-    }, 1000);    
 }
 
 // Ajax Call for Adding New Visiting Doctor 
@@ -159,6 +157,37 @@ function printSlipRecord(sid) {
   let id = sid.getAttribute("data-uuid");
   let type = sid.getAttribute("data-type");
   printSlip(id,type);
+}
+// Delete Slip Record
+function deleteSlip(str){
+  let delId = str.getAttribute("data-uuid");
+  if (delId=="") {return;}
+  slipId = delId;
+  let checkConfirm = confirm('Please confirm deletion');
+  if (checkConfirm) {
+      // ajax
+      $.ajax({
+          type:"POST",
+          url: `backend_components/slip_handler.php?q=DELETE_SLIP&id=${slipId}`,
+          success: function(){   
+          $(function() {
+              var Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 1000
+              });
+              Toast.fire({
+                  icon: 'error',
+                  title: 'Slip Record Deleted Successfully.'
+              });
+              autoRefresh();
+          });
+          }
+      });
+  } else {
+      return;
+  }
 }
 
 function updateRequest(str){
