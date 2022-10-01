@@ -1,4 +1,4 @@
-let data, slipId, list = 'me';
+let data, slipId,serviceName, list = 'me';
 
 // Add unique Id for New Slip and visiting doctor
 let uuid = (new Date()).getTime() + Math.trunc(365 * Math.random());
@@ -6,6 +6,8 @@ if (document.getElementById("patId")) {document.getElementById("patId").value = 
 if (document.getElementById("slipId")) {document.getElementById("slipId").value = String(uuid).slice(-6) +'-SLP';}
 if (document.getElementById("uuId")) {document.getElementById("uuId").value = String(uuid).slice(-6) +'-DOC';}
 if (document.getElementById("reqId")) {document.getElementById("reqId").value = String(uuid).slice(-6) +'-REQ';}
+if (document.getElementById("followId")) {document.getElementById("followId").value = String(uuid).slice(-6) +'-FOL';}
+if (document.getElementById("serviceId")) {document.getElementById("serviceId").value = String(uuid).slice(-6) +'-SRS';}
 
 // Auto Fresh Function
 function autoRefresh(){
@@ -61,6 +63,25 @@ xmlhttp.onreadystatechange=function() {
 }
 xmlhttp.open("GET",`backend_components/slip_handler.php?q=GET_DOCTOR&id=${list}`,true);
 xmlhttp.send();
+}
+
+// Get Discount Function
+function serviceDiscount(discount) {
+  let finalBill = document.getElementById('finalBill');
+  let totalBill = document.getElementById('service');
+  let selected = totalBill.options[totalBill.selectedIndex];
+  finalBill.value = totalBill.value - discount.value;
+  serviceName = selected.getAttribute("data-name");
+  console.log("this is the final result:" ,finalBill.value, serviceName);
+}
+
+// Onchange Enable Fields
+function serviceChange(service) {
+  let discount = document.getElementById('discount');
+  let finalBill = document.getElementById('finalBill');
+  if (discount.disabled = true) discount.disabled = false;
+  finalBill.value = service.value - discount.value;
+  console.log("this is the final result:" ,finalBill.value);
 }
 
 // Ajax Call for Adding New Visiting Doctor 
@@ -149,7 +170,7 @@ $(document).ready(function($){
 
 // Slip Print Function
 function printSlip(id,type) {
-  window.open(`print-page.php?type=${type}&sid=${id}`, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=100,width=1000,height=800");
+  location.href =`slip_print.php?type=${type}&sid=${id}` 
 }
 
 // Slip Print Function
@@ -205,7 +226,7 @@ function updateRequest(str){
 }
 
 // Get Request Data against slip Id
-function getRequest(str){
+function userViewRequest(str){
     let req = str.getAttribute("data-uuid");
     if (req=="") {return;}
       var xmlhttp=new XMLHttpRequest();
@@ -295,6 +316,51 @@ $(document).ready(function($){
   return false;
 });
 
+// Ajax Call for Adding New FollowUp Slip 
+$(document).ready(function($){
+  $('#ADD_FOLLOW_UP_SLIP').submit(function(e){
+      e.preventDefault();
+      $("#err-msg").hide();
+      var id = $("input#followId").val();
+      var staffId = $("input#staffId").val();
+      if(staffId == "" || id == ""){
+          $("#err-msg").fadeIn().text("Required Field.");
+          $("input#followId").focus();
+          $("input#staffId").focus();
+          return false;
+      }
+      // ajax
+      $.ajax({
+          type:"POST",
+          url: `backend_components/slip_handler.php?q=ADD_FOLLOW_UP_SLIP&id=${slipId}`,
+          data: $(this).serialize(), // get all form field value in serialize form
+          success: function(res){  
+            //parse json
+          res = JSON.parse(res); 
+          let el = document.querySelector("#close-button");
+          el.click();
+          console.log(res);
+          
+            $(function() {
+                var Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 1000
+                });
+                Toast.fire({
+                  icon: res.status,
+                  title: res.message
+                });
+                printMiniSlip(res.data['id'], res.data['type']);
+                autoRefresh();
+            });
+          }
+      });
+  });  
+  return false;
+});
+
 // Ajax Call for Updating Edit Request 
 $(document).ready(function($){
   $('#EDIT_REQUEST').submit(function(e){
@@ -335,3 +401,127 @@ $(document).ready(function($){
   });  
   return false;
 });
+
+// Ajax Call for Adding New Service Slip 
+$(document).ready(function($){
+  $('#ADD_SERVICE_SLIP').submit(function(e){
+      e.preventDefault();
+      $("#err-msg").hide();
+      var id = $("input#serviceId").val();
+      var staffId = $("input#staffId").val();
+      if(staffId == "" || id == ""){
+          $("#err-msg").fadeIn().text("Required Field.");
+          $("input#serviceId").focus();
+          $("input#staffId").focus();
+          return false;
+      }
+      // ajax
+      $.ajax({
+          type:"POST",
+          url: `backend_components/slip_handler.php?q=ADD_SERVICE_SLIP&id=${slipId}&val=${serviceName}`,
+          data: $(this).serialize(), // get all form field value in serialize form
+          success: function(res){   
+            //parse json
+          res = JSON.parse(res);
+          let el = document.querySelector("#close-button");
+          el.click();
+          console.log(res);
+            $(function() {
+                var Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 1000
+                });
+                Toast.fire({
+                  icon: res.status,
+                  title: res.message
+                });
+                printMiniSlip(res.data['id'], res.data['type']);
+                autoRefresh();
+            });
+          }
+      });
+  });  
+  return false;
+});
+
+// Slip Print Function
+function printMiniSlip(id,type) {
+  // if (type == 'FOLLOWUP_SLIP') { 
+    location.href =`other_slip_print.php?sid=${id}&type=${type}` 
+  // }
+  // else if (type == 'SERVICE_SLIP'){ location.href =`service_slip_print.php?sid=${id}`;}
+}
+
+// Slip Print Function
+function printMiniSlipRecord(sid) {
+  let id = sid.getAttribute("data-uuid");
+  let type = sid.getAttribute("data-type");
+  printMiniSlip(id,type);
+}
+
+// Delete Follow Up Slip Record
+function deleteFollowSlip(str){
+  let delId = str.getAttribute("data-uuid");
+  if (delId=="") {return;}
+  slipId = delId;
+  let checkConfirm = confirm('Please confirm deletion');
+  if (checkConfirm) {
+      // ajax
+      $.ajax({
+          type:"POST",
+          url: `backend_components/slip_handler.php?q=DELETE_FOLLOW_SLIP&id=${slipId}`,
+          success: function(res){
+            //parse json
+            // res = JSON.parse(res);   
+          $(function() {
+              var Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 1000
+              });
+              Toast.fire({
+                  icon: 'error',
+                  title: 'FollowUp Slip Record Deleted Successfully.'
+              });
+              autoRefresh();
+          });
+          }
+      });
+  } else {
+      return;
+  }
+}
+// Delete Service Slip Record
+function deleteServiceSlip(str){
+  let delId = str.getAttribute("data-uuid");
+  if (delId=="") {return;}
+  slipId = delId;
+  let checkConfirm = confirm('Please confirm deletion');
+  if (checkConfirm) {
+      // ajax
+      $.ajax({
+          type:"POST",
+          url: `backend_components/slip_handler.php?q=DELETE_SERVICE_SLIP&id=${slipId}`,
+          success: function(){   
+          $(function() {
+              var Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 1000
+              });
+              Toast.fire({
+                  icon: 'error',
+                  title: 'Service Slip Record Deleted Successfully.'
+              });
+              autoRefresh();
+          });
+          }
+      });
+  } else {
+      return;
+  }
+}

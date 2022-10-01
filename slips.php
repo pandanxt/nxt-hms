@@ -58,6 +58,11 @@
                         $sql = mysqli_query($db,$recordQuery);
                         while($slip_row = mysqli_fetch_array($sql))
                         { 
+                          $slipTime = $slip_row['SLIP_DATE_TIME'];
+                          $datetime1 = new DateTime($slipTime);
+                          $datetime2 = new DateTime();
+                          $difference = $datetime1->diff($datetime2);
+
                           echo "<tr style='font-size: 12px;'>
                           <td>$slip_row[SLIP_MRID]</td>
                           <td>$slip_row[SLIP_TYPE]</td>
@@ -72,49 +77,70 @@
                           </td> 
                           <td style='display:flex;'>
                               <a href='javascript:void(0)' onclick='printSlipRecord(this);' data-uuid='$slip_row[SLIP_UUID]' data-type='$slip_row[SLIP_TYPE]' style='color:green;'>
-                                <i class='fas fa-wallet'></i> Print
+                                <i class='fas fa-wallet'></i> Slip Print
                               </a>";
-                              if($slip_row['SLIP_TYPE'] != "OUTDOOR" && $slip_row['SLIP_STATUS'] != 0) {
-                                if($slip_row['SLIP_SUB_TYPE'] != NULL) {
-                                  echo "</br>
-                                  <a href='bills.php?type=$slip_row[SLIP_TYPE]&subtype=$slip_row[SLIP_SUB_TYPE]&sid=$slip_row[SLIP_UUID]'>
-                                    <i class='fas fa-wallet'></i> Bill
+                                if ($difference->d <= 7) {
+                                    $followUp = "SELECT * FROM `me_followup_slip` WHERE `SLIP_REFERENCE_UUID` = ?";
+                                    $stmt = mysqli_stmt_init($db);
+                                    if (mysqli_stmt_prepare($stmt,$followUp)) {
+                                      mysqli_stmt_bind_param($stmt,"s",$slip_row['SLIP_UUID']);
+                                      mysqli_stmt_execute($stmt);
+                                      mysqli_stmt_store_result($stmt);
+                                      $resultCheck = mysqli_stmt_num_rows($stmt);
+                                      if ($resultCheck == 0) {
+                                        echo "<br>
+                                        <a href='javascript:void(0);' onclick='getSlipId(this);' data-uuid='$slip_row[SLIP_UUID]' data-type='$slip_row[SLIP_TYPE]' data-toggle='modal' data-target='#generate-followup'>
+                                          <i class='fas fa-wallet'></i> FollowUp Slip
+                                        </a>";
+                                      }
+                                    }
+                                  echo "<br><a href='javascript:void(0);' onclick='getSlipId(this);' data-uuid='$slip_row[SLIP_UUID]' data-type='$slip_row[SLIP_TYPE]' data-toggle='modal' data-target='#generate-service'>
+                                    <i class='fas fa-wallet'></i> Service Slip
                                   </a>";
-                                }else {
-                                  echo "</br>
-                                  <a href='bills.php?type=$slip_row[SLIP_TYPE]&sid=$slip_row[SLIP_UUID]'>
-                                    <i class='fas fa-wallet'></i> Bill
-                                  </a>";
-                                }  
-                              }
-                              if ($_SESSION['role'] == "user") {
-                                $request = "SELECT * FROM `me_request` WHERE `REQUEST_REFERENCE_UUID` = ? AND `STAFF_ID` = ?";
-                                $stmt = mysqli_stmt_init($db);
-                                if (mysqli_stmt_prepare($stmt,$request)) {
-                                  mysqli_stmt_bind_param($stmt,"ss",$slip_row['SLIP_UUID'],$_SESSION['uuid']);
-                                  mysqli_stmt_execute($stmt);
-                                  mysqli_stmt_store_result($stmt);
-                                  $resultCheck = mysqli_stmt_num_rows($stmt);
-                                  if ($resultCheck > 0) {
-                                    echo "<br><a href='javascript:void(0);' onclick='getRequest(this);' data-uuid='$slip_row[SLIP_UUID]' data-toggle='modal' data-target='#view-request'>
-                                      <i class='fas fa-sticky-note'></i> Request
-                                    </a>";
-                                  }else{
-                                    echo "<br><a href='javascript:void(0);' onclick='getSlipId(this);' data-uuid='$slip_row[SLIP_UUID]' data-type='$slip_row[SLIP_TYPE]' data-toggle='modal' data-target='#generate-request'>
-                                      <i class='fas fa-edit'></i> Generate Request
-                                    </a>";
-                                  }
                                 }
-                              }
-                              if ($_SESSION['role'] == "admin") { 
-                              echo "<br>
-                              <a href='add_patient.php?id=$slip_row[SLIP_UUID]'>
-                                <i class='fas fa-edit'></i> Edit
-                              </a><br>
-                              <a onClick='deleteSlip(this)' data-uuid='$slip_row[SLIP_UUID]' href='javascript:void(0);' style='color:red;'>
-                                <i class='fas fa-trash'></i> Delete
-                              </a>";
-                              }
+                                if($slip_row['SLIP_TYPE'] != "OUTDOOR" && $slip_row['SLIP_STATUS'] != 0) {
+                                  if($slip_row['SLIP_SUB_TYPE'] != NULL) {
+                                    echo "</br>
+                                    <a href='bills.php?type=$slip_row[SLIP_TYPE]&subtype=$slip_row[SLIP_SUB_TYPE]&sid=$slip_row[SLIP_UUID]'>
+                                      <i class='fas fa-wallet'></i> Generate Bill
+                                    </a>";
+                                  }else {
+                                    echo "</br>
+                                    <a href='bills.php?type=$slip_row[SLIP_TYPE]&sid=$slip_row[SLIP_UUID]'>
+                                      <i class='fas fa-wallet'></i> Generate Bill
+                                    </a>";
+                                  }  
+                                }
+                                  if ($_SESSION['role'] == "user") {
+                                    $request = "SELECT * FROM `me_request` WHERE `REQUEST_REFERENCE_UUID` = ? AND `STAFF_ID` = ?";
+                                    $stmt = mysqli_stmt_init($db);
+                                    if (mysqli_stmt_prepare($stmt,$request)) {
+                                      mysqli_stmt_bind_param($stmt,"ss",$slip_row['SLIP_UUID'],$_SESSION['uuid']);
+                                      mysqli_stmt_execute($stmt);
+                                      mysqli_stmt_store_result($stmt);
+                                      $resultCheck = mysqli_stmt_num_rows($stmt);
+                                      if ($resultCheck > 0) {
+                                        echo "<br><a href='javascript:void(0);' onclick='userViewRequest(this);' data-uuid='$slip_row[SLIP_UUID]' data-toggle='modal' data-target='#view-request'>
+                                          <i class='fas fa-sticky-note'></i> View Request
+                                        </a>";
+                                      }else{
+                                        if ($difference->d <= 7) {
+                                          echo "<br><a href='javascript:void(0);' onclick='getSlipId(this);' data-uuid='$slip_row[SLIP_UUID]' data-type='$slip_row[SLIP_TYPE]' data-toggle='modal' data-target='#generate-request'>
+                                            <i class='fas fa-edit'></i> Generate Request
+                                          </a>";
+                                        }
+                                      }
+                                    }
+                                  }
+                                if ($_SESSION['role'] == "admin") { 
+                                  echo "<br>
+                                  <a href='add_patient.php?id=$slip_row[SLIP_UUID]'>
+                                    <i class='fas fa-edit'></i> Edit Slip
+                                  </a><br>
+                                  <a onClick='deleteSlip(this)' data-uuid='$slip_row[SLIP_UUID]' href='javascript:void(0);' style='color:red;'>
+                                    <i class='fas fa-trash'></i> Delete Slip
+                                  </a>";
+                                }
                           echo "</td>
                           </tr>"; 
                         }

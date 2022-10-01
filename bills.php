@@ -615,7 +615,7 @@
                   </div>
                   <div class="form-group col-md-3">
                     <label>Discount</label>
-                    <input type="number" name="discount"  onchange="discFunction(this)" class="form-control" id="discount" placeholder="Discount">
+                    <input type="number" name="discount" onchange="discFunction(this)" class="form-control" id="discount" placeholder="Discount">
                   </div>
                   <div class="form-group col-md-3">
                     <label>Final Bill</label>

@@ -35,6 +35,92 @@
   </div>
 </div>
 
+<!-- Generate Followup Slip Model Popup Here -->
+<div class="modal fade" id="generate-followup">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><i class="nav-icon fas fa-wallet"></i> FollowUp Slip</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <span id="err-msg" style="display: none"></span>
+      <form action="javascript:void(0)" method="post" id="ADD_FOLLOW_UP_SLIP">
+        <div class="modal-body">
+          <div class="row col-md-12">
+            <div class="form-group col-md-6">
+              <label>ID #</label>
+              <input type="text" name="followId" id="followId" class="form-control" readonly>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Fee</label>
+              <input type="number" name="fee" id="fee" class="form-control">
+            </div>
+          </div>
+          <input type="text" name="staffId" id="staffId" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="submit" name="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Generate Service Slip Model Popup Here -->
+<div class="modal fade" id="generate-service">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><i class="nav-icon fas fa-edit"></i> Service Slip</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <span id="err-msg" style="display: none"></span>
+      <form action="javascript:void(0)" method="post" id="ADD_SERVICE_SLIP">
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label>Service</label>
+              <select class="form-control select2bs4" name="service" id="service" onchange="serviceChange(this)" required style="width: 100%;">
+                <option disabled selected value="0">Select Title</option>
+                <?php
+                  $service = 'SELECT `SERVICE_UUID`,`SERVICE_NAME`,`SERVICE_RATE` FROM `me_general_service` WHERE `SERVICE_STATUS` = 1';
+                  $result = mysqli_query($db, $service) or die (mysqli_error($db));
+                    while ($row = mysqli_fetch_array($result)) {
+                      $id = $row['SERVICE_UUID'];  
+                      $name = $row['SERVICE_NAME'];
+                      $rate = $row['SERVICE_RATE'];
+                      echo '<option value="'.$rate.'" data-name="'.$name.'"><small>'.$name.'-'.$rate.'</small></option>'; 
+                  }
+                ?>
+              </select>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Discount</label>
+              <input type="text" name="discount" id="discount" onchange="serviceDiscount(this)" class="form-control" disabled>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Fee</label>
+              <input type="text" name="finalBill" id="finalBill" class="form-control" readonly>
+            </div>
+          </div>
+          
+          <input type="text" name="staffId" id="staffId" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
+          <input type="text" name="serviceId" id="serviceId" hidden readonly>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="submit" name="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <!-- View Request Model Popup Here -->
 <!-- <div class="modal fade" id="view-request">
   <div class="modal-dialog">

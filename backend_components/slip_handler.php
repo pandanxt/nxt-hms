@@ -235,43 +235,43 @@
     }
 
     // View Edit Request Query Response
-    // if ($q == 'VIEW_REQUEST') {
-    //     $request = "SELECT *, `USER_NAME` FROM `me_request` INNER JOIN `me_user` WHERE `me_request`.`STAFF_ID` = `me_user`.`USER_UUID` AND `REQUEST_REFERENCE_UUID` = '$id'";
-    //     $result = mysqli_query($db, $request) or die (mysqli_error($db));
-    //     while ($row = mysqli_fetch_array($result)) {
-    //         echo "<tr style='font-size: 12px;'>
-    //         <td>";
-    //         if ($row['REQUEST_NAME'] == 'cancel') {
-    //             echo "Record Cancel Request";
-    //         }else if ($row['REQUEST_NAME'] == 'update') {
-    //             echo "Record Update Request";
-    //         }
-    //         echo"</td>
-    //         <td>$row[REQUEST_COMMENT]</td>
-    //         <td>";
-    //         if ($row['REQUEST_STATUS'] == 0) {
-    //             echo "Pending";
-    //         }else if ($row['REQUEST_STATUS'] == 1) {
-    //             echo "Approved";
-    //         } else if ($row['REQUEST_STATUS'] == 2) {
-    //             echo "Cancelled";
-    //         } 
-    //         echo"</td>
-    //         <td>
-    //             <b>By</b>: $row[USER_NAME] <br>
-    //             <b>On</b>: $row[REQUEST_DATE_TIME]
-    //         </td>
-    //         <td>
-    //             <a href='javascript:void(0);' onclick='updateRequest(this)' data-uuid='$row[REQUEST_UUID]' data-toggle='modal' data-target='#edit-request'>
-    //                 <i class='fas fa-edit'></i>
-    //             </a>
-    //             <a onClick='deleteRequest(this)' data-uuid='$row[REQUEST_UUID]' href='javascript:void(0);' style='color:red;'>
-    //                 <i class='fas fa-trash'></i>
-    //             </a>
-    //         </td>
-    //         </tr>";
-    //     }   
-    // }
+    if ($q == 'VIEW_REQUEST') {
+        $request = "SELECT *, `USER_NAME` FROM `me_request` INNER JOIN `me_user` WHERE `me_request`.`STAFF_ID` = `me_user`.`USER_UUID` AND `REQUEST_REFERENCE_UUID` = '$id'";
+        $result = mysqli_query($db, $request) or die (mysqli_error($db));
+        while ($row = mysqli_fetch_array($result)) {
+            echo "<tr style='font-size: 12px;'>
+            <td>";
+            if ($row['REQUEST_NAME'] == 'cancel') {
+                echo "Record Cancel Request";
+            }else if ($row['REQUEST_NAME'] == 'update') {
+                echo "Record Update Request";
+            }
+            echo"</td>
+            <td>$row[REQUEST_COMMENT]</td>
+            <td>";
+            if ($row['REQUEST_STATUS'] == 0) {
+                echo "Pending";
+            }else if ($row['REQUEST_STATUS'] == 1) {
+                echo "Approved";
+            } else if ($row['REQUEST_STATUS'] == 2) {
+                echo "Cancelled";
+            } 
+            echo"</td>
+            <td>
+                <b>By</b>: $row[USER_NAME] <br>
+                <b>On</b>: $row[REQUEST_DATE_TIME]
+            </td>
+            <td>
+                <a href='javascript:void(0);' onclick='updateRequest(this)' data-uuid='$row[REQUEST_UUID]' data-toggle='modal' data-target='#edit-request'>
+                    <i class='fas fa-edit'></i>
+                </a>
+                <a onClick='deleteRequest(this)' data-uuid='$row[REQUEST_UUID]' href='javascript:void(0);' style='color:red;'>
+                    <i class='fas fa-trash'></i>
+                </a>
+            </td>
+            </tr>";
+        }   
+    }
 
     // Update Edit Request Query
     if ($q == 'EDIT_REQUEST') {
@@ -581,4 +581,99 @@
         }   
     }
     
+    // Add FOLLOWUP-SLIP Query
+    if ($q == 'ADD_FOLLOW_UP_SLIP') {
+        $followId = mysqli_real_escape_string($db, $_POST['followId']);
+        $fee = mysqli_real_escape_string($db, $_POST['fee']);
+        $by = mysqli_real_escape_string($db, $_POST['staffId']);
+
+        $sql = "INSERT INTO `me_followup_slip` (`SLIP_UUID`, `SLIP_REFERENCE_UUID`, `SLIP_FEE`, `STAFF_ID`) VALUES (?,?,?,?)";
+        $stmt = mysqli_stmt_init($db);
+
+        if (!mysqli_stmt_prepare($stmt,$sql)) {
+            // echo "Error: " . $sql . "" . mysqli_error($stmt);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = "SQL Database Error!";
+            echo json_encode($result);
+        }else{
+            mysqli_stmt_bind_param($stmt,"ssss",$followId,$id,$fee,$by);
+            if (mysqli_stmt_execute($stmt)) {
+                $printQuery = "SELECT `SLIP_UUID` FROM `me_followup_slip` ORDER BY `SLIP_DATE_TIME` DESC LIMIT 1";
+                $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
+                $pResult = mysqli_fetch_array($printsql);
+
+                if ($pResult > 0) {
+                    $result = [];
+                    $result['status'] = "success";
+                    $result['message'] = "Follow Up Slip Created Successfully.";
+                    $result['data'] = [];
+                    $result['data']['id'] = $pResult['SLIP_UUID'];
+                    $result['data']['type'] = "FOLLOWUP_SLIP";
+                    echo json_encode($result);
+                }
+            }
+        }			
+
+        mysqli_stmt_close($stmt);
+        mysqli_close($db);
+    }
+
+    // Add SERVICE-SLIP Query
+    if ($q == 'ADD_SERVICE_SLIP') {
+        $serviceId = mysqli_real_escape_string($db, $_POST['serviceId']);
+        $service = mysqli_real_escape_string($db, $_POST['service']);
+        $discount = mysqli_real_escape_string($db, $_POST['discount']);
+        $finalBill = mysqli_real_escape_string($db, $_POST['finalBill']);
+        $by = mysqli_real_escape_string($db, $_POST['staffId']);
+
+        $sql = "INSERT INTO `me_service_slip`(`SLIP_UUID`, `SLIP_REFERENCE_UUID`, `SLIP_SERVICE_NAME`, `SLIP_SERVICE_RATE`, `SLIP_SERVICE_DISCOUNT`, `SLIP_SERVICE_TOTAL`, `STAFF_ID`) VALUES (?,?,?,?,?,?,?)";
+        $stmt = mysqli_stmt_init($db);
+
+        if (!mysqli_stmt_prepare($stmt,$sql)) {
+            // echo "Error: " . $sql . "" . mysqli_error($stmt);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = "SQL Database Error!";
+            echo json_encode($result);
+        }else{
+            mysqli_stmt_bind_param($stmt,"sssssss",$serviceId,$id,$val,$service,$discount,$finalBill,$by);
+            if (mysqli_stmt_execute($stmt)) {
+                $printQuery = "SELECT `SLIP_UUID` FROM `me_service_slip` ORDER BY `SLIP_DATE_TIME` DESC LIMIT 1";
+                $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
+                $pResult = mysqli_fetch_array($printsql);
+
+                if ($pResult > 0) {
+                    $result = [];
+                    $result['status'] = "success";
+                    $result['message'] = "Service Slip Created Successfully.";
+                    $result['data'] = [];
+                    $result['data']['id'] = $pResult['SLIP_UUID'];
+                    $result['data']['type'] = "SERVICE_SLIP";
+                    echo json_encode($result);
+                }
+            }
+        }			
+
+        mysqli_stmt_close($stmt);
+        mysqli_close($db);
+    }
+
+    // Delete Follow Up Slip Query
+    if($q == 'DELETE_FOLLOW_SLIP') {
+        if(mysqli_query($db, "DELETE FROM `me_followup_slip` WHERE `SLIP_UUID` ='$id'")) {
+            echo 'Form Has been submitted successfully';
+        } else {
+            echo "Error: " . $sql . "" . mysqli_error($db);
+        }
+    }
+    
+    // Delete Service Slip Query
+    if($q == 'DELETE_SERVICE_SLIP') {
+        if(mysqli_query($db, "DELETE FROM `me_service_slip` WHERE `SLIP_UUID` ='$id'")) {
+            echo 'Form Has been submitted successfully';
+        } else {
+            echo "Error: " . $sql . "" . mysqli_error($db);
+        }
+    }
 ?>
