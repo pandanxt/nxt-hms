@@ -209,16 +209,6 @@
                       <input type="number" name="opCharge" class="form-control" id="opCharge" placeholder="Rate is 10,000"/>
                     </div>
                   </div>
-                  <!-- <div class="col-md-12" style="display:flex;margin:0;padding:0;">
-                    <div class="form-group col-md-6">
-                      <label>Consultant Visit Charges</label>
-                      <input type="number" name="conCharge" class="form-control" id="conCharge" placeholder="Rates May Varies">
-                    </div>
-                    <div class="form-group col-md-6">
-                      <label>M O Charges</label>
-                      <input type="number" name="moCharge" id="moCharge" placeholder="Rate is 2000" class="form-control"/>
-                    </div>
-                  </div> -->
                   <?php 
                     } 
                     if ($subtype == "GENERAL_ILLNESS_PATIENT" || $subtype == "GYNEACOLOGY_PATIENT" || $subtype == "GENERAL_SURGERY_PATIENT") {
@@ -281,14 +271,14 @@
                     </div>  
                     <div class="form-group col-md-3">
                       <label>Discount</label>
-                      <input type="number" name="discount"  onchange="discFunction(this)" class="form-control" id="discount" placeholder="Discount">
+                      <input type="number" name="discount"  onchange="genDiscFunction(this)" class="form-control" id="discount" placeholder="Discount">
                     </div>
                     <div class="form-group col-md-4">
                       <label>Final Bill</label>
-                      <input type="number" name="finalBill" id="finalBill" placeholder="Final Bill" class="form-control" readonly/>
+                      <input type="number" name="finalBill" id="genFinalBill" placeholder="Final Bill" class="form-control" readonly/>
                     </div>
                   </div>
-                  <?php } if ($subtype == "EYE_PATIENT") { ?>
+                  <?php } if ($subtype == "EYE_PATIENT" && $subtype != "GENERAL_SURGERY_PATIENT" && $subtype != "GENERAL_ILLNESS_PATIENT" && $subtype != "GYNEACOLOGY_PATIENT") { ?>
                     <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                       <div class="form-group col-md-4">
                         <label>Total Bill</label>
@@ -296,11 +286,11 @@
                       </div>
                       <div class="form-group col-md-4">
                         <label>Discount</label>
-                        <input type="number" name="discount"  onchange="discFunction(this)" class="form-control" id="discount" placeholder="Discount">
+                        <input type="number" name="discount"  onchange="eyeDiscFunction(this)" class="form-control" id="discount" placeholder="Discount">
                       </div>
                       <div class="form-group col-md-4">
                         <label>Final Bill</label>
-                        <input type="number" name="finalBill" id="finalBill" placeholder="Final Bill" class="form-control" readonly/>
+                        <input type="number" name="finalBill" id="eyeFinalBill" placeholder="Final Bill" class="form-control" readonly/>
                       </div>
                     </div>
                     <?php } ?>
@@ -615,11 +605,11 @@
                   </div>
                   <div class="form-group col-md-3">
                     <label>Discount</label>
-                    <input type="number" name="discount" onchange="discFunction(this)" class="form-control" id="discount" placeholder="Discount">
+                    <input type="number" name="discount"  onchange="emrDiscFunction(this)" class="form-control" id="discount" placeholder="Discount">
                   </div>
                   <div class="form-group col-md-3">
                     <label>Final Bill</label>
-                    <input type="number" name="finalBill" id="finalBill" placeholder="Final Bill" class="form-control" readonly/>
+                    <input type="number" name="finalBill" id="emrFinalBill" placeholder="Final Bill" class="form-control" readonly/>
                   </div>
                 </div>
               </div>

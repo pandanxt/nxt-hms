@@ -157,13 +157,30 @@ if (document.getElementById("billId")) {document.getElementById("billId").value 
       document.getElementById("totalBill").value = totalBill;
       console.log("this is the total result:" ,totalBill);
   }
-  // Get Discount Function
-  function discFunction(discount) {
-    let finalBill = document.getElementById('finalBill');
+  // Get genFinal Discount Function
+  function genDiscFunction(discount) {
+    let finalBill = document.getElementById('genFinalBill');
     let totalBill = document.getElementById('totalBill');
     finalBill.value = totalBill.value - discount.value;
     console.log("this is the final result:" ,finalBill.value);
   }
+
+  // Get eyeFinal Discount Function
+  function eyeDiscFunction(discount) {
+    let finalBill = document.getElementById('eyeFinalBill');
+    let totalBill = document.getElementById('totalBill');
+    finalBill.value = totalBill.value - discount.value;
+    console.log("this is the final result:" ,finalBill.value);
+  }
+
+  // Get emrFinal Discount Function
+  function emrDiscFunction(discount) {
+    let finalBill = document.getElementById('emrFinalBill');
+    let totalBill = document.getElementById('totalBill');
+    finalBill.value = totalBill.value - discount.value;
+    console.log("this is the final result:" ,finalBill.value);
+  }
+  // genFinalBill   eyeFinalBill  emrFinalBill
   // ADD EMERGENCY BILL AJAX CALL
   $(document).ready(function($){
     // on submit...
