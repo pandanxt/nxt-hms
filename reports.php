@@ -1,31 +1,34 @@
 <?php
   // Session Start
   session_start();
+  $dateRange = (isset($_GET['dateRange']) ? $_GET['dateRange'] : '');
+  $docShare = (isset($_GET['docShare']) ? $_GET['docShare'] : '');
+  $hosShare = (isset($_GET['hosShare']) ? $_GET['hosShare'] : '');
+  $recShare = (isset($_GET['recShare']) ? $_GET['recShare'] : '');
+
+    // $date = new DateTime($dateRange);
+    // // $date = new DateTime('7 days ago');
+    // echo $date->format('Y-m-d');
+    // $range = $date->format('Y-m-d');
+
   if (isset($_SESSION['uuid'])) {
-  // Connection File
   include('backend_components/connection.php');
-  // Table Header File
   include('components/table_header.php');
-  // Navbar File
   include('components/navbar.php');
-  // Sidebar File
   include('components/sidebar.php');
 ?>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <h2 class="text-center display-4">MedEast Report</h2>
       </div>
-      <!-- /.container-fluid -->
     </section>
-
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <form action="">
+            <!-- <form action="">
                 <div class="row">
                     <div class="col-md-10 offset-md-1">
                         <div class="row">
@@ -70,60 +73,43 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            </form> -->
             <div class="row mt-3">
                 <div class="col-md-10 offset-md-1">
                     <div class="card">
                         <div class="card-body">
                             <table id="example1" class="table table-bordered table-striped">
                             <thead>
-                            <tr style='font-size: 14px;text-align:center;'>
-                                <th>Consultant </br> Name</th>
-                                <th>Total Number </br> of Patient</th>
-                                <th>Total Amount </br> Paid to Doctor</th>
-                                <th>Total Amount </br> Paid to MedEast</th>
-                                <th>Reception </br> Share</th>
-                                <!-- <th>Created</th> -->
-                                <!-- <th>Options</th> -->
-                            </tr>
+                                <tr style='font-size: 14px;text-align:center;'>
+                                    <th>Consultant </br> Name</th>
+                                    <th>Total Number </br> of Patient</th>
+                                    <th>Total Amount </br> Paid to Doctor</th>
+                                    <th>Total Amount </br> Paid to MedEast</th>
+                                    <th>Reception </br> Share</th>
+                                </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Brig. (R) Dr. Shamim Akhtar</td>
-                                    <td>1</td>
-                                    <td>1400</td>
-                                    <td>600</td>
-                                    <td>100</td>
-                                </tr>
                             <?php
-                                // $sql ="SELECT *,`DEPARTMENT_NAME`, `ADMIN_USERNAME` FROM `doctor` INNER JOIN `admin` INNER JOIN `department` WHERE `doctor`.`STAFF_ID` = `admin`.`ADMIN_ID` AND `doctor`.`DEPARTMENT_ID` = `department`.`DEPARTMENT_ID`";
-                                // $qsql = mysqli_query($db,$sql);
-                                // while($rs = mysqli_fetch_array($qsql))
-                                // { 
-                                //     $date = substr($rs['DOCTOR_DATE_TIME'],0, 21);
-                                //     echo "<tr style='font-size: 12px;'>
-                                //     <td>$rs[DOCTOR_ID]</td>
-                                //     <td>$rs[DOCTOR_NAME]</td>
-                                //     <td>$rs[DOCTOR_MOBILE]</td>
-                                //     <td>$rs[DEPARTMENT_NAME]</td>
-                                //     <td>$rs[DOCTOR_STATUS]</td>
-                                //     <td>
-                                //         <b>By</b>: $rs[ADMIN_USERNAME] <br>
-                                //         <b>On</b>: ".$date."
-                                //     </td>
-                                //     <td style='display:flex;'>
-                                //         <a href='view_doctor.php?id=$rs[DOCTOR_ID]' style='color:green;'>
-                                //         <i class='fas fa-info-circle'></i> Details
-                                //         </a><br>
-                                //         <a href='add_doctor.php?id=$rs[DOCTOR_ID]'>
-                                //         <i class='fas fa-edit'></i> Edit
-                                //         </a><br>
-                                //         <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?docId=$rs[DOCTOR_ID]' style='color:red;'>
-                                //         <i class='fas fa-trash'></i> Delete
-                                //         </a>
-                                //     </td>
-                                //     </tr>"; 
-                                // }
+                                $sql ='SELECT CAST(SLIP_DATE_TIME AS Date) AS DAILY, `me_doctors`.`DOCTOR_NAME` AS `CONSULTANT_NAME`, `me_doctors`.`DOCTOR_TYPE`,
+                                COUNT(`SLIP_UUID`) AS `TOTAL_NO_OF_PATIENT`, 
+                                ((SUM(`SLIP_FEE`)*1.0)*"'.$docShare.'")/100 AS `TOTAL_AMOUNT_PAID_TO_DOCTOR`, 
+                                ((SUM(`SLIP_FEE`)*1.0)*"'.$hosShare.'")/100 AS `TOTAL_AMOUNT_PAID_TO_CLINIC`, 
+                                (((SUM(`SLIP_FEE`)*1.0)*"'.$hosShare.'")/100) - (((SUM(`SLIP_FEE`)*1.0)*"'.$recShare.'")/100) AS `RECEPTION_SHARE` 
+                                FROM `me_slip` LEFT JOIN `me_doctors` ON `me_slip`.`SLIP_DOCTOR` = `me_doctors`.`DOCTOR_UUID` 
+                                WHERE `SLIP_DOCTOR` IS NOT NULL AND `SLIP_TYPE` = "OUTDOOR" GROUP BY SLIP_DOCTOR, CAST(Slip_Date_Time AS Date)';
+                                $qsql = mysqli_query($db,$sql);
+                                while($rs = mysqli_fetch_array($qsql))
+                                { 
+                                    $recTotal = $rs['TOTAL_AMOUNT_PAID_TO_CLINIC'] - $rs['RECEPTION_SHARE'];
+                                    echo "<tr style='font-size: 12px;'>
+                                    <td>$rs[CONSULTANT_NAME]</td>
+                                    <td>$rs[TOTAL_NO_OF_PATIENT]</td>
+                                    <td>$rs[TOTAL_AMOUNT_PAID_TO_DOCTOR]</td>
+                                    <td>$rs[TOTAL_AMOUNT_PAID_TO_CLINIC]</td>
+                                    <td>$recTotal</td>
+                                    
+                                    </tr>"; 
+                                }
                             ?>
                             </tbody>
                             </table>

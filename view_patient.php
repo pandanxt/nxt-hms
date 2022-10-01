@@ -2,7 +2,6 @@
   // Session Starts
   session_start(); 
   $id = (isset($_GET['id']) ? $_GET['id'] : '');
-  // $q = (isset($_GET['q']) ? $_GET['q'] : '');
   if (isset($_SESSION['uuid'])) {
   include('backend_components/connection.php');
   include('components/table_header.php');
@@ -13,24 +12,21 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
   <section class="content-header"></section>
-    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-        <?php
-          $patSql="SELECT `a`.*,`b`.`USER_NAME` FROM `me_patient` AS `a` INNER JOIN `me_user` AS `b` ON `a`.`STAFF_ID` = `b`.`USER_UUID` WHERE `PATIENT_MR_ID` = '$id'";
-          
-          $qsql = mysqli_query($db,$patSql);
-          $row = mysqli_fetch_array($qsql);
-          
-        ?>
             <div class="card-body">
               <div class="tab-content">
                 <div class="tab-pane active">
                       <div class="card card-primary card-outline">
+                      <?php
+                        $patientQuery="SELECT *,`USER_NAME` FROM `me_patient` INNER JOIN `me_user` WHERE `PATIENT_MR_ID` = '".$_GET['id']."' AND `me_patient`.`STAFF_ID` = `me_user`.`USER_UUID`";     
+                        $patientSql = mysqli_query($db,$patientQuery) or die (mysqli_error($db));
+                        $row = mysqli_fetch_array($patientSql)
+                      ?>
                         <div class="card-header">
                           <h3 class="card-title">
                             <i class="fas fa-user"></i>&nbsp;
-                            <?php echo $row["PATIENT_NAME"]; ?> Medical History
+                            <?php echo $row['PATIENT_NAME']; ?> Medical History
                           </h3>
                         </div>
                         <div class="card-body">
@@ -65,6 +61,7 @@
                               </div>
                             </div>
                           </div>
+
                           <div class="row">
                             <div class="col-12">
                                 <table id="example1" class="table table-bordered table-striped">
@@ -81,10 +78,11 @@
                                   </thead>
                                   <tbody>
                                   <?php
-                                      $recordQuery ="SELECT `a`.*,`c`.`USER_NAME`,`d`.`DOCTOR_NAME`,`d`.`DOCTOR_TYPE` FROM `me_slip` AS `a` 
-                                      INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID`
-                                      INNER JOIN `me_doctors` AS `d` ON `d`.`DOCTOR_UUID` = `a`.`SLIP_DOCTOR`
-                                      WHERE `a`.`SLIP_MRID` = '$id'";
+                                      $recordQuery ="SELECT *,`USER_NAME`,`DOCTOR_NAME`,`DOCTOR_TYPE` FROM `me_slip` 
+                                      INNER JOIN `me_user` INNER JOIN `me_doctors`
+                                      WHERE `SLIP_MRID` = '".$_GET['id']."' 
+                                      AND `me_user`.`USER_UUID` = `me_slip`.`STAFF_ID`
+                                      AND `me_doctors`.`DOCTOR_UUID` = `me_slip`.`SLIP_DOCTOR`";
                                       $sql = mysqli_query($db,$recordQuery);
                                       while($slip_row = mysqli_fetch_array($sql))
                                       { 
@@ -160,6 +158,7 @@
                 </div>
               </div>
             </div>
+        <?php //} ?>
           </section>
         </div>
   <!-- Javascript Script File -->

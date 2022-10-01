@@ -248,6 +248,82 @@
   </div>
 </div>
 
+<!-- Select Report Model -->
+<div class="modal fade" id="modal-report">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Choose Report Filter</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="reports.php">
+        <div class="modal-body">
+          <div class="row col-md-12">
+              <!-- <div class="col-md-6">
+                <label>Date Range</label>
+                <select class="form-control select2bs4" name="dateRange" id="dateRange" style="width: 100%;" required>
+                  <option value="0" selected disabled>Select Range</option>
+                  <option value="0">TODAY</option>
+                  <option value="1">YESTERDAY</option>
+                  <option value="7">LAST 7 DAYS</option>
+                  <option value="15">LAST 15 DAYS</option>
+                  <option value="30">LAST 30 DAYS</option>
+                  <option value="30">ONE MONTH</option>
+                  <option value="60">TWO MONTHS</option>      
+                </select>
+              </div> -->
+              <div class="col-md-6">
+              <label>Doctor Share</label>
+                <select class="form-control select2bs4" name="docShare" id="docShare" style="width: 100%;" required>
+                  <option value="0" selected disabled>Select Doctor Share</option>
+                  <option value="30">30% SHARE</option>
+                  <option value="40">40% SHARE</option>
+                  <option value="50">50% SHARE</option>
+                  <option value="60">60% SHARE</option>      
+                  <option value="70">70% SHARE</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+              <label>Clinic Share</label>
+                <select class="form-control select2bs4" name="hosShare" id="hosShare" style="width: 100%;" required>
+                  <option value="0" selected disabled>Select Clinic Share</option>
+                  <option value="30">30% SHARE</option>
+                  <option value="40">40% SHARE</option>
+                  <option value="50">50% SHARE</option>
+                  <option value="60">60% SHARE</option>      
+                  <option value="70">70% SHARE</option>
+                </select>
+              </div>
+          </div>
+          
+          <div class="row col-md-12 mt-2">
+             
+              <!-- <div class="col-md-6"> -->
+              <label>Reception Share</label>
+                <select class="form-control select2bs4" name="recShare" id="recShare" style="width: 100%;" required>
+                  <option value="0" selected disabled>Select Recep Share in %</option>
+                  <option value="1.00">1% SHARE</option>
+                  <option value="1.25">1.25% SHARE</option>
+                  <option value="1.50">1.50% SHARE</option>      
+                  <option value="1.75">1.75% SHARE</option>
+                  <option value="2.00">2.00% SHARE</option>
+                  <option value="2.25">2.25% SHARE</option>
+                  <option value="2.50">2.50% SHARE</option>
+                </select>
+              <!-- </div> -->
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Proceed</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <!-- Log Out Popup Model -->
 <div class="modal fade" id="modal-sm">
   <div class="modal-dialog modal-sm">

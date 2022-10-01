@@ -58,9 +58,15 @@
                 </a>
             </li>
             <!------Medeast Reports------>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a href="reports.php" class="nav-link">
                 <i class="nav-icon fas fa-chart-pie"></i>
+                <p>Reports</p>
+                </a>
+            </li> -->
+            <li class="nav-item">
+              <a type="button" class="dropdown-item nav-link" data-toggle="modal" data-target="#modal-report" href="javascript:void(0);">
+                <i class="nav-icon fa fa-chart-pie"></i>
                 <p>Reports</p>
                 </a>
             </li>

@@ -60,7 +60,7 @@
         title: 'Something Went Wrong. Try Again!'
       })
     }           
-  });
+  });    
 </script>
 </body>
 </html>
