@@ -64,13 +64,30 @@ if (isset($_SESSION['uuid'])) {
         <div id="date">C-1 Commercial Office Block, Paragon City, Lahore.</div>
         <div id="date">0300 4133102, 0320 4707070, 042 37165549</div>
         <table class="table table-bordered" style="font-size: 16px;padding: 0rem !important;margin-bottom: 0px;">
-            <tr><td class="right-chars"><small>Name: </small> <b><?php echo $name; ?></b></td></tr>
-            <tr><td class="right-chars"><small>Phone: </small> <b><?php echo $phone; ?></b></td></tr>
+            <tr>
+                <td style=" padding:0 !important;"><small>Name: </small></td>
+                <td class="right-chars">
+                     <b><?php echo $name; ?></b>
+                </td>
+            </tr>
+            <tr>
+                <td style=" padding:0 !important;"><small>Phone: </small></td>
+                <td class="right-chars"> <b><?php echo $phone; ?></b></td>
+            </tr>
             <?php if ($type != "EMERGENCY") { ?>
-            <tr><td class="right-chars"><small>Dept: </small> <b><?php echo $dept; ?></b></td></tr>
+            <tr>
+                <td style=" padding:0 !important;"><small>Dept: </small></td>
+                <td class="right-chars"> <b><?php echo $dept; ?></b></td>
+            </tr>
             <?php } ?>
-            <tr><td class="right-chars"><small>Doctor: </small> <b><?php echo $doctor; ?></b></td></tr>
-            <tr><td class="right-chars"><small>Age/Gender: </small> <b><?php echo $age." yrs - ".$gender; ?></b></td></tr>
+            <tr>
+                <td style=" padding:0 !important;"><small>Doctor: </small></td>
+                <td class="right-chars"> <b><?php echo $doctor; ?></b></td>
+            </tr>
+            <tr>
+                <td style=" padding:0 !important;"><small>Age/Gender: </small></td>
+                <td class="right-chars"> <b><?php echo $age." yrs - ".$gender; ?></b></td>
+            </tr>
         </table>
         <?php if ($type == "OUTDOOR") { ?>
         <div class="flex">
@@ -79,19 +96,19 @@ if (isset($_SESSION['uuid'])) {
                     <div class="row">
                         <div class="col1"></div>
                         <div class="col2">Payment Method: </div>
-                        <div class="col3"><b>CASH</b></div>
+                        <div class="col3"><b class="nxt">CASH</b></div>
                     </div>
                     <div class="row">
                         <div class="col1"></div>
                         <div class="col2">Consultant Fee: </div>
-                        <div class="col3">&#8360;- <b><?php echo $fee; ?></b></div>
+                        <div class="col3">&#8360;- <b class="nxt"><?php echo $fee; ?></b></div>
                     </div>
                 </div>
                 <div class="section">
                     <div class="row">
                         <div class="col1"></div>
                         <div class="col2">Payable: </div>
-                        <div class="col3">&#8360;- <b><?php echo $fee; ?></b></div>
+                        <div class="col3">&#8360;- <b class="nxt"><?php echo $fee; ?></b></div>
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@
 
    body
    {
-      font-family: 'Helvetica', 'Arial', sans-serif;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
       margin: 0px;
       padding: 0px;
    }
@@ -15,22 +15,22 @@
     width: 50%;
     text-align: right;
     padding-bottom: 1mm;
-    font-size: 8pt;
+    font-size: 3.5mm;
     font-weight: bold;
   }
   .staffFooter {
     width: 50%;
     text-align: left;
     padding-bottom: 1mm;
-    font-size: 8pt;
+    font-size: 3.5mm;
     font-weight: bold;
   }
   .orderNo {
     width: 100%;
-    text-align: right;
+    text-align: left;
     padding-bottom: 1mm;
-    font-size: 8pt;
-    font-weight: bold;
+    font-size: 15pt;
+    font-weight: bolder;
   }
   
   .orderNo:empty {
@@ -40,7 +40,8 @@
   .headerSubTitle {
     /* font-family: 'Equestria', 'Permanent Marker', cursive; */
     text-align: center;
-    font-size: 12pt;
+    font-size: 13pt;
+    font-weight: 600;
   }
   
   .headerTitle {
@@ -60,7 +61,7 @@
   #date {
     margin: 0px;
     text-align: center;
-    font-size: 8pt;
+    font-size: 3mm;
   }
   
   #barcode {
@@ -158,7 +159,8 @@
   .totals {
     flex-grow: 1;
     align-self: center;
-    font-size: 8pt;
+    font-size: 3mm;
+    font-weight: bolder;
   }
   
   .totals .row {
@@ -191,9 +193,12 @@
   
   .totals .col3 {
     width: 15mm;
-    margin-right: 2mm;  
+    margin-right: 4mm;  
   }
-  
+  .nxt {
+    font-weight: bolder;
+    font-size: 4mm;
+  }
   .footer {
     overflow: hidden;
     margin-top: 5mm;
