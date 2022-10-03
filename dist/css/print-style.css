@@ -27,7 +27,7 @@
   }
   .orderNo {
     width: 100%;
-    text-align: left;
+    text-align: right;
     padding-bottom: 1mm;
     font-size: 15pt;
     font-weight: bolder;
@@ -51,6 +51,10 @@
     font-weight: bold;
   }
   
+  .titleLogo {
+    width: 100%;
+    margin: auto;
+  }
   #location {
     margin-top: 5pt;
     text-align: center;
@@ -61,7 +65,8 @@
   #date {
     margin: 0px;
     text-align: center;
-    font-size: 3mm;
+    font-size: 3.5mm;
+    font-weight: 600;
   }
   
   #barcode {
@@ -89,7 +94,9 @@
   
   .keepItBody {
     text-align: justify;
-    font-size: 8pt;
+    margin: 0px;
+    font-size: 3.5mm;
+    font-weight: 600;
   }
   
   .item {
@@ -184,7 +191,8 @@
   }
   
   .totals .col2 {
-     width: 25mm; 
+     width: 58mm;
+     margin-top: 4px; 
   }
   
   .totals .col2:empty {
@@ -305,4 +313,16 @@
   }
   .right-chars {
     padding: 0rem !important;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .tab-key {
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .table-custom {
+    font-size: 16px;
+    padding: 0rem !important;
+    margin-bottom: 0px;
   }

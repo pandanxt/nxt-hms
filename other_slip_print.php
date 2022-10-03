@@ -66,11 +66,13 @@ if (isset($_SESSION['uuid'])) {
 <div class="content-wrapper">
     <section class="container invoice">
         <div class="receipt">
-        <div class="orderNo">Slip NO# <b><?php echo $slipId; ?></b></div>
-        <div class="orderNo">Patient MRID# <b><?php echo $mrId; ?></b></div>
+        <div class="orderNo mb-0">MR ID# <b><?php echo $mrId; ?></b></div>
+        <div class="orderNo">Slip ID# <b><?php echo $slipId; ?></b></div>
         <div class="headerSubTitle"><?php echo $date; ?></div>
-        <div class="headerTitle">Medeast Hospital</div>
-        <div class="headerSubTitle">
+        <div><img class="titleLogo" src="dist/img/hospital-logo.png" alt="Medeast Hospital Logo"></div>
+        <div id="date">C-1 Commercial Office Block, Paragon City, Lahore.</div>
+        <div id="date">042 37165549, 0320 4707070, 0300 4133102</div>
+        <div class="headerSubTitle mt-2 mb-2">
         <?php 
             if ($stype == 'FOLLOWUP_SLIP') {
                 echo 'Follow Up Slip';
@@ -79,30 +81,29 @@ if (isset($_SESSION['uuid'])) {
             }
         ?>
         </div>
-        <div id="date">C-1 Commercial Office Block, Paragon City, Lahore.</div>
-        <div id="date">0300 4133102, 0320 4707070, 042 37165549</div>
-        <table class="table table-bordered" style="font-size: 16px;padding: 0rem !important;margin-bottom: 0px;">
+
+        <table class="table table-bordered table-custom">
             <tr>
-                <td style=" padding:0 !important;"><small>Name: </small></td>
-                <td class="right-chars"> <b><?php echo $name; ?></b></td>
+                <td style="padding:0 !important;">&nbsp;<small>Name: </small></td>
+                <td class="right-chars">&nbsp;<b><?php echo $name;?></b></td>
             </tr>
             <tr>
-                <td style=" padding:0 !important;"><small>Phone: </small></td>
-                <td class="right-chars"> <b><?php echo $phone; ?></b></td>
+                <td style=" padding:0 !important;">&nbsp;<small>Phone</small></td>
+                <td class="right-chars">&nbsp;<b><?php echo $phone; ?></b></td>
             </tr>
             <?php if ($type != "EMERGENCY") { ?>
             <tr>
-                <td style=" padding:0 !important;"><small>Dept: </small></td>
-                <td class="right-chars"> <b><?php echo $dept; ?></b></td>
+                <td style=" padding:0 !important;">&nbsp;<small>Department</small></td>
+                <td class="right-chars">&nbsp;<b><?php echo $dept; ?></b></td>
             </tr>
             <?php } ?>
             <tr>
-                <td style=" padding:0 !important;"><small>Doctor: </small></td>
-                <td class="right-chars"> <b><?php echo $doctor; ?></b></td>
+                <td style=" padding:0 !important;">&nbsp;<small>Doctor</small></td>
+                <td class="right-chars">&nbsp;<b><?php echo $doctor; ?></b></td>
             </tr>
             <tr>
-                <td style=" padding:0 !important;"><small>Age/Gender: </small></td>
-                <td class="right-chars"> <b><?php echo $age." yrs - ".$gender; ?></b></td>
+                <td style=" padding:0 !important;">&nbsp;<small>Age/Gender</small></td>
+                <td class="right-chars">&nbsp;<b><?php echo $age." yrs - ".$gender; ?></b></td>
             </tr>
         </table>
         <?php 
@@ -110,23 +111,18 @@ if (isset($_SESSION['uuid'])) {
         ?>
                 <div class="flex">
             <div class="totals">
-                <div class="section">
+            <div class="section">
                     <div class="row">
-                        <div class="col1"></div>
-                        <div class="col2">Payment Method: </div>
+                        <div class="col2"><b>Payment Method: </b></div>
                         <div class="col3"><b class="nxt">CASH</b></div>
                     </div>
                     <div class="row">
-                        <div class="col1"></div>
-                        <div class="col2">FollowUp Fee: </div>
-                        <div class="col3">&#8360;- <b class="nxt"><?php echo $fee; ?></b></div>
+                        <div class="col2"><b>Consultant Fee: </b></div>
+                        <div class="col3"><b class="nxt">&#8360;-<?php echo $fee; ?></b></div>
                     </div>
-                </div>
-                <div class="section">
                     <div class="row">
-                        <div class="col1"></div>
-                        <div class="col2">Payable: </div>
-                        <div class="col3">&#8360;- <b class="nxt"><?php echo $fee; ?></b></div>
+                        <div class="col2"><b>Payable: </b></div>
+                        <div class="col3"><b class="nxt">&#8360;-<?php echo $fee; ?></b></div>
                     </div>
                 </div>
             </div>
@@ -140,26 +136,20 @@ if (isset($_SESSION['uuid'])) {
             <div class="totals">
                 <div class="section">
                     <div class="row">
-                        <div class="col1"></div>
-                        <div class="col2">Payment Method: </div>
-                        <div class="col3"><b>CASH</b></div>
+                        <div class="col2"><b>Payment Method: </b></div>
+                        <div class="col3"><b class="nxt">CASH</b></div>
                     </div>
                     <div class="row">
-                        <div class="col1"></div>
-                        <div class="col2">Service Fee: </div>
-                        <div class="col3">&#8360;- <b><?php echo $fee; ?></b></div>
+                        <div class="col2"><b>Consultant Fee: </b></div>
+                        <div class="col3"><b class="nxt">&#8360;-<?php echo $fee; ?></b></div>
                     </div>
                     <div class="row">
-                        <div class="col1"></div>
-                        <div class="col2">Discount: </div>
-                        <div class="col3">&#8360;- <b><?php echo $discount; ?></b></div>
+                        <div class="col2"><b>Discount: </b></div>
+                        <div class="col3"><b class="nxt">&#8360;-<?php echo $discount; ?></b></div>
                     </div>
-                </div>
-                <div class="section">
                     <div class="row">
-                        <div class="col1"></div>
-                        <div class="col2">Payable: </div>
-                        <div class="col3">&#8360;- <b><?php echo $total; ?></b></div>
+                        <div class="col2"><b>Payable: </b></div>
+                        <div class="col3"><b class="nxt">&#8360;-<?php echo $total; ?></b></div>
                     </div>
                 </div>
             </div>
@@ -167,10 +157,11 @@ if (isset($_SESSION['uuid'])) {
         <?php  
           }
         ?>
-        <div class="keepIt">Keep your slip!</div>
-        <div class="keepItBody">Computerized generated slip, no need of signature or stamp. Bring this original slip when revisiting MEDEAST Hospital.</div>
+        <div class="keepIt mt-2">Keep your slip!</div>
+        <div class="keepItBody">Computer generated Receipt, Does not require signature or stamp. Bring this original receipt when revisiting MEDEAST.</div>
+        <br>
         <div style="display:flex;">
-            <div class="staffFooter">staff id# <span><?php echo $staff; ?></span></div>
+            <div class="staffFooter">staff# <span><?php echo $staff; ?></span></div>
             <div class="brandFooter">powered by: <span>PandaNxt</span></div>
         </div>
         </div>

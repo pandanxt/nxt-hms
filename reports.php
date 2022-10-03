@@ -96,7 +96,7 @@
                                 ((SUM(`SLIP_FEE`)*1.0)*"'.$hosShare.'")/100 AS `TOTAL_AMOUNT_PAID_TO_CLINIC`, 
                                 (((SUM(`SLIP_FEE`)*1.0)*"'.$hosShare.'")/100) - (((SUM(`SLIP_FEE`)*1.0)*"'.$recShare.'")/100) AS `RECEPTION_SHARE` 
                                 FROM `me_slip` LEFT JOIN `me_doctors` ON `me_slip`.`SLIP_DOCTOR` = `me_doctors`.`DOCTOR_UUID` 
-                                WHERE `SLIP_DOCTOR` IS NOT NULL AND `SLIP_TYPE` = "OUTDOOR" GROUP BY SLIP_DOCTOR, CAST(Slip_Date_Time AS Date)';
+                                WHERE `SLIP_DOCTOR` IS NOT NULL AND `SLIP_TYPE` = "OUTDOOR" AND CAST(SLIP_DATE_TIME AS Date) = current_date GROUP BY SLIP_DOCTOR, CAST(Slip_Date_Time AS Date)';
                                 $qsql = mysqli_query($db,$sql);
                                 while($rs = mysqli_fetch_array($qsql))
                                 { 
