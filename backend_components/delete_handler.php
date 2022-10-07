@@ -104,7 +104,7 @@
     // Patient Record Delete Query
     if(isset($_GET['prId']))
     {
-        $sql ="DELETE FROM `patient` WHERE `PATIENT_ID` ='$_GET[prId]'";
+        $sql ="DELETE FROM `me_patient` WHERE `PATIENT_MR_ID` ='$_GET[prId]'";
         $qsql=mysqli_query($db,$sql);
         if(mysqli_affected_rows($db) == 1)
         {

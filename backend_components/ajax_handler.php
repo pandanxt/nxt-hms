@@ -7,237 +7,15 @@
     $val = (isset($_GET['val']) ? $_GET['val'] : '');
     // Connection File
     include "connection.php";
-    // Room Status Update
-    if ($q == 'stRoom') {
-            if(mysqli_query($db, "UPDATE `room` SET `ROOM_STATUS`= '$val' WHERE `ROOM_ID` = ".$id)) {
-                echo 'Form Has been submitted successfully';
-            } else {
-                echo "Error: " . $sql . "" . mysqli_error($db);
-            }
-    }
-    // Visiting Doctor Status Update
-    if ($q == 'stVtDoc') {
-        if(mysqli_query($db, "UPDATE `visitor_doctor` SET `VISITOR_STATUS`= '$val' WHERE `VISITOR_ID` = ".$id)) {
-            echo 'Form Has been submitted successfully';
-        } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
-        }
-    
-    }
-    // Medeast Doctor Status Update 
-    if ($q == 'stMeDoc') {
-        if(mysqli_query($db, "UPDATE `doctor` SET `DOCTOR_STATUS`= '$val' WHERE `DOCTOR_ID` = ".$id)) {
-            echo 'Form Has been submitted successfully';
-        } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
-        }
-    }
-    // Medeast Doctor Status Update 
-    if ($q == 'stDept') {
-        if(mysqli_query($db, "UPDATE `department` SET `DEPARTMENT_STATUS`= '$val' WHERE `DEPARTMENT_ID` = ".$id)) {
-            echo 'Form Has been submitted successfully';
-        } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
-        }
-    }
-    // Medeast User Status Update 
-    if ($q == 'stUser') {
-        if(mysqli_query($db, "UPDATE `admin` SET `ADMIN_STATUS`= '$val' WHERE `ADMIN_ID` = ".$id)) {
-            echo 'Form Has been submitted successfully';
-        } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
-        }
-    }
-
-    // Add Room Query
-    if($q == 'adRoom') {
-        $name = mysqli_real_escape_string($db, $_POST['roomName']);
-        $rate = mysqli_real_escape_string($db, $_POST['roomRate']);
-        $by = mysqli_real_escape_string($db, $_POST['userId']);
-
-        $sql = "SELECT * FROM `room` WHERE `ROOM_NAME` = ?";
-        $stmt = mysqli_stmt_init($db);
-          
-        if (!mysqli_stmt_prepare($stmt,$sql)) {
-            echo "Error: " . $sql . "" . mysqli_error($stmt);
-        }else{
-            mysqli_stmt_bind_param($stmt,"s",$name);
-            mysqli_stmt_execute($stmt);
-            mysqli_stmt_store_result($stmt);
-            $resultCheck = mysqli_stmt_num_rows($stmt);
-                
-                if ($resultCheck > 0) {
-                    echo "name already taken!";
-                }else{
-                        $sql = "INSERT INTO `room`(`ROOM_NAME`, `ROOM_RATE`, `STAFF_ID`) VALUES (?,?,?)";
-                        mysqli_stmt_execute($stmt);
-                    
-                        if (!mysqli_stmt_prepare($stmt,$sql)) {
-                            echo "Error: " . $sql . "" . mysqli_error($stmt);
-                        }else{
-                            mysqli_stmt_bind_param($stmt,"sss",$name,$rate,$by);
-                            mysqli_stmt_execute($stmt);
-                            echo "Form Has been submitted successfully";
-                        }			
-                    }
-            }
-        mysqli_stmt_close($stmt);
-        mysqli_close($db);
-
-    }
-    // Add Visiting Doctor Query
-    if($q == 'adVtDoc') {
-        $name = mysqli_real_escape_string($db, $_POST['docName']);
-        $by = mysqli_real_escape_string($db, $_POST['userId']);
-
-        $sql = "SELECT * FROM `visitor_doctor` WHERE `VISITOR_NAME` = ?";
-        $stmt = mysqli_stmt_init($db);
-          
-        if (!mysqli_stmt_prepare($stmt,$sql)) {
-            echo "Error: " . $sql . "" . mysqli_error($stmt);
-        }else{
-            mysqli_stmt_bind_param($stmt,"s",$name);
-            mysqli_stmt_execute($stmt);
-            mysqli_stmt_store_result($stmt);
-            $resultCheck = mysqli_stmt_num_rows($stmt);
-                
-                if ($resultCheck > 0) {
-                    echo "name already taken!";
-                }else{
-                        $sql = "INSERT INTO `visitor_doctor`(`VISITOR_NAME`, `STAFF_ID`) VALUES (?,?)";
-                        mysqli_stmt_execute($stmt);
-                    
-                        if (!mysqli_stmt_prepare($stmt,$sql)) {
-                            echo "Error: " . $sql . "" . mysqli_error($stmt);
-                        }else{
-                            mysqli_stmt_bind_param($stmt,"ss",$name,$by);
-                            mysqli_stmt_execute($stmt);
-                            echo "Form Has been submitted successfully";
-                        }			
-                    }
-            }
-        mysqli_stmt_close($stmt);
-        mysqli_close($db);
-
-    }
-
-    // Add Medeast Doctor Query
-    if($q == 'adMeDoc') {
-        $name = mysqli_real_escape_string($db, $_POST['docName']);
-        $mobile = mysqli_real_escape_string($db, $_POST['docMobile']);
-        $department = mysqli_real_escape_string($db, $_POST['docDepartment']);
-        $by = mysqli_real_escape_string($db, $_POST['userId']);
-
-        $sql = "SELECT * FROM `doctor` WHERE `DOCTOR_NAME` = ? OR `DOCTOR_MOBILE` = ?";
-        $stmt = mysqli_stmt_init($db);
-          
-        if (!mysqli_stmt_prepare($stmt,$sql)) {
-            echo "Error: " . $sql . "" . mysqli_error($stmt);
-        }else{
-            mysqli_stmt_bind_param($stmt,"ss",$name,$mobile);
-            mysqli_stmt_execute($stmt);
-            mysqli_stmt_store_result($stmt);
-            $resultCheck = mysqli_stmt_num_rows($stmt);
-                
-                if ($resultCheck > 0) {
-                    echo "name or mobile number already taken!";
-                }else{
-                        $sql = "INSERT INTO `doctor`(`DOCTOR_NAME`, `DOCTOR_MOBILE`, `DEPARTMENT_ID`, `STAFF_ID`) VALUES (?,?,?,?)";
-                        mysqli_stmt_execute($stmt);
-                    
-                        if (!mysqli_stmt_prepare($stmt,$sql)) {
-                            echo "Error: " . $sql . "" . mysqli_error($stmt);
-                        }else{
-                            mysqli_stmt_bind_param($stmt,"ssss",$name,$mobile,$department,$by);
-                            mysqli_stmt_execute($stmt);
-                            echo "Form Has been submitted successfully";
-                        }			
-                    }
-            }
-        mysqli_stmt_close($stmt);
-        mysqli_close($db);
-    }
-    // Add Medeast Department Query
-    if($q == 'adDept') {
-        $name = mysqli_real_escape_string($db, $_POST['deptName']);
-        $by = mysqli_real_escape_string($db, $_POST['userId']);
-
-        $sql = "SELECT * FROM `department` WHERE `DEPARTMENT_NAME` = ?";
-        $stmt = mysqli_stmt_init($db);
-          
-        if (!mysqli_stmt_prepare($stmt,$sql)) {
-            echo "Error: " . $sql . "" . mysqli_error($stmt);
-        }else{
-            mysqli_stmt_bind_param($stmt,"s",$name);
-            mysqli_stmt_execute($stmt);
-            mysqli_stmt_store_result($stmt);
-            $resultCheck = mysqli_stmt_num_rows($stmt);
-                
-                if ($resultCheck > 0) {
-                    echo "name already taken!";
-                }else{
-                        $sql = "INSERT INTO `department`(`DEPARTMENT_NAME`, `STAFF_ID`) VALUES (?,?)";
-                        mysqli_stmt_execute($stmt);
-                    
-                        if (!mysqli_stmt_prepare($stmt,$sql)) {
-                            echo "Error: " . $sql . "" . mysqli_error($stmt);
-                        }else{
-                            mysqli_stmt_bind_param($stmt,"ss",$name,$by);
-                            mysqli_stmt_execute($stmt);
-                            echo "Form Has been submitted successfully";
-                        }			
-                    }
-            }
-        mysqli_stmt_close($stmt);
-        mysqli_close($db);
-    } 
-    // Add Medeast User Query
-    if ($q == 'adUser') {
-        
-        $name = mysqli_real_escape_string($db, $_POST['userName']);
-        $email = mysqli_real_escape_string($db, $_POST['userEmail']);
-        $loginId = mysqli_real_escape_string($db, $_POST['loginId']);
-        $password = mysqli_real_escape_string($db, password_hash($_POST['userPassword'], PASSWORD_DEFAULT));
-        $permission = mysqli_real_escape_string($db, $_POST['userPermission']);
-        $by = mysqli_real_escape_string($db, $_POST['userId']);
-        
-        $sql = "SELECT * FROM `admin` WHERE `ADMIN_USERNAME` = ? OR `ADMIN_EMAIL` = ?";
-        $stmt = mysqli_stmt_init($db);
-        
-        if (!mysqli_stmt_prepare($stmt,$sql)) {
-            echo "Error: " . $sql . "" . mysqli_error($stmt); 
-        }else{
-            mysqli_stmt_bind_param($stmt,"ss",$loginId,$email);
-            mysqli_stmt_execute($stmt);
-            mysqli_stmt_store_result($stmt);
-            $resultCheck = mysqli_stmt_num_rows($stmt);
-                  
-            if ($resultCheck > 0) {
-                echo "login Id or email already taken!";
-            }else{
-                $sql = "INSERT INTO `admin`(`ADMIN_NAME`, `ADMIN_TYPE`, `ADMIN_EMAIL`, `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `CREATED_BY`) VALUES (?,?,?,?,?,?)";
-                mysqli_stmt_execute($stmt);
-            
-                if (!mysqli_stmt_prepare($stmt,$sql)) {
-                    echo "Error: " . $sql . "" . mysqli_error($stmt);
-                }else{
-                    mysqli_stmt_bind_param($stmt,"ssssss",$name,$permission,$email,$loginId,$password,$by);
-                    mysqli_stmt_execute($stmt);
-                    echo "Form Has been submitted successfully";
-                }			
-            }
-        }
-      mysqli_stmt_close($stmt);
-      mysqli_close($db);
-    } 
+ 
     // Get Add Requests Query
-    if ($q == 'GET-ALL-REQUEST') { 
+    if ($q == 'GET_ALL_REQUEST') { 
         echo "<span class='dropdown-item dropdown-header'>Request Notifications</span>
         <div class='dropdown-divider'></div>";
-        if ($_SESSION['type'] == "admin") {
-            $request = 'SELECT *, `ADMIN_USERNAME` FROM `edit_request` INNER JOIN `admin` WHERE `edit_request`.`REQUEST_BY` = `admin`.`ADMIN_ID` AND `edit_request`.`REQUEST_STATUS` = 0 ORDER BY `edit_request`.`REQUEST_ID` DESC';
-        } else if($_SESSION['type'] == "user"){
-            $request = 'SELECT *, `ADMIN_USERNAME` FROM `edit_request` INNER JOIN `admin` WHERE `edit_request`.`REQUEST_BY` = `admin`.`ADMIN_ID` AND `edit_request`.`REQUEST_STATUS` != 0 ORDER BY `edit_request`.`REQUEST_ID` DESC';
+        if ($_SESSION['role'] == "admin") {
+            $request = 'SELECT *, `USER_NAME` FROM `me_request` INNER JOIN `me_user` WHERE `me_request`.`STAFF_ID` = `me_user`.`USER_UUID` AND `me_request`.`REQUEST_STATUS` = 0 ORDER BY `me_request`.`REQUEST_UUID` DESC';
+        } else if($_SESSION['role'] == "user"){
+            $request = 'SELECT *, `USER_NAME` FROM `me_request` INNER JOIN `me_user` WHERE `me_request`.`STAFF_ID` = `me_user`.`USER_UUID` AND `me_request`.`REQUEST_STATUS` != 0 ORDER BY `me_request`.`REQUEST_UUID` DESC';
         }
         $result = mysqli_query($db, $request) or die (mysqli_error($db));
             $resultCheck = mysqli_num_rows($result);
@@ -245,9 +23,10 @@
                 echo "<span class='dropdown-item text-center'>No Record Found</span>";
             }else {
                 while ($row = mysqli_fetch_array($result)) {
-                    echo "<a href='javascript:void(0);' onClick='getRequest($row[REQUEST_ID]);'  data-toggle='modal' data-target='#view-request' class='dropdown-item'> 
-                    <small><span class='float-left left badge badge-primary mr-4 mt-1'>SLIP</span></small>";  
-                    if ($row['REQUEST_TABLE_NAME'] == 'OPD_SLIP_REQUEST') {
+                    echo "<a href='javascript:void(0);' onClick='getRequest(this);' data-uuid='$row[REQUEST_UUID]' data-toggle='modal' data-target='#view-request' class='dropdown-item'> 
+                    <small><span class='float-left left badge badge-primary mr-4 mt-1'>SLIP</span></small>"; 
+                    $refUuid = substr($row['REQUEST_REFERENCE_UUID'],0, 4);
+                    if ($refUuid == "SOPD") {
                         if ($row['REQUEST_NAME'] == 'cancel') {
                             echo "<span class='text-center'><b> Cancel Request</b></span>
                             <span class='float-right right badge badge-primary'>OPD</span>";
@@ -256,7 +35,7 @@
                             <span class='float-right right badge badge-primary'>OPD</span>";
                         }
                     }
-                    if ($row['REQUEST_TABLE_NAME'] == 'INDOOR_SLIP_REQUEST') {
+                    if ($refUuid == "SIPD") {
                         if ($row['REQUEST_NAME'] == 'cancel') {
                             echo "<span class='text-center'><b> Cancel Request</b></span>
                             <span class='float-right right badge badge-primary'>INDOOR</span>";
@@ -265,7 +44,7 @@
                             <span class='float-right right badge badge-primary'>INDOOR</span>";
                         }
                     }
-                    if ($row['REQUEST_TABLE_NAME'] == 'EMERGENCY_SLIP_REQUEST') {
+                    if ($refUuid == "SMRC") {
                         if ($row['REQUEST_NAME'] == 'cancel') {
                             echo "<span class='text-center'><b> Cancel Request</b></span>
                             <span class='float-right right badge badge-primary'>EMERGENCY</span>";
@@ -273,18 +52,19 @@
                             echo "<span class='text-center'><b>Edit Request</b></span>
                             <span class='float-right right badge badge-primary'>EMERGENCY</span>";
                         }
-                    }
+                    } 
+                    
                     echo "</a>
                     <div class='dropdown-divider'></div>";
                 }
             }
     }
     // View Specific Request Query Response
-    if ($q == 'VIEW-REQUEST-BY-ID') {
-        $request = 'SELECT *, `ADMIN_USERNAME` FROM `edit_request` INNER JOIN `admin` WHERE `edit_request`.`REQUEST_BY` = `admin`.`ADMIN_ID` AND `REQUEST_ID` = "'.$id.'"';
+    if ($q == 'VIEW_REQUEST_BY_ID') {
+        $request = "SELECT *, `USER_NAME` FROM `me_request` INNER JOIN `me_user` WHERE `me_request`.`STAFF_ID` = `me_user`.`USER_UUID` AND `REQUEST_UUID` = '$id'";
         $result = mysqli_query($db, $request) or die (mysqli_error($db));
         while ($row = mysqli_fetch_array($result)) {
-            $rid = $row['REQUEST_TABLE_ID'];
+            $rid = $row['REQUEST_REFERENCE_UUID'];
             echo "<tr style='font-size: 12px;'>
             <td>";
             if ($row['REQUEST_NAME'] == 'cancel') {
@@ -295,30 +75,24 @@
             echo"</td>
             <td>$row[REQUEST_COMMENT]</td>
             <td>";
-            if ($row['REQUEST_TABLE_NAME'] == 'OPD_SLIP_REQUEST') {
-                $rname = 'outdoor';
-                echo "Requested on OPD Slip";
-            }else if ($row['REQUEST_TABLE_NAME'] == 'INDOOR_SLIP_REQUEST') {
-                $rname = 'indoor';
-                echo "Requested on Indoor Slip";
-            } else if ($row['REQUEST_TABLE_NAME'] == 'EMERGENCY_SLIP_REQUEST') {
-                $rname = 'emergency';
-                echo "Requested on Emergency Slip";
-            } 
+            $refUuid = substr($row['REQUEST_REFERENCE_UUID'],0, 4);
+            if ($refUuid == "SOPD") {$rname = 'outdoor';echo "Requested on OPD Slip";}
+            if ($refUuid == "SIPD") {$rname = 'indoor';echo "Requested on Indoor Slip";}
+            if ($refUuid == "SMRC") {$rname = 'emergency'; echo "Requested on Emergency Slip";}
             echo"</td>
             <td>
-                <b>By</b>: $row[ADMIN_USERNAME] <br>
-                <b>On</b>: $row[REQUEST_ON]
+                <b>By</b>: $row[USER_NAME] <br>
+                <b>On</b>: $row[REQUEST_DATE_TIME]
             </td>";
-            if ($_SESSION['type'] == "admin") {
+            if ($_SESSION['role'] == "admin") {
                 echo "<td>
                     <a href='javascript:void(0);' id='view-record' onclick='openRequestedRecord($rid)' data-status='$row[REQUEST_STATUS]' data-id='$id' data-type='$rname'>
                         <i class='fas fa-info-circle'></i> View
                     </a></br>
-                    <a onClick='cancelRequest($row[REQUEST_ID])' href='javascript:void(0);' style='color:red;'>
+                    <a onClick='cancelRequest($row[REQUEST_UUID])' href='javascript:void(0);' style='color:red;'>
                         <small><i class='fas fa-trash'></i> Request</small>
                     </a></br>
-                    <a onClick='deleteRequestRecord($row[REQUEST_ID])' id='deleteRecord' data-id='$row[REQUEST_TABLE_ID]' data-name='$row[REQUEST_TABLE_NAME]' href='javascript:void(0);' style='color:red;'>
+                    <a onClick='deleteRequestRecord($row[REQUEST_UUID])' id='deleteRecord' data-id='$row[REQUEST_REFERENCE_UUID]' href='javascript:void(0);' style='color:red;'>
                     <small><i class='fas fa-trash'></i> Record</small>
                     </a></br>
                 </td>";

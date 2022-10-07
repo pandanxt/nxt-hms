@@ -1,51 +1,6 @@
 <?php
     require 'connection.php';
 
-    if (isset($_POST['signin'])) {
-
-        $uid = $_POST['username'];
-        $pass = $_POST['password'];    
-    
-        if (empty($uid)||empty($pass)) {
-            header("Location: ../login.php?error=emptyfields");
-        exit();
-        }else{
-        $sql = "SELECT * FROM `admin` WHERE `ADMIN_EMAIL` = ? OR `ADMIN_USERNAME` = ?";
-        $stmt = mysqli_stmt_init($db);
-        if (!mysqli_stmt_prepare($stmt,$sql)) {
-        header("Location: ../login.php?error=sqlerror");
-        exit();
-        }else{
-            mysqli_stmt_bind_param($stmt,"ss",$uid,$uid);
-            mysqli_stmt_execute($stmt);
-            $result = mysqli_stmt_get_result($stmt);
-                if ($row = mysqli_fetch_assoc($result)) {
-                    $pwdCheck = password_verify($pass,$row['ADMIN_PASSWORD']);
-                        if ($pwdCheck == false) {
-                            header("Location: ../login.php?error=wrongpwd");
-                            exit();
-                        }elseif ($pwdCheck == true) {
-                            session_start();
-                            $_SESSION['userid'] = $row['ADMIN_ID'];
-                            $_SESSION['email'] = $row['ADMIN_EMAIL'];
-                            $_SESSION['fullname'] = $row['ADMIN_NAME'];
-                            $_SESSION['name'] = $row['ADMIN_USERNAME'];
-                            $_SESSION['savetime'] = $row['ADMIN_SAVE_TIME'];
-                            $_SESSION['type'] = $row['ADMIN_TYPE'];
-                            header("Location: ../index.php?login=success");
-                            exit();
-                        }else{
-                            header("Location: ../login.php?error=wrongpwd");
-                            exit();
-                        }
-                }else{
-                    header("Location: ../login.php?error=nouser");
-                    exit();
-                }
-            }
-        }
-    }
-
     if (isset($_POST['user-submit'])) {
         $status =  $_POST['status'];
         $loginId = $_POST['loginId'];

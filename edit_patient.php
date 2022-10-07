@@ -1,6 +1,6 @@
 <?php 
   session_start(); 
-  if (isset($_SESSION['userid'])) {
+  if (isset($_SESSION['uuid'])) {
 
     include('backend_components/connection.php');
     include('components/form_header.php');
@@ -19,10 +19,9 @@
       $by = $_POST['by'];
       $saveOn = $_POST['addDate'];
 
-      $sql ="UPDATE `patient` SET `PATIENT_NAME`='$name',`PATIENT_GENDER`='$gender',
-      `PATIENT_AGE`='$age',`PATIENT_ADDRESS`='$address',
-      `CREATED_ON`='$saveOn',`CREATED_BY`='$by' 
-      WHERE `PATIENT_ID` = '$pid'";
+      $sql ="UPDATE `me_patient` SET `PATIENT_NAME`='$name',`PATIENT_GENDER`='$gender',
+      `PATIENT_AGE`='$age',`PATIENT_ADDRESS`='$address',`STAFF_ID`='$by' 
+      WHERE `PATIENT_MR_ID` = '$pid'";
 			if($qsql = mysqli_query($db,$sql))
 			{
 				echo "<script>alert('Patient record updated successfully...');window.location = 'patient_record.php';</script>";
@@ -35,8 +34,8 @@
 
    if (empty($_GET['patid'])) {}else {
 
-    $patsql="SELECT * FROM `patient`  
-    WHERE `patient`.`PATIENT_ID` = '$_GET[patid]'";
+    $patsql="SELECT * FROM `me_patient`  
+    WHERE `me_patient`.`PATIENT_MR_ID` = '$_GET[patid]'";
     $qsql = mysqli_query($db,$patsql);
     $rsedit = mysqli_fetch_array($qsql);
 ?>
@@ -105,12 +104,9 @@
               </div>
               <!-- /.col -->
               <div class="col-md-6">
-                    <input type="text" name="pid" value="<?php echo $rsedit['PATIENT_ID']; ?>" hidden/>
                     <input type="tel" name="phone" class="form-control" id="inputPhone" value="<?php echo $rsedit['PATIENT_MOBILE']; ?>" hidden>
                     <input type="text" name="mrid" class="form-control" value="<?php echo $rsedit['PATIENT_MR_ID']; ?>" hidden/>
-                    <input type="text" name="by" value="<?php echo $_SESSION['userid'] ; ?>" hidden readonly>
-                    <input type="text" name="addDate" id="addDate" hidden/>
-                    <script>var addDate = new Date();document.getElementById('addDate').value = addDate;</script>
+                    <input type="text" name="by" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
                     <!-- /.form-group -->
                     <div class="form-group">
                         <label>Patient Address</label>

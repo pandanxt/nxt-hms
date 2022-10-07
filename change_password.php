@@ -1,6 +1,6 @@
 <?php 
   session_start(); 
-  if (isset($_SESSION['userid'])) {
+  if (isset($_SESSION['uuid'])) {
 
     include('backend_components/connection.php');
     include('components/form_header.php');
@@ -55,7 +55,7 @@
       mysqli_close($db);
   }
 
-    $sql="SELECT * FROM `admin` WHERE `ADMIN_ID` ='$_SESSION[userid]' ";
+    $sql="SELECT * FROM `admin` WHERE `ADMIN_ID` ='$_SESSION[uuid]' ";
     $qsql = mysqli_query($db,$sql);
     $rsedit = mysqli_fetch_array($qsql);
 ?>
