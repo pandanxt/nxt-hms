@@ -2,7 +2,7 @@
 
    body
    {
-      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
       margin: 0px;
       padding: 0px;
    }
@@ -15,14 +15,14 @@
     width: 50%;
     text-align: right;
     padding-bottom: 1mm;
-    font-size: 3.5mm;
+    font-size: 3mm;
     font-weight: bold;
   }
   .staffFooter {
     width: 50%;
     text-align: left;
     padding-bottom: 1mm;
-    font-size: 3.5mm;
+    font-size: 3mm;
     font-weight: bold;
   }
   .orderNo {
@@ -96,7 +96,7 @@
     text-align: justify;
     margin: 0px;
     font-size: 3.5mm;
-    font-weight: 600;
+    font-weight: 500;
   }
   
   .item {

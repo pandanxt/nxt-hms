@@ -59,7 +59,7 @@ if (isset($_SESSION['uuid'])) {
         </div>
         <div class="headerSubTitle"><?php echo $date; ?></div>
         <div><img class="titleLogo" src="dist/img/hospital-logo.png" alt="Medeast Hospital Logo"></div>
-        <div id="date">C-1 Commercial Office Block, Paragon City, Lahore.</div>
+        <div id="date">C-1 Commercial Office Block,</br> Paragon City, Lahore.</div>
         <div id="date">042 37165549, 0320 4707070, 0300 4133102</div>
         <div class="headerSubTitle mt-2 mb-2">
             <?php
@@ -99,7 +99,7 @@ if (isset($_SESSION['uuid'])) {
                 <td class="right-chars">&nbsp;<b><?php echo $doctor; ?></b></td>
             </tr>
             <tr>
-                <td style=" padding:0 !important;">&nbsp;<small>Age/Gender</small></td>
+                <td style=" padding:0 !important;">&nbsp;<small>Age</small></td>
                 <td class="right-chars">&nbsp;<b><?php echo $age." yrs - ".$gender; ?></b></td>
             </tr>
         </table>
