@@ -1,7 +1,10 @@
-// Add unique Id for New Dept
+// Add unique Id for New DOCTOR
 let uuid = (new Date()).getTime() + Math.trunc(365 * Math.random());
-uuid = String(uuid).slice(-6)+'-DOC';
-document.getElementById("uuId").value = uuid;
+let today = new Date().toLocaleDateString();
+let unique_id = today.length = 7 ? `${String(uuid).slice(-4)}-${today.replaceAll('/','')}` : `${String(uuid).slice(-3)}-${today.replaceAll('/','')}`;
+console.log("Patient MRID: ",unique_id);
+
+if (document.getElementById("uuId")) {document.getElementById("uuId").value =  `DOC${unique_id}`;}
 
 // Ajax Call for Adding New Doctor 
 $(document).ready(function($){

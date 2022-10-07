@@ -1,13 +1,17 @@
 let data, slipId,serviceName, list = 'me';
-
 // Add unique Id for New Slip and visiting doctor
 let uuid = (new Date()).getTime() + Math.trunc(365 * Math.random());
-if (document.getElementById("patId")) {document.getElementById("patId").value = String(uuid).slice(-6) +'-MRD';}
-if (document.getElementById("slipId")) {document.getElementById("slipId").value = String(uuid).slice(-6) +'-SLP';}
-if (document.getElementById("uuId")) {document.getElementById("uuId").value = String(uuid).slice(-6) +'-DOC';}
-if (document.getElementById("reqId")) {document.getElementById("reqId").value = String(uuid).slice(-6) +'-REQ';}
-if (document.getElementById("followId")) {document.getElementById("followId").value = String(uuid).slice(-6) +'-FOL';}
-if (document.getElementById("serviceId")) {document.getElementById("serviceId").value = String(uuid).slice(-6) +'-SRS';}
+let today = new Date().toLocaleDateString();
+let patient_id = today.length = 7 ? `${today.replaceAll('/','')}${String(uuid).slice(-4)}-MRD` : `${today.replaceAll('/','')}${String(uuid).slice(-3)}-MRD`;
+let unique_id = today.length = 7 ? `${String(uuid).slice(-4)}-${today.replaceAll('/','')}` : `${String(uuid).slice(-3)}-${today.replaceAll('/','')}`;
+console.log("Patient MRID: ",patient_id,unique_id);
+
+if (document.getElementById("patId")) {document.getElementById("patId").value = patient_id;}
+if (document.getElementById("slipId")) {document.getElementById("slipId").value =  `SLP${unique_id}`;}
+if (document.getElementById("uuId")) {document.getElementById("uuId").value = `DOC${unique_id}`;}
+if (document.getElementById("reqId")) {document.getElementById("reqId").value = `REQ${unique_id}`;}
+if (document.getElementById("followId")) {document.getElementById("followId").value = `FOL${unique_id}`;}
+if (document.getElementById("serviceId")) {document.getElementById("serviceId").value = `SRS${unique_id}`;}
 
 // Auto Fresh Function
 function autoRefresh(){

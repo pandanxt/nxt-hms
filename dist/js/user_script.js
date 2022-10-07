@@ -1,8 +1,12 @@
 // Add unique Id for New User
- let uuid = (new Date()).getTime() + Math.trunc(365 * Math.random());
- uuid = String(uuid).slice(-6) + '-USR';
- document.getElementById("uuId").value = uuid;
+let uuid = (new Date()).getTime() + Math.trunc(365 * Math.random());
+let today = new Date().toLocaleDateString();
+let unique_id = today.length = 7 ? `${String(uuid).slice(-4)}-${today.replaceAll('/','')}` : `${String(uuid).slice(-3)}-${today.replaceAll('/','')}`;
+console.log("Patient MRID: ",unique_id);
 
+if (document.getElementById("uuId")) {document.getElementById("uuId").value =  `USR${unique_id}`;}
+
+ 
  let passUuid = "";
  function getUuid(str) { passUuid = str.getAttribute("data-uuid"); }
  // Ajax Call for Adding New Visiting Doctor 

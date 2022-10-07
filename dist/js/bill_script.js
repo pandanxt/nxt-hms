@@ -1,6 +1,10 @@
 // Add unique Id for New Bill
 let uuid = (new Date()).getTime() + Math.trunc(365 * Math.random());
-if (document.getElementById("billId")) {document.getElementById("billId").value = String(uuid).slice(-6) +'-BID';}
+let today = new Date().toLocaleDateString();
+let unique_id = today.length = 7 ? `${String(uuid).slice(-4)}-${today.replaceAll('/','')}` : `${String(uuid).slice(-3)}-${today.replaceAll('/','')}`;
+console.log("Patient MRID: ",unique_id);
+
+if (document.getElementById("billId")) {document.getElementById("billId").value =  `BID${unique_id}`;}
   //Get Surgery Total       
   function genSurgeryTotal() {
     let adCharge = document.getElementById("adCharge").value;
