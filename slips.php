@@ -133,8 +133,12 @@
                                     }
                                   }
                                 if ($_SESSION['role'] == "admin") { 
-                                  echo "<br>
-                                  <a href='add_patient.php?id=$slip_row[SLIP_UUID]'>
+                                  // if ($slip_row['SLIP_SUB_TYPE'] != NULL) {
+                                    // echo "<br>
+                                    // <a href='edit_slip.php?sid=$slip_row[SLIP_UUID]&type=$slip_row[SLIP_TYPE]&subType=$slip_row[SLIP_SUB_TYPE]'>
+                                    //   <i class='fas fa-edit'></i> Edit Slip
+                                    // </a>";
+                                  echo "<br><a href='javascript:void(0);' onclick='editSlip(this);' data-uuid='$slip_row[SLIP_UUID]' data-type='$slip_row[SLIP_TYPE]' data-subtype='$slip_row[SLIP_SUB_TYPE]' data-toggle='modal' data-target='#edit-slip'>
                                     <i class='fas fa-edit'></i> Edit Slip
                                   </a><br>
                                   <a onClick='deleteSlip(this)' data-uuid='$slip_row[SLIP_UUID]' href='javascript:void(0);' style='color:red;'>

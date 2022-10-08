@@ -324,6 +324,30 @@
   </div>
 </div>
 
+<!--Edit Slip Model Popup Here -->
+<div class="modal fade" id="edit-slip">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><i class="nav-icon fas fa-procedures"></i>&nbsp;Edit Slip</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <span id="err-msg" style="display: none"></span>
+      <form action="javascript:void(0)" method="post" id="editSlip">
+        <div class="modal-body" id="editForm">
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" id="cancel" data-dismiss="modal">Cancel</button>
+          <button type="submit" name="submit" class="btn btn-primary">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!--Edit Slip Model Popup Ends Here -->
+
 <!-- Log Out Popup Model -->
 <div class="modal fade" id="modal-sm">
   <div class="modal-dialog modal-sm">

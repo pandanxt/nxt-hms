@@ -166,6 +166,145 @@
         mysqli_stmt_close($stmt);
         mysqli_close($db);
     }
+    //Edit Patient Data Query by Id
+    if ($q == 'EDIT-SLIP-BY-ID') {  
+        if ($val == 'OUTDOOR' || $val == 'INDOOR') {
+            $editQuery ="SELECT `a`.*,`c`.`USER_NAME`,`d`.`DOCTOR_NAME`,`d`.`DOCTOR_TYPE`, `e`.`DEPARTMENT_NAME` FROM `me_slip` AS `a` 
+            INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID`
+            INNER JOIN `me_doctors` AS `d` ON `d`.`DOCTOR_UUID` = `a`.`SLIP_DOCTOR`
+            INNER JOIN `me_department` AS `e` ON `e`.`DEPARTMENT_UUID` = `a`.`SLIP_DEPARTMENT`
+            WHERE `a`.`SLIP_UUID` = '$id'";
+        }else {
+            $editQuery ="SELECT `a`.*,`c`.`USER_NAME`,`d`.`DOCTOR_NAME`,`d`.`DOCTOR_TYPE` FROM `me_slip` AS `a` 
+            INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID`
+            INNER JOIN `me_doctors` AS `d` ON `d`.`DOCTOR_UUID` = `a`.`SLIP_DOCTOR`
+            WHERE `a`.`SLIP_UUID` = '$id'";
+        }
+        $sql = mysqli_query($db,$editQuery) or die (mysqli_error($db));
+        $resultCheck = mysqli_num_rows($sql);
+        if ($resultCheck != 0) {
+            while($slip_data = mysqli_fetch_array($sql))
+            {
+                $mrid = $slip_data['SLIP_MRID'];
+                $uuid = $slip_data['SLIP_UUID'];
+                $name = $slip_data['SLIP_NAME'];
+                $mobile = $slip_data['SLIP_MOBILE'];
+                if ($val == 'OUTDOOR' || $val == 'INDOOR') {
+                    $dept_id = $slip_data['SLIP_DEPARTMENT'];
+                    $dept_name = $slip_data['DEPARTMENT_NAME'];
+                }
+                $doc_id = $slip_data['SLIP_DOCTOR'];
+                $doc_name = $slip_data['DOCTOR_NAME'];
+                $fee = $slip_data['SLIP_FEE'];
+                if ($val == 'INDOOR') {
+                    $procedure = $slip_data['SLIP_PROCEDURE'];
+                }
+            }  
+            echo "<div class='row'>
+                <div class='col-md-12' style='display:flex;'>
+                <div class='form-group col-md-6'>
+                    <label>Patient MR-ID #</label>
+                    <input type='text' name='editMrid' id='editMrid' value='$mrid' class='form-control' readonly>
+                </div>
+                <div class='form-group col-md-6'>
+                    <label>Patient Name</label>
+                    <input type='text' name='editName' id='editName' value='$name' class='form-control' placeholder='Enter Patient Name Here ...'>
+                </div>
+                </div>";
+                if ($val == 'OUTDOOR') {
+                    echo "<div class='col-md-12 ml-2' style='display:flex;'>
+                        <label for='switchList' class='mt-2'>Switch List: </label>&nbsp;
+                        <select class='form-default' name='switchList' id='switchList' onchange='switchDocList(this.value);'>
+                        <option value='me'>MedEast Doctors</option>
+                        <option value='vt'>Visiting Doctors</option>
+                        </select>
+                        <div class='ml-2 mt-2'>
+                            <span id='addDoc' style='display:none;'>
+                                <a href='javascript:void(0);' data-toggle='modal' data-target='#visitor-doctor'><i class='fas fa-plus'></i> VISITOR DOCTOR</a>
+                            </span>
+                        </div>
+                    </div>";
+                }
+                if ($val == 'OUTDOOR' || $val == 'INDOOR') {
+                    echo "<div class='col-md-12' style='display:flex;'>
+                    <div class='form-group col-md-6'>
+                        <label>Department</label>
+                        <select class='form-control select2bs4' id='editDept' name='editDept' style='width: 100%;' onchange='showDoctor(this.value)'>
+                        <option disabled selected value=''>---- Select Department ----</option>
+                        <option selected value='$dept_id'><b>$dept_name</b></option>";
+                        $dept = 'SELECT `DEPARTMENT_UUID`, `DEPARTMENT_NAME` FROM `me_department` WHERE `DEPARTMENT_STATUS` = "1"';
+                        $result = mysqli_query($db, $dept) or die (mysqli_error($db));
+                            while ($row = mysqli_fetch_array($result)) {
+                            $id = $row['DEPARTMENT_UUID'];  
+                            $name = $row['DEPARTMENT_NAME'];
+                            echo '<option value="'.$id.'">'.$name.'</option>'; 
+                        }
+                    echo "</select>
+                </div>
+                <div class='form-group col-md-6' id='meDoc'>";
+                }else{
+                    echo "<div class='col-md-12' style='display:flex;'>
+                    <div class='form-group col-md-12' id='meDoc'>";
+                }
+                    echo "<label>Consultant Name</label>
+                    <select class='form-control select2bs4' name='editDoctor' style='width: 100%;' id='doctor'>
+                        <option disabled value=''>---- Select Consultant Name ----</option>
+                        <option selected value='$doc_id'><b>$doc_name</b></option>";
+                        $doctor = 'SELECT `DOCTOR_UUID`, `DOCTOR_NAME` FROM `me_doctors` WHERE `DOCTOR_TYPE` = "medeast" AND `DOCTOR_STATUS` = "1"';
+                        $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
+                            while ($row = mysqli_fetch_array($result)) {
+                            $id = $row['DOCTOR_UUID'];  
+                            $name = $row['DOCTOR_NAME'];
+                            echo '<option value="'.$id.'">'.$name.'</option>'; 
+                        }
+                    echo "</select>
+                </div>
+                </div>
+                <div class='col-md-12' style='display:flex;'>
+                <div class='form-group col-md-6'>
+                    <label>Mobile No#</label>
+                    <input type='tel' name='editPhone' id='editPhone' value='$mobile' class='form-control' placeholder='Enter Mobile No. without - '>
+                </div>";
+                if ($val == 'OUTDOOR') {
+                echo "<div class='form-group col-md-6'>
+                    <label>Consultant Fee</label>
+                    <input type='number' name='editFee' id='editFee' value='$fee' class='form-control' placeholder='Enter Consultant Fee'>
+                </div>";
+                }
+                echo "</div>";
+                if ($val == 'INDOOR') {
+                    echo "<div class='form-group col-md-12'>
+                    <label>Procedure/Surgery Type</label>
+                    <textarea style='height: 60px;' name='editProcedure' id='editProcedure' value='$procedure' placeholder='Enter Procedure/Surgery Details Here ...' type='text' class='form-control'>$procedure</textarea>
+                    </div>";
+                }
+                echo "<input type='text' name='editStaff' id='editStaff' value='$_SESSION[uuid]' hidden readonly>
+                <input type='text' name='slipId' id='slipId' value='$uuid' hidden readonly>
+                <input type='text' name='slipType' id='slipType' value='$val' hidden readonly>
+            </div>";
+        }
+    }
+    
+    // Update Patient Data Query
+    if ($q == 'EDIT_SLIP') {
+        $uuid = mysqli_real_escape_string($db, $_POST['slipId']);
+        $name = mysqli_real_escape_string($db, $_POST['editName']);
+        $phone = mysqli_real_escape_string($db, $_POST['editPhone']);
+        $type = mysqli_real_escape_string($db, $_POST['slipType']);
+        $doc = mysqli_real_escape_string($db, $_POST['editDoctor']);
+        $staffId = mysqli_real_escape_string($db, $_POST['editStaff']);
+        if($type=='OUTDOOR'||$type=='INDOOR'){$dept=mysqli_real_escape_string($db,$_POST['editDept']);}else{$dept='';}
+        if($type=='OUTDOOR'){$fee=mysqli_real_escape_string($db,$_POST['editFee']);}else{$fee=NULL;}
+        if($type=='INDOOR'){$procedure=mysqli_real_escape_string($db,$_POST['editProcedure']);}else{$procedure=NULL;}
+        
+        if ($type == 'INDOOR' || $type == 'OUTDOOR') {
+            if(mysqli_query($db, "UPDATE `me_slip` SET `SLIP_NAME`='$name',`SLIP_MOBILE`='$phone',`SLIP_DEPARTMENT`='$dept',`SLIP_DOCTOR`='$doc',`SLIP_FEE`='$fee',`SLIP_PROCEDURE`='$procedure',`STAFF_ID` ='$staffId' WHERE `SLIP_UUID` = '$uuid'"))
+            {echo 'Slip Record Updated Successfully';}else{echo "Error: " . $sql . "" . mysqli_error($db);}	
+        }else {
+            if(mysqli_query($db, "UPDATE `me_slip` SET `SLIP_NAME`='$name',`SLIP_MOBILE`='$phone',`SLIP_DOCTOR`='$doc',`SLIP_FEE`='$fee',`SLIP_PROCEDURE`='$procedure',`STAFF_ID` ='$staffId' WHERE `SLIP_UUID` = '$uuid'"))
+            {echo 'Slip Record Updated Successfully';}else{echo "Error: " . $sql . "" . mysqli_error($db);}	
+        }
+    }
 
     // Delete Patient Data Query
     if($q == 'DELETE_SLIP') {

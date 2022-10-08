@@ -1,40 +1,40 @@
-let currentDT = new Date().toLocaleString().replace(',','');
-let unid = Date.now() +"-"+ "ME";
-let MR_ID = unid.slice(6,16);
+let currentDT = new Date().toLocaleString().replace(',', '');
+let unid = Date.now() + "-" + "ME";
+let MR_ID = unid.slice(6, 16);
 
 let recordRefId, requestId, requestStatus;
 
-if(document.getElementById('mrid')){document.getElementById('mrid').value = MR_ID;}
-if(document.getElementById('inputDT')){document.getElementById('inputDT').value = currentDT;}
+if (document.getElementById('mrid')) { document.getElementById('mrid').value = MR_ID; }
+if (document.getElementById('inputDT')) { document.getElementById('inputDT').value = currentDT; }
 
 function display_ct7() {
   let x = new Date();
-  let ampm = x.getHours( ) >= 12 ? ' PM' : ' AM';
-  hours = x.getHours( ) % 12;
+  let ampm = x.getHours() >= 12 ? ' PM' : ' AM';
+  hours = x.getHours() % 12;
   hours = hours ? hours : 12;
-  hours=hours.toString().length==1? 0+hours.toString() : hours;
+  hours = hours.toString().length == 1 ? 0 + hours.toString() : hours;
 
-  let minutes=x.getMinutes().toString()
-  minutes=minutes.length==1 ? 0+minutes : minutes;
+  let minutes = x.getMinutes().toString()
+  minutes = minutes.length == 1 ? 0 + minutes : minutes;
 
-  let seconds=x.getSeconds().toString()
-  seconds=seconds.length==1 ? 0+seconds : seconds;
+  let seconds = x.getSeconds().toString()
+  seconds = seconds.length == 1 ? 0 + seconds : seconds;
 
-  let month=(x.getMonth() +1).toString();
-  month=month.length==1 ? 0+month : month;
+  let month = (x.getMonth() + 1).toString();
+  month = month.length == 1 ? 0 + month : month;
 
-  let dt=x.getDate().toString();
-  dt=dt.length==1 ? 0+dt : dt;
+  let dt = x.getDate().toString();
+  dt = dt.length == 1 ? 0 + dt : dt;
 
-  let x1=month + "/" + dt + "/" + x.getFullYear(); 
-  x1 = x1 + " - " +  hours + ":" +  minutes + ":" +  seconds + " " + ampm;
-  if(document.getElementById('clockDT')){document.getElementById('clockDT').innerHTML = x1;}
+  let x1 = month + "/" + dt + "/" + x.getFullYear();
+  x1 = x1 + " - " + hours + ":" + minutes + ":" + seconds + " " + ampm;
+  if (document.getElementById('clockDT')) { document.getElementById('clockDT').innerHTML = x1; }
   display_c7();
 }
 
-function display_c7(){
-  let refresh=1000; // Refresh rate in milli seconds
-  mytime=setTimeout('display_ct7()',refresh)
+function display_c7() {
+  let refresh = 1000; // Refresh rate in milli seconds
+  mytime = setTimeout('display_ct7()', refresh)
 }
 
 display_c7();
@@ -83,61 +83,61 @@ display_c7();
 //       $(this).bootstrapSwitch('state', $(this).prop('checked'));
 //     })
 //   })
-  // BS-Stepper Init
-  // document.addEventListener('DOMContentLoaded', function () {
-  //   window.stepper = new Stepper(document.querySelector('.bs-stepper'))
-  // })
+// BS-Stepper Init
+// document.addEventListener('DOMContentLoaded', function () {
+//   window.stepper = new Stepper(document.querySelector('.bs-stepper'))
+// })
 
-  // DropzoneJS Demo Code Start
-  // if(Dropzone.autoDiscover) Dropzone.autoDiscover = false
+// DropzoneJS Demo Code Start
+// if(Dropzone.autoDiscover) Dropzone.autoDiscover = false
 
-  // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
-  // let previewNode;
-  // if (document.querySelector("#template")) {
-  //   previewNode = document.querySelector("#template")
-  //   previewNode.id = ""
-  //   let previewTemplate = previewNode.parentNode.innerHTML
-  //   previewNode.parentNode.removeChild(previewNode)
-  // }
+// Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
+// let previewNode;
+// if (document.querySelector("#template")) {
+//   previewNode = document.querySelector("#template")
+//   previewNode.id = ""
+//   let previewTemplate = previewNode.parentNode.innerHTML
+//   previewNode.parentNode.removeChild(previewNode)
+// }
 
-  // let myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
-  //   url: "/target-url", // Set the url
-  //   thumbnailWidth: 80,
-  //   thumbnailHeight: 80,
-  //   parallelUploads: 20,
-  //   previewTemplate: previewTemplate,
-  //   autoQueue: false, // Make sure the files aren't queued until manually added
-  //   previewsContainer: "#previews", // Define the container to display the previews
-  //   clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
-  // })
+// let myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+//   url: "/target-url", // Set the url
+//   thumbnailWidth: 80,
+//   thumbnailHeight: 80,
+//   parallelUploads: 20,
+//   previewTemplate: previewTemplate,
+//   autoQueue: false, // Make sure the files aren't queued until manually added
+//   previewsContainer: "#previews", // Define the container to display the previews
+//   clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+// })
 
-  // myDropzone.on("addedfile", function(file) {
-  //   file.previewElement.querySelector(".start").onclick = function() { myDropzone.enqueueFile(file) }
-  // })
+// myDropzone.on("addedfile", function(file) {
+//   file.previewElement.querySelector(".start").onclick = function() { myDropzone.enqueueFile(file) }
+// })
 
-  // myDropzone.on("totaluploadprogress", function(progress) {
-  //   document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
-  // })
+// myDropzone.on("totaluploadprogress", function(progress) {
+//   document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
+// })
 
-  // myDropzone.on("sending", function(file) {
-  //   document.querySelector("#total-progress").style.opacity = "1"
-  //   file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
-  // })
+// myDropzone.on("sending", function(file) {
+//   document.querySelector("#total-progress").style.opacity = "1"
+//   file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
+// })
 
-  // myDropzone.on("queuecomplete", function(progress) {
-  //   document.querySelector("#total-progress").style.opacity = "0"
-  // })
+// myDropzone.on("queuecomplete", function(progress) {
+//   document.querySelector("#total-progress").style.opacity = "0"
+// })
 
-  // document.querySelector("#actions .start").onclick = function() {
-  //   myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
-  // }
-  // document.querySelector("#actions .cancel").onclick = function() {
-  //   myDropzone.removeAllFiles(true)
-  // }
+// document.querySelector("#actions .start").onclick = function() {
+//   myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
+// }
+// document.querySelector("#actions .cancel").onclick = function() {
+//   myDropzone.removeAllFiles(true)
+// }
 
-  // Request Functions starts
+// Request Functions starts
 
-  
+
 // Send Update Record of request Date
 function updateRqRecord() {
   let type, dept, doctor, fee, procedure;
@@ -149,19 +149,19 @@ function updateRqRecord() {
     if (type == 0) {
       dept = document.getElementById('meDept').value;
       doctor = document.getElementById('meDoctor').value;
-    }else if (type == 1) {
+    } else if (type == 1) {
       dept = document.getElementById('vtDept').value;
       doctor = document.getElementById('vtDoctor').value;
     }
-  }else if (recordType == 'indoor') {
+  } else if (recordType == 'indoor') {
     type = document.getElementById('indoorType').value;
     dept = document.getElementById('dept').value;
     doctor = document.getElementById('doctor').value;
     procedure = document.getElementById('procedure').value;
-  }else if (recordType == 'emergency') {
+  } else if (recordType == 'emergency') {
     doctor = document.getElementById('doctor').value;
   }
-      
+
   let values = {
     'name': document.getElementById('name').value,
     'fee': fee ? fee : null,
@@ -173,283 +173,283 @@ function updateRqRecord() {
   };
   //name required
   let rname = $("input#name").val();
-  if(rname == "" || dept == "" || doctor == ""){
-      $("#err-msg").fadeIn().text("Fields can't be empty.");
-      $("input#name").focus();
-      return false;
+  if (rname == "" || dept == "" || doctor == "") {
+    $("#err-msg").fadeIn().text("Fields can't be empty.");
+    $("input#name").focus();
+    return false;
   }
   // ajax
   $.ajax({
-      type:"POST",
-      url: `backend_components/ajax_handler.php?q=upRqRecord&id=${slipId}`,
-      data: values, // get all form field value in serialize form
-      success: function(){   
+    type: "POST",
+    url: `backend_components/ajax_handler.php?q=upRqRecord&id=${slipId}`,
+    data: values, // get all form field value in serialize form
+    success: function () {
       updateRequestStatus(requestId, requestStatus);
-        $(function() {
-            var Toast = Swal.mixin({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 3000
-            });
-            Toast.fire({
-              icon: 'success',
-              title: 'Request Has be updated Successfully.'
-            })
+      $(function () {
+        var Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000
         });
-        autoRefresh();
-      }
+        Toast.fire({
+          icon: 'success',
+          title: 'Request Has be updated Successfully.'
+        })
+      });
+      autoRefresh();
+    }
   });
 }
 
 // Update Request Status
-function updateRequestStatus(id,status){
-  var xmlhttp=new XMLHttpRequest();
-  xmlhttp.onreadystatechange=function() {
-    if (this.readyState==4 && this.status==200) {
+function updateRequestStatus(id, status) {
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
       // console.log("Request Status updated: ",this.responseText);
-    }else { 
+    } else {
       // console.log("There is an error in updating the visiting doctor record."); 
     }
   }
-  xmlhttp.open("GET",`backend_components/ajax_handler.php?q=upRqStatus&val=${status}&id=${id}`,true);
+  xmlhttp.open("GET", `backend_components/ajax_handler.php?q=upRqStatus&val=${status}&id=${id}`, true);
   xmlhttp.send();
 }
 
 // Reset Model Data
 function setPopModel() {
-  document.getElementById("editBody").innerHTML= "";
+  document.getElementById("editBody").innerHTML = "";
 }
 
 // Get Request Data
-function getRequestNotification(){
-  var xmlhttp=new XMLHttpRequest();
-  xmlhttp.onreadystatechange=function() {
-    if (this.readyState==4 && this.status==200) {
-      document.getElementById("notificationId").innerHTML=this.responseText;
+function getRequestNotification() {
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("notificationId").innerHTML = this.responseText;
       console.log("Response From Request: ", this.responseText);
     }
   }
-  xmlhttp.open("GET","backend_components/slip_handler.php?q=GET_ALL_REQUEST_NOTIFICATION",true);
+  xmlhttp.open("GET", "backend_components/slip_handler.php?q=GET_ALL_REQUEST_NOTIFICATION", true);
   xmlhttp.send();
 }
 
 // Get Request Data Record
 function openRequestedRecord(str) {
   let elem = document.getElementById("view-record");
-  recordRefId = elem.getAttribute("data-refId"); 
+  recordRefId = elem.getAttribute("data-refId");
   requestId = elem.getAttribute("data-id");
   requestStatus = elem.getAttribute("data-status");
-  if (str=="") {return;}
-      let xmlhttp=new XMLHttpRequest();
-      xmlhttp.onreadystatechange=function() {
-        if (this.readyState==4 && this.status==200) {
-          document.getElementById("editBody").innerHTML=this.responseText;
-          // console.log("Response From Request Record: ", this.responseText);
-        }
-      }
-    xmlhttp.open("GET","backend_components/slip_handler.php?q=VIEW-REQUEST-RECORD&id="+str+"&val="+recordType,true);
-    xmlhttp.send();
+  if (str == "") { return; }
+  let xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("editBody").innerHTML = this.responseText;
+      // console.log("Response From Request Record: ", this.responseText);
+    }
+  }
+  xmlhttp.open("GET", "backend_components/slip_handler.php?q=VIEW-REQUEST-RECORD&id=" + str + "&val=" + recordType, true);
+  xmlhttp.send();
 }
 
 // Delete Record and update request status
 function deleteRequestRecord(str) {
   let elem = document.getElementById("deleteRecord");
-  recordType = elem.getAttribute("data-name"); 
+  recordType = elem.getAttribute("data-name");
   let recordId = elem.getAttribute("data-id");
   let val = confirm('Please confirm deletion');
-    if (val === true) {
-      if (str=="") {return;}
-        let xmlhttp=new XMLHttpRequest();
-        xmlhttp.onreadystatechange=function() {
-          if (this.readyState==4 && this.status==200) {
-            $(function() {
-                var Toast = Swal.mixin({
-                  toast: true,
-                  position: 'top-end',
-                  showConfirmButton: false,
-                  timer: 3000
-                });
-                Toast.fire({
-                  icon: 'success',
-                  title: 'Requested Record Deleted Successfully.'
-                })
-            });
-            autoRefresh();
-          }
-        }
-      xmlhttp.open("GET","backend_components/slip_handler.php?q=REMOVE-REQUEST-RECORD&id="+str+"&rid="+recordId+"&val="+recordType,true);
-      xmlhttp.send();
-    }else {
-      // Do whatever if the user clicks cancel.
-      return;
+  if (val === true) {
+    if (str == "") { return; }
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+          });
+          Toast.fire({
+            icon: 'success',
+            title: 'Requested Record Deleted Successfully.'
+          })
+        });
+        autoRefresh();
+      }
     }
+    xmlhttp.open("GET", "backend_components/slip_handler.php?q=REMOVE-REQUEST-RECORD&id=" + str + "&rid=" + recordId + "&val=" + recordType, true);
+    xmlhttp.send();
+  } else {
+    // Do whatever if the user clicks cancel.
+    return;
+  }
 }
 // Cancel Request
-function cancelRequest(str){
+function cancelRequest(str) {
   let val = confirm('Please confirm deletion');
-    if (val === true) {
-      if (str=="") {return;}
-      // Do whatever if the user clicked ok.
-      let xmlhttp=new XMLHttpRequest();
-      xmlhttp.onreadystatechange=function() {
-        if (this.readyState==4 && this.status==200) {
-          $(function() {
-              var Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000
-              });
-              Toast.fire({
-                icon: 'success',
-                title: 'Request Cancelled Successfully.'
-              })
+  if (val === true) {
+    if (str == "") { return; }
+    // Do whatever if the user clicked ok.
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
           });
-          autoRefresh();
-        }
+          Toast.fire({
+            icon: 'success',
+            title: 'Request Cancelled Successfully.'
+          })
+        });
+        autoRefresh();
       }
-      xmlhttp.open("GET","backend_components/ajax_handler.php?q=cancelRqStatus&id="+str,true);
-      xmlhttp.send();
-    } else {
-      // Do whatever if the user clicks cancel.
-      return;
     }
+    xmlhttp.open("GET", "backend_components/ajax_handler.php?q=cancelRqStatus&id=" + str, true);
+    xmlhttp.send();
+  } else {
+    // Do whatever if the user clicks cancel.
+    return;
+  }
 }
 
 // Slip Type and Subtype Model Popup Function
 $(function () {
   $('#select').hide();
-  $('#subType').prop('required',false);
+  $('#subType').prop('required', false);
   $('#type').change(function () {
-      $('#select').hide();
-      $('#subType').prop('required',false);
-      if (this.options[this.selectedIndex].value == 'INDOOR') {
-          $('#select').show();
-          $('#subType').prop('required',true);
-      }
+    $('#select').hide();
+    $('#subType').prop('required', false);
+    if (this.options[this.selectedIndex].value == 'INDOOR') {
+      $('#select').show();
+      $('#subType').prop('required', true);
+    }
   });
 });
 
 
 // Extra Functions 
 
-  // Get Request Data against slip Id
-  function getRequestById(str){
-    let req = str.getAttribute("data-uuid");
-      if (req=="") {return;}
-        var xmlhttp=new XMLHttpRequest();
-        xmlhttp.onreadystatechange=function() {
-          if (this.readyState==4 && this.status==200) {
-            document.getElementById("requestBody").innerHTML=this.responseText;
-            // console.log("Response From Slip Request: ", this.responseText);
-          }
-        }
-      xmlhttp.open("GET",`backend_components/slip_handler.php?q=VIEW_REQUEST_BY_ID&id=${req}`,true);
-      xmlhttp.send();
+// Get Request Data against slip Id
+function getRequestById(str) {
+  let req = str.getAttribute("data-uuid");
+  if (req == "") { return; }
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("requestBody").innerHTML = this.responseText;
+      // console.log("Response From Slip Request: ", this.responseText);
+    }
   }
-  
-  // Switch Doctor List 
-  function switchDocList(e) { 
-    let meDoctor = document.getElementById("meDoc");
-    let vtDoctor = document.getElementById("vtDoc"); 
-    let selDoctor = document.getElementById("doctor");
-    let selDept = document.getElementById("dept");
-    let selvDoctor = document.getElementById("visitDoctor");
-    let selvDept = document.getElementById("visitDept");
+  xmlhttp.open("GET", `backend_components/slip_handler.php?q=VIEW_REQUEST_BY_ID&id=${req}`, true);
+  xmlhttp.send();
+}
 
-    if (e == 0) {
-      meDoctor.style.display = "flex"; 
-      vtDoctor.style.display = "none"; 
-      selDoctor.required = true; 
-      selDept.required = true;
+// Switch Doctor List 
+function switchDocList(e) {
+  let meDoctor = document.getElementById("meDoc");
+  let vtDoctor = document.getElementById("vtDoc");
+  let selDoctor = document.getElementById("doctor");
+  let selDept = document.getElementById("dept");
+  let selvDoctor = document.getElementById("visitDoctor");
+  let selvDept = document.getElementById("visitDept");
 
-      selvDoctor.required = false; 
-      selvDept.required = false;
-    }
-    if (e == 1) {
-      meDoctor.style.display = "none"; 
-      vtDoctor.style.display = "flex"; 
-      selvDoctor.required = true; 
-      selvDept.required = true;
+  if (e == 0) {
+    meDoctor.style.display = "flex";
+    vtDoctor.style.display = "none";
+    selDoctor.required = true;
+    selDept.required = true;
 
-      selDoctor.required = false; 
-      selDept.required = false;
+    selvDoctor.required = false;
+    selvDept.required = false;
+  }
+  if (e == 1) {
+    meDoctor.style.display = "none";
+    vtDoctor.style.display = "flex";
+    selvDoctor.required = true;
+    selvDept.required = true;
+
+    selDoctor.required = false;
+    selDept.required = false;
+  }
+}
+// Dept Change Request for Regular Doctor
+function showDoctor(str) {
+  if (str == "") { return; }
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("doctor").innerHTML = this.responseText;
     }
   }
-  // Dept Change Request for Regular Doctor
-  function showDoctor(str) {
-    if (str=="") {return;}
-    var xmlhttp=new XMLHttpRequest();
-    xmlhttp.onreadystatechange=function() {
-      if (this.readyState==4 && this.status==200) {
-        document.getElementById("doctor").innerHTML=this.responseText;
-      }
+  xmlhttp.open("GET", "getDoctor.php?q=" + str, true);
+  xmlhttp.send();
+}
+// Update Request for visiting Doctor 
+function updateDoctor() {
+  let visitId = document.getElementById("visitDoctor");
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      visitId.innerHTML = this.responseText;
     }
-    xmlhttp.open("GET","getDoctor.php?q="+str,true);
-    xmlhttp.send();
+    // else { 
+    //   console.log("There is an error in updating the visiting doctor record."); 
+    // }
   }
-  // Update Request for visiting Doctor 
-  function updateDoctor() {
-    let visitId = document.getElementById("visitDoctor");
-    var xmlhttp=new XMLHttpRequest();
-    xmlhttp.onreadystatechange=function() {
-      if (this.readyState==4 && this.status==200) {
-        visitId.innerHTML=this.responseText;
-      }
-      // else { 
-      //   console.log("There is an error in updating the visiting doctor record."); 
-      // }
-    }
-    xmlhttp.open("GET","getDoctor.php?q=0",true);
-    xmlhttp.send();
+  xmlhttp.open("GET", "getDoctor.php?q=0", true);
+  xmlhttp.send();
+}
+// Show add Visitor Doctor Field
+function showFields() {
+  let showVtField = document.getElementById("showVisitField");
+  if (showVtField.style.display === "none") {
+    showVtField.style.display = "block";
+  } else {
+    showVtField.style.display = "none";
   }
-  // Show add Visitor Doctor Field
-  function showFields() {
-    let showVtField = document.getElementById("showVisitField");
-    if (showVtField.style.display === "none") {
-      showVtField.style.display = "block";
-    } else {
-      showVtField.style.display = "none";
-    }
+}
+// Ajax Call for Adding New Visiting Doctor 
+function saveVtDoctor() {
+  let values = {
+    'docName': document.getElementById('docName').value,
+    'userId': document.getElementById('userId').value
+  };
+  //name required
+  let dname = $("input#docName").val();
+  if (dname == "") {
+    $("#err-msg").fadeIn().text("Doctor Name required.");
+    $("input#docName").focus();
+    return false;
   }
-  // Ajax Call for Adding New Visiting Doctor 
-  function saveVtDoctor() {
-    let values = {
-          'docName': document.getElementById('docName').value,
-          'userId': document.getElementById('userId').value
-        };
-        //name required
-        let dname = $("input#docName").val();
-        if(dname == ""){
-            $("#err-msg").fadeIn().text("Doctor Name required.");
-            $("input#docName").focus();
-            return false;
-        }
-        // ajax
-        $.ajax({
-            type:"POST",
-            url: "backend_components/ajax_handler.php?q=adVtDoc",
-            data: values, // get all form field value in serialize form
-            success: function(){   
-            updateDoctor();
-              $(function() {
-                  var Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000
-                  });
-                  Toast.fire({
-                    icon: 'success',
-                    title: 'New Visitor Doctor Successfully Saved.'
-                  })
-              });
-            }
+  // ajax
+  $.ajax({
+    type: "POST",
+    url: "backend_components/ajax_handler.php?q=adVtDoc",
+    data: values, // get all form field value in serialize form
+    success: function () {
+      updateDoctor();
+      $(function () {
+        var Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000
         });
-  }
-  function autoRefresh(){
-    setTimeout(() => {
-      window.location = window.location.href;
-    }, 1000);    
-  }
+        Toast.fire({
+          icon: 'success',
+          title: 'New Visitor Doctor Successfully Saved.'
+        })
+      });
+    }
+  });
+}
+function autoRefresh() {
+  setTimeout(() => {
+    window.location = window.location.href;
+  }, 1000);
+}
