@@ -100,7 +100,7 @@ $(document).ready(function ($) {
   return false;
 });
 
-function handleStatus(status) {
+function handleStatus(status) { 
   if (status.value !== null && status.value != '') {
     let val;
     if (status.value == 1) { val = 0; } else { val = 1; }

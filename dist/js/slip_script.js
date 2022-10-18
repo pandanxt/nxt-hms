@@ -183,6 +183,39 @@ function printSlipRecord(sid) {
   let type = sid.getAttribute("data-type");
   printSlip(id, type);
 }
+// Soft Delete Slip Record
+function softDeleteSlip(soft) {
+  let delId = soft.getAttribute("data-uuid");
+  let val = 0;
+  if (delId == "") { return; }
+  slipId = delId;
+  let checkConfirm = confirm('Please confirm deletion');
+  if (checkConfirm) {
+    // ajax
+    $.ajax({
+      type: "POST",
+      url: `backend_components/slip_handler.php?q=SOFT_DELETE_SLIP&id=${slipId}&val=${val}`,
+      success: function () {
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1000
+          });
+          Toast.fire({
+            icon: 'success',
+            title: 'Slip Soft Deleted Successfully.'
+          });
+          autoRefresh();
+        });
+      }
+    });
+  } else {
+    return;
+  }
+}
+
 // Delete Slip Record
 function deleteSlip(str) {
   let delId = str.getAttribute("data-uuid");
@@ -213,6 +246,23 @@ function deleteSlip(str) {
   } else {
     return;
   }
+}
+
+// History Slip Record
+function viewHistory(str) {
+  let uuid = str.getAttribute("data-uuid");
+  let type = str.getAttribute("data-type");
+
+  if (uuid == "" || type == "") { return; }
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("historyTable").innerHTML = this.responseText;
+      console.log("Response From Slip History: ", this.responseText);
+    }
+  }
+  xmlhttp.open("GET", `backend_components/slip_handler.php?q=GET_SLIP_HISTORY&id=${uuid}&val=${type}`, true);
+  xmlhttp.send();
 }
 
 function updateRequest(str) {

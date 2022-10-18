@@ -78,7 +78,7 @@
                 <div class="col-md-10 offset-md-1">
                     <div class="card">
                         <div class="card-body">
-                            <table id="example1" class="table table-bordered table-striped">
+                            <table id="example1" class="table table-bordered table-striped table-hover">
                             <thead>
                                 <tr style='font-size: 14px;text-align:center;'>
                                     <th>Consultant </br> Name</th>

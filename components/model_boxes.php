@@ -348,6 +348,23 @@
 </div>
 <!--Edit Slip Model Popup Ends Here -->
 
+<!-- Edit View Model Popup Here -->
+<div class="modal fade" id="view-history">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><i class="nav-icon fas fa-edit"></i> Edit History</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
+          <span aria-hidden="true" onclick="setPopModel();">&times;</span>
+        </button>
+      </div>
+        <div class="modal-body">
+          <table class="table table-bordered table-striped table-hover" id="historyTable">  
+          </table>
+        </div>
+    </div>
+  </div>
+</div>
 <!-- Log Out Popup Model -->
 <div class="modal fade" id="modal-sm">
   <div class="modal-dialog modal-sm">
