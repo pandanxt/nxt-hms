@@ -52,10 +52,18 @@
                     </thead>
                     <tbody>
                     <?php
+
+                      if ($_SESSION['role'] == "user") {
                         $recordQuery ="SELECT `a`.*,`c`.`USER_NAME`,`d`.`DOCTOR_NAME`,`d`.`DOCTOR_TYPE` FROM `me_slip` AS `a` 
                         INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID`
                         INNER JOIN `me_doctors` AS `d` ON `d`.`DOCTOR_UUID` = `a`.`SLIP_DOCTOR`
                         WHERE `a`.`SLIP_DELETE` != 0";
+                      }else {
+                        $recordQuery ="SELECT `a`.*,`c`.`USER_NAME`,`d`.`DOCTOR_NAME`,`d`.`DOCTOR_TYPE` FROM `me_slip` AS `a` 
+                        INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID`
+                        INNER JOIN `me_doctors` AS `d` ON `d`.`DOCTOR_UUID` = `a`.`SLIP_DOCTOR`";
+                      }
+                        
                         $sql = mysqli_query($db,$recordQuery);
                         while($slip_row = mysqli_fetch_array($sql))
                         { 
@@ -114,7 +122,11 @@
                               }
                             }
                           echo "</td>
-                          <td>$slip_row[SLIP_NAME]</td>
+                          <td>$slip_row[SLIP_NAME]";
+                          if ($slip_row['SLIP_DELETE'] == 0) {
+                            echo "&nbsp;<button class='btn badge badge-danger'>Slip Deleted</button>";
+                          }
+                          echo "</td>
                           <td>$slip_row[SLIP_MOBILE]</td>
                           <td>$slip_row[DOCTOR_NAME]&nbsp;
                             <button class='btn badge badge-info'>$slip_row[DOCTOR_TYPE] doctor</button>

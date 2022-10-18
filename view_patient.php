@@ -78,17 +78,21 @@
                                   </thead>
                                   <tbody>
                                   <?php
+                                    if ($_SESSION['role'] == "user") {
                                       $recordQuery ="SELECT *,`USER_NAME`,`DOCTOR_NAME`,`DOCTOR_TYPE` FROM `me_slip` 
                                       INNER JOIN `me_user` INNER JOIN `me_doctors`
                                       WHERE `SLIP_MRID` = '".$_GET['id']."' 
                                       AND `me_user`.`USER_UUID` = `me_slip`.`STAFF_ID`
                                       AND `me_doctors`.`DOCTOR_UUID` = `me_slip`.`SLIP_DOCTOR`
                                       AND `SLIP_DELETE` != 0";
-
-                                      // $recordQuery ="SELECT `a`.*,`c`.`USER_NAME`,`d`.`DOCTOR_NAME`,`d`.`DOCTOR_TYPE` FROM `me_slip` AS `a` 
-                                      // INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID`
-                                      // INNER JOIN `me_doctors` AS `d` ON `d`.`DOCTOR_UUID` = `a`.`SLIP_DOCTOR`
-                                      // WHERE `a`.`SLIP_DELETE` != 0";
+                                    } else {
+                                      $recordQuery ="SELECT *,`USER_NAME`,`DOCTOR_NAME`,`DOCTOR_TYPE` FROM `me_slip` 
+                                      INNER JOIN `me_user` INNER JOIN `me_doctors`
+                                      WHERE `SLIP_MRID` = '".$_GET['id']."' 
+                                      AND `me_user`.`USER_UUID` = `me_slip`.`STAFF_ID`
+                                      AND `me_doctors`.`DOCTOR_UUID` = `me_slip`.`SLIP_DOCTOR`";
+                                    }
+                                    
                                       $sql = mysqli_query($db,$recordQuery);
                                       while($slip_row = mysqli_fetch_array($sql))
                                       { 
@@ -147,7 +151,11 @@
                                             }
                                           }
                                         echo "</td>
-                                        <td>$slip_row[SLIP_NAME]</td>
+                                        <td>$slip_row[SLIP_NAME]";
+                                        if ($slip_row['SLIP_DELETE'] == 0) {
+                                          echo "&nbsp;<button class='btn badge badge-danger'>Slip Deleted</button>";
+                                        }
+                                        echo "</td>
                                         <td>$slip_row[SLIP_MOBILE]</td>
                                         <td>$slip_row[DOCTOR_NAME]&nbsp;
                                           <button class='btn badge badge-info'>$slip_row[DOCTOR_TYPE] doctor</button>
