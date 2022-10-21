@@ -163,7 +163,7 @@ $(document).ready(function ($) {
             icon: res.status,
             title: res.message
           });
-          // printSlip(res.data['id'], res.data['type']);
+          printSlip(res.data['id'], res.data['type']);
           // autoRefresh();
         });
       }

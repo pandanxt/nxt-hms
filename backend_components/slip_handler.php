@@ -1,7 +1,6 @@
 <?php
     // Start Session 
     session_start();
-    // Connection File
     include('connection.php');
     // Query Params
     $q = (isset($_GET['q']) ? $_GET['q'] : '');
@@ -10,254 +9,95 @@
   
     // Save Patient Data Query
     if ($q == 'ADD_SLIP') {
-        // Post Variables
+        // Post Generic Variables
         $type = mysqli_real_escape_string($db, $_POST['type']);
-
         $slipId = mysqli_real_escape_string($db, $_POST['slipId']);  
         $patId = mysqli_real_escape_string($db, $_POST['patId']);
         $name = mysqli_real_escape_string($db, $_POST['name']);
         $phone = mysqli_real_escape_string($db, $_POST['phone']);
         $gender = mysqli_real_escape_string($db, $_POST['gender']);
         $doctor = mysqli_real_escape_string($db, $_POST['doctor']);
-        
         $age = mysqli_real_escape_string($db, $_POST['age']);
         $address = mysqli_real_escape_string($db, $_POST['address']);
-        
         $by = mysqli_real_escape_string($db, $_POST['staffId']);
-
+        // Post Type Indoor Variables   
         if ($type == 'INDOOR') {
             $dept = mysqli_real_escape_string($db, $_POST['dept']);
-            $fee = NULL;
+            $fee = 0;
             $procedure = mysqli_real_escape_string($db, $_POST['procedure']);
             $subType = mysqli_real_escape_string($db, $_POST['subType']);
+        // Post Type Outdoor Variables 
         }else if ($type == 'OUTDOOR') {
             $fee = mysqli_real_escape_string($db, $_POST['fee']);
             $dept = mysqli_real_escape_string($db, $_POST['dept']);
             $procedure = NULL;
             $subType = NULL;
+        // Post Type Emergency Variables 
         }else if ($type == 'EMERGENCY') {
             $dept = NULL;
-            $fee = NULL;
+            $fee = 0;
             $procedure = NULL;
             $subType = NULL;
-        }
-        // Check Data from DB
-        $sql = "SELECT * FROM `me_patient` WHERE `PATIENT_MR_ID` = ? OR `PATIENT_MOBILE` = ?";
-        $stmt = mysqli_stmt_init($db);
-        
-        if (!mysqli_stmt_prepare($stmt,$sql)) {
-            $result = [];
-            $result['status'] = "error";
-            $result['message'] = "SQL Database Error on the start of the slip!";
-            echo json_encode($result);
-            exit();
-        }else{
-            mysqli_stmt_bind_param($stmt,"ss",$patId,$phone);
-            mysqli_stmt_execute($stmt);
-            mysqli_stmt_store_result($stmt);
-            $resultCheck = mysqli_stmt_num_rows($stmt);
-                
-            if ($resultCheck > 0) {
-                $slipQuery = "INSERT INTO `me_slip`(
-                `SLIP_UUID`, 
-                `SLIP_MRID`, 
-                `SLIP_NAME`, 
-                `SLIP_MOBILE`, 
-                `SLIP_DEPARTMENT`, 
-                `SLIP_DOCTOR`, 
-                `SLIP_FEE`, 
-                `SLIP_PROCEDURE`, 
-                `SLIP_TYPE`, 
-                `SLIP_SUB_TYPE`, 
-                `STAFF_ID`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-                mysqli_stmt_execute($stmt);
-                
-                if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
-                    $result = [];
-                    $result['status'] = "error";
-                    $result['message'] = "SQL Database Error on existing slip data adding!";
-                    echo json_encode($result);
-                    exit();
-                }else{
-                    // Get Data of Patient from DB
-                    $patientQuery = "SELECT * FROM `me_patient` WHERE `PATIENT_MR_ID` = '$patId' OR `PATIENT_MOBILE` = '$phone'";
-                    $psql = mysqli_query($db,$patientQuery);
-                    
-                    while($prs = mysqli_fetch_array($psql)){
-                        mysqli_stmt_bind_param($stmt,"sssssssssss", $slipId,$prs['PATIENT_MR_ID'],$name,$prs['PATIENT_MOBILE'],$dept,$doctor,$fee,$procedure,$type,$subType,$by);
-                        
+        }  
+        // Check if MR ID and Slip Id Exists
+        if ($patId && $slipId) {
+            // Patient Insert Query
+            $patientQuery = "INSERT INTO `me_patient` 
+            (`PATIENT_MR_ID`, `PATIENT_NAME`, `PATIENT_MOBILE`, `PATIENT_GENDER`, `PATIENT_AGE`, `PATIENT_ADDRESS`, `STAFF_ID` ) 
+            VALUES (?,?,?,?,?,?,?)";
+            // Check DB and set in variable
+            $stmt = mysqli_stmt_init($db);
+            // Check if DB and Query is Correct
+            if (!mysqli_stmt_prepare($stmt,$patientQuery)) {
+                $result = [];
+                $result['status'] = "error";
+                $result['message'] = mysql_error();
+                echo json_encode($result);
+                exit();
+            }else{
+                // If SQL Query and DB is correct then bind parameters to the Query
+                mysqli_stmt_bind_param($stmt,"sssssss", $patId,$name,$phone,$gender,$age,$address,$by);
+                // If Patient Query is executed
+                if (mysqli_stmt_execute($stmt)){
+                    // Slip Insert Query
+                    $slipQuery = "INSERT INTO `me_slip`(`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`, `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `SLIP_SUB_TYPE`, `STAFF_ID`) 
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                    // Check if DB and Query is correct
+                    if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
+                        $result = [];
+                        $result['status'] = "error";
+                        $result['message'] = mysql_error();
+                        echo json_encode($result);
+                        exit();
+                    }else{
+                        // If SQL Query and DB is correct then bind parameters to the Query
+                        mysqli_stmt_bind_param($stmt,"sssssssssss", $slipId,$patId,$name,$phone,$dept,$doctor,$fee,$procedure,$type,$subType,$by);
+                        // If Slip Query is executed
                         if (mysqli_stmt_execute($stmt)) {
-                            if ($type == 'INDOOR') {
-                                $slipHistoryQuery = "INSERT INTO `me_slip_history`(
-                                    `SLIP_UUID`, 
-                                    `SLIP_MRID`, 
-                                    `SLIP_NAME`, 
-                                    `SLIP_MOBILE`, 
-                                    `SLIP_DEPARTMENT`, 
-                                    `SLIP_DOCTOR`, 
-                                    `SLIP_FEE`, 
-                                    `SLIP_PROCEDURE`, 
-                                    `SLIP_TYPE`, 
-                                    `STAFF_ID`) VALUES ('$slipId','$prs[PATIENT_MR_ID]','$name','$prs[PATIENT_MOBILE]','$dept','$doctor',0g,'$procedure','$type','$by')";
-                            }else if ($type == 'OUTDOOR') {
-                                $slipHistoryQuery = "INSERT INTO `me_slip_history`(
-                                    `SLIP_UUID`, 
-                                    `SLIP_MRID`, 
-                                    `SLIP_NAME`, 
-                                    `SLIP_MOBILE`, 
-                                    `SLIP_DEPARTMENT`, 
-                                    `SLIP_DOCTOR`, 
-                                    `SLIP_FEE`, 
-                                    `SLIP_PROCEDURE`, 
-                                    `SLIP_TYPE`, 
-                                    `STAFF_ID`) VALUES ('$slipId','$prs[PATIENT_MR_ID]','$name','$prs[PATIENT_MOBILE]','$dept','$doctor','$fee',NULL,'$type','$by')";
-                            }else if ($type == 'EMERGENCY') {
-                                $slipHistoryQuery = "INSERT INTO `me_slip_history`(
-                                    `SLIP_UUID`, 
-                                    `SLIP_MRID`, 
-                                    `SLIP_NAME`, 
-                                    `SLIP_MOBILE`, 
-                                    `SLIP_DEPARTMENT`, 
-                                    `SLIP_DOCTOR`, 
-                                    `SLIP_FEE`, 
-                                    `SLIP_PROCEDURE`, 
-                                    `SLIP_TYPE`, 
-                                    `STAFF_ID`) VALUES ('$slipId','$prs[PATIENT_MR_ID]','$name','$prs[PATIENT_MOBILE]',NULL,'$doctor',0,NULL,'$type','$by')";
-                            }
-                            if (mysqli_query($db, $slipHistoryQuery)){
-                                    $result = [];
-                                    $result['status'] = "success";
-                                    $result['message'] = "Patient slip is created and Patient data already exists.";
-                                    $result['data'] = [];
-                                    $result['data']['id'] = $slipId;
-                                    $result['data']['type'] = $type; 
-                                    echo json_encode($result);
+                            // History Insert Query and Parameters
+                            $historyQuery = "INSERT INTO `me_slip_history`
+                            (`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`, `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
+                                VALUES ('$slipId','$patId','$name','$phone','$dept','$doctor',$fee,'$procedure','$type','$by')";
+                            // Check If History Query is executed
+                            if (mysqli_query($db, $historyQuery)){
+                                $result = [];
+                                $result['status'] = "success";
+                                $result['message'] = "Patient Record Created Successfully!";
+                                $result['data'] = [];
+                                $result['data']['id'] = $slipId;
+                                $result['data']['type'] = $type; 
+                                echo json_encode($result);
                             }else {
                                 $result = [];
                                 $result['status'] = "error";
-                                $result['message'] = "SQL Database Error on exiting data on history data add!";
+                                $result['message'] = mysql_error();
                                 echo json_encode($result);
                                 exit();
                             }
-                        }
-                    } 
-                }   
-                exit();
-            }else if($resultCheck == 0){
-
-                $sql = "INSERT INTO `me_patient` (
-                `PATIENT_MR_ID`, 
-                `PATIENT_NAME`, 
-                `PATIENT_MOBILE`, 
-                `PATIENT_GENDER`, 
-                `PATIENT_AGE`, 
-                `PATIENT_ADDRESS`, 
-                `STAFF_ID`
-                ) VALUES (?,?,?,?,?,?,?)";
-                mysqli_stmt_execute($stmt);
-                
-                if (!mysqli_stmt_prepare($stmt,$sql)) {
-                    $result = [];
-                    $result['status'] = "error";
-                    $result['message'] = "SQL Database Error on patient data adding!";
-                    echo json_encode($result);
-                    exit();
-                }else{
-                    mysqli_stmt_bind_param($stmt,"sssssss", $patId,$name,$phone,$gender,$age,$address,$by);
-                    
-                    if (mysqli_stmt_execute($stmt)){
-                        $slipQuery = "INSERT INTO `me_slip`(
-                        `SLIP_UUID`, 
-                        `SLIP_MRID`, 
-                        `SLIP_NAME`, 
-                        `SLIP_MOBILE`, 
-                        `SLIP_DEPARTMENT`, 
-                        `SLIP_DOCTOR`, 
-                        `SLIP_FEE`, 
-                        `SLIP_PROCEDURE`, 
-                        `SLIP_TYPE`, 
-                        `SLIP_SUB_TYPE`, 
-                        `STAFF_ID`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-                        
-                        if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
-                            $result = [];
-                            $result['status'] = "error";
-                            $result['message'] = "SQL Database Error on Slip data inserting!";
-                            echo json_encode($result);
-                            exit();
-                        }else{
-                            mysqli_stmt_bind_param($stmt,"sssssssssss", $slipId,$patId,$name,$phone,$dept,$doctor,$fee,$procedure,$type,$subType,$by);
-                            
-                            if (mysqli_stmt_execute($stmt)) {
-                                if ($type == 'INDOOR') {
-                                    $slipHistoryQuery = "INSERT INTO `me_slip_history`(
-                                        `SLIP_UUID`, 
-                                        `SLIP_MRID`, 
-                                        `SLIP_NAME`, 
-                                        `SLIP_MOBILE`, 
-                                        `SLIP_DEPARTMENT`, 
-                                        `SLIP_DOCTOR`, 
-                                        `SLIP_FEE`, 
-                                        `SLIP_PROCEDURE`, 
-                                        `SLIP_TYPE`, 
-                                        `STAFF_ID`) VALUES ('$slipId','$patId','$name','$phone','$dept','$doctor',0,'$procedure','$type','$by')";
-                                }else if ($type == 'OUTDOOR') {
-                                    $slipHistoryQuery = "INSERT INTO `me_slip_history`(
-                                        `SLIP_UUID`, 
-                                        `SLIP_MRID`, 
-                                        `SLIP_NAME`, 
-                                        `SLIP_MOBILE`, 
-                                        `SLIP_DEPARTMENT`, 
-                                        `SLIP_DOCTOR`, 
-                                        `SLIP_FEE`, 
-                                        `SLIP_PROCEDURE`, 
-                                        `SLIP_TYPE`, 
-                                        `STAFF_ID`) VALUES ('$slipId','$patId','$name','$phone','$dept','$doctor','$fee',NULL,'$type','$by')";
-                                }else if ($type == 'EMERGENCY') {
-                                    $slipHistoryQuery = "INSERT INTO `me_slip_history`(
-                                        `SLIP_UUID`, 
-                                        `SLIP_MRID`, 
-                                        `SLIP_NAME`, 
-                                        `SLIP_MOBILE`, 
-                                        `SLIP_DEPARTMENT`, 
-                                        `SLIP_DOCTOR`, 
-                                        `SLIP_FEE`, 
-                                        `SLIP_PROCEDURE`, 
-                                        `SLIP_TYPE`, 
-                                        `STAFF_ID`) VALUES ('$slipId','$patId','$name','$phone',NULL,'$doctor',0,'$procedure','$type','$by')";
-                                }
-                                // $slipHistoryQuery = "INSERT INTO `me_slip_history` (
-                                //     `SLIP_UUID`, 
-                                //     `SLIP_MRID`, 
-                                //     `SLIP_NAME`, 
-                                //     `SLIP_MOBILE`, 
-                                //     `SLIP_DEPARTMENT`, 
-                                //     `SLIP_DOCTOR`, 
-                                //     `SLIP_FEE`, 
-                                //     `SLIP_PROCEDURE`, 
-                                //     `SLIP_TYPE`, 
-                                //     `STAFF_ID`) VALUES ('$slipId','$patId','$name','$phone','$dept','$doctor','$fee','$procedure','$type','$by')";
-                                if (mysqli_query($db, $slipHistoryQuery)){
-                                        $result = [];
-                                        $result['status'] = "success";
-                                        $result['message'] = "Patient slip and record is created successfully.";
-                                        $result['data'] = [];
-                                        $result['data']['id'] = $slipId;
-                                        $result['data']['type'] = $type; 
-                                        echo json_encode($result);
-                                }else {
-                                    die('Error: ' . mysql_error());
-                                    // $result = [];
-                                    // $result['status'] = "error";
-                                    // $result['message'] = "SQL Database Error on History data adding!";
-                                    // echo json_encode($result);
-                                    // exit();
-                                }
-                            } 
-                            exit();
-                        }   
-                    }
-                }			
+                        } 
+                        exit();
+                    }   
+                }
             }
         }
         mysqli_stmt_close($stmt);
@@ -391,21 +231,21 @@
         $type = mysqli_real_escape_string($db, $_POST['slipType']);
         $doc = mysqli_real_escape_string($db, $_POST['editDoctor']);
         $staffId = mysqli_real_escape_string($db, $_POST['editStaff']);
-        if($type=='OUTDOOR'||$type=='INDOOR'){$dept=mysqli_real_escape_string($db,$_POST['editDept']);}else{$dept='';}
-        if($type=='OUTDOOR'){$fee=mysqli_real_escape_string($db,$_POST['editFee']);}else{$fee=NULL;}
+        if($type=='OUTDOOR'||$type=='INDOOR'){$dept=mysqli_real_escape_string($db,$_POST['editDept']);}else{$dept=NULL;}
+        if($type=='OUTDOOR'){$fee=mysqli_real_escape_string($db,$_POST['editFee']);}else{$fee=0;}
         if($type=='INDOOR'){$procedure=mysqli_real_escape_string($db,$_POST['editProcedure']);}else{$procedure=NULL;}
         
         if ($type == 'INDOOR' || $type == 'OUTDOOR') {
             if(mysqli_query($db, "UPDATE `me_slip` SET `SLIP_NAME`='$name',`SLIP_MOBILE`='$phone',`SLIP_DEPARTMENT`='$dept',`SLIP_DOCTOR`='$doc',`SLIP_FEE`='$fee',`SLIP_PROCEDURE`='$procedure',`STAFF_ID` ='$staffId' WHERE `SLIP_UUID` = '$uuid'"))
             {
                 // echo 'Slip Record Updated Successfully';
-                $slipHistoryQuery = "INSERT INTO `me_slip_history`(
+                $historyQuery = "INSERT INTO `me_slip_history`(
                 `SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`, `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
                 VALUES ('$uuid','$mrid','$name','$phone','$dept','$doc','$fee','$procedure','$type','$staffId')";
-                if (mysqli_query($db, $slipHistoryQuery)){
+                if (mysqli_query($db, $historyQuery)){
                     $result = [];
                     $result['status'] = "success";
-                    $result['message'] = "Patient slip record updated successfully.";
+                    $result['message'] = "Slip Record Updated Successfully.";
                     $result['data'] = [];
                     $result['data']['id'] = $uuid;
                     $result['data']['type'] = $type; 
@@ -413,7 +253,7 @@
                 }else {
                     $result = [];
                     $result['status'] = "error";
-                    $result['message'] = "SQL Database Error!";
+                    $result['message'] = mysql_error();
                     echo json_encode($result);
                     exit();
                 }
@@ -424,10 +264,10 @@
             if(mysqli_query($db, "UPDATE `me_slip` SET `SLIP_NAME`='$name',`SLIP_MOBILE`='$phone',`SLIP_DOCTOR`='$doc',`SLIP_FEE`='$fee',`SLIP_PROCEDURE`='$procedure',`STAFF_ID` ='$staffId' WHERE `SLIP_UUID` = '$uuid'"))
             {
                 // echo 'Slip Record Updated Successfully';
-                $slipHistoryQuery = "INSERT INTO `me_slip_history`(
+                $historyQuery = "INSERT INTO `me_slip_history`(
                 `SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
                 VALUES ('$uuid','$mrid','$name','$phone','$doc','$fee','$procedure','$type','$staffId')";
-                if (mysqli_query($db, $slipHistoryQuery)){
+                if (mysqli_query($db, $historyQuery)){
                     $result = [];
                     $result['status'] = "success";
                     $result['message'] = "Patient slip record updated successfully.";
@@ -438,7 +278,7 @@
                 }else {
                     $result = [];
                     $result['status'] = "error";
-                    $result['message'] = "SQL Database Error!";
+                    $result['message'] = mysql_error();
                     echo json_encode($result);
                     exit();
                 }
