@@ -146,10 +146,12 @@
                             }
                             echo "<a href='javascript:void(0);' onclick='editSlip(this);' data-uuid='$slip_row[SLIP_UUID]' data-type='$slip_row[SLIP_TYPE]' data-toggle='modal' data-target='#edit-slip'>
                               <i class='fas fa-edit'></i> Edit Slip
-                            </a>
-                            <br><a onClick='softDeleteSlip(this)' data-uuid='$slip_row[SLIP_UUID]' href='javascript:void(0);' style='color:red;'>
-                              <i class='fas fa-trash'></i> Soft Delete
                             </a>";
+                            if ($slip_row['SLIP_DELETE'] != 0) {
+                              echo "<br><a onClick='softDeleteSlip(this)' data-uuid='$slip_row[SLIP_UUID]' href='javascript:void(0);' style='color:red;'>
+                                <i class='fas fa-trash'></i> Soft Delete
+                              </a>";
+                            }
                           if ($_SESSION['role'] == "admin") { 
                             echo "<br>
                             <a onClick='deleteSlip(this)' data-uuid='$slip_row[SLIP_UUID]' href='javascript:void(0);' style='color:red;'>
