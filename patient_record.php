@@ -56,7 +56,12 @@
                       while($rs = mysqli_fetch_array($qsql))
                       { 
                         echo "<tr style='font-size: 12px;'>
-                        <td>$rs[PATIENT_MR_ID]</td>
+                        <td>
+                          $rs[PATIENT_MR_ID]
+                          <br><a href='javascript:void(0)' onclick='getPatientId(this);' data-mrid='$rs[PATIENT_MR_ID]' data-name='$rs[PATIENT_NAME]' data-mobile='$rs[PATIENT_MOBILE]' data-toggle='modal' data-target='#patient-slip'>
+                            <i class='fas fa-plus'></i> Slip
+                          </a>
+                        </td>
                         <td>$rs[PATIENT_NAME]</td>
                         <td>$rs[PATIENT_MOBILE]</td>
                         <td>$rs[PATIENT_GENDER]</td>
@@ -99,6 +104,8 @@
     <!-- /.content -->
   </div>
   <!-- /.Footer -->
+  <!-- Javascript Script File -->
+  <script src="dist/js/patient_script.js"></script>
 <?php 
   // Footer File
   include ('components/footer.php'); 

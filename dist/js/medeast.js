@@ -317,7 +317,7 @@ function cancelRequest(str) {
   }
 }
 
-// Slip Type and Subtype Model Popup Function
+// Slip Type and Subtype Model Popup Function 
 $(function () {
   $('#select').hide();
   $('#subType').prop('required', false);
@@ -331,6 +331,19 @@ $(function () {
   });
 });
 
+// Slip Type and Subtype Model Popup Function for Patient table
+$(function () {
+  $('#patSelect').hide();
+  $('#patSubType').prop('required', false);
+  $('#patType').change(function () {
+    $('#patSelect').hide();
+    $('#patSubType').prop('required', false);
+    if (this.options[this.selectedIndex].value == 'INDOOR') {
+      $('#patSelect').show();
+      $('#patSubType').prop('required', true);
+    }
+  });
+});
 
 // Extra Functions 
 

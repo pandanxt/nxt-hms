@@ -365,7 +365,7 @@
     </div>
   </div>
 </div>
-<!-- Log Out Popup Model -->
+<!-- Log Out Popup Model Starts-->
 <div class="modal fade" id="modal-sm">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
@@ -386,3 +386,43 @@
     </div>
   </div>
 </div>
+<!-- Log Out Popup Model Ends -->
+
+<!--Add Slip Model Popup Here -->
+<div class="modal fade" id="patient-slip">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Choose Slip Type</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="patient_slip.php">
+        <div class="modal-body">
+          <select class="form-control select2bs4" name="patType" id="patType" style="width: 100%;" required>
+            <option value="" selected disabled>Select Slip Type</option>
+            <option value="OUTDOOR">OUTDOOR PATIENT SLIP</option>
+            <option value="INDOOR">INDOOR PATIENT SLIP</option>
+            <option value="EMERGENCY">EMERGENCY PATIENT SLIP</option>      
+          </select>
+          <div id="patSelect">
+            <br>
+            <select class="form-control select2bs4" name="patSubType" id="patSubType" style="width: 100%;">
+              <option value="" selected disabled>Select Indoor Type</option>
+              <option value="GYNEACOLOGY_PATIENT">GYNEACOLOGY PATIENT</option>
+              <option value="GENERAL_SURGERY_PATIENT">GENERAL SURGERY PATIENT</option>
+              <option value="GENERAL_ILLNESS_PATIENT">GENERAL ILLNESS PATIENT</option>
+              <option value="EYE_PATIENT">EYE PATIENT</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Proceed</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!--Add Slip Model Popup Ends Here -->

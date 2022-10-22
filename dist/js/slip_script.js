@@ -655,3 +655,7 @@ $(document).ready(function ($) {
   });
   return false;
 });
+
+function patSlip(params) {
+  console.log(params);
+}

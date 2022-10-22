@@ -23,9 +23,9 @@
   <link rel="stylesheet" href="dist/css/field-style.css">
   <!-- SweetAlert2 -->
   <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
-    <!-- Toastr -->
-    <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
-    <link rel="stylesheet" href="dist/css/print-style.css">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+  <link rel="stylesheet" href="dist/css/print-style.css">
   <!-- jQuery -->
   <script src="plugins/jquery/jquery.min.js"></script>
   

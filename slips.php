@@ -172,7 +172,7 @@
       </section>
   </div>
   <!-- Javascript Script File -->
- <script src="dist/js/slip_script.js"></script>
+  <script src="dist/js/slip_script.js"></script>
   <!-- /.Footer -->
 <?php 
   // Footer File

@@ -7,7 +7,7 @@
     $id = (isset($_GET['id']) ? $_GET['id'] : '');
     $val = (isset($_GET['val']) ? $_GET['val'] : '');
   
-    // Save Patient Data Query
+    // Save Slip Data Query
     if ($q == 'ADD_SLIP') {
         // Post Generic Variables
         $type = mysqli_real_escape_string($db, $_POST['type']);
@@ -98,6 +98,85 @@
                         exit();
                     }   
                 }
+            }
+        }
+        mysqli_stmt_close($stmt);
+        mysqli_close($db);
+    }
+    // Save Patient Slip Data Query
+    if ($q == 'ADD_PATIENT_SLIP') {
+        // Post Generic Variables
+        $type = mysqli_real_escape_string($db, $_POST['type']);
+        $slipId = mysqli_real_escape_string($db, $_POST['slipId']);  
+        $patId = mysqli_real_escape_string($db, $_POST['patId']);
+        $name = mysqli_real_escape_string($db, $_POST['name']);
+        $phone = mysqli_real_escape_string($db, $_POST['phone']);
+        $doctor = mysqli_real_escape_string($db, $_POST['doctor']);
+        $by = mysqli_real_escape_string($db, $_POST['staffId']);
+        // Post Type Indoor Variables   
+        if ($type == 'INDOOR') {
+            $dept = mysqli_real_escape_string($db, $_POST['dept']);
+            $fee = 0;
+            $procedure = mysqli_real_escape_string($db, $_POST['procedure']);
+            $subType = mysqli_real_escape_string($db, $_POST['subType']);
+        // Post Type Outdoor Variables 
+        }else if ($type == 'OUTDOOR') {
+            $fee = mysqli_real_escape_string($db, $_POST['fee']);
+            $dept = mysqli_real_escape_string($db, $_POST['dept']);
+            $procedure = NULL;
+            $subType = NULL;
+        // Post Type Emergency Variables 
+        }else if ($type == 'EMERGENCY') {
+            $dept = NULL;
+            $fee = 0;
+            $procedure = NULL;
+            $subType = NULL;
+        }  
+        // Check if MR ID and Slip Id Exists
+        if ($patId && $slipId) {
+            $stmt = mysqli_stmt_init($db);
+            // Patient Update Query
+            if(mysqli_query($db, "UPDATE `me_patient` SET `PATIENT_NAME`='$name',`PATIENT_MOBILE`='$phone',`STAFF_ID`='$by' WHERE `PATIENT_MR_ID` = '$patId'"))
+            {
+            // If Patient Query is executed
+                // Slip Insert Query
+                $slipQuery = "INSERT INTO `me_slip`(`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`, `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `SLIP_SUB_TYPE`, `STAFF_ID`) 
+                VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                // Check if DB and Query is correct
+                if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
+                    $result = [];
+                    $result['status'] = "error";
+                    $result['message'] = mysql_error();
+                    echo json_encode($result);
+                    exit();
+                }else{
+                    // If SQL Query and DB is correct then bind parameters to the Query
+                    mysqli_stmt_bind_param($stmt,"sssssssssss", $slipId,$patId,$name,$phone,$dept,$doctor,$fee,$procedure,$type,$subType,$by);
+                    // If Slip Query is executed
+                    if (mysqli_stmt_execute($stmt)) {
+                        // History Insert Query and Parameters
+                        $historyQuery = "INSERT INTO `me_slip_history`
+                        (`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`, `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
+                            VALUES ('$slipId','$patId','$name','$phone','$dept','$doctor',$fee,'$procedure','$type','$by')";
+                        // Check If History Query is executed
+                        if (mysqli_query($db, $historyQuery)){
+                            $result = [];
+                            $result['status'] = "success";
+                            $result['message'] = "Slip Created Against $name";
+                            $result['data'] = [];
+                            $result['data']['id'] = $slipId;
+                            $result['data']['type'] = $type; 
+                            echo json_encode($result);
+                        }else {
+                            $result = [];
+                            $result['status'] = "error";
+                            $result['message'] = mysql_error();
+                            echo json_encode($result);
+                            exit();
+                        }
+                    } 
+                    exit();
+                }   
             }
         }
         mysqli_stmt_close($stmt);
