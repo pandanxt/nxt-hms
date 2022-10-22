@@ -66,9 +66,32 @@
             </div>
           </div>
           <!-- ./col -->
+          <!-- ./col -->
           <div class="col-lg-2 col-6">
             <?php
-              $emergency = mysqli_query($db,"SELECT COUNT(`SLIP_UUID`) FROM `me_slip`");
+              $emBill = mysqli_query($db,"SELECT COUNT(`SLIP_UUID`) FROM `me_slip`");
+              $row = mysqli_fetch_array($emBill);
+              $emSlipTotal = $row[0];
+            ?>
+            
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h2><?php echo $emSlipTotal; ?></h2>
+
+                <small>Total</small>
+              </div>
+              <div class="icon">
+                <i class="fas fa-user-injured"></i>
+              </div>
+              <a href="slips.php" class="small-box-footer">
+              Slips <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-2 col-6">
+            <?php
+              $emergency = mysqli_query($db,"SELECT COUNT(`SLIP_UUID`) FROM `me_slip` WHERE `SLIP_TYPE` = 'EMERGENCY'");
               $row = mysqli_fetch_array($emergency);
               $emTotal = $row[0];
             ?>
@@ -81,37 +104,14 @@
               <div class="icon">
                 <i class="fas fa-user-injured"></i>
               </div>
-              <a href="emergency_slip_record.php" class="small-box-footer">
+              <a href="slips.php" class="small-box-footer">
               Slips <i class="fas fa-arrow-circle-right"></i>
               </a>
             </div>
           </div>
-          <!-- ./col -->
-          <div class="col-lg-2 col-6">
-            <?php
-              $emBill = mysqli_query($db,"SELECT COUNT(`EMERGENCY_UUID`) FROM `me_emergency`");
-              $row = mysqli_fetch_array($emBill);
-              $emBillTotal = $row[0];
-            ?>
-            <!-- small card -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h2><?php echo $emBillTotal; ?></h2>
-
-                <small>Emergency</small>
-              </div>
-              <div class="icon">
-                <i class="fas fa-user-injured"></i>
-              </div>
-              <a href="emergency_bill_record.php" class="small-box-footer">
-              Bills <i class="fas fa-arrow-circle-right"></i>
-              </a>
-            </div>
-          </div>
-          <!-- ./col -->
           <div class="col-lg-2 col-6">
           <?php
-              $indoor = mysqli_query($db,"SELECT COUNT(`SLIP_UUID`) FROM `me_slip`");
+              $indoor = mysqli_query($db,"SELECT COUNT(`SLIP_UUID`) FROM `me_slip` WHERE `SLIP_TYPE` = 'INDOOR'");
               $row = mysqli_fetch_array($indoor);
               $inTotal = $row[0];
             ?>
@@ -124,37 +124,15 @@
               <div class="icon">
                 <i class="fas fa-procedures"></i>
               </div>
-              <a href="indoor_slip_record.php" class="small-box-footer">
+              <a href="slips.php" class="small-box-footer">
               Slips <i class="fas fa-arrow-circle-right"></i>
-              </a>
-            </div>
-          </div>
-          <!-- ./col -->
-           <div class="col-lg-2 col-6">
-            <?php
-              $bill = mysqli_query($db,"SELECT COUNT(`INDOOR_UUID`) FROM `me_indoor`");
-              $row = mysqli_fetch_array($bill);
-              $inBillTotal = $row[0];
-            ?>
-            <!-- small card -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h2><?php echo $inBillTotal; ?></h2>
-
-                <small>Indoor</small>
-              </div>
-              <div class="icon">
-                <i class="fas fa-procedures"></i>
-              </div>
-              <a href="indoor_bill_record.php" class="small-box-footer">
-              Bills <i class="fas fa-arrow-circle-right"></i>
               </a>
             </div>
           </div>
           <!-- ./col -->
           <div class="col-lg-2 col-6">
             <?php
-              $outdoor = mysqli_query($db,"SELECT COUNT(`SLIP_UUID`) FROM `me_slip`");
+              $outdoor = mysqli_query($db,"SELECT COUNT(`SLIP_UUID`) FROM `me_slip` WHERE `SLIP_TYPE` = 'OUTDOOR'");
               $row = mysqli_fetch_array($outdoor);
               $outTotal = $row[0];
             ?>
@@ -168,12 +146,34 @@
               <div class="icon">
                 <i class="fas fa-user"></i>
               </div>
-              <a href="outdoor_slip_record.php" class="small-box-footer">
+              <a href="slips.php" class="small-box-footer">
               Slips <i class="fas fa-arrow-circle-right"></i>
               </a>
             </div>
           </div>
            <!-- ./col -->
+           <!-- ./col -->
+           <div class="col-lg-2 col-6">
+           <?php
+              $bill = mysqli_query($db,"SELECT COUNT(`BILL_UUID`) FROM `me_bill`");
+              $row = mysqli_fetch_array($bill);
+              $emBillTotal = $row[0];
+            ?>
+            <!-- small card -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h2><?php echo $emBillTotal; ?></h2>
+
+                <small>Total</small>
+              </div>
+              <div class="icon">
+                <i class="fas fa-procedures"></i>
+              </div>
+              <a href="bill_records.php" class="small-box-footer">
+              Bills <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
         </div>
       </div><!-- /.container-fluid -->
     </div>
