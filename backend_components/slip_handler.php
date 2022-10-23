@@ -75,9 +75,16 @@
                         // If Slip Query is executed
                         if (mysqli_stmt_execute($stmt)) {
                             // History Insert Query and Parameters
-                            $historyQuery = "INSERT INTO `me_slip_history`
-                            (`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`, `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
+                            if ($type == 'EMERGENCY') {
+                                $historyQuery = "INSERT INTO `me_slip_history`
+                                (`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`, `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
+                                VALUES ('$slipId','$patId','$name','$phone',NULL,'$doctor',$fee,'$procedure','$type','$by')";
+                            }else {
+                                $historyQuery = "INSERT INTO `me_slip_history`
+                                (`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`, `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
                                 VALUES ('$slipId','$patId','$name','$phone','$dept','$doctor',$fee,'$procedure','$type','$by')";
+                            }
+                            
                             // Check If History Query is executed
                             if (mysqli_query($db, $historyQuery)){
                                 $result = [];
@@ -155,9 +162,15 @@
                     // If Slip Query is executed
                     if (mysqli_stmt_execute($stmt)) {
                         // History Insert Query and Parameters
-                        $historyQuery = "INSERT INTO `me_slip_history`
-                        (`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`, `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
+                        if ($type == 'EMERGENCY') {
+                            $historyQuery = "INSERT INTO `me_slip_history`
+                            (`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`, `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
+                            VALUES ('$slipId','$patId','$name','$phone',NULL,'$doctor',$fee,'$procedure','$type','$by')";
+                        }else {
+                            $historyQuery = "INSERT INTO `me_slip_history`
+                            (`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`, `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
                             VALUES ('$slipId','$patId','$name','$phone','$dept','$doctor',$fee,'$procedure','$type','$by')";
+                        }
                         // Check If History Query is executed
                         if (mysqli_query($db, $historyQuery)){
                             $result = [];
@@ -806,19 +819,13 @@
         }else{
             mysqli_stmt_bind_param($stmt,"ssss",$followId,$id,$fee,$by);
             if (mysqli_stmt_execute($stmt)) {
-                $printQuery = "SELECT `SLIP_UUID` FROM `me_followup_slip` ORDER BY `SLIP_DATE_TIME` DESC LIMIT 1";
-                $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
-                $pResult = mysqli_fetch_array($printsql);
-
-                if ($pResult > 0) {
                     $result = [];
                     $result['status'] = "success";
                     $result['message'] = "Follow Up Slip Created Successfully.";
                     $result['data'] = [];
-                    $result['data']['id'] = $pResult['SLIP_UUID'];
+                    $result['data']['id'] = $followId;
                     $result['data']['type'] = "FOLLOWUP_SLIP";
                     echo json_encode($result);
-                }
             }
         }			
 
@@ -846,19 +853,13 @@
         }else{
             mysqli_stmt_bind_param($stmt,"sssssss",$serviceId,$id,$val,$service,$discount,$finalBill,$by);
             if (mysqli_stmt_execute($stmt)) {
-                $printQuery = "SELECT `SLIP_UUID` FROM `me_service_slip` ORDER BY `SLIP_DATE_TIME` DESC LIMIT 1";
-                $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
-                $pResult = mysqli_fetch_array($printsql);
-
-                if ($pResult > 0) {
                     $result = [];
                     $result['status'] = "success";
                     $result['message'] = "Service Slip Created Successfully.";
                     $result['data'] = [];
-                    $result['data']['id'] = $pResult['SLIP_UUID'];
+                    $result['data']['id'] = $serviceId;
                     $result['data']['type'] = "SERVICE_SLIP";
                     echo json_encode($result);
-                }
             }
         }			
 

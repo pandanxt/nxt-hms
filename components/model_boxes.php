@@ -336,7 +336,7 @@
       </div>
       <span id="err-msg" style="display: none"></span>
       <form action="javascript:void(0)" method="post" id="editSlip">
-        <div class="modal-body" id="editForm">
+        <div class="modal-body" id="editSlipForm">
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default" id="cancel" data-dismiss="modal">Cancel</button>

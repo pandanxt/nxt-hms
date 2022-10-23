@@ -139,7 +139,7 @@
                             $chHistory = "SELECT `SLIP_ID` FROM `me_slip_history` WHERE `SLIP_UUID` = '$slip_row[SLIP_UUID]'";
                             $historySql = mysqli_query($db, $chHistory) or die (mysqli_error($db));
                             $hResult = mysqli_fetch_array($historySql);
-                            if ($_SESSION['role'] == "admin" && $hResult > 0) {
+                            if ($_SESSION['role'] == "admin" && $hResult > 1) {
                               echo "<a href='javascript:void(0);' onclick='viewHistory(this);' data-uuid='$slip_row[SLIP_UUID]' data-type='$slip_row[SLIP_TYPE]' data-subtype='$slip_row[SLIP_SUB_TYPE]' data-toggle='modal' data-target='#view-history'>
                                 <i class='fas fa-sticky-note'></i> History
                               </a><br>";

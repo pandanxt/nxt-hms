@@ -1,321 +1,34 @@
-let currentDT = new Date().toLocaleString().replace(',', '');
-let unid = Date.now() + "-" + "ME";
-let MR_ID = unid.slice(6, 16);
-
-let recordRefId, requestId, requestStatus;
-
-if (document.getElementById('mrid')) { document.getElementById('mrid').value = MR_ID; }
+// let currentDT = new Date().toLocaleString().replace(',', '');
 if (document.getElementById('inputDT')) { document.getElementById('inputDT').value = currentDT; }
 
+// Display Clock in AM/PM on Slip Page   
 function display_ct7() {
   let x = new Date();
-  let ampm = x.getHours() >= 12 ? ' PM' : ' AM';
+  let amPm = x.getHours() >= 12 ? ' PM' : ' AM';
   hours = x.getHours() % 12;
   hours = hours ? hours : 12;
   hours = hours.toString().length == 1 ? 0 + hours.toString() : hours;
-
   let minutes = x.getMinutes().toString()
   minutes = minutes.length == 1 ? 0 + minutes : minutes;
-
   let seconds = x.getSeconds().toString()
   seconds = seconds.length == 1 ? 0 + seconds : seconds;
-
   let month = (x.getMonth() + 1).toString();
   month = month.length == 1 ? 0 + month : month;
-
   let dt = x.getDate().toString();
   dt = dt.length == 1 ? 0 + dt : dt;
-
   let x1 = month + "/" + dt + "/" + x.getFullYear();
-  x1 = x1 + " - " + hours + ":" + minutes + ":" + seconds + " " + ampm;
+  x1 = x1 + " - " + hours + ":" + minutes + ":" + seconds + " " + amPm;
   if (document.getElementById('clockDT')) { document.getElementById('clockDT').innerHTML = x1; }
   display_c7();
 }
-
+// Refresh Clock in AM/PM after every one second
 function display_c7() {
-  let refresh = 1000; // Refresh rate in milli seconds
-  mytime = setTimeout('display_ct7()', refresh)
+  myTime = setTimeout('display_ct7()', 1000) // Refresh rate in milli seconds
 }
-
-display_c7();
-
-// $(function () {
-//     $('.select2').select2()
-//     $('.select2bs4').select2({theme: 'bootstrap4'})
-//     $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
-//     $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-//     $('[data-mask]').inputmask()
-//     $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
-//     $('#reservationdatetime2').datetimepicker({ icons: { time: 'far fa-clock' } });
-//     $('#reservation').daterangepicker()
-//     $('#reservationtime').daterangepicker({
-//       timePicker: true,
-//       timePickerIncrement: 30,
-//       locale: {
-//         format: 'MM/DD/YYYY hh:mm A'
-//       }
-//     })
-//     $('#daterange-btn').daterangepicker(
-//       {
-//         ranges   : {
-//           'Today'       : [moment(), moment()],
-//           'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-//           'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
-//           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-//           'This Month'  : [moment().startOf('month'), moment().endOf('month')],
-//           'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-//         },
-//         startDate: moment().subtract(29, 'days'),
-//         endDate  : moment()
-//       },
-//       function (start, end) {
-//         $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
-//       }
-//     )
-//     //Timepicker
-//     $('#timepicker').datetimepicker({
-//       format: 'LT'
-//     })
-//     //Bootstrap Duallistbox
-//     $('.duallistbox').bootstrapDualListbox()
-
-//     $("input[data-bootstrap-switch]").each(function(){
-//       $(this).bootstrapSwitch('state', $(this).prop('checked'));
-//     })
-//   })
-// BS-Stepper Init
-// document.addEventListener('DOMContentLoaded', function () {
-//   window.stepper = new Stepper(document.querySelector('.bs-stepper'))
-// })
-
-// DropzoneJS Demo Code Start
-// if(Dropzone.autoDiscover) Dropzone.autoDiscover = false
-
-// Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
-// let previewNode;
-// if (document.querySelector("#template")) {
-//   previewNode = document.querySelector("#template")
-//   previewNode.id = ""
-//   let previewTemplate = previewNode.parentNode.innerHTML
-//   previewNode.parentNode.removeChild(previewNode)
-// }
-
-// let myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
-//   url: "/target-url", // Set the url
-//   thumbnailWidth: 80,
-//   thumbnailHeight: 80,
-//   parallelUploads: 20,
-//   previewTemplate: previewTemplate,
-//   autoQueue: false, // Make sure the files aren't queued until manually added
-//   previewsContainer: "#previews", // Define the container to display the previews
-//   clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
-// })
-
-// myDropzone.on("addedfile", function(file) {
-//   file.previewElement.querySelector(".start").onclick = function() { myDropzone.enqueueFile(file) }
-// })
-
-// myDropzone.on("totaluploadprogress", function(progress) {
-//   document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
-// })
-
-// myDropzone.on("sending", function(file) {
-//   document.querySelector("#total-progress").style.opacity = "1"
-//   file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
-// })
-
-// myDropzone.on("queuecomplete", function(progress) {
-//   document.querySelector("#total-progress").style.opacity = "0"
-// })
-
-// document.querySelector("#actions .start").onclick = function() {
-//   myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
-// }
-// document.querySelector("#actions .cancel").onclick = function() {
-//   myDropzone.removeAllFiles(true)
-// }
-
-// Request Functions starts
-
-
-// Send Update Record of request Date
-function updateRqRecord() {
-  let type, dept, doctor, fee, procedure;
-  let slipId = document.getElementById('slipId').value;
-
-  if (recordType == 'outdoor') {
-    type = document.getElementById('docType').value;
-    fee = document.getElementById('fee').value;
-    if (type == 0) {
-      dept = document.getElementById('meDept').value;
-      doctor = document.getElementById('meDoctor').value;
-    } else if (type == 1) {
-      dept = document.getElementById('vtDept').value;
-      doctor = document.getElementById('vtDoctor').value;
-    }
-  } else if (recordType == 'indoor') {
-    type = document.getElementById('indoorType').value;
-    dept = document.getElementById('dept').value;
-    doctor = document.getElementById('doctor').value;
-    procedure = document.getElementById('procedure').value;
-  } else if (recordType == 'emergency') {
-    doctor = document.getElementById('doctor').value;
-  }
-
-  let values = {
-    'name': document.getElementById('name').value,
-    'fee': fee ? fee : null,
-    'procedure': procedure ? procedure : null,
-    'table': recordType,
-    'type': type ? type : null,
-    'dept': dept ? dept : null,
-    'doctor': doctor
-  };
-  //name required
-  let rname = $("input#name").val();
-  if (rname == "" || dept == "" || doctor == "") {
-    $("#err-msg").fadeIn().text("Fields can't be empty.");
-    $("input#name").focus();
-    return false;
-  }
-  // ajax
-  $.ajax({
-    type: "POST",
-    url: `backend_components/ajax_handler.php?q=upRqRecord&id=${slipId}`,
-    data: values, // get all form field value in serialize form
-    success: function () {
-      updateRequestStatus(requestId, requestStatus);
-      $(function () {
-        var Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000
-        });
-        Toast.fire({
-          icon: 'success',
-          title: 'Request Has be updated Successfully.'
-        })
-      });
-      autoRefresh();
-    }
-  });
-}
-
-// Update Request Status
-function updateRequestStatus(id, status) {
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      // console.log("Request Status updated: ",this.responseText);
-    } else {
-      // console.log("There is an error in updating the visiting doctor record."); 
-    }
-  }
-  xmlhttp.open("GET", `backend_components/ajax_handler.php?q=upRqStatus&val=${status}&id=${id}`, true);
-  xmlhttp.send();
-}
+display_c7(); // Clock Function Call
 
 // Reset Model Data
-function setPopModel() {
-  document.getElementById("editBody").innerHTML = "";
-}
-
-// Get Request Data
-function getRequestNotification() {
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("notificationId").innerHTML = this.responseText;
-      console.log("Response From Request: ", this.responseText);
-    }
-  }
-  xmlhttp.open("GET", "backend_components/slip_handler.php?q=GET_ALL_REQUEST_NOTIFICATION", true);
-  xmlhttp.send();
-}
-
-// Get Request Data Record
-function openRequestedRecord(str) {
-  let elem = document.getElementById("view-record");
-  recordRefId = elem.getAttribute("data-refId");
-  requestId = elem.getAttribute("data-id");
-  requestStatus = elem.getAttribute("data-status");
-  if (str == "") { return; }
-  let xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("editBody").innerHTML = this.responseText;
-      // console.log("Response From Request Record: ", this.responseText);
-    }
-  }
-  xmlhttp.open("GET", "backend_components/slip_handler.php?q=VIEW-REQUEST-RECORD&id=" + str + "&val=" + recordType, true);
-  xmlhttp.send();
-}
-
-// Delete Record and update request status
-function deleteRequestRecord(str) {
-  let elem = document.getElementById("deleteRecord");
-  recordType = elem.getAttribute("data-name");
-  let recordId = elem.getAttribute("data-id");
-  let val = confirm('Please confirm deletion');
-  if (val === true) {
-    if (str == "") { return; }
-    let xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        $(function () {
-          var Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000
-          });
-          Toast.fire({
-            icon: 'success',
-            title: 'Requested Record Deleted Successfully.'
-          })
-        });
-        autoRefresh();
-      }
-    }
-    xmlhttp.open("GET", "backend_components/slip_handler.php?q=REMOVE-REQUEST-RECORD&id=" + str + "&rid=" + recordId + "&val=" + recordType, true);
-    xmlhttp.send();
-  } else {
-    // Do whatever if the user clicks cancel.
-    return;
-  }
-}
-// Cancel Request
-function cancelRequest(str) {
-  let val = confirm('Please confirm deletion');
-  if (val === true) {
-    if (str == "") { return; }
-    // Do whatever if the user clicked ok.
-    let xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        $(function () {
-          var Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000
-          });
-          Toast.fire({
-            icon: 'success',
-            title: 'Request Cancelled Successfully.'
-          })
-        });
-        autoRefresh();
-      }
-    }
-    xmlhttp.open("GET", "backend_components/ajax_handler.php?q=cancelRqStatus&id=" + str, true);
-    xmlhttp.send();
-  } else {
-    // Do whatever if the user clicks cancel.
-    return;
-  }
-}
+function setPopModel() { document.getElementById("editBody").innerHTML = ""; }
 
 // Slip Type and Subtype Model Popup Function 
 $(function () {
@@ -345,122 +58,449 @@ $(function () {
   });
 });
 
-// Extra Functions 
-
-// Get Request Data against slip Id
-function getRequestById(str) {
-  let req = str.getAttribute("data-uuid");
-  if (req == "") { return; }
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("requestBody").innerHTML = this.responseText;
-      // console.log("Response From Slip Request: ", this.responseText);
-    }
-  }
-  xmlhttp.open("GET", `backend_components/slip_handler.php?q=VIEW_REQUEST_BY_ID&id=${req}`, true);
-  xmlhttp.send();
-}
-
 // Switch Doctor List 
 function switchDocList(e) {
-  let meDoctor = document.getElementById("meDoc");
-  let vtDoctor = document.getElementById("vtDoc");
-  let selDoctor = document.getElementById("doctor");
-  let selDept = document.getElementById("dept");
-  let selvDoctor = document.getElementById("visitDoctor");
-  let selvDept = document.getElementById("visitDept");
-
-  if (e == 0) {
-    meDoctor.style.display = "flex";
-    vtDoctor.style.display = "none";
-    selDoctor.required = true;
-    selDept.required = true;
-
-    selvDoctor.required = false;
-    selvDept.required = false;
+  let addDoc = document.getElementById("addDoc");
+  if (e == 'me') {
+    addDoc.style.display = "none";
+    list = 'me';
+  } else if (e == 'vt') {
+    addDoc.style.display = "flex";
+    list = 'vt';
   }
-  if (e == 1) {
-    meDoctor.style.display = "none";
-    vtDoctor.style.display = "flex";
-    selvDoctor.required = true;
-    selvDept.required = true;
-
-    selDoctor.required = false;
-    selDept.required = false;
-  }
-}
-// Dept Change Request for Regular Doctor
-function showDoctor(str) {
-  if (str == "") { return; }
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       document.getElementById("doctor").innerHTML = this.responseText;
     }
   }
-  xmlhttp.open("GET", "getDoctor.php?q=" + str, true);
+  xmlhttp.open("GET", `backend_components/slip_handler.php?q=GET_DOCTOR&id=${list}`, true);
   xmlhttp.send();
 }
+
+// Dept Change Request for Regular Doctor
+function showDoctor(str) {
+  if (str == "" || list == "" || list == "vt") { return; }
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("doctor").innerHTML = this.responseText;
+    }
+  }
+  xmlhttp.open("GET", `backend_components/slip_handler.php?q=GET_DOCTOR_BY_DEPT&id=${list}&val=${str}`, true);
+  xmlhttp.send();
+}
+
 // Update Request for visiting Doctor 
 function updateDoctor() {
-  let visitId = document.getElementById("visitDoctor");
+  let visitId = document.getElementById("doctor");
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       visitId.innerHTML = this.responseText;
-    }
-    // else { 
-    //   console.log("There is an error in updating the visiting doctor record."); 
-    // }
+    } else { console.log("There is an error in updating the visiting doctor record."); }
   }
-  xmlhttp.open("GET", "getDoctor.php?q=0", true);
+  xmlhttp.open("GET", `backend_components/slip_handler.php?q=GET_DOCTOR&id=${list}`, true);
   xmlhttp.send();
 }
-// Show add Visitor Doctor Field
-function showFields() {
-  let showVtField = document.getElementById("showVisitField");
-  if (showVtField.style.display === "none") {
-    showVtField.style.display = "block";
-  } else {
-    showVtField.style.display = "none";
-  }
-}
+
 // Ajax Call for Adding New Visiting Doctor 
-function saveVtDoctor() {
-  let values = {
-    'docName': document.getElementById('docName').value,
-    'userId': document.getElementById('userId').value
-  };
-  //name required
-  let dname = $("input#docName").val();
-  if (dname == "") {
-    $("#err-msg").fadeIn().text("Doctor Name required.");
-    $("input#docName").focus();
-    return false;
-  }
-  // ajax
-  $.ajax({
-    type: "POST",
-    url: "backend_components/ajax_handler.php?q=adVtDoc",
-    data: values, // get all form field value in serialize form
-    success: function () {
-      updateDoctor();
-      $(function () {
-        var Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000
-        });
-        Toast.fire({
-          icon: 'success',
-          title: 'New Visitor Doctor Successfully Saved.'
-        })
-      });
+$(document).ready(function ($) {
+  $('#visitorDoctor').submit(function (e) {
+    e.preventDefault();
+    $("#err-msg").hide();
+    var dname = $("input#vtName").val();
+    if (dname == "") {
+      $("#err-msg").fadeIn().text("Doctor Name required.");
+      $("input#vtName").focus();
+      return false;
     }
+    // ajax
+    $.ajax({
+      type: "POST",
+      url: "backend_components/doctor_handler.php?q=ADD_VT_DOCTOR",
+      data: $(this).serialize(), // get all form field value in serialize form
+      success: function () {
+        let el = document.querySelector("#cancel");
+        el.click();
+        updateDoctor();
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1000
+          });
+          Toast.fire({
+            icon: 'success',
+            title: 'New Visitor Doctor Successfully Saved.'
+          });
+        });
+      }
+    });
   });
+  return false;
+});
+
+// Slip Print Function
+function printSlip(id, type) {
+  location.href = `slip_print.php?type=${type}&sid=${id}`
 }
+
+// Slip Print Function
+function printSlipRecord(sid) {
+  let id = sid.getAttribute("data-uuid");
+  let type = sid.getAttribute("data-type");
+  printSlip(id, type);
+}
+
+// Edit Slip Model View
+function editSlip(str) {
+  console.log("clicked Id: ", str.getAttribute("data-uuid"), str.getAttribute("data-type"), str.getAttribute("data-subtype"));
+  let uuid = str.getAttribute("data-uuid");
+  let type = str.getAttribute("data-type");
+  if (uuid == "" || type == "") { return; }
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("editSlipForm").innerHTML = this.responseText;
+      console.log("Response From Doctor By Id: ", this.responseText);
+    }
+  }
+  xmlhttp.open("GET", `backend_components/slip_handler.php?q=EDIT-SLIP-BY-ID&id=${uuid}&val=${type}`, true);
+  xmlhttp.send();
+}
+
+// Ajax Call for Editing Patient Slip Query
+$(document).ready(function ($) {
+  // on submit...
+  $('#editSlip').submit(function (e) {
+    e.preventDefault();
+    $("#err-msg").hide();
+    //mrid required
+    var mrid = $("input#editMrid").val();
+    //name required
+    var name = $("input#editName").val();
+    //mobile required
+    var mobile = $("input#editPhone").val();
+    //dept required
+    var dept = $("input#editDept").val();
+    //doc required
+    var doc = $("input#editDoctor").val();
+    //fee required
+    var fee = $("input#editFee").val();
+    //procedure required
+    var procedure = $("input#editProcedure").val();
+
+    if (mrid == "" || name == "" || mobile == "" || dept == "" || doc == "" || fee == "" || procedure == "") {
+      $("#err-msg").fadeIn().text("Required Fields.");
+      $("input#editMrid").focus();
+      $("input#editName").focus();
+      $("input#editPhone").focus();
+      $("input#editDept").focus();
+      $("input#editDoctor").focus();
+      $("input#editFee").focus();
+      $("input#editProcedure").focus();
+      return false;
+    }
+    // ajax
+    $.ajax({
+      type: "POST",
+      url: "backend_components/slip_handler.php?q=EDIT_SLIP",
+      data: $(this).serialize(), // get all form field value in serialize form
+      success: function () {
+        let el = document.querySelector("#close-button");
+        el.click();
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1000
+          });
+          Toast.fire({
+            icon: 'success',
+            title: 'Slip Record Updated Successfully.'
+          });
+          autoRefresh();
+        });
+      }
+    });
+  });
+  return false;
+});
+
+// Soft Delete Slip Record
+function softDeleteSlip(soft) {
+  let delId = soft.getAttribute("data-uuid");
+  let val = 0;
+  if (delId == "") { return; }
+  slipId = delId;
+  let checkConfirm = confirm('Please confirm deletion');
+  if (checkConfirm) {
+    // ajax
+    $.ajax({
+      type: "POST",
+      url: `backend_components/slip_handler.php?q=SOFT_DELETE_SLIP&id=${slipId}&val=${val}`,
+      success: function () {
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1000
+          });
+          Toast.fire({
+            icon: 'success',
+            title: 'Slip Soft Deleted Successfully.'
+          });
+          autoRefresh();
+        });
+      }
+    });
+  } else {
+    return;
+  }
+}
+
+// Delete Slip Record
+function deleteSlip(str) {
+  let delId = str.getAttribute("data-uuid");
+  if (delId == "") { return; }
+  slipId = delId;
+  let checkConfirm = confirm('Please confirm deletion');
+  if (checkConfirm) {
+    // ajax
+    $.ajax({
+      type: "POST",
+      url: `backend_components/slip_handler.php?q=DELETE_SLIP&id=${slipId}`,
+      success: function () {
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1000
+          });
+          Toast.fire({
+            icon: 'error',
+            title: 'Slip Record Deleted Successfully.'
+          });
+          autoRefresh();
+        });
+      }
+    });
+  } else {
+    return;
+  }
+}
+
+// History Slip Record
+function viewHistory(str) {
+  let uuid = str.getAttribute("data-uuid");
+  let type = str.getAttribute("data-type");
+
+  if (uuid == "" || type == "") { return; }
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("historyTable").innerHTML = this.responseText;
+      console.log("Response From Slip History: ", this.responseText);
+    }
+  }
+  xmlhttp.open("GET", `backend_components/slip_handler.php?q=GET_SLIP_HISTORY&id=${uuid}&val=${type}`, true);
+  xmlhttp.send();
+}
+
+// Get Slip Id to Assign to slipId Variable
+function getSlipId(id) { slipId = id.getAttribute("data-uuid"); }
+
+// Get Discount Function
+function serviceDiscount(discount) {
+  let finalBill = document.getElementById('finalBill');
+  let totalBill = document.getElementById('service');
+  let selected = totalBill.options[totalBill.selectedIndex];
+  finalBill.value = totalBill.value - discount.value;
+  serviceName = selected.getAttribute("data-name");
+  console.log("this is the final result:", finalBill.value, serviceName);
+}
+
+// Onchange Enable Fields
+function serviceChange(service) {
+  let discount = document.getElementById('discount');
+  let finalBill = document.getElementById('finalBill');
+  if (discount.disabled = true) discount.disabled = false;
+  finalBill.value = service.value - discount.value;
+  console.log("this is the final result:", finalBill.value);
+}
+
+// Ajax Call for Adding New FollowUp Slip 
+$(document).ready(function ($) {
+  $('#ADD_FOLLOW_UP_SLIP').submit(function (e) {
+    e.preventDefault();
+    $("#err-msg").hide();
+    var id = $("input#followId").val();
+    var staffId = $("input#staffId").val();
+    if (staffId == "" || id == "") {
+      $("#err-msg").fadeIn().text("Required Field.");
+      $("input#followId").focus();
+      $("input#staffId").focus();
+      return false;
+    }
+    // ajax
+    $.ajax({
+      type: "POST",
+      url: `backend_components/slip_handler.php?q=ADD_FOLLOW_UP_SLIP&id=${slipId}`,
+      data: $(this).serialize(), // get all form field value in serialize form
+      success: function (res) {
+        //parse json
+        res = JSON.parse(res);
+        let el = document.querySelector("#close-button");
+        el.click();
+        console.log(res);
+
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1000
+          });
+          Toast.fire({
+            icon: res.status,
+            title: res.message
+          });
+          printMiniSlip(res.data['id'], res.data['type']);
+          autoRefresh();
+        });
+      }
+    });
+  });
+  return false;
+});
+
+// Ajax Call for Adding New Service Slip 
+$(document).ready(function ($) {
+  $('#ADD_SERVICE_SLIP').submit(function (e) {
+    e.preventDefault();
+    $("#err-msg").hide();
+    var id = $("input#serviceId").val();
+    var staffId = $("input#staffId").val();
+    if (staffId == "" || id == "") {
+      $("#err-msg").fadeIn().text("Required Field.");
+      $("input#serviceId").focus();
+      $("input#staffId").focus();
+      return false;
+    }
+    // ajax
+    $.ajax({
+      type: "POST",
+      url: `backend_components/slip_handler.php?q=ADD_SERVICE_SLIP&id=${slipId}&val=${serviceName}`,
+      data: $(this).serialize(), // get all form field value in serialize form
+      success: function (res) {
+        //parse json
+        res = JSON.parse(res);
+        let el = document.querySelector("#close-button");
+        el.click();
+        console.log(res);
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1000
+          });
+          Toast.fire({
+            icon: res.status,
+            title: res.message
+          });
+          printMiniSlip(res.data['id'], res.data['type']);
+          autoRefresh();
+        });
+      }
+    });
+  });
+  return false;
+});
+
+// Delete Follow Up Slip Record
+function deleteFollowSlip(str) {
+  let delId = str.getAttribute("data-uuid");
+  if (delId == "") { return; }
+  slipId = delId;
+  let checkConfirm = confirm('Please confirm deletion');
+  if (checkConfirm) {
+    // ajax
+    $.ajax({
+      type: "POST",
+      url: `backend_components/slip_handler.php?q=DELETE_FOLLOW_SLIP&id=${slipId}`,
+      success: function (res) {
+        //parse json
+        // res = JSON.parse(res);   
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1000
+          });
+          Toast.fire({
+            icon: 'error',
+            title: 'FollowUp Slip Record Deleted Successfully.'
+          });
+          autoRefresh();
+        });
+      }
+    });
+  } else {
+    return;
+  }
+}
+// Delete Service Slip Record
+function deleteServiceSlip(str) {
+  let delId = str.getAttribute("data-uuid");
+  if (delId == "") { return; }
+  slipId = delId;
+  let checkConfirm = confirm('Please confirm deletion');
+  if (checkConfirm) {
+    // ajax
+    $.ajax({
+      type: "POST",
+      url: `backend_components/slip_handler.php?q=DELETE_SERVICE_SLIP&id=${slipId}`,
+      success: function () {
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1000
+          });
+          Toast.fire({
+            icon: 'error',
+            title: 'Service Slip Record Deleted Successfully.'
+          });
+          autoRefresh();
+        });
+      }
+    });
+  } else {
+    return;
+  }
+}
+
+// Slip Print Function
+function printMiniSlip(id, type) {
+  location.href = `other_slip_print.php?sid=${id}&type=${type}`
+}
+
+// Slip Print Function
+function printMiniSlipRecord(sid) {
+  let id = sid.getAttribute("data-uuid");
+  let type = sid.getAttribute("data-type");
+  printMiniSlip(id, type);
+}
+
+// Auto Refresh Function 
 function autoRefresh() {
   setTimeout(() => {
     window.location = window.location.href;

@@ -130,6 +130,7 @@
                 $slipQuery = "INSERT INTO `me_indoor`(
                   `INDOOR_UUID`, 
                   `INDOOR_SLIP_UUID`, 
+                  `STAFF_ID`,
                   `ADMISSION_DATE_TIME`, 
                   `ADMISSION_CHARGE`, 
                   `SURGEON_CHARGE`, 
@@ -153,7 +154,7 @@
                   `OTHER_TEXT_4`, `OTHER_4`, 
                   `OTHER_TEXT_5`, `OTHER_5`, 
                   `OTHER_TEXT_6`, `OTHER_6`
-                ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                     
                   if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
                       
@@ -165,8 +166,8 @@
                   
                   }else{
                     
-                    mysqli_stmt_bind_param($stmt, "sssssssssssssssssssssssssssssss", 
-                    $billId, $slipId, $admissionDate, 
+                    mysqli_stmt_bind_param($stmt, "ssssssssssssssssssssssssssssssss", 
+                    $billId, $slipId, $staffId, $admissionDate, 
                     $adCharge, $surCharge, $anesCharge,
                     $opCharge, $chargeLR, $pedCharge, 
                     $prCharge, $nurCharge, $nurStCharge,
@@ -182,21 +183,13 @@
                       $updateSql ="UPDATE `me_slip` SET `SLIP_STATUS`= 0 WHERE `SLIP_UUID` = '$slipId'";
                       if($querySql = mysqli_query($db,$updateSql))
                       {
-
-                        $printQuery = "SELECT `BILL_UUID` FROM `me_bill` WHERE `BILL_UUID` = '$billId'";
-                        $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
-                        $pResult = mysqli_fetch_array($printsql);
-                        
-                        if ($pResult > 0) {
-                          $result = [];
-                          $result['status'] = "success";
-                          $result['message'] = "Patient bill against slip created successfully.";
-                          $result['data'] = [];
-                          $result['data']['id'] = $pResult['BILL_UUID'];
-                          $result['data']['type'] = "INDOOR_BILL";
-                          echo json_encode($result);
-                        }
-
+                        $result = [];
+                        $result['status'] = "success";
+                        $result['message'] = "Patient bill against slip created successfully.";
+                        $result['data'] = [];
+                        $result['data']['id'] = $billId;
+                        $result['data']['type'] = "INDOOR_BILL";
+                        echo json_encode($result);
                       }else{
                         $result = [];
                         $result['status'] = "error";
@@ -354,7 +347,7 @@
               if (mysqli_stmt_execute($stmt)){
                 
                 $slipQuery = "INSERT INTO `me_emergency`(
-                  `EMERGENCY_UUID`,`EMERGENCY_SLIP_UUID`,`ES_MO_FEE`,`INJECTION_IM`, 
+                  `EMERGENCY_UUID`,`EMERGENCY_SLIP_UUID`,`STAFF_ID`,`ES_MO_FEE`,`INJECTION_IM`, 
                   `INJECTION_IV`,`DRIP`,`DRIP_VENOFER`,`INFUSION_ANTIBIOTIC`, 
                   `IV_LINE_IN_OUT`,`DRESSING_SMALL_LARGE`,`PER_STITCH_IN`,`PER_STITCH_OUT`,
                   `BSF_BSR`,`BP`,`NEBULIZATION`,`ECG`,`MONITOR_CHARGE`,`CTG`,`FOLEY_CATHETER`,
@@ -367,7 +360,7 @@
                   `OTHER_TEXT_7`,`OTHER_7`,`OTHER_TEXT_8`,`OTHER_8`, 
                   `OTHER_TEXT_9`,`OTHER_9`,`OTHER_TEXT_10`,`OTHER_10`,
                   `OTHER_TEXT_11`,`OTHER_11`,`OTHER_TEXT_12`,`OTHER_12`
-                ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                     
                   if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
                       
@@ -379,8 +372,8 @@
                   
                   }else{
                     
-                    mysqli_stmt_bind_param($stmt, "sssssssssssssssssssssssssssssssssssssssssssssssssss", 
-                    $billId, $slipId, $moCharge, $injectionIM, $injectionIV, 
+                    mysqli_stmt_bind_param($stmt, "ssssssssssssssssssssssssssssssssssssssssssssssssssss", 
+                    $billId, $slipId, $staffId, $moCharge, $injectionIM, $injectionIV, 
                     $drip, $venofar, $infusionAntibiotic, $ivLine, $dressing, 
                     $stitchInTotal, $stitchOutTotal, $bsf, $bp, $nebulization, 
                     $ecg, $monChargeTwo, $ctg, $foleyCath, $stomachWash, 
@@ -398,19 +391,19 @@
                       if($querySql = mysqli_query($db,$updateSql))
                       {
 
-                        $printQuery = "SELECT `BILL_UUID` FROM `me_bill` WHERE `BILL_UUID` = '$billId'";
-                        $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
-                        $pResult = mysqli_fetch_array($printsql);
+                        // $printQuery = "SELECT `BILL_UUID` FROM `me_bill` WHERE `BILL_UUID` = '$billId'";
+                        // $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
+                        // $pResult = mysqli_fetch_array($printsql);
                         
-                        if ($pResult > 0) {
+                        // if ($pResult > 0) {
                           $result = [];
                           $result['status'] = "success";
                           $result['message'] = "Patient bill against slip created successfully.";
                           $result['data'] = [];
-                          $result['data']['id'] = $pResult['BILL_UUID'];
+                          $result['data']['id'] = $billId;
                           $result['data']['type'] = "EMERGENCY_BILL";
                           echo json_encode($result);
-                        }
+                        // }
 
                       }else{
                         $result = [];

@@ -65,15 +65,6 @@
           </form>
         </div>
       </li>
-      <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a type="button" class="dropdown-item nav-link" data-toggle="dropdown" onClick="getRequestNotification();" href="javascript:void(0);">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">&nbsp;</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="notificationId">
-        </div>
-      </li>
       <!-- ./Profile Box -->
       <li class="nav-item dropdown user-menu">
         <?php
