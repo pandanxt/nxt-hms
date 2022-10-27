@@ -17,7 +17,11 @@
      <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-2"><a type="submit" class="btn btn-block btn-primary btn-sm" href="add_patient.php"><i class="fas fa-plus"></i> New Patient</a></div>
+          <div class="col-sm-2">
+            <a type="button" class="btn btn-block btn-primary btn-sm" data-toggle="modal" data-target="#add-patient">
+              <i class="fas fa-plus"></i> NEW PATIENT
+            </a>
+          </div>
           <div class="col-sm-10">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -62,7 +66,11 @@
                             <i class='fas fa-plus'></i> Slip
                           </a>
                         </td>
-                        <td>$rs[PATIENT_NAME]</td>
+                        <td>$rs[PATIENT_NAME]";
+                        if ($rs['PATIENT_DELETE'] == 0) {
+                          echo "&nbsp;<button class='btn badge badge-danger'>Patient Deleted</button>";
+                        }
+                        echo "</td>
                         <td>$rs[PATIENT_MOBILE]</td>
                         <td>$rs[PATIENT_GENDER]</td>
                         <td>$rs[PATIENT_AGE]</td>
@@ -74,15 +82,20 @@
                         <td style='display:flex;'>
                             <a href='view_patient.php?id=$rs[PATIENT_MR_ID]' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
-                            </a>";
-                            if ($_SESSION['role'] == "admin") {  
-                            echo "<br>
-                            <a href='edit_patient.php?patid=$rs[PATIENT_MR_ID]'>
+                            </a>
+                            <br><a href='javascript:void(0)' onclick='editPatientId(this);' data-mrid='$rs[PATIENT_MR_ID]' data-toggle='modal' data-target='#edit-patient'>
                               <i class='fas fa-edit'></i> Edit
-                            </a><br>
-                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/delete_handler.php?prId=$rs[PATIENT_MR_ID]' style='color:red;'>
-                              <i class='fas fa-trash'></i> Delete
                             </a>";
+                            if ($rs['PATIENT_DELETE'] != 0) {
+                              echo "<br><a onClick='softDeletePatient(this)' data-mrid='$rs[PATIENT_MR_ID]' href='javascript:void(0);' style='color:red;'>
+                                <i class='fas fa-trash'></i> Soft Delete
+                              </a>";
+                            }
+                            if ($_SESSION['role'] == "admin") { 
+                              echo "<br>
+                              <a onClick='deletePatient(this)' data-mrid='$rs[PATIENT_MR_ID]' href='javascript:void(0);' style='color:red;'>
+                                <i class='fas fa-trash'></i> Hard Delete
+                              </a>";
                             }
                         echo "</td>
                         </tr>"; 

@@ -26,7 +26,12 @@
                         <div class="card-header">
                           <h3 class="card-title">
                             <i class="fas fa-user"></i>&nbsp;
-                            <?php echo $row['PATIENT_NAME']; ?> Medical History
+                            <?php 
+                              echo "$row[PATIENT_NAME] Medical History"; 
+                              if ($row['PATIENT_DELETE'] == 0) {
+                                echo "&nbsp;<button class='btn badge badge-danger'>Patient Deleted</button>";
+                              }
+                            ?>
                           </h3>
                         </div>
                         <div class="card-body">
@@ -48,20 +53,38 @@
                               <div class="col-md-4">
                                 <div class="col-md-12 clearfix">
                                   <?php 
-                                      echo '<div class="row"><label>Created By: </label>&nbsp; <p>'.$row["USER_NAME"].'</p></div> 
-                                        <div class="row"><label>Options: </label>&nbsp; 
-                                      <p>
-                                      <a href="javascript:void(0)" onclick="getPatientId(this);" data-mrid="'.$row["PATIENT_MR_ID"].'" data-name="'.$row["PATIENT_NAME"].'" data-mobile="'.$row["PATIENT_MOBILE"].'" data-toggle="modal" data-target="#patient-slip">
-                                        <i class="fas fa-plus"></i> Slip
-                                      </a>'; 
-                                      if ($_SESSION['role'] == "admin") {
-                                        echo '&nbsp; <a href="edit_patient.php?id='.$row["PATIENT_MR_ID"].'">
-                                          <i class="fas fa-edit"></i> Edit 
-                                        </a>';
-                                        echo '&nbsp; <a href="backend_components/delete_handler.php?prid='.$row["PATIENT_MR_ID"].'" style="color:red;">
-                                          <i class="fas fa-trash"></i> Delete
-                                        </a>';
+                                      echo "<div class='row'><label>Created By: </label>&nbsp; <p>$row[USER_NAME]</p></div> 
+                                        <div class='row'><label>Options: </label>&nbsp; 
+                                      <p>&nbsp;
+                                      <a href='javascript:void(0)' onclick='getPatientId(this);' data-mrid='$row[PATIENT_MR_ID]' data-name'$row[PATIENT_NAME]' data-mobile='$row[PATIENT_MOBILE]' data-toggle='modal' data-target='#patient-slip'>
+                                        <i class='fas fa-plus'></i> Slip
+                                      </a>
+                                      &nbsp;
+                                      <a href='javascript:void(0)' onclick='editPatientId(this);' data-mrid='$row[PATIENT_MR_ID]' data-toggle='modal' data-target='#edit-patient'>
+                                        <i class='fas fa-edit'></i> Edit
+                                      </a>";
+                                      if ($row['PATIENT_DELETE'] != 0) {
+                                        echo "&nbsp;<a onClick='softDeletePatient(this)' data-mrid='$row[PATIENT_MR_ID]' href='javascript:void(0);' style='color:red;'>
+                                          <i class='fas fa-trash'></i> Soft Delete
+                                        </a>";
                                       }
+                                      if ($_SESSION['role'] == "admin") { 
+                                        echo "&nbsp;<a onClick='deletePatient(this)' data-mrid='$row[PATIENT_MR_ID]' href='javascript:void(0);' style='color:red;'>
+                                          <i class='fas fa-trash'></i> Hard Delete
+                                        </a>";
+                                      }
+                                      // <a href="javascript:void(0)" onclick="getPatientId(this);" data-mrid="'.$row["PATIENT_MR_ID"].'" data-name="'.$row["PATIENT_NAME"].'" data-mobile="'.$row["PATIENT_MOBILE"].'" data-toggle="modal" data-target="#patient-slip">
+                                      //   <i class="fas fa-plus"></i> Slip
+                                      // </a>'; 
+                                      
+                                      //   echo '&nbsp; <a href="edit_patient.php?id='.$row["PATIENT_MR_ID"].'">
+                                      //     <i class="fas fa-edit"></i> Edit 
+                                      //   </a>';
+                                      // if ($_SESSION['role'] == "admin") {
+                                      //   echo '&nbsp; <a href="backend_components/delete_handler.php?prid='.$row["PATIENT_MR_ID"].'" style="color:red;">
+                                      //     <i class="fas fa-trash"></i> Delete
+                                      //   </a>';
+                                      // }
                                       echo '</p></div>'; 
                                   ?>    
                                 </div>

@@ -313,7 +313,6 @@
             </div>";
         }
     }
-    
     // Update Patient Data Query
     if ($q == 'EDIT_SLIP') {
         $uuid = mysqli_real_escape_string($db, $_POST['slipId']);
@@ -377,7 +376,6 @@
             }else{echo "Error: " . $sql . "" . mysqli_error($db);}	
         }
     }
-
     // Delete Patient Data Query
     if($q == 'SOFT_DELETE_SLIP') {
         if(mysqli_query($db, "UPDATE `me_slip` SET `SLIP_DELETE` = '$val' WHERE `SLIP_UUID` ='$id'")) {
@@ -386,7 +384,6 @@
             echo "Error: " . $sql . "" . mysqli_error($db);
         }
     }
-
     // Delete Patient Data Query
     if($q == 'DELETE_SLIP') {
         if(mysqli_query($db, "DELETE FROM `me_slip` WHERE `SLIP_UUID` ='$id'")) {
@@ -395,7 +392,6 @@
             echo "Error: " . $sql . "" . mysqli_error($db);
         }
     }
-    
     //  Get Doctor List
     if ($q == 'GET_DOCTOR') {
         echo '<option disabled selected value="">---- Select Consultant Name ----</option>';
@@ -417,7 +413,6 @@
             }
         }  
     }
-    
     // Get Doctor List by Department
     if ($q == 'GET_DOCTOR_BY_DEPT') {
         echo '<option disabled selected value="">---- Select Consultant Name ----</option>';
@@ -431,7 +426,6 @@
             }
         }  
     }
-
     // Add OPD-SLIP Request Query
     if ($q == 'ADD_REQUEST') {
         $reqId = mysqli_real_escape_string($db, $_POST['reqId']);
@@ -453,7 +447,6 @@
         mysqli_stmt_close($stmt);
         mysqli_close($db);
     }
-
     // View Edit Request Query Response
     if ($q == 'VIEW_REQUEST') {
         $request = "SELECT *, `USER_NAME` FROM `me_request` INNER JOIN `me_user` WHERE `me_request`.`STAFF_ID` = `me_user`.`USER_UUID` AND `REQUEST_REFERENCE_UUID` = '$id'";
@@ -492,7 +485,6 @@
             </tr>";
         }   
     }
-
     // Update Edit Request Query
     if ($q == 'EDIT_REQUEST') {
 
@@ -506,7 +498,6 @@
             echo "Error: " . $sql . "" . mysqli_error($db);
         }
     }
-
     // View Update Request Query Response
     if ($q == 'GET_REQUEST') {
         $request = "SELECT * FROM `me_request` WHERE `REQUEST_UUID` = '$id'";
@@ -538,7 +529,6 @@
             </div>";
         }   
     }
-
     // Request Record Delete Query
     if($q == 'REMOVE_REQUEST') {
         $sql ="DELETE FROM `me_request` WHERE `REQUEST_UUID` = '$id'";
@@ -550,7 +540,6 @@
             echo "Error: " . $sql . "" . mysqli_error($db);
         }
     }
-
     // Get Add Requests Query
     if ($q == 'GET_ALL_REQUEST_NOTIFICATION') { 
         echo "<span class='dropdown-item dropdown-header'>Request Notifications</span>
@@ -575,7 +564,6 @@
                 }
             }
     }
-
     // View Specific Request Query Response
     if ($q == 'VIEW_REQUEST_BY_ID') {
         $request = "SELECT *, `USER_NAME`,`SLIP_TYPE`,`SLIP_SUB_TYPE` FROM `me_request` 
@@ -616,7 +604,6 @@
             echo "</tr>";
         }   
     }
-
     // View Specific Request Record Query Response
     if ($q == 'VIEW-REQUEST-RECORD') {
         if ($val == 'outdoor') {
@@ -800,7 +787,6 @@
             }
         }   
     }
-    
     // Add FOLLOWUP-SLIP Query
     if ($q == 'ADD_FOLLOW_UP_SLIP') {
         $followId = mysqli_real_escape_string($db, $_POST['followId']);
@@ -832,7 +818,6 @@
         mysqli_stmt_close($stmt);
         mysqli_close($db);
     }
-
     // Add SERVICE-SLIP Query
     if ($q == 'ADD_SERVICE_SLIP') {
         $serviceId = mysqli_real_escape_string($db, $_POST['serviceId']);
@@ -866,7 +851,6 @@
         mysqli_stmt_close($stmt);
         mysqli_close($db);
     }
-
     // Delete Follow Up Slip Query
     if($q == 'DELETE_FOLLOW_SLIP') {
         if(mysqli_query($db, "DELETE FROM `me_followup_slip` WHERE `SLIP_UUID` ='$id'")) {
@@ -875,7 +859,6 @@
             echo "Error: " . $sql . "" . mysqli_error($db);
         }
     }
-    
     // Delete Service Slip Query
     if($q == 'DELETE_SERVICE_SLIP') {
         if(mysqli_query($db, "DELETE FROM `me_service_slip` WHERE `SLIP_UUID` ='$id'")) {
@@ -884,7 +867,6 @@
             echo "Error: " . $sql . "" . mysqli_error($db);
         }
     }
-
     if ($q == 'GET_SLIP_HISTORY') {
         if ($val == 'OUTDOOR' || $val == 'INDOOR') {
             $history = "SELECT *, `USER_NAME`,`DOCTOR_NAME`,`DEPARTMENT_NAME` FROM `me_slip_history` 
@@ -920,4 +902,167 @@
         }
         echo "</tbody>";
     }
+    //Edit Patient Query
+    if ($q == 'GET_PATIENT_BY_ID') {
+        
+        $patientSql="SELECT * FROM `me_patient` WHERE `me_patient`.`PATIENT_MR_ID` = '$id'";
+        $querySql = mysqli_query($db,$patientSql) or die (mysqli_error($db));
+        $response = mysqli_fetch_array($querySql);
+      
+        echo "<div class='row'>
+            <div class='col-md-12' style='display:flex;'>
+                <div class='form-group col-md-6'>
+                    <label>Name</label>
+                    <input type='text' name='name' class='form-control' id='name' value='$response[PATIENT_NAME]' required>
+                </div>
+                <div class='form-group col-md-6'>
+                    <label>Mobile</label>
+                    <input type='tel' name='phone' class='form-control' id='phone' value='$response[PATIENT_MOBILE]' required>
+                </div>
+            </div>
+            <div class='col-md-12' style='display:flex;'>
+                <div class='form-group col-md-6'>
+                    <label>Gender</label>
+                    <select class='form-control select2bs4' name='gender' id='gender' style='width: 100%;'>
+                        <option selected='selected' value='$response[PATIENT_GENDER]'>$response[PATIENT_GENDER]</option>
+                        <option value='male'>Male</option>
+                        <option value='female'>Female</option>
+                        <option value='other'>Other</option>
+                    </select>
+                </div>
+                <div class='form-group col-md-6'>
+                    <label>Age</label>
+                    <input type='number' name='age' class='form-control' id='age' value='$response[PATIENT_AGE]' required>
+                </div>
+            </div>   
+            <div class='col-md-12'>
+                <input type='text' name='mrid' id='mrid' class='form-control' value='$response[PATIENT_MR_ID]' hidden/>
+                <input type='text' name='by' id='by' value='$_SESSION[uuid]' hidden readonly>
+                <div class='form-group col-md-12'>
+                    <label>Address</label>
+                    <textarea style='height: 40px;' name='address' type='text' class='form-control' id='address' required>$response[PATIENT_ADDRESS]</textarea>
+                </div>
+            </div>
+        </div>";
+    }
+    // Update Patient Data Query
+    if ($q == 'EDIT_PATIENT') {
+        $mrid = mysqli_real_escape_string($db, $_POST['mrid']);
+        $name = mysqli_real_escape_string($db, $_POST['name']);
+        $phone = mysqli_real_escape_string($db, $_POST['phone']);
+        $gender = mysqli_real_escape_string($db, $_POST['gender']);
+        $age = mysqli_real_escape_string($db, $_POST['age']);
+        $address = mysqli_real_escape_string($db, $_POST['address']);
+        $by = mysqli_real_escape_string($db, $_POST['by']);
+        
+        if(mysqli_query($db, "UPDATE `me_patient` 
+            SET `PATIENT_NAME`='$name',`PATIENT_GENDER`='$gender',`PATIENT_AGE`='$age',`PATIENT_ADDRESS`='$address',`STAFF_ID`='$by' 
+            WHERE `PATIENT_MR_ID` = '$mrid'")){
+            // echo 'Patient Record Updated Successfully';
+            $historyQuery = "INSERT INTO `me_patient_history`(`PATIENT_MR_ID`, `PATIENT_NAME`, `PATIENT_MOBILE`, `PATIENT_GENDER`, `PATIENT_AGE`, `PATIENT_ADDRESS`, `STAFF_ID`)
+            VALUES ('$mrid','$name','$phone','$gender','$age','$address','$by')";
+            if (mysqli_query($db, $historyQuery)){
+                $result = [];
+                $result['status'] = "success";
+                $result['message'] = $name." Record Updated Successfully!";
+                echo json_encode($result);
+            }else {
+                $result = [];
+                $result['status'] = "error";
+                $result['message'] = mysql_error();
+                echo json_encode($result);
+                exit();
+            }
+        }else{
+            echo "Error: " . $sql . "" . mysqli_error($db);
+        }	
+    }
+    // Delete Patient Data Query
+    if($q == 'SOFT_DELETE_PATIENT') {
+        if(mysqli_query($db, "UPDATE `me_patient` SET `PATIENT_DELETE` = '$val' WHERE `PATIENT_MR_ID` ='$id'")) {
+            echo 'Soft Patient Deleted Successfully'; 
+        } else {
+            echo "Error: " . $sql . "" . mysqli_error($db);
+        }
+    }
+    // Delete Patient Data Query
+    if($q == 'DELETE_PATIENT') {
+        if(mysqli_query($db, "DELETE FROM `me_patient` WHERE `PATIENT_MR_ID` ='$id'")) {
+            echo 'Hard Patient Deleted successfully';
+        } else {
+            echo "Error: " . $sql . "" . mysqli_error($db);
+        }
+    }
+    // Add Patient Query
+    if ($q == 'ADD_PATIENT') {
+    
+        // Post Variables
+        $name = mysqli_real_escape_string($db, $_POST['patientName']);
+        $mrid = mysqli_real_escape_string($db, $_POST['patientMrId']);  
+        $phone = mysqli_real_escape_string($db, $_POST['patientPhone']);
+        $gender = mysqli_real_escape_string($db, $_POST['patientGender']);
+        $age = mysqli_real_escape_string($db, $_POST['patientAge']);
+        $address = mysqli_real_escape_string($db, $_POST['patientAddress']);
+        $by = mysqli_real_escape_string($db, $_POST['patientBy']);
+    
+        // Check Data from DB
+        $sql = "SELECT * FROM `me_patient` WHERE `PATIENT_MR_ID` = ?";
+        $stmt = mysqli_stmt_init($db);
+        
+        if (!mysqli_stmt_prepare($stmt,$sql)) {
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysql_error();
+            echo json_encode($result);
+            exit();
+        }else{
+            mysqli_stmt_bind_param($stmt,"s",$mrid);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_store_result($stmt);
+            $resultCheck = mysqli_stmt_num_rows($stmt);
+                
+            if($resultCheck == 0) {
+              $patientQuery = "INSERT INTO `me_patient`
+              (
+                `PATIENT_MR_ID`, 
+                `PATIENT_NAME`, 
+                `PATIENT_MOBILE`, 
+                `PATIENT_GENDER`, 
+                `PATIENT_AGE`, 
+                `PATIENT_ADDRESS`, 
+                `STAFF_ID`
+              ) VALUES (?,?,?,?,?,?,?)";
+              mysqli_stmt_execute($stmt);
+                  
+                if (!mysqli_stmt_prepare($stmt,$patientQuery)) {
+                    $result = [];
+                    $result['status'] = "error";
+                    $result['message'] = mysql_error();
+                    echo json_encode($result);
+                    exit();
+                }else{
+                    mysqli_stmt_bind_param($stmt,"sssssss", $mrid,$name,$phone,$gender,$age,$address,$by);
+                    if (mysqli_stmt_execute($stmt)) {
+                        $historyQuery = "INSERT INTO `me_patient_history`(`PATIENT_MR_ID`, `PATIENT_NAME`, `PATIENT_MOBILE`, `PATIENT_GENDER`, `PATIENT_AGE`, `PATIENT_ADDRESS`, `STAFF_ID`)
+                        VALUES ('$mrid','$name','$phone','$gender','$age','$address','$by')";
+                        if (mysqli_query($db, $historyQuery)){
+                            $result = [];
+                            $result['status'] = "success";
+                            $result['message'] = $name." Record Saved Successfully!";
+                            echo json_encode($result);
+                        }else {
+                            $result = [];
+                            $result['status'] = "error";
+                            $result['message'] = mysql_error();
+                            echo json_encode($result);
+                            exit();
+                        }
+                    }
+                }   
+              exit();
+            }
+        }
+        mysqli_stmt_close($stmt);
+        mysqli_close($db);
+      }
 ?>

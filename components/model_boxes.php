@@ -426,3 +426,89 @@
   </div>
 </div>
 <!--Add Slip Model Popup Ends Here -->
+
+<!--Add Patient Model Popup Here -->
+<div class="modal fade" id="add-patient">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><i class="nav-icon fas fa-procedures"></i>&nbsp;Add Patient</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <span id="err-msg" style="display: none"></span>
+      <form action="javascript:void(0)" method="post" id="addPatient">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12" style="display:flex;">
+              <div class="form-group col-md-6">
+                <label>Patient MR-ID</label>    
+                <input type="text" name="patientMrId" class="form-control" id="patientMrId" readonly>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Patient Name</label>
+                <input type="text" name="patientName" class="form-control" id="patientName" placeholder="Enter Full Name" required>
+              </div>
+            </div>   
+            <div class="col-md-12" style="display:flex;">
+              <div class="form-group col-md-6">
+                <label>Mobile No.</label>
+                <input type="tel" name="patientPhone" class="form-control" id="patientPhone" placeholder="Enter Valid Phone No." required>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Patient Gender</label>
+                <select class="form-control select2bs4" name="patientGender" id="patientGender" style="width: 100%;">
+                  <option selected="selected" disabled>Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-12" style="display:flex;">
+              <div class="form-group col-md-6">
+                <label>Patient Age</label>
+                <input type="number" name="patientAge" class="form-control" id="patientAge" placeholder="Enter Age Here" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Patient Address</label>
+                <textarea style="height: 38px;" name="patientAddress" type="text" class="form-control" id="patientAddress" placeholder="Enter Patient Address" required></textarea>
+              </div>
+            </div>   
+            <input type="text" name="patientBy" id="patientBy" value="<?php echo $_SESSION['uuid'] ; ?>" hidden readonly>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" id="cancel" data-dismiss="modal">Cancel</button>
+          <button type="submit" name="submit" class="btn btn-primary">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!--Add Patient Model Popup Ends Here -->
+
+<!--Edit Patient Model Popup Here -->
+<div class="modal fade" id="edit-patient">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><i class="nav-icon fas fa-procedures"></i>&nbsp;Edit Patient</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <span id="err-msg" style="display: none"></span>
+      <form action="javascript:void(0)" method="post" id="editPatient">
+        <div class="modal-body" id="editPatientForm">
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" id="cancel" data-dismiss="modal">Cancel</button>
+          <button type="submit" name="submit" class="btn btn-primary">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!--Edit Patient Model Popup Ends Here -->
