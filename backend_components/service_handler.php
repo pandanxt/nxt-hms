@@ -7,7 +7,6 @@
     $val = (isset($_GET['val']) ? $_GET['val'] : '');
     // Connection File
     include "connection.php";
-
     // Add Service Query
     if($q == 'ADD_SERVICE') {
         $uid =  mysqli_real_escape_string($db, $_POST['uuId']);
@@ -17,7 +16,6 @@
 
         $sql = "SELECT * FROM `me_general_service` WHERE `SERVICE_NAME` = ?";
         $stmt = mysqli_stmt_init($db);
-          
         if (!mysqli_stmt_prepare($stmt,$sql)) {
             echo "Error: " . $sql . "" . mysqli_error($stmt);
         }else{
@@ -25,28 +23,26 @@
             mysqli_stmt_execute($stmt);
             mysqli_stmt_store_result($stmt);
             $resultCheck = mysqli_stmt_num_rows($stmt);
-                
                 if ($resultCheck > 0) {
                     echo "name already taken!";
                 }else{
-                        $sql = "INSERT INTO `me_general_service`(`SERVICE_UUID`, `SERVICE_NAME`, `SERVICE_RATE`, `STAFF_ID`) VALUES (?,?,?,?)";
+                    $sql = "INSERT INTO `me_general_service`(`SERVICE_UUID`, `SERVICE_NAME`, `SERVICE_RATE`, `STAFF_ID`) VALUES (?,?,?,?)";
+                    mysqli_stmt_execute($stmt);
+                
+                    if (!mysqli_stmt_prepare($stmt,$sql)) {
+                        echo "Error: " . $sql . "" . mysqli_error($stmt);
+                    }else{
+                        mysqli_stmt_bind_param($stmt,"ssss",$uid,$name,$rate,$by);
                         mysqli_stmt_execute($stmt);
-                    
-                        if (!mysqli_stmt_prepare($stmt,$sql)) {
-                            echo "Error: " . $sql . "" . mysqli_error($stmt);
-                        }else{
-                            mysqli_stmt_bind_param($stmt,"ssss",$uid,$name,$rate,$by);
-                            mysqli_stmt_execute($stmt);
-                            echo "New Service Saved Successfully";
-                        }			
-                    }
+                        echo "New Service Saved Successfully";
+                    }			
+                }
             }
         mysqli_stmt_close($stmt);
         mysqli_close($db);
 
     }
-
-    // Room Status Update
+    // Update Service Status 
     if ($q == 'STATUS_SERVICE') {
         if(mysqli_query($db, "UPDATE `me_general_service` SET `SERVICE_STATUS`= '$val' WHERE `SERVICE_UUID` = '$id'")) {
             echo 'Service Status Updated Successfully';
@@ -54,13 +50,11 @@
             echo "Error: " . $sql . "" . mysqli_error($db);
         }
     }
-
-    // Update Medeast User Query
+    // Edit Service Query
     if ($q == 'EDIT_SERVICE') {
         $uuid = mysqli_real_escape_string($db, $_POST['uuid']);
         $name = mysqli_real_escape_string($db, $_POST['serName']);
         $rate = mysqli_real_escape_string($db, $_POST['serRate']);
-        
         if(mysqli_query($db, "UPDATE `me_general_service` SET `SERVICE_NAME`='$name',`SERVICE_RATE`='$rate' WHERE `SERVICE_UUID` = '$uuid'"))
         {
             echo 'Service Updated Successfully';
@@ -68,19 +62,16 @@
             echo "Error: " . $sql . "" . mysqli_error($db);
         }	
     }
-
-    // Medeast Delete Query
+    // Delete Service Query
     if($q == 'DELETE_SERVICE') {
         if(mysqli_query($db, "DELETE FROM `me_general_service` WHERE `SERVICE_UUID` ='$id'")) {
-            // echo 'User Deleted Successfully';
             echo '<script>window.location = "../services.php?action=deleted";</script>';
         } else {
             echo "Error: " . $sql . "" . mysqli_error($db);
         }
     }
-
-    // Get Medeast SERVICE by Id
-    if ($q == 'GET-SERVICE-BY-ID') { 
+    // Get SERVICE by Id
+    if ($q == 'GET_SERVICE_BY_ID') { 
 
         $user = "SELECT * FROM `me_general_service` WHERE `SERVICE_UUID` = '$id'";
         $result = mysqli_query($db, $user) or die (mysqli_error($db));
@@ -124,10 +115,8 @@
             }
         }
     }
-
-    // Edit Medeast User by Id
-    if ($q == 'EDIT-SERVICE-BY-ID') { 
-    
+    // Edit Service by Id
+    if ($q == 'EDIT_SERVICE_BY_ID') { 
         $user = "SELECT * FROM `me_general_service` WHERE `SERVICE_UUID` = '$id'";
         $result = mysqli_query($db, $user) or die (mysqli_error($db));
             $resultCheck = mysqli_num_rows($result);

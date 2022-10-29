@@ -56,7 +56,7 @@
                                       echo "<div class='row'><label>Created By: </label>&nbsp; <p>$row[USER_NAME]</p></div> 
                                         <div class='row'><label>Options: </label>&nbsp; 
                                       <p>&nbsp;
-                                      <a href='javascript:void(0)' onclick='getPatientId(this);' data-mrid='$row[PATIENT_MR_ID]' data-name'$row[PATIENT_NAME]' data-mobile='$row[PATIENT_MOBILE]' data-toggle='modal' data-target='#patient-slip'>
+                                      <a href='javascript:void(0)' onclick='getPatientId(this);' data-mrid='$row[PATIENT_MR_ID]' data-name='$row[PATIENT_NAME]' data-mobile='$row[PATIENT_MOBILE]' data-toggle='modal' data-target='#patient-slip'>
                                         <i class='fas fa-plus'></i> Slip
                                       </a>
                                       &nbsp;
@@ -73,18 +73,6 @@
                                           <i class='fas fa-trash'></i> Hard Delete
                                         </a>";
                                       }
-                                      // <a href="javascript:void(0)" onclick="getPatientId(this);" data-mrid="'.$row["PATIENT_MR_ID"].'" data-name="'.$row["PATIENT_NAME"].'" data-mobile="'.$row["PATIENT_MOBILE"].'" data-toggle="modal" data-target="#patient-slip">
-                                      //   <i class="fas fa-plus"></i> Slip
-                                      // </a>'; 
-                                      
-                                      //   echo '&nbsp; <a href="edit_patient.php?id='.$row["PATIENT_MR_ID"].'">
-                                      //     <i class="fas fa-edit"></i> Edit 
-                                      //   </a>';
-                                      // if ($_SESSION['role'] == "admin") {
-                                      //   echo '&nbsp; <a href="backend_components/delete_handler.php?prid='.$row["PATIENT_MR_ID"].'" style="color:red;">
-                                      //     <i class="fas fa-trash"></i> Delete
-                                      //   </a>';
-                                      // }
                                       echo '</p></div>'; 
                                   ?>    
                                 </div>

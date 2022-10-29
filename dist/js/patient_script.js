@@ -22,7 +22,7 @@ function getPatientId(id) {
   localStorage.setItem('patient_mobile', id.getAttribute("data-mobile"));
 }
 
-// Ajax Call for Adding New Slip
+// Add Patient Slip
 $(document).ready(function ($) {
   $('#addPatientSlip').submit(function (e) {
     e.preventDefault();
@@ -30,7 +30,6 @@ $(document).ready(function ($) {
     let uuid = $("input#slipId").val();
     let patId = $("input#patId").val();
     let staffId = $("input#staffId").val();
-
     if (uuid == "" || patId == "" || staffId == "") {
       $("#err-msg").fadeIn().text("Required Field.");
       $("input#uuId").focus();
@@ -38,14 +37,11 @@ $(document).ready(function ($) {
       $("input#staffId").focus();
       return false;
     }
-    // ajax
     $.ajax({
       type: "POST",
       url: "backend_components/slip_handler.php?q=ADD_PATIENT_SLIP",
       data: $(this).serialize(), // get all form field value in serialize form
       success: function (res) {
-
-        //parse json
         res = JSON.parse(res);
         console.log(res);
         $(function () {
@@ -60,51 +56,37 @@ $(document).ready(function ($) {
             title: res.message
           });
           printSlip(res.data['id'], res.data['type']);
-          // autoRefresh();
         });
       }
     });
   });
   return false;
 });
-
-// Edit Patient Button Click
-function editPatientId(str){
-  console.log("clicked Id: ", str.getAttribute("data-mrid"));
+// Edit Patient By Id
+function editPatientId(str) {
   let mrid = str.getAttribute("data-mrid");
   if (mrid == "") { return; }
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function () {
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       document.getElementById("editPatientForm").innerHTML = this.responseText;
-      console.log("Response From Doctor By Id: ", this.responseText);
     }
   }
-  xmlhttp.open("GET", `backend_components/slip_handler.php?q=GET_PATIENT_BY_ID&id=${mrid}`, true);
-  xmlhttp.send();
+  xmlHttp.open("GET", `backend_components/slip_handler.php?q=GET_PATIENT_BY_ID&id=${mrid}`, true);
+  xmlHttp.send();
 }
-
-// Ajax Call for Editing Patient Query
+//Edit Patient Query
 $(document).ready(function ($) {
-  // on submit...
   $('#editPatient').submit(function (e) {
     e.preventDefault();
     $("#err-msg").hide();
-    //mrid required
     var mrid = $("input#mrid").val();
-    //name required
     var name = $("input#name").val();
-    //phone required
     var phone = $("input#phone").val();
-    //gender required
     var gender = $("input#gender").val();
-    //age required
     var age = $("input#age").val();
-    //address required
     var address = $("input#address").val();
-    //by required
     var by = $("input#by").val();
-
     if (mrid == "" || name == "" || phone == "" || gender == "" || age == "" || address == "" || by == "") {
       $("#err-msg").fadeIn().text("Required Fields.");
       $("input#mrid").focus();
@@ -116,13 +98,11 @@ $(document).ready(function ($) {
       $("input#by").focus();
       return false;
     }
-    // ajax
     $.ajax({
       type: "POST",
       url: "backend_components/slip_handler.php?q=EDIT_PATIENT",
       data: $(this).serialize(), // get all form field value in serialize form
       success: function (res) {
-        //parse json
         res = JSON.parse(res);
         console.log(res);
         let el = document.querySelector("#close-button");
@@ -145,16 +125,13 @@ $(document).ready(function ($) {
   });
   return false;
 });
-
 // Soft Delete Patient Record
 function softDeletePatient(soft) {
   let delId = soft.getAttribute("data-mrid");
   let val = 0;
   if (delId == "") { return; }
-  // slipId = delId;
   let checkConfirm = confirm('Please confirm deletion');
   if (checkConfirm) {
-    // ajax
     $.ajax({
       type: "POST",
       url: `backend_components/slip_handler.php?q=SOFT_DELETE_PATIENT&id=${delId}&val=${val}`,
@@ -178,15 +155,12 @@ function softDeletePatient(soft) {
     return;
   }
 }
-
 // Delete Patient Record
 function deletePatient(str) {
   let delId = str.getAttribute("data-mrid");
   if (delId == "") { return; }
-  // slipId = delId;
   let checkConfirm = confirm('Please confirm deletion');
   if (checkConfirm) {
-    // ajax
     $.ajax({
       type: "POST",
       url: `backend_components/slip_handler.php?q=DELETE_PATIENT&id=${delId}`,
@@ -206,12 +180,9 @@ function deletePatient(str) {
         });
       }
     });
-  } else {
-    return;
-  }
+  } else { return; }
 }
-
-// Ajax Call for Adding New Slip
+// Adding New Patient
 $(document).ready(function ($) {
   $('#addPatient').submit(function (e) {
     e.preventDefault();
@@ -220,7 +191,6 @@ $(document).ready(function ($) {
     let name = $("input#patientName").val();
     let mobile = $("input#patientPhone").val();
     let by = $("input#patientBy").val();
-
     if (mrid == "" || name == "" || mobile == "" || by == "") {
       $("#err-msg").fadeIn().text("Required Field.");
       $("input#patientMrId").focus();
@@ -229,13 +199,11 @@ $(document).ready(function ($) {
       $("input#patientBy").focus();
       return false;
     }
-    // ajax
     $.ajax({
       type: "POST",
       url: "backend_components/slip_handler.php?q=ADD_PATIENT",
       data: $(this).serialize(), // get all form field value in serialize form
       success: function (res) {
-
         //parse json
         res = JSON.parse(res);
         console.log(res);
@@ -250,7 +218,6 @@ $(document).ready(function ($) {
             icon: res.status,
             title: res.message
           });
-          // printSlip(res.data['id'], res.data['type']);
           autoRefresh();
         });
       }

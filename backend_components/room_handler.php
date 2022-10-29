@@ -7,7 +7,6 @@
     $val = (isset($_GET['val']) ? $_GET['val'] : '');
     // Connection File
     include "connection.php";
-
     // Add Room Query
     if($q == 'ADD_ROOM') {
         $uid =  mysqli_real_escape_string($db, $_POST['uuId']);
@@ -17,7 +16,6 @@
 
         $sql = "SELECT * FROM `me_room` WHERE `ROOM_NAME` = ?";
         $stmt = mysqli_stmt_init($db);
-          
         if (!mysqli_stmt_prepare($stmt,$sql)) {
             echo "Error: " . $sql . "" . mysqli_error($stmt);
         }else{
@@ -25,28 +23,26 @@
             mysqli_stmt_execute($stmt);
             mysqli_stmt_store_result($stmt);
             $resultCheck = mysqli_stmt_num_rows($stmt);
-                
                 if ($resultCheck > 0) {
                     echo "name already taken!";
                 }else{
-                        $sql = "INSERT INTO `me_room`(`ROOM_UUID`, `ROOM_NAME`, `ROOM_RATE`, `STAFF_ID`) VALUES (?,?,?,?)";
+                    $sql = "INSERT INTO `me_room`(`ROOM_UUID`, `ROOM_NAME`, `ROOM_RATE`, `STAFF_ID`) VALUES (?,?,?,?)";
+                    mysqli_stmt_execute($stmt);
+                
+                    if (!mysqli_stmt_prepare($stmt,$sql)) {
+                        echo "Error: " . $sql . "" . mysqli_error($stmt);
+                    }else{
+                        mysqli_stmt_bind_param($stmt,"ssss",$uid,$name,$rate,$by);
                         mysqli_stmt_execute($stmt);
-                    
-                        if (!mysqli_stmt_prepare($stmt,$sql)) {
-                            echo "Error: " . $sql . "" . mysqli_error($stmt);
-                        }else{
-                            mysqli_stmt_bind_param($stmt,"ssss",$uid,$name,$rate,$by);
-                            mysqli_stmt_execute($stmt);
-                            echo "New Room Saved Successfully";
-                        }			
-                    }
+                        echo "New Room Saved Successfully";
+                    }			
+                }
             }
         mysqli_stmt_close($stmt);
         mysqli_close($db);
 
     }
-
-    // Room Status Update
+    // Update Room Status
     if ($q == 'STATUS_ROOM') {
         if(mysqli_query($db, "UPDATE `me_room` SET `ROOM_STATUS`= '$val' WHERE `ROOM_UUID` = '$id'")) {
             echo 'Room Status Updated Successfully';
@@ -54,8 +50,7 @@
             echo "Error: " . $sql . "" . mysqli_error($db);
         }
     }
-
-    // Update Medeast User Query
+    // Edit Room Query
     if ($q == 'EDIT_ROOM') {
         $uuid = mysqli_real_escape_string($db, $_POST['uuid']);
         $name = mysqli_real_escape_string($db, $_POST['roomName']);
@@ -68,20 +63,16 @@
             echo "Error: " . $sql . "" . mysqli_error($db);
         }	
     }
-
-    // Medeast Delete Query
+    // Delete Room Query
     if($q == 'DELETE_ROOM') {
         if(mysqli_query($db, "DELETE FROM `me_room` WHERE `ROOM_UUID` ='$id'")) {
-            // echo 'User Deleted Successfully';
             echo '<script>window.location = "../room.php?action=deleted";</script>';
         } else {
             echo "Error: " . $sql . "" . mysqli_error($db);
         }
     }
-
-    // Get Medeast Room by Id
-    if ($q == 'GET-ROOM-BY-ID') { 
-
+    // Get Room by Id
+    if ($q == 'GET_ROOM_BY_ID') { 
         $user = "SELECT * FROM `me_room` WHERE `ROOM_UUID` = '$id'";
         $result = mysqli_query($db, $user) or die (mysqli_error($db));
         $resultCheck = mysqli_num_rows($result);
@@ -124,10 +115,8 @@
             }
         }
     }
-
-    // Edit Medeast User by Id
-    if ($q == 'EDIT-ROOM-BY-ID') { 
-    
+    // Edit Room by Id
+    if ($q == 'EDIT_ROOM_BY_ID') { 
         $user = "SELECT * FROM `me_room` WHERE `ROOM_UUID` = '$id'";
         $result = mysqli_query($db, $user) or die (mysqli_error($db));
             $resultCheck = mysqli_num_rows($result);

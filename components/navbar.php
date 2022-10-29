@@ -93,8 +93,9 @@
           </li>
           <!-- Menu Footer-->
           <li class="user-footer">
-           <?php if (isset($_SESSION['uuid'])) echo '<a href="view_user.php?id='.$_SESSION['uuid'].'" class="btn btn-default btn-flat">Profile</a>'; ?>
-            <button type="button" class="btn btn-default btn-flat float-right" data-toggle="modal" data-target="#modal-sm">Logout</button>
+           <?php if (isset($_SESSION['uuid'])) 
+           echo '<a href="javascript:void(0);" class="btn btn-default btn-flat" onclick="getUser(this);" data-uuid="'.$_SESSION["uuid"].'" data-toggle="modal" data-target="#view-user">Profile</a>'; ?>
+            <button type="button" class="btn btn-default btn-flat float-right" onclick="logOut()">Logout</button>
           </li>
         </ul>
       </li>
@@ -131,15 +132,15 @@
              Users <span class="float-right text-muted text-sm"><i class="fas fa-users"></i></span>
           </a>
           <div class="dropdown-divider"></div>
-          <a href="add_user.php?id=<?php echo $_SESSION['uuid']; ?>" class="dropdown-item">
+          <a href="javascript:void(0);" class="dropdown-item" onclick="editUser(this);" data-uuid="<?php echo $_SESSION['uuid']; ?>" data-toggle="modal" data-target="#edit-user">
              Edit Profile <span class="float-right text-muted text-sm"><i class="fas fa-user-edit"></i></span>
           </a>
           <div class="dropdown-divider"></div>
-          <a href="change_password.php" class="dropdown-item">
-             Change Password <span class="float-right text-muted text-sm"><i class="fas fa-unlock-alt"></i></span>
+          <a href="javascript:void(0);" class="dropdown-item" onclick="getUuid(this);" data-uuid="<?php echo $_SESSION['uuid']; ?>" data-toggle="modal" data-target="#pass-user">
+            Change Password <span class="float-right text-muted text-sm"><i class="fas fa-unlock-alt"></i></span>
           </a>
           <div class="dropdown-divider"></div>
-          <a type="button" class="dropdown-item" data-toggle="modal" data-target="#modal-sm">
+          <a type="button" class="dropdown-item" onclick="logOut()">
              Logout <span class="float-right text-muted text-sm"><i class="fas fa-sign-out-alt"></i></span>
           </a>                
         </div>

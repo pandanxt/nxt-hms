@@ -1,6 +1,5 @@
 // let currentDT = new Date().toLocaleString().replace(',', '');
 if (document.getElementById('inputDT')) { document.getElementById('inputDT').value = currentDT; }
-
 // Display Clock in AM/PM on Slip Page   
 function display_ct7() {
   let x = new Date();
@@ -26,10 +25,8 @@ function display_c7() {
   myTime = setTimeout('display_ct7()', 1000) // Refresh rate in milli seconds
 }
 display_c7(); // Clock Function Call
-
 // Reset Model Data
 function setPopModel() { document.getElementById("editBody").innerHTML = ""; }
-
 // Slip Type and Subtype Model Popup Function 
 $(function () {
   $('#select').hide();
@@ -43,7 +40,6 @@ $(function () {
     }
   });
 });
-
 // Slip Type and Subtype Model Popup Function for Patient table
 $(function () {
   $('#patSelect').hide();
@@ -57,7 +53,6 @@ $(function () {
     }
   });
 });
-
 // Switch Doctor List 
 function switchDocList(e) {
   let addDoc = document.getElementById("addDoc");
@@ -77,7 +72,6 @@ function switchDocList(e) {
   xmlhttp.open("GET", `backend_components/slip_handler.php?q=GET_DOCTOR&id=${list}`, true);
   xmlhttp.send();
 }
-
 // Dept Change Request for Regular Doctor
 function showDoctor(str) {
   if (str == "" || list == "" || list == "vt") { return; }
@@ -90,7 +84,6 @@ function showDoctor(str) {
   xmlhttp.open("GET", `backend_components/slip_handler.php?q=GET_DOCTOR_BY_DEPT&id=${list}&val=${str}`, true);
   xmlhttp.send();
 }
-
 // Update Request for visiting Doctor 
 function updateDoctor() {
   let visitId = document.getElementById("doctor");
@@ -103,7 +96,6 @@ function updateDoctor() {
   xmlhttp.open("GET", `backend_components/slip_handler.php?q=GET_DOCTOR&id=${list}`, true);
   xmlhttp.send();
 }
-
 // Ajax Call for Adding New Visiting Doctor 
 $(document).ready(function ($) {
   $('#visitorDoctor').submit(function (e) {
@@ -141,19 +133,16 @@ $(document).ready(function ($) {
   });
   return false;
 });
-
 // Slip Print Function
 function printSlip(id, type) {
   location.href = `slip_print.php?type=${type}&sid=${id}`
 }
-
 // Slip Print Function
 function printSlipRecord(sid) {
   let id = sid.getAttribute("data-uuid");
   let type = sid.getAttribute("data-type");
   printSlip(id, type);
 }
-
 // Edit Slip Model View
 function editSlip(str) {
   console.log("clicked Id: ", str.getAttribute("data-uuid"), str.getAttribute("data-type"), str.getAttribute("data-subtype"));
@@ -170,7 +159,6 @@ function editSlip(str) {
   xmlhttp.open("GET", `backend_components/slip_handler.php?q=EDIT-SLIP-BY-ID&id=${uuid}&val=${type}`, true);
   xmlhttp.send();
 }
-
 // Ajax Call for Editing Patient Slip Query
 $(document).ready(function ($) {
   // on submit...
@@ -229,7 +217,6 @@ $(document).ready(function ($) {
   });
   return false;
 });
-
 // Soft Delete Slip Record
 function softDeleteSlip(soft) {
   let delId = soft.getAttribute("data-uuid");
@@ -262,7 +249,6 @@ function softDeleteSlip(soft) {
     return;
   }
 }
-
 // Delete Slip Record
 function deleteSlip(str) {
   let delId = str.getAttribute("data-uuid");
@@ -294,7 +280,6 @@ function deleteSlip(str) {
     return;
   }
 }
-
 // History Slip Record
 function viewHistory(str) {
   let uuid = str.getAttribute("data-uuid");
@@ -305,16 +290,13 @@ function viewHistory(str) {
   xmlhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       document.getElementById("historyTable").innerHTML = this.responseText;
-      console.log("Response From Slip History: ", this.responseText);
     }
   }
   xmlhttp.open("GET", `backend_components/slip_handler.php?q=GET_SLIP_HISTORY&id=${uuid}&val=${type}`, true);
   xmlhttp.send();
 }
-
 // Get Slip Id to Assign to slipId Variable
 function getSlipId(id) { slipId = id.getAttribute("data-uuid"); }
-
 // Get Discount Function
 function serviceDiscount(discount) {
   let finalBill = document.getElementById('finalBill');
@@ -324,7 +306,6 @@ function serviceDiscount(discount) {
   serviceName = selected.getAttribute("data-name");
   console.log("this is the final result:", finalBill.value, serviceName);
 }
-
 // Onchange Enable Fields
 function serviceChange(service) {
   let discount = document.getElementById('discount');
@@ -333,7 +314,6 @@ function serviceChange(service) {
   finalBill.value = service.value - discount.value;
   console.log("this is the final result:", finalBill.value);
 }
-
 // Ajax Call for Adding New FollowUp Slip 
 $(document).ready(function ($) {
   $('#ADD_FOLLOW_UP_SLIP').submit(function (e) {
@@ -378,7 +358,6 @@ $(document).ready(function ($) {
   });
   return false;
 });
-
 // Ajax Call for Adding New Service Slip 
 $(document).ready(function ($) {
   $('#ADD_SERVICE_SLIP').submit(function (e) {
@@ -422,7 +401,6 @@ $(document).ready(function ($) {
   });
   return false;
 });
-
 // Delete Follow Up Slip Record
 function deleteFollowSlip(str) {
   let delId = str.getAttribute("data-uuid");
@@ -487,22 +465,223 @@ function deleteServiceSlip(str) {
     return;
   }
 }
-
 // Slip Print Function
 function printMiniSlip(id, type) {
   location.href = `other_slip_print.php?sid=${id}&type=${type}`
 }
-
 // Slip Print Function
 function printMiniSlipRecord(sid) {
   let id = sid.getAttribute("data-uuid");
   let type = sid.getAttribute("data-type");
   printMiniSlip(id, type);
 }
-
 // Auto Refresh Function 
 function autoRefresh() {
   setTimeout(() => {
     window.location = window.location.href;
   }, 1000);
 }
+
+// ****************************
+// LogIn & LogOut Request Functions
+// ****************************
+
+// Ajax Call for Sending Login Request
+$(document).ready(function ($) {
+  $('#loginRequest').submit(function (e) {
+    e.preventDefault();
+    $("#err-msg").hide();
+    let username = $("input#username").val();
+    let password = $("input#password").val();
+
+    if (username == "" || password == "") {
+      $("#err-msg").fadeIn().text("Required Field.");
+      $("input#username").focus();
+      $("input#password").focus();
+      return false;
+    }
+    $.ajax({
+      type: "POST",
+      url: "backend_components/login_handler.php?q=LOGIN_REQUEST",
+      data: $(this).serialize(), // get all form field value in serialize form
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1000
+          });
+          Toast.fire({
+            icon: res.status,
+            title: res.message
+          });
+          if (res.status == 'success') {
+            setTimeout(() => {
+              window.location.href = "index.php";
+            }, 1000);
+          }
+        });
+      }
+    });
+  });
+  return false;
+});
+// Function Logout Request 
+function logOut() {
+  let checkConfirm = confirm('Are you sure? You want to logout!');
+  if (checkConfirm) {
+    $.ajax({
+      type: "POST",
+      url: "backend_components/login_handler.php?q=LOGOUT_REQUEST",
+      data: $(this).serialize(), // get all form field value in serialize form
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1000
+          });
+          Toast.fire({
+            icon: res.status,
+            title: res.message
+          });
+          if (res.status == 'success') {
+            setTimeout(() => {
+              window.location.href = "login.php";
+            }, 1000);
+          }
+        });
+      }
+    });
+  } else { return; }
+
+}
+
+// ****************************
+// Logged In User Functions
+// ****************************
+
+// Get UUID
+let passUuid = "";
+function getUuid(str) { passUuid = str.getAttribute("data-uuid"); }
+// Edit User Query
+$(document).ready(function ($) {
+  $('#editUser').submit(function (e) {
+    e.preventDefault();
+    $("#err-msg").hide();
+    var name = $("input#username").val();
+    var email = $("input#useremail").val();
+    var userId = $("input#userid").val();
+    if (name == "" || email == "" || userId == "") {
+      $("#err-msg").fadeIn().text("Required Fields.");
+      $("input#username").focus();
+      $("input#useremail").focus();
+      $("input#userid").focus();
+      return false;
+    }
+    $.ajax({
+      type: "POST",
+      url: "backend_components/user_handler.php?q=EDIT_USER",
+      data: $(this).serialize(), // get all form field value in serialize form
+      success: function () {
+        let el = document.querySelector("#close-button");
+        el.click();
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1000
+          });
+          Toast.fire({
+            icon: 'success',
+            title: 'User Updated Successfully.'
+          });
+          autoRefresh();
+        });
+      }
+    });
+  });
+  return false;
+});
+// Update Password Query
+$(document).ready(function ($) {
+  $('#passUser').submit(function (e) {
+    e.preventDefault();
+    $("#err-msg").hide();
+    var password = $("input#userpassword").val();
+    if (password == "") {
+      $("#err-msg").fadeIn().text("Required Fields.");
+      $("input#userpassword").focus();
+      return false;
+    }
+    $.ajax({
+      type: "POST",
+      url: `backend_components/user_handler.php?q=UPDATE_PASSWORD&id=${passUuid}`,
+      data: $(this).serialize(), // get all form field value in serialize form
+      success: function () {
+        let el = document.querySelector("#close-button");
+        el.click();
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1000
+          });
+          Toast.fire({
+            icon: 'success',
+            title: 'Password Updated Successfully.'
+          });
+          autoRefresh();
+        });
+      }
+    });
+  });
+  return false;
+});
+// Get User By Id Query
+function getUser(str) {
+  let uuid = str.getAttribute("data-uuid");
+  if (uuid == "") { return; }
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("viewUser").innerHTML = this.responseText;
+    }
+  }
+  xmlHttp.open("GET", `backend_components/user_handler.php?q=GET_USER_BY_ID&id=${uuid}`, true);
+  xmlHttp.send();
+}
+// Edit User By Id Query
+function editUser(str) {
+  let uuid = str.getAttribute("data-uuid");
+  if (uuid == "") { return; }
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("editForm").innerHTML = this.responseText;
+    }
+  }
+  xmlHttp.open("GET", `backend_components/user_handler.php?q=EDIT_USER_BY_ID&id=${uuid}`, true);
+  xmlHttp.send();
+}
+// Get User By Id Query
+function editPass(str) {
+  let uuid = str.getAttribute("data-uuid");
+  if (uuid == "") { return; }
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("viewUser").innerHTML = this.responseText;
+    }
+  }
+  xmlHttp.open("GET", `backend_components/user_handler.php?q=GET_USER_BY_ID&id=${uuid}`, true);
+  xmlHttp.send();
+} 

@@ -7,9 +7,7 @@
   $q = (isset($_GET['q']) ? $_GET['q'] : '');
   $id = (isset($_GET['id']) ? $_GET['id'] : '');
   $val = (isset($_GET['val']) ? $_GET['val'] : '');
-
-  //   Indoor Handler
-  // Save Patient Data Query
+  // Add Indoor Bill Query
   if ($q == 'ADD_INDOOR_BILL') {
     // Post Variables
     $billId = mysqli_real_escape_string($db, $_POST['billId']);
@@ -59,31 +57,24 @@
 
     $other6 = (!empty($_POST['other6'])) ? mysqli_real_escape_string($db, $_POST['other6']) : 0;
     $otherText6 = (!empty($_POST['otherText6'])) ? mysqli_real_escape_string($db, $_POST['otherText6']) : NULL;
-
     // Check Data from DB
     $sql = "SELECT * FROM `me_bill` WHERE `BILL_SLIP_UUID` = ?";
     $stmt = mysqli_stmt_init($db);
-          
     if (!mysqli_stmt_prepare($stmt,$sql)) {
-    
       $result = [];
       $result['status'] = "error";
       $result['message'] = "SQL Database Error!";
       echo json_encode($result);
       exit();
-    
     }else{
-    
       mysqli_stmt_bind_param($stmt,"s",$slipId);
       mysqli_stmt_execute($stmt);
       mysqli_stmt_store_result($stmt);
       $resultCheck = mysqli_stmt_num_rows($stmt);
-            
         if ($resultCheck > 0) {
-          
           $printQuery = "SELECT `BILL_UUID` FROM `me_bill` WHERE `BILL_SLIP_UUID` = '$slipId'";
-          $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
-          $pResult = mysqli_fetch_array($printsql);
+          $printSql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
+          $pResult = mysqli_fetch_array($printSql);
           $result = [];
           $result['status'] = "warning";
           $result['message'] = "Bill Data Already Exists!";
@@ -92,9 +83,7 @@
           $result['data']['type'] = "INDOOR_BILL";
           echo json_encode($result);
           exit();
-    
         }else if($resultCheck == 0){
-
           $sql = "INSERT INTO `me_bill`(
             `BILL_UUID`, 
             `BILL_MRID`, 
@@ -105,28 +94,20 @@
             `BILL_DISCOUNT`, 
             `BILL_TOTAL`, 
             `STAFF_ID`) VALUES (?,?,?,?,?,?,?,?,?)";
-
             mysqli_stmt_execute($stmt);
-            
             if (!mysqli_stmt_prepare($stmt,$sql)) {
-              
               $result = [];
               $result['status'] = "error";
               $result['message'] = "SQL Database Error!";
               echo json_encode($result);
               exit();
-            
             }else{
-              
               mysqli_stmt_bind_param($stmt, "sssssssss", $billId, $mrId, $slipId, $name, $phone, $totalBill, $discount, $finalBill, $staffId);
-                
               if (mysqli_stmt_execute($stmt)){
-
                 $dateQuery = "SELECT `SLIP_DATE_TIME` FROM `me_slip` WHERE `SLIP_UUID` = '$slipId'";
                 $dateSql = mysqli_query($db, $dateQuery) or die (mysqli_error($db));
                 $dResult = mysqli_fetch_array($dateSql);
                 $admissionDate = $dResult['SLIP_DATE_TIME'];
-                
                 $slipQuery = "INSERT INTO `me_indoor`(
                   `INDOOR_UUID`, 
                   `INDOOR_SLIP_UUID`, 
@@ -155,17 +136,13 @@
                   `OTHER_TEXT_5`, `OTHER_5`, 
                   `OTHER_TEXT_6`, `OTHER_6`
                 ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                    
                   if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
-                      
                     $result = [];
                     $result['status'] = "error";
                     $result['message'] = "SQL Database Error!";
                     echo json_encode($result);
                     exit();
-                  
                   }else{
-                    
                     mysqli_stmt_bind_param($stmt, "ssssssssssssssssssssssssssssssss", 
                     $billId, $slipId, $staffId, $admissionDate, 
                     $adCharge, $surCharge, $anesCharge,
@@ -176,9 +153,7 @@
                     $otherText1, $other1, $otherText2, $other2, 
                     $otherText3, $other3, $otherText4, $other4, $otherText5, 
                     $other5, $otherText6, $other6);
-                    
                     if (mysqli_stmt_execute($stmt)) {
-                      
                       // Update Status of the receipt
                       $updateSql ="UPDATE `me_slip` SET `SLIP_STATUS`= 0 WHERE `SLIP_UUID` = '$slipId'";
                       if($querySql = mysqli_query($db,$updateSql))
@@ -206,8 +181,7 @@
     mysqli_stmt_close($stmt);
     mysqli_close($db);
   }
-  //   Emergency Handler
-  // Save Patient Data Query
+  // Add Emergency Bill Query
   if ($q == 'ADD_EMERGENCY_BILL') {
     // Post Variables
     $billId = mysqli_real_escape_string($db, $_POST['billId']);
@@ -287,27 +261,21 @@
     // Check Data from DB
     $sql = "SELECT * FROM `me_bill` WHERE `BILL_SLIP_UUID` = ?";
     $stmt = mysqli_stmt_init($db);
-          
     if (!mysqli_stmt_prepare($stmt,$sql)) {
-    
       $result = [];
       $result['status'] = "error";
       $result['message'] = "SQL Database Error!";
       echo json_encode($result);
       exit();
-    
     }else{
-    
       mysqli_stmt_bind_param($stmt,"s",$slipId);
       mysqli_stmt_execute($stmt);
       mysqli_stmt_store_result($stmt);
       $resultCheck = mysqli_stmt_num_rows($stmt);
-            
         if ($resultCheck > 0) {
-          
           $printQuery = "SELECT `BILL_UUID` FROM `me_bill` WHERE `BILL_SLIP_UUID` = '$slipId'";
-          $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
-          $pResult = mysqli_fetch_array($printsql);
+          $printSql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
+          $pResult = mysqli_fetch_array($printSql);
           $result = [];
           $result['status'] = "warning";
           $result['message'] = "Bill Data Already Exists!";
@@ -316,9 +284,7 @@
           $result['data']['type'] = "EMERGENCY_BILL";
           echo json_encode($result);
           exit();
-    
         }else if($resultCheck == 0){
-
           $sql = "INSERT INTO `me_bill`(
             `BILL_UUID`, 
             `BILL_MRID`, 
@@ -329,23 +295,16 @@
             `BILL_DISCOUNT`, 
             `BILL_TOTAL`, 
             `STAFF_ID`) VALUES (?,?,?,?,?,?,?,?,?)";
-
             mysqli_stmt_execute($stmt);
-            
             if (!mysqli_stmt_prepare($stmt,$sql)) {
-              
               $result = [];
               $result['status'] = "error";
               $result['message'] = "SQL Database Error!";
               echo json_encode($result);
               exit();
-            
             }else{
-              
               mysqli_stmt_bind_param($stmt, "sssssssss", $billId, $mrId, $slipId, $name, $phone, $totalBill, $discount, $finalBill, $staffId);
-                
               if (mysqli_stmt_execute($stmt)){
-                
                 $slipQuery = "INSERT INTO `me_emergency`(
                   `EMERGENCY_UUID`,`EMERGENCY_SLIP_UUID`,`STAFF_ID`,`ES_MO_FEE`,`INJECTION_IM`, 
                   `INJECTION_IV`,`DRIP`,`DRIP_VENOFER`,`INFUSION_ANTIBIOTIC`, 
@@ -361,17 +320,13 @@
                   `OTHER_TEXT_9`,`OTHER_9`,`OTHER_TEXT_10`,`OTHER_10`,
                   `OTHER_TEXT_11`,`OTHER_11`,`OTHER_TEXT_12`,`OTHER_12`
                 ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                    
                   if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
-                      
                     $result = [];
                     $result['status'] = "error";
                     $result['message'] = "SQL Database Error!";
                     echo json_encode($result);
                     exit();
-                  
                   }else{
-                    
                     mysqli_stmt_bind_param($stmt, "ssssssssssssssssssssssssssssssssssssssssssssssssssss", 
                     $billId, $slipId, $staffId, $moCharge, $injectionIM, $injectionIV, 
                     $drip, $venofar, $infusionAntibiotic, $ivLine, $dressing, 
@@ -383,28 +338,18 @@
                     $other5, $otherText6, $other6, $otherText7, $other7, 
                     $otherText8, $other8, $otherText9, $other9, $otherText10, 
                     $other10, $otherText11, $other11, $otherText12, $other12);
-                    
                     if (mysqli_stmt_execute($stmt)) {
-                      
                       // Update Status of the receipt
                       $updateSql ="UPDATE `me_slip` SET `SLIP_STATUS`= 0 WHERE `SLIP_UUID` = '$slipId'";
                       if($querySql = mysqli_query($db,$updateSql))
                       {
-
-                        // $printQuery = "SELECT `BILL_UUID` FROM `me_bill` WHERE `BILL_UUID` = '$billId'";
-                        // $printsql = mysqli_query($db, $printQuery) or die (mysqli_error($db));
-                        // $pResult = mysqli_fetch_array($printsql);
-                        
-                        // if ($pResult > 0) {
-                          $result = [];
-                          $result['status'] = "success";
-                          $result['message'] = "Patient bill against slip created successfully.";
-                          $result['data'] = [];
-                          $result['data']['id'] = $billId;
-                          $result['data']['type'] = "EMERGENCY_BILL";
-                          echo json_encode($result);
-                        // }
-
+                        $result = [];
+                        $result['status'] = "success";
+                        $result['message'] = "Patient bill against slip created successfully.";
+                        $result['data'] = [];
+                        $result['data']['id'] = $billId;
+                        $result['data']['type'] = "EMERGENCY_BILL";
+                        echo json_encode($result);
                       }else{
                         $result = [];
                         $result['status'] = "error";
@@ -421,17 +366,17 @@
     mysqli_stmt_close($stmt);
     mysqli_close($db);
   }
-// Delete Patient Data Query
-if($q == 'DELETE_BILL') {
-  if(mysqli_query($db, "DELETE FROM `me_bill` WHERE `BILL_UUID` ='$id'")) {
-     // Update Status of the receipt
-     $updateSql ="UPDATE `me_slip` SET `SLIP_STATUS`= 1 WHERE `SLIP_UUID` = '$val'";
-     if($querySql = mysqli_query($db,$updateSql))
-     {
-      echo 'Form Has been submitted successfully';
-     }
-  } else {
-      echo "Error: " . $sql . "" . mysqli_error($db);
-  }
-}  
+  // Delete Bill Query
+  if($q == 'DELETE_BILL') {
+    if(mysqli_query($db, "DELETE FROM `me_bill` WHERE `BILL_UUID` ='$id'")) {
+      // Update Status of the receipt
+      $updateSql ="UPDATE `me_slip` SET `SLIP_STATUS`= 1 WHERE `SLIP_UUID` = '$val'";
+      if($querySql = mysqli_query($db,$updateSql))
+      {
+        echo 'Form Has been submitted successfully';
+      }
+    } else {
+        echo "Error: " . $sql . "" . mysqli_error($db);
+    }
+  }  
   ?>

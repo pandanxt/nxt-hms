@@ -32,10 +32,9 @@
             <img style="width:12rem;" src="dist/img/medeast-logo-main.png" alt="Medeast Logo">
     </div>
     <div class="card-body">
-
-      <form action="backend_components/login_handler.php" method="post">
+      <form action="javascript:void(0)" method="post" enctype="multipart/form-data" id="loginRequest">
         <div class="input-group mb-3">
-          <input type="text" name="username" class="form-control" placeholder="Username" required>
+          <input type="text" name="username" id="username" class="form-control" placeholder="Username" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -43,7 +42,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" name="password" class="form-control" placeholder="Password" required>
+          <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -61,7 +60,7 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button name="login" type="submit" class="btn btn-primary btn-block">Sign In</button>
+            <button type="submit" name="submit" class="btn btn-block btn-primary">Sign In</button>
           </div>
           <!-- /.col -->
         </div>
@@ -87,49 +86,5 @@
 <script src="dist/js/medeast.js"></script>
 <!-- SweetAlert2 -->
 <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
-<script>  
-  const urlParams = new URLSearchParams(window.location.search);
-  var action = urlParams.get('error');
-
-  $(function() {
-    var Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000
-    });
-
-    if (action == "nouser") {
-      Toast.fire({
-        icon: 'warning',
-        title: 'No User Exists.'
-      })
-    }
-    if (action == "wrongpwd") {
-      Toast.fire({
-        icon: 'error',
-        title: 'You Entered Wrong Password.'
-      })
-    }    
-    if (action == "sqlerror") {
-      Toast.fire({
-        icon: 'error',
-        title: 'Something Went Wrong. Try Again!'
-      })
-    }
-    if (action == "emptyfields") {
-      Toast.fire({
-        icon: 'warning',
-        title: 'Some Fields are Empty!'
-      })
-    }       
-    if (action == "logout") {
-      Toast.fire({
-        icon: 'success',
-        title: 'Successfully Logged Out!'
-      })
-    }           
-  });
-</script>
 </body>
 </html>

@@ -39,43 +39,6 @@
     });
   });
 
-  const urlParams = new URLSearchParams(window.location.search);
-  var action = urlParams.get('action');
-
-  $(function() {
-    var Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000
-    });
-
-    if (action == "saved") {
-      Toast.fire({
-        icon: 'success',
-        title: 'Data Successfully Saved.'
-      })
-    }
-    if (action == "updated") {
-      Toast.fire({
-        icon: 'success',
-        title: 'Data Successfully Updated.'
-      })
-    }    
-    if (action == "deleted") {
-      Toast.fire({
-        icon: 'success',
-        title: 'Data Successfully Deleted.'
-      })
-    }
-    if (action == "error") {
-      Toast.fire({
-        icon: 'error',
-        title: 'Something Went Wrong. Try Again!'
-      })
-    }           
-  });
-
   $(function () {
     $('.select2').select2()
   });

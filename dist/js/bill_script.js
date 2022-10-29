@@ -2,8 +2,6 @@
 let uuid = (new Date()).getTime() + Math.trunc(365 * Math.random());
 let today = new Date().toLocaleDateString();
 let unique_id = today.length = 7 ? `${String(uuid).slice(-4)}-${today.replaceAll('/', '')}` : `${String(uuid).slice(-3)}-${today.replaceAll('/', '')}`;
-console.log("Patient MRID: ", unique_id);
-
 if (document.getElementById("billId")) { document.getElementById("billId").value = `BID${unique_id}`; }
 //Get Surgery Total       
 function genSurgeryTotal() {
@@ -30,7 +28,6 @@ function genSurgeryTotal() {
 
   let totalBill = +adCharge + +surCharge + +anesCharge + +opCharge + +chargeLR + +pedCharge + +prCharge + +nurCharge + +nurStCharge + +moCharge + +conCharge + +ctg + +rrCharge + +other1 + +other2 + +other3 + +other4 + +other5 + +other6;
   document.getElementById("totalBill").value = totalBill;
-  console.log("this is the total result:", totalBill);
 }
 // Get General illness Total
 function genIllnessTotal() {
@@ -50,21 +47,18 @@ function genIllnessTotal() {
 
   let totalBill = +prCharge + +moCharge + +monCharge + +oxCharge + +nurCharge + +conCharge + +other1 + +other2 + +other3 + +other4 + +other5 + +other6;
   document.getElementById("totalBill").value = totalBill;
-  console.log("this is the total result:", totalBill);
 }
 // Get Fee Function
 function feeFunction(fee) {
   let finalBill = document.getElementById('finalBill');
   let discount = document.getElementById('discount');
   finalBill.value = fee.value - discount.value;
-  console.log("this is the final result:", finalBill.value);
 }
 // Get Fee
 function getFee(fee) {
   let finalBill = document.getElementById('finalBill');
   let discount = document.getElementById('discount');
   finalBill.value = fee.value - discount.value;
-  console.log("this is the final result:", finalBill.value);
 }
 // Get Monitor Total
 function getMonTotal() {
@@ -96,7 +90,6 @@ function getConCharge(charge) {
   let conChargeTwo = document.getElementById('conChargeTwo');
   let conCharge = document.getElementById('conCharge');
   conCharge.value = charge.value * conChargeTwo.value;
-  console.log("this is the final result:", conCharge.value);
 }
 // Get Medical Officer Total
 function getMoTotal() {
@@ -113,7 +106,6 @@ function getStitchOutTotal() {
   let stitchOut = document.getElementById("stitchOut").value;
   document.getElementById("stitchOutTotal").value = stitchOut * 150;
 }
-
 // Emergency Calculate Total Script
 function calculateEmergencyTotal() {
   let moCharge = document.getElementById("moCharge").value;
@@ -159,47 +151,34 @@ function calculateEmergencyTotal() {
 
   let totalBill = +moCharge + +injectionIM + +injectionIV + +ivLine + +infusionAntibiotic + +stitchInTotal + +stitchOutTotal + +bsf + +shortStay + +bp + +ecg + +drip + +venofar + +stomachWash + +foleyCath + +ctg + +dressing + +nebulization + +monChargeTwo + +enema + +bloodTransfusion + +ett + +ascitic + +pleuralFuid + +lumberPuncture + +other1 + +other2 + +other3 + +other4 + +other5 + +other6 + +other7 + +other8 + +other9 + +other10 + +other11 + +other12;
   document.getElementById("totalBill").value = totalBill;
-  console.log("this is the total result:", totalBill);
 }
 // Get genFinal Discount Function
 function genDiscFunction(discount) {
   let finalBill = document.getElementById('genFinalBill');
   let totalBill = document.getElementById('totalBill');
   finalBill.value = totalBill.value - discount.value;
-  console.log("this is the final result:", finalBill.value);
 }
-
 // Get eyeFinal Discount Function
 function eyeDiscFunction(discount) {
   let finalBill = document.getElementById('eyeFinalBill');
   let totalBill = document.getElementById('totalBill');
   finalBill.value = totalBill.value - discount.value;
-  console.log("this is the final result:", finalBill.value);
 }
-
 // Get emrFinal Discount Function
 function emrDiscFunction(discount) {
   let finalBill = document.getElementById('emrFinalBill');
   let totalBill = document.getElementById('totalBill');
   finalBill.value = totalBill.value - discount.value;
-  console.log("this is the final result:", finalBill.value);
 }
-// genFinalBill   eyeFinalBill  emrFinalBill
 // ADD EMERGENCY BILL AJAX CALL
 $(document).ready(function ($) {
-  // on submit...
   $('#addEmergencyBill').submit(function (e) {
     e.preventDefault();
     $("#err-msg").hide();
-    //slipId required
     let slipId = $("input#slipId").val();
-    //billId required
     let billId = $("input#billId").val();
-    //mrId required
     let mrId = $("input#mrId").val();
-    //name required
     let name = $("input#name").val();
-    //phone required
     let phone = $("input#phone").val();
     if (name == "" || slipId == "" || phone == "" || mrId == "" || billId == "") {
       $("#err-msg").fadeIn().text("Required Field.");
@@ -210,13 +189,11 @@ $(document).ready(function ($) {
       $("input#phone").focus();
       return false;
     }
-    // ajax
     $.ajax({
       type: "POST",
       url: "backend_components/bill_handler.php?q=ADD_EMERGENCY_BILL",
       data: $(this).serialize(), // get all form field value in serialize form
       success: function (res) {
-        //parse json
         res = JSON.parse(res);
         console.log(res);
         $(function () {
@@ -231,29 +208,21 @@ $(document).ready(function ($) {
             title: res.message
           });
           printBill(res.data['id'], res.data['type']);
-          // autoRefresh();
         });
       }
     });
   });
   return false;
 });
-
 // ADD INDOOR BILL AJAX CALL
 $(document).ready(function ($) {
-  // on submit...
   $('#addIndoorBill').submit(function (e) {
     e.preventDefault();
     $("#err-msg").hide();
-    //slipId required
     let slipId = $("input#slipId").val();
-    //billId required
     let billId = $("input#billId").val();
-    //mrId required
     let mrId = $("input#mrId").val();
-    //name required
     let name = $("input#name").val();
-    //phone required
     let phone = $("input#phone").val();
     if (name == "" || slipId == "" || phone == "" || mrId == "" || billId == "") {
       $("#err-msg").fadeIn().text("Required Field.");
@@ -264,13 +233,11 @@ $(document).ready(function ($) {
       $("input#phone").focus();
       return false;
     }
-    // ajax
     $.ajax({
       type: "POST",
       url: "backend_components/bill_handler.php?q=ADD_INDOOR_BILL",
       data: $(this).serialize(), // get all form field value in serialize form
       success: function (res) {
-        //parse json
         res = JSON.parse(res);
         console.log(res);
         $(function () {
@@ -285,23 +252,19 @@ $(document).ready(function ($) {
             title: res.message
           });
           printBill(res.data['id'], res.data['type']);
-          // autoRefresh();
         });
       }
     });
   });
   return false;
 });
-
 // Delete Bill Record
 function deleteBill(str) {
   let billId = str.getAttribute("data-billId");
   let slipId = str.getAttribute("data-slipId");
   if (billId == "" || slipId == "") { return; }
-
   let checkConfirm = confirm('Please confirm deletion');
   if (checkConfirm) {
-    // ajax
     $.ajax({
       type: "POST",
       url: `backend_components/bill_handler.php?q=DELETE_BILL&id=${billId}&val=${slipId}`,
@@ -321,11 +284,8 @@ function deleteBill(str) {
         });
       }
     });
-  } else {
-    return;
-  }
+  } else { return; }
 }
-
 // Bill Print Function
 function printBill(id, type) {
   if (type == 'EMERGENCY_BILL') { location.href = `emergency_bill_print.php?sid=${id}` }
