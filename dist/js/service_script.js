@@ -151,7 +151,7 @@ function editService(str) {
   var xmlHttp = new XMLHttpRequest();
   xmlHttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("editForm").innerHTML = this.responseText;
+      document.getElementById("editServiceForm").innerHTML = this.responseText;
     }
   }
   xmlHttp.open("GET", `backend_components/service_handler.php?q=EDIT_SERVICE_BY_ID&id=${uuid}`, true);

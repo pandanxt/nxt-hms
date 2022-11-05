@@ -4,7 +4,8 @@
   $id = (isset($_GET['id']) ? $_GET['id'] : '');
   if (isset($_SESSION['uuid'])) {
   include('backend_components/connection.php');
-  include('components/table_header.php');
+  // File Header
+  include('components/file_header.php');
   include('components/navbar.php');
   include('components/sidebar.php');
 
@@ -231,9 +232,8 @@
   // Footer File
   include_once('components/footer.php');
   echo '</div>';
-  // Table Script File
-  include('components/table_script.php');
-
+  // REQUIRED SCRIPTS 
+  include('components/file_footer.php');
 }else{
   echo '<script type="text/javascript">window.location = "login.php";</script>';
 }

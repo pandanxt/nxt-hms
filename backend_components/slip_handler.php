@@ -513,7 +513,6 @@
         $result = mysqli_query($db, $history) or die (mysqli_error($db));
         echo "<thead>
         <tr style='font-size: 12px;'>
-          <th>No#</th>
           <th>Name/Mobile</th>";
           if ($val != 'EMERGENCY') {echo "<th>Department/Doctor</th>";}else {echo "<th>Doctor</th>";}
           if ($val == 'OUTDOOR') {echo "<th>Fee</th>";}else if ($val == 'INDOOR') {echo "<th>Procedure</th>";}
@@ -523,7 +522,6 @@
         <tbody>";
         while ($row = mysqli_fetch_array($result)) {
             echo "<tr style='font-size: 12px;'>
-            <td>$row[SLIP_ID]</td>
             <td>$row[SLIP_NAME]</br>$row[SLIP_MOBILE]</td>";
             if($val != 'EMERGENCY'){echo"<td>$row[DEPARTMENT_NAME]</br>$row[DOCTOR_NAME]</td>";}else{echo"<td>$row[DOCTOR_NAME]</td>";}
             if($val == 'OUTDOOR'){echo "<td>$row[SLIP_FEE]</td>";}else if($val == 'INDOOR'){echo "<td>$row[SLIP_PROCEDURE]</td>";}

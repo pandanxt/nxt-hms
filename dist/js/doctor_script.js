@@ -177,7 +177,7 @@ function editDoctor(str) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("editForm").innerHTML = this.responseText;
+            document.getElementById("editMeForm").innerHTML = this.responseText;
         }
     }
     xmlHttp.open("GET", `backend_components/doctor_handler.php?q=EDIT_DOCTOR_BY_ID&id=${uuid}`, true);

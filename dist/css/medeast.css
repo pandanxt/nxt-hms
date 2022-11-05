@@ -1,0 +1,429 @@
+/* TODO: optimize */
+body
+{
+   margin: 0px;
+   padding: 0px;
+}
+.receipt {
+   padding: 3mm;
+   width: 80mm;
+   border: 1px solid black;
+}
+.brandFooter {
+ width: 50%;
+ text-align: right;
+ padding-bottom: 1mm;
+ font-size: 3mm;
+ font-weight: bold;
+}
+.staffFooter {
+ width: 50%;
+ text-align: left;
+ padding-bottom: 1mm;
+ font-size: 3mm;
+ font-weight: bold;
+}
+.orderNo {
+ width: 100%;
+ text-align: right;
+ padding-bottom: 1mm;
+ font-size: 15pt;
+ font-weight: bolder;
+}
+
+.orderNo:empty {
+ display: none;
+}
+
+.headerSubTitle {
+ text-align: center;
+ font-size: 13pt;
+ font-weight: 600;
+}
+
+.headerTitle {
+ text-align: center;
+ font-size: 24pt;
+ font-weight: bold;
+}
+
+.titleLogo {
+ width: 100%;
+ margin: auto;
+}
+#location {
+ margin-top: 5pt;
+ text-align: center;
+ font-size: 16pt;
+ font-weight: bold;
+}
+
+#date {
+ margin: 0px;
+ text-align: center;
+ font-size: 3.5mm;
+ font-weight: 600;
+}
+
+#barcode {
+ display: block;
+ margin: 0px auto;
+}
+
+#barcode:empty {
+ display: none;
+}
+
+.watermark {
+ position: absolute;
+ top: 25mm;
+ width: 75mm;
+ opacity: 0.1;
+}
+
+.keepIt {
+ text-align: center;
+ font-size: 12pt;
+ font-weight: bold;
+}
+
+.keepItBody {
+ text-align: justify;
+ margin: 0px;
+ font-size: 3.5mm;
+ font-weight: 500;
+}
+
+.item {
+ margin-bottom: 1mm;
+}
+
+.itemRow {
+ display: flex;
+ font-size: 8pt;
+ align-items: baseline;
+}
+
+.itemRow > div {
+ align-items: baseline;
+}
+
+.itemName {
+ font-weight: bold;
+}
+
+.itemPrice {
+ text-align: right;
+ flex-grow: 1;
+}
+
+.itemColor {
+ width: 10px;
+ height: 100%;
+ background: yellow;
+ margin: 0px 2px;
+ padding: 0px;
+}
+
+.itemColor:before {
+ content: "\00a0";
+}
+
+.itemData2 {
+ text-align: right;
+ flex-grow: 1;
+}
+
+.itemData3 {
+ width: 15mm;
+ text-align: right;
+}
+
+.itemQuantity:before {
+ content: "x";
+}
+
+.itemTaxable:after {
+ content: " T";
+}
+
+.flex {
+ display: flex;
+ justify-content: center;
+}
+
+#qrcode {
+ align-self: center;
+ flex: 0 0 100px
+}
+
+.totals {
+ flex-grow: 1;
+ align-self: center;
+ font-size: 3mm;
+ font-weight: bolder;
+}
+
+.totals .row {
+ display: flex;
+ text-align: right;
+}
+
+.totals .section {
+ padding-top: 2mm;
+}
+
+.totalRow > div, .total > div {
+ text-align: right;
+ align-items: baseline;
+ font-size: 8pt;
+}
+
+.totals .col1 {
+ text-align: right;
+ flex-grow: 1;
+}
+
+.totals .col2 {
+  width: 58mm;
+  margin-top: 4px; 
+}
+
+.totals .col2:empty {
+ display: none;
+}
+
+.totals .col3 {
+ width: 15mm;
+ margin-right: 4mm;  
+}
+.nxt {
+ font-weight: bolder;
+ font-size: 4mm;
+}
+.footer {
+ overflow: hidden;
+ margin-top: 5mm;
+ border-radius: 7px;
+ width: 100%;
+ background: black;
+ color: white;
+ text-align: center;
+ font-weight: bold;
+ text-transform: uppercase;
+}
+
+.footer:empty {
+   display: none;
+}
+
+.eta {
+ padding: 1mm 0px;
+}
+
+.eta:empty {
+   display: none;
+}
+
+.eta:before {
+   content: "Estimated time order will be ready: ";
+ font-size: 8pt;
+ display: block;
+}
+
+.etaLabel {
+ font-size: 8pt;
+}
+
+.printType {
+ padding: 1mm 0px;
+ width: 100%;
+ background: grey;
+ color: white;
+ text-align: center;
+ font-weight: bold;
+ text-transform: uppercase;
+}
+
+.about {
+ font-size: 12pt;
+ overflow: hidden;
+ background: #FCEC52;
+ color: #3A5743;
+ border-radius: 7px;
+ padding: 0px;
+ position: absolute;
+ width: 500px;
+ text-align: center;
+ left: 50%;
+ margin-top: 50px;
+ margin-left: -250px;
+}
+
+.arrow_box h3, ul {
+ margin: 5px;
+}
+
+.about li {
+ text-align: left;
+}
+
+.arrow_box {
+   position: absolute;
+   background: #88b7d5;
+ padding: 5px;
+ margin-top: 20px;
+ left: 95mm;
+ top: 2;
+ width: 500px;
+   border: 4px solid #c2e1f5;
+}
+.arrow_box:after, .arrow_box:before {
+   right: 100%;
+   top: 50%;
+   border: solid transparent;
+   content: " ";
+   height: 0;
+   width: 0;
+   position: absolute;
+   pointer-events: none;
+}
+
+.arrow_box:after {
+   border-color: rgba(136, 183, 213, 0);
+   border-right-color: #88b7d5;
+   border-width: 30px;
+   margin-top: -30px;
+}
+.arrow_box:before {
+   border-color: rgba(194, 225, 245, 0);
+   border-right-color: #c2e1f5;
+   border-width: 36px;
+   margin-top: -36px;
+}
+.left-chars {
+ padding: 0rem !important;
+ width: 12ch !important;
+}
+.right-chars {
+ padding: 0rem !important;
+ font-size: 18px;
+ font-weight: 600;
+}
+.tab-key {
+ font-size: 15px;
+ font-weight: 500;
+}
+
+.table-custom {
+ font-size: 16px;
+ padding: 0rem !important;
+ margin-bottom: 0px;
+}
+
+/* --------------------------- */
+/* --------------------------- */
+/* --------------------------- */
+/* Input form styles */
+.text-field {
+  position: relative;
+  /* margin: 5px 2.5px 10px 2.5px; */
+}
+
+.label {
+  font-weight: normal !important;
+  color: #495057;
+  position: absolute;
+  pointer-events: none;
+  left: 25px;
+  top: 6px;
+  transition: 0.2s;
+}
+/* Input field */
+.input {
+  display: inline-block;
+  /* border: thin solid #fafafa;
+  border-bottom: solid medium #999; */
+  color: #444;
+  background-color: #fafafa;
+  padding: 10px 10px 10px 10px;
+  /* border-top-left-radius: 10px; */
+  /* border-top-right-radius: 10px; */
+}
+
+.input:focus {
+  border: thin solid #0056b3;
+  border-bottom: solid medium #0056b3;
+  background-color:#fff;
+}
+
+.input:focus ~ label, input:valid ~ label {
+  top: -10px;
+  left: 15px;
+  font-size: small;
+  color: #0056b3;
+  background-color:#fff !important;
+  padding:0 5px 0 5px;
+}
+
+  /* Rounded Switches CSS */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 15px;
+  top: 2px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ff0000;
+  -webkit-transition: .5s;
+  transition: .5s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 0px;
+  bottom: 0px;
+  background-color: white;
+  -webkit-transition: .5s;
+  transition: .5s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(15px);
+  -ms-transform: translateX(15px);
+  transform: translateX(15px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}

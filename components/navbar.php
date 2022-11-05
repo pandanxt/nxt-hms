@@ -41,7 +41,6 @@
         </a>
       </li>
     </ul> 
-      
     <!------Right Navbar Links------>
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->

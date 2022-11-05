@@ -7,7 +7,8 @@
   
   if (isset($_SESSION['uuid'])) {
     include('backend_components/connection.php'); 
-    include('components/form_header.php'); 
+    // File Header
+    include('components/file_header.php');
     include('components/navbar.php'); 
     include('components/sidebar.php'); 
 ?>
@@ -627,7 +628,8 @@
 <?php
  include('components/footer.php'); 
  echo '</div>';
- include('components/form_script.php'); 
+ // REQUIRED SCRIPTS 
+ include('components/file_footer.php'); 
 }else{
   echo '<script type="text/javascript">window.location = "login.php";</script>';
 }

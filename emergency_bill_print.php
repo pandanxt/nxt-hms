@@ -5,8 +5,8 @@ $sid = (isset($_GET['sid']) ? $_GET['sid'] : '');
 if (isset($_SESSION['uuid'])) {  
   // Connection File
   include('backend_components/connection.php');
-  // Form Header File
-  include('components/form_header.php');
+  // File Header
+  include('components/file_header.php');
   // Navbar File
   include('components/navbar.php');
   // Sidbar File
@@ -410,8 +410,8 @@ if (isset($_SESSION['uuid'])) {
     include('components/footer.php');
 
     echo '</div>';
-    // Form Script File
-    include('components/form_script.php');
+    // REQUIRED SCRIPTS 
+    include('components/file_footer.php');
 }else{
   echo '<script type="text/javascript">window.location = "login.php";</script>';
 } 

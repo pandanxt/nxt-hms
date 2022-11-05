@@ -26,7 +26,7 @@ function display_c7() {
 }
 display_c7(); // Clock Function Call
 // Reset Model Data
-function setPopModel() { document.getElementById("editBody").innerHTML = ""; }
+// function setPopModel() { document.getElementById("editBody").innerHTML = ""; }
 // Slip Type and Subtype Model Popup Function 
 $(function () {
   $('#select').hide();
@@ -50,6 +50,19 @@ $(function () {
     if (this.options[this.selectedIndex].value == 'INDOOR') {
       $('#patSelect').show();
       $('#patSubType').prop('required', true);
+    }
+  });
+});
+// Report Filter Model Popup Function 
+$(function () {
+  $('#dateRange').hide();
+  $('#reservation').prop('required', false);
+  $('#reportType').change(function () {
+    $('#dateRange').hide();
+    $('#reservation').prop('required', false);
+    if (this.options[this.selectedIndex].value == 'DATE_RANGE') {
+      $('#dateRange').show();
+      $('#reservation').prop('required', true);
     }
   });
 });
@@ -144,8 +157,8 @@ function printSlipRecord(sid) {
   printSlip(id, type);
 }
 // Edit Slip Model View
-function editSlip(str) {
-  console.log("clicked Id: ", str.getAttribute("data-uuid"), str.getAttribute("data-type"), str.getAttribute("data-subtype"));
+function editSlip(str) { 
+  console.log("clicked Id: ", str.getAttribute("data-uuid"), str.getAttribute("data-type"));
   let uuid = str.getAttribute("data-uuid");
   let type = str.getAttribute("data-type");
   if (uuid == "" || type == "") { return; }
@@ -153,10 +166,9 @@ function editSlip(str) {
   xmlhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       document.getElementById("editSlipForm").innerHTML = this.responseText;
-      console.log("Response From Doctor By Id: ", this.responseText);
     }
   }
-  xmlhttp.open("GET", `backend_components/slip_handler.php?q=EDIT-SLIP-BY-ID&id=${uuid}&val=${type}`, true);
+  xmlhttp.open("GET", `backend_components/slip_handler.php?q=EDIT_SLIP_BY_ID&id=${uuid}&val=${type}`, true);
   xmlhttp.send();
 }
 // Ajax Call for Editing Patient Slip Query
@@ -165,19 +177,12 @@ $(document).ready(function ($) {
   $('#editSlip').submit(function (e) {
     e.preventDefault();
     $("#err-msg").hide();
-    //mrid required
     var mrid = $("input#editMrid").val();
-    //name required
     var name = $("input#editName").val();
-    //mobile required
     var mobile = $("input#editPhone").val();
-    //dept required
     var dept = $("input#editDept").val();
-    //doc required
     var doc = $("input#editDoctor").val();
-    //fee required
     var fee = $("input#editFee").val();
-    //procedure required
     var procedure = $("input#editProcedure").val();
 
     if (mrid == "" || name == "" || mobile == "" || dept == "" || doc == "" || fee == "" || procedure == "") {

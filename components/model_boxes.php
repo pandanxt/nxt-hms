@@ -119,7 +119,7 @@
     </div>
   </div>
 </div>
-<!-- Select Report Model -->
+<!-- Select Report Filter Model -->
 <div class="modal fade" id="modal-report">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -131,42 +131,43 @@
       </div>
       <form action="reports.php">
         <div class="modal-body">
-          <div class="row col-md-12">
-              <div class="col-md-6">
-                <label>Doctor Share</label>
-                <select class="form-control select2bs4" name="docShare" id="docShare" style="width: 100%;" required>
-                  <option value="0" selected disabled>Select Doctor Share</option>
-                  <option value="30">30% SHARE</option>
-                  <option value="40">40% SHARE</option>
-                  <option value="50">50% SHARE</option>
-                  <option value="60">60% SHARE</option>      
-                  <option value="70">70% SHARE</option>
-                </select>
+          <div class="col-md-12">
+            <div class="col-12 mb-2">
+              <label>Report Type</label>
+              <select class="form-control select2bs4" name="type" id="reportType" style="width: 100%;" required>
+                <option value="" selected disabled>Select Report Type</option>
+                <option value="DAILY">Daily Report</option>
+                <option value="DATE_RANGE">B/W Dates Report</option>
+                <option value="MONTH">Month Report</option>
+              </select>
+            </div>
+            <div class="col-12" id="dateRange">
+              <div class="form-group">
+                <label>Date Range</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                  </div>
+                  <input type="text" class="form-control float-right" name="reservation" id="reservation">
+                </div>
               </div>
-              <div class="col-md-6">
-                <label>Clinic Share</label>
-                <select class="form-control select2bs4" name="hosShare" id="hosShare" style="width: 100%;" required>
-                  <option value="0" selected disabled>Select Clinic Share</option>
-                  <option value="30">30% SHARE</option>
-                  <option value="40">40% SHARE</option>
-                  <option value="50">50% SHARE</option>
-                  <option value="60">60% SHARE</option>      
-                  <option value="70">70% SHARE</option>
-                </select>
+            </div>
+            <div class="col-12">
+              <div class="row">
+                <div class="col-4">
+                  <label>Doctor Share</label>
+                  <input type="number" step="any" class="form-control" placeholder="Select Doctor Share" name="docShare" id="docShare" required>
+                </div>
+                <div class="col-4">
+                  <label>Clinic Share</label>
+                  <input type="number" step="any" class="form-control" placeholder="Select Clinic Share" name="hosShare" id="hosShare" required>
+                </div>
+                <div class="col-4">
+                  <label>Reception Share</label>
+                  <input type="number" step="any" class="form-control" placeholder="Select Reception Share" name="recShare" id="recShare" required>
+                </div>
               </div>
-          </div>
-          <div class="row col-md-12 mt-2">
-            <label>Reception Share</label>
-            <select class="form-control select2bs4" name="recShare" id="recShare" style="width: 100%;" required>
-              <option value="0" selected disabled>Select Recep Share in %</option>
-              <option value="1.00">1% SHARE</option>
-              <option value="1.25">1.25% SHARE</option>
-              <option value="1.50">1.50% SHARE</option>      
-              <option value="1.75">1.75% SHARE</option>
-              <option value="2.00">2.00% SHARE</option>
-              <option value="2.25">2.25% SHARE</option>
-              <option value="2.50">2.50% SHARE</option>
-            </select>
+            </div>
           </div>
         </div>
         <div class="modal-footer justify-content-between">
@@ -206,7 +207,7 @@
       <div class="modal-header">
         <h4 class="modal-title"><i class="nav-icon fas fa-edit"></i> Edit History</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
-          <span aria-hidden="true" onclick="setPopModel();">&times;</span>
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
         <div class="modal-body">
@@ -338,75 +339,75 @@
 
 <!-- User Profile Related Popups -->
 
-  <!-- View User Model Popup Ends Here -->
-  <div class="modal fade" id="view-user">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i> Medeast User</h4>
-          <button onclick="autoRefresh()" type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <span id="err-msg" style="display: none"></span>
-        <div class="modal-body" id="viewUser">
-        </div>
+<!-- View User Model Popup Ends Here -->
+<div class="modal fade" id="view-user">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i> Medeast User</h4>
+        <button onclick="autoRefresh()" type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <span id="err-msg" style="display: none"></span>
+      <div class="modal-body" id="viewUser">
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Update User Model Popup Here -->
-  <div class="modal fade" id="edit-user">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i> Medeast User</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <span id="err-msg" style="display: none"></span>
-        <form action='javascript:void(0)' method='post' id='editUser'>
-          <div class='modal-body' id='editForm'>
-          </div>
-          <div class='modal-footer justify-content-between'>
-              <button type='button' class='btn btn-default' data-dismiss='modal'>Cancel</button>
-              <button type='submit' name='submit' class='btn btn-primary'>Save</button>
-          </div>
-        </form>
-        </div>
+<!-- Update User Model Popup Here -->
+<div class="modal fade" id="edit-user">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i> Medeast User</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-      <!-- /.modal-content -->
+      <span id="err-msg" style="display: none"></span>
+      <form action='javascript:void(0)' method='post' id='editUser'>
+        <div class='modal-body' id='editForm'>
+        </div>
+        <div class='modal-footer justify-content-between'>
+            <button type='button' class='btn btn-default' data-dismiss='modal'>Cancel</button>
+            <button type='submit' name='submit' class='btn btn-primary'>Save</button>
+        </div>
+      </form>
+      </div>
     </div>
-    <!-- /.modal-dialog -->
+    <!-- /.modal-content -->
   </div>
+  <!-- /.modal-dialog -->
+</div>
 
-  <!-- Update User Password Model Popup Here -->
-  <div class="modal fade" id="pass-user">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i>Update Password</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <span id="err-msg" style="display: none"></span>
-        <form action='javascript:void(0)' method='post' id='passUser'>
-          <div class='modal-body'>
-            <div class="form-group">
-              <label>Password</label>
-              <input type="password" class="form-control" name="userpassword" id="userpassword" placeholder="Enter Strong Password ..." pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-            </div>
-          </div>
-          <div class='modal-footer justify-content-between'>
-              <button type='button' class='btn btn-default' data-dismiss='modal'>Cancel</button>
-              <button type='submit' name='submit' class='btn btn-primary'>Save</button>
-          </div>
-        </form>
-        </div>
+<!-- Update User Password Model Popup Here -->
+<div class="modal fade" id="pass-user">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i>Update Password</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-      <!-- /.modal-content -->
+      <span id="err-msg" style="display: none"></span>
+      <form action='javascript:void(0)' method='post' id='passUser'>
+        <div class='modal-body'>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" name="userpassword" id="userpassword" placeholder="Enter Strong Password ..." pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+          </div>
+        </div>
+        <div class='modal-footer justify-content-between'>
+            <button type='button' class='btn btn-default' data-dismiss='modal'>Cancel</button>
+            <button type='submit' name='submit' class='btn btn-primary'>Save</button>
+        </div>
+      </form>
+      </div>
     </div>
-    <!-- /.modal-dialog -->
+    <!-- /.modal-content -->
   </div>
+  <!-- /.modal-dialog -->
+</div>
