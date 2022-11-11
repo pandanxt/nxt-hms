@@ -33,7 +33,7 @@ function genSurgeryTotal() {
 function genIllnessTotal() {
   let prCharge = document.getElementById("prCharge").value;
   let moCharge = document.getElementById("moCharge").value;
-  let monCharge = document.getElementById("monCharge").value;
+  let monCharge = document.getElementById("monChargeIndoorTwo").value;
   let oxCharge = document.getElementById("oxCharge").value;
   let nurCharge = document.getElementById("nurCharge").value;
   let conCharge = document.getElementById("conCharge").value;
@@ -62,8 +62,13 @@ function getFee(fee) {
 }
 // Get Monitor Total
 function getMonTotal() {
-  let monChargeOne = document.getElementById("monChargeOne").value;
-  document.getElementById("monCharge").value = monChargeOne * 1200;
+  let monChargeOne = document.getElementById("monChargeOne").value; 
+  document.getElementById("monChargeTwo").value = monChargeOne * 1200;
+}
+// Get Indoor Monitor Total
+function getIndoorMonTotal() {
+  let monChargeIndoorOne = document.getElementById("monChargeIndoorOne").value; 
+  document.getElementById("monChargeIndoorTwo").value = monChargeIndoorOne * 1200;
 }
 // Private Room Charges
 function getPrTotal() {
@@ -268,7 +273,9 @@ function deleteBill(str) {
     $.ajax({
       type: "POST",
       url: `backend_components/bill_handler.php?q=DELETE_BILL&id=${billId}&val=${slipId}`,
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
         $(function () {
           var Toast = Swal.mixin({
             toast: true,
@@ -277,8 +284,8 @@ function deleteBill(str) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'error',
-            title: 'Bill Record Deleted Successfully.'
+            icon: res.status,
+            title: res.message
           });
           autoRefresh();
         });

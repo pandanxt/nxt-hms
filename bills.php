@@ -116,8 +116,8 @@
                       <div class="form-group col-md-4">
                         <label>Monitoring Charges</label>
                         <div style="display:flex;">
-                          <input type="number" style="width:40%;" name="monChargeOne" class="form-control" id="monChargeOne" value="0" onchange="getMonTotal()" placeholder="No. of Days"/>
-                          <input type="number" style="width:60%;" name="monCharge" class="form-control" id="monCharge"  placeholder="Total Charges" readonly/>
+                          <input type="number" style="width:40%;" name="monChargeIndoorOne" class="form-control" id="monChargeIndoorOne" value="0" onchange="getIndoorMonTotal()" placeholder="No. of Days"/>
+                          <input type="number" style="width:60%;" name="monChargeIndoorTwo" class="form-control" id="monChargeIndoorTwo"  placeholder="Total Charges" readonly/>
                         </div>
                       </div>
                     </div>

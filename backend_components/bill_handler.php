@@ -38,7 +38,7 @@
     // General Illness Form Serials
     $oxCharge = (!empty($_POST['oxCharge'])) ? mysqli_real_escape_string($db, $_POST['oxCharge']) : 0;  
     $nurCharge = (!empty($_POST['nurCharge'])) ? mysqli_real_escape_string($db, $_POST['nurCharge']) : 0;
-    $monCharge = (!empty($_POST['monCharge'])) ? mysqli_real_escape_string($db, $_POST['monCharge']) : 0;
+    $monChargeIndoorTwo = (!empty($_POST['monChargeIndoorTwo'])) ? mysqli_real_escape_string($db, $_POST['monChargeIndoorTwo']) : 0;
    
     $other1 = (!empty($_POST['other1'])) ? mysqli_real_escape_string($db, $_POST['other1']) : 0;
     $otherText1 = (!empty($_POST['otherText1'])) ? mysqli_real_escape_string($db, $_POST['otherText1']) : NULL;
@@ -149,7 +149,7 @@
                     $opCharge, $chargeLR, $pedCharge, 
                     $prCharge, $nurCharge, $nurStCharge,
                     $moCharge, $conCharge, $ctg, $rrCharge, 
-                    $monCharge, $oxCharge, $nurCharge,
+                    $monChargeIndoorTwo, $oxCharge, $nurCharge,
                     $otherText1, $other1, $otherText2, $other2, 
                     $otherText3, $other3, $otherText4, $other4, $otherText5, 
                     $other5, $otherText6, $other6);
@@ -160,7 +160,7 @@
                       {
                         $result = [];
                         $result['status'] = "success";
-                        $result['message'] = "Patient bill against slip created successfully.";
+                        $result['message'] = "Indoor Patient Bill Created Successfully.";
                         $result['data'] = [];
                         $result['data']['id'] = $billId;
                         $result['data']['type'] = "INDOOR_BILL";
@@ -345,7 +345,7 @@
                       {
                         $result = [];
                         $result['status'] = "success";
-                        $result['message'] = "Patient bill against slip created successfully.";
+                        $result['message'] = "Emergency Patient Bill Created Successfully.";
                         $result['data'] = [];
                         $result['data']['id'] = $billId;
                         $result['data']['type'] = "EMERGENCY_BILL";
@@ -373,10 +373,17 @@
       $updateSql ="UPDATE `me_slip` SET `SLIP_STATUS`= 1 WHERE `SLIP_UUID` = '$val'";
       if($querySql = mysqli_query($db,$updateSql))
       {
-        echo 'Form Has been submitted successfully';
+        $result = [];
+        $result['status'] = "success";
+        $result['message'] = "Bill Deleted Successfully.";
+        echo json_encode($result);
       }
     } else {
-        echo "Error: " . $sql . "" . mysqli_error($db);
+      $result = [];
+      $result['status'] = "error";
+      $result['message'] = mysqli_error($db);
+      echo json_encode($result);
     }
+    // exit();
   }  
   ?>
