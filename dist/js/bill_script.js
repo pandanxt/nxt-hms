@@ -14,7 +14,7 @@ function genSurgeryTotal() {
   let prCharge = document.getElementById("prCharge").value;
   let nurCharge = document.getElementById("nurCharge").value;
   let nurStCharge = document.getElementById("nurStCharge").value;
-  let moCharge = document.getElementById("moCharge").value;
+  let moCharge = document.getElementById("moChargeTwo").value;
   let conCharge = document.getElementById("conCharge").value;
   let ctg = document.getElementById("ctg").value;
   let rrCharge = document.getElementById("rrCharge").value;
@@ -32,7 +32,7 @@ function genSurgeryTotal() {
 // Get General illness Total
 function genIllnessTotal() {
   let prCharge = document.getElementById("prCharge").value;
-  let moCharge = document.getElementById("moCharge").value;
+  let moCharge = document.getElementById("moChargeTwo").value;
   let monCharge = document.getElementById("monChargeIndoorTwo").value;
   let oxCharge = document.getElementById("oxCharge").value;
   let nurCharge = document.getElementById("nurCharge").value;
@@ -99,7 +99,7 @@ function getConCharge(charge) {
 // Get Medical Officer Total
 function getMoTotal() {
   let moChargeOne = document.getElementById("moChargeOne").value;
-  document.getElementById("moCharge").value = moChargeOne * 1000;
+  document.getElementById("moChargeTwo").value = moChargeOne * 1000;
 }
 // Get Stitch In Total
 function getStitchInTotal() {
@@ -113,7 +113,7 @@ function getStitchOutTotal() {
 }
 // Emergency Calculate Total Script
 function calculateEmergencyTotal() {
-  let moCharge = document.getElementById("moCharge").value;
+  let moCharge = document.getElementById("moChargeEmrc").value;
   let injectionIM = document.getElementById("injectionIM").value;
   let injectionIV = document.getElementById("injectionIV").value;
   let ivLine = document.getElementById("ivLine").value;

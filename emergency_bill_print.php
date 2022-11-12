@@ -40,7 +40,7 @@
         </thead>
         <tbody>
           <?php
-            if (!empty($bill_row['ES_MO_CHARGE'])) {
+            if (!empty($bill_row['ES_MO_FEE'])) {
           ?>  
           <tr>
             <td class="right-chars">&nbsp;Emergency/MO Fee</td>

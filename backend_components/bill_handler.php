@@ -32,7 +32,7 @@
     $opCharge = (!empty($_POST['opCharge'])) ? mysqli_real_escape_string($db, $_POST['opCharge']) : 0;
 
     $conCharge = (!empty($_POST['conCharge'])) ? mysqli_real_escape_string($db, $_POST['conCharge']) : 0;  
-    $moCharge = (!empty($_POST['moCharge'])) ? mysqli_real_escape_string($db, $_POST['moCharge']) : 0;
+    $moCharge = (!empty($_POST['moChargeTwo'])) ? mysqli_real_escape_string($db, $_POST['moChargeTwo']) : 0;
     $prCharge = (!empty($_POST['prCharge'])) ? mysqli_real_escape_string($db, $_POST['prCharge']) : 0;
 
     // General Illness Form Serials
@@ -194,7 +194,7 @@
     $finalBill = mysqli_real_escape_string($db, $_POST['finalBill']);
     $staffId = mysqli_real_escape_string($db, $_POST['staffId']);
 
-    $moCharge = (!empty($_POST['moCharge'])) ? mysqli_real_escape_string($db, $_POST['moCharge']) : 0;  
+    $moCharge = (!empty($_POST['moChargeEmrc'])) ? mysqli_real_escape_string($db, $_POST['moChargeEmrc']) : 0;  
     $injectionIM = (!empty($_POST['injectionIM'])) ? mysqli_real_escape_string($db, $_POST['injectionIM']) : 0;
     $injectionIV = (!empty($_POST['injectionIV'])) ? mysqli_real_escape_string($db, $_POST['injectionIV']) : 0;
     $ivLine = (!empty($_POST['ivLine'])) ? mysqli_real_escape_string($db, $_POST['ivLine']) : 0;

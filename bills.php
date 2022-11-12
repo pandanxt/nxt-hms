@@ -227,7 +227,7 @@
                       <label>Medical Officer Charges(Per day)</label>
                         <div style="display:flex;">
                           <input type="number" style="width:40%;" name="moChargeOne" class="form-control" id="moChargeOne" value="0" onchange="getMoTotal()" placeholder="No. of Days"/>
-                          <input type="number" style="width:60%;" name="moCharge" class="form-control" id="moCharge"  placeholder="Total Charges" readonly/>
+                          <input type="number" style="width:60%;" name="moChargeTwo" class="form-control" id="moChargeTwo"  placeholder="Total Charges" readonly/>
                         </div>
                     </div>
                   </div>
@@ -335,7 +335,7 @@
                 <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                   <div class="form-group col-md-4">
                     <label>ER Slip / MO Fee</label>
-                    <input type="number" name="moCharge" id="moCharge" placeholder="Charges-500" class="form-control"/>
+                    <input type="number" name="moChargeEmrc" id="moChargeEmrc" placeholder="Charges-500" class="form-control"/>
                   </div>
                   <div class="form-group col-md-4">
                     <label>Injection I/M</label>
