@@ -125,10 +125,14 @@ $(document).ready(function ($) {
       type: "POST",
       url: "backend_components/doctor_handler.php?q=ADD_VT_DOCTOR",
       data: $(this).serialize(), // get all form field value in serialize form
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
         let el = document.querySelector("#cancel");
         el.click();
         updateDoctor();
+
         $(function () {
           var Toast = Swal.mixin({
             toast: true,
@@ -137,9 +141,10 @@ $(document).ready(function ($) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'success',
-            title: 'New Visitor Doctor Successfully Saved.'
+            icon: res.status,
+            title: res.message
           });
+          autoRefresh();
         });
       }
     });
@@ -157,7 +162,7 @@ function printSlipRecord(sid) {
   printSlip(id, type);
 }
 // Edit Slip Model View
-function editSlip(str) { 
+function editSlip(str) {
   console.log("clicked Id: ", str.getAttribute("data-uuid"), str.getAttribute("data-type"));
   let uuid = str.getAttribute("data-uuid");
   let type = str.getAttribute("data-type");
@@ -201,9 +206,13 @@ $(document).ready(function ($) {
       type: "POST",
       url: "backend_components/slip_handler.php?q=EDIT_SLIP",
       data: $(this).serialize(), // get all form field value in serialize form
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
         let el = document.querySelector("#close-button");
         el.click();
+
         $(function () {
           var Toast = Swal.mixin({
             toast: true,
@@ -212,11 +221,12 @@ $(document).ready(function ($) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'success',
-            title: 'Slip Record Updated Successfully.'
+            icon: res.status,
+            title: res.message
           });
           autoRefresh();
         });
+
       }
     });
   });
@@ -234,7 +244,10 @@ function softDeleteSlip(soft) {
     $.ajax({
       type: "POST",
       url: `backend_components/slip_handler.php?q=SOFT_DELETE_SLIP&id=${slipId}&val=${val}`,
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
         $(function () {
           var Toast = Swal.mixin({
             toast: true,
@@ -243,8 +256,8 @@ function softDeleteSlip(soft) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'success',
-            title: 'Slip Soft Deleted Successfully.'
+            icon: res.status,
+            title: res.message
           });
           autoRefresh();
         });
@@ -265,7 +278,10 @@ function deleteSlip(str) {
     $.ajax({
       type: "POST",
       url: `backend_components/slip_handler.php?q=DELETE_SLIP&id=${slipId}`,
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
         $(function () {
           var Toast = Swal.mixin({
             toast: true,
@@ -274,10 +290,9 @@ function deleteSlip(str) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'error',
-            title: 'Slip Record Deleted Successfully.'
+            icon: res.status,
+            title: res.message
           });
-          autoRefresh();
         });
       }
     });
@@ -419,7 +434,7 @@ function deleteFollowSlip(str) {
       url: `backend_components/slip_handler.php?q=DELETE_FOLLOW_SLIP&id=${slipId}`,
       success: function (res) {
         //parse json
-        // res = JSON.parse(res);   
+        res = JSON.parse(res);
         $(function () {
           var Toast = Swal.mixin({
             toast: true,
@@ -428,8 +443,8 @@ function deleteFollowSlip(str) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'error',
-            title: 'FollowUp Slip Record Deleted Successfully.'
+            icon: res.status,
+            title: res.message
           });
           autoRefresh();
         });
@@ -450,7 +465,10 @@ function deleteServiceSlip(str) {
     $.ajax({
       type: "POST",
       url: `backend_components/slip_handler.php?q=DELETE_SERVICE_SLIP&id=${slipId}`,
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
         $(function () {
           var Toast = Swal.mixin({
             toast: true,
@@ -459,8 +477,8 @@ function deleteServiceSlip(str) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'error',
-            title: 'Service Slip Record Deleted Successfully.'
+            icon: res.status,
+            title: res.message
           });
           autoRefresh();
         });
@@ -479,12 +497,6 @@ function printMiniSlipRecord(sid) {
   let id = sid.getAttribute("data-uuid");
   let type = sid.getAttribute("data-type");
   printMiniSlip(id, type);
-}
-// Auto Refresh Function 
-function autoRefresh() {
-  setTimeout(() => {
-    window.location = window.location.href;
-  }, 1000);
 }
 
 // ****************************
@@ -594,7 +606,10 @@ $(document).ready(function ($) {
       type: "POST",
       url: "backend_components/user_handler.php?q=EDIT_USER",
       data: $(this).serialize(), // get all form field value in serialize form
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
         let el = document.querySelector("#close-button");
         el.click();
         $(function () {
@@ -605,8 +620,8 @@ $(document).ready(function ($) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'success',
-            title: 'User Updated Successfully.'
+            icon: res.status,
+            title: res.message
           });
           autoRefresh();
         });
@@ -630,7 +645,10 @@ $(document).ready(function ($) {
       type: "POST",
       url: `backend_components/user_handler.php?q=UPDATE_PASSWORD&id=${passUuid}`,
       data: $(this).serialize(), // get all form field value in serialize form
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
         let el = document.querySelector("#close-button");
         el.click();
         $(function () {
@@ -641,8 +659,8 @@ $(document).ready(function ($) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'success',
-            title: 'Password Updated Successfully.'
+            icon: res.status,
+            title: res.message
           });
           autoRefresh();
         });
@@ -689,4 +707,11 @@ function editPass(str) {
   }
   xmlHttp.open("GET", `backend_components/user_handler.php?q=GET_USER_BY_ID&id=${uuid}`, true);
   xmlHttp.send();
-} 
+}
+
+// Auto Refresh Function 
+function autoRefresh() {
+  setTimeout(() => {
+    window.location = window.location.href;
+  }, 1000);
+}

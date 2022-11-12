@@ -18,23 +18,35 @@
         $sql = "SELECT * FROM `me_doctors` WHERE `DOCTOR_NAME` = ?";
         $stmt = mysqli_stmt_init($db);
         if (!mysqli_stmt_prepare($stmt,$sql)) {
-            echo "Error: " . $sql . "" . mysqli_error($stmt);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysqli_error($stmt);
+            echo json_encode($result);
         }else{
             mysqli_stmt_bind_param($stmt,"s",$name);
             mysqli_stmt_execute($stmt);
             mysqli_stmt_store_result($stmt);
             $resultCheck = mysqli_stmt_num_rows($stmt);
                 if ($resultCheck > 0) {
-                    echo "name or mobile number already taken!";
+                    $result = [];
+                    $result['status'] = "error";
+                    $result['message'] = "Name or Mobile Already Taken!";
+                    echo json_encode($result);
                 }else{
                     $sql = "INSERT INTO `me_doctors`(`DOCTOR_UUID`, `DOCTOR_NAME`, `DOCTOR_MOBILE`, `DOCTOR_DEPARTMENT`, `STAFF_ID`) VALUES (?,?,?,?,?)";
                     mysqli_stmt_execute($stmt);
                     if (!mysqli_stmt_prepare($stmt,$sql)) {
-                        echo "Error: " . $sql . "" . mysqli_error($stmt);
+                        $result = [];
+                        $result['status'] = "error";
+                        $result['message'] = mysqli_error($stmt);
+                        echo json_encode($result);
                     }else{
                         mysqli_stmt_bind_param($stmt,"sssss",$uid,$name,$mobile,$department,$by);
                         mysqli_stmt_execute($stmt);
-                        echo "Form Has been submitted successfully";
+                        $result = [];
+                        $result['status'] = "success";
+                        $result['message'] = $name."Record Created Successfully";
+                        echo json_encode($result);
                     }			
                 }
             }
@@ -50,10 +62,16 @@
         
         if(mysqli_query($db, "UPDATE `me_doctors` SET `DOCTOR_NAME`='$name',`DOCTOR_MOBILE`='$mobile',`DOCTOR_DEPARTMENT`='$department' WHERE `DOCTOR_UUID` = '$uuid'"))
         {
-            echo 'Doctor Updated Successfully';
+            $result = [];
+            $result['status'] = "success";
+            $result['message'] = "Doctor Updated Successfully";
+            echo json_encode($result);
         } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
-        }	
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysqli_error($db);
+            echo json_encode($result);
+        }
     }
     // Get Doctor by Id
     if ($q == 'GET_DOCTOR_BY_ID') { 
@@ -125,7 +143,7 @@
                     <div class='col-md-6'>
                     <div class='form-group'>
                     <label>Department</label>
-                    <select class='form-control select2bs4' name='docDepartment' id='docDepartment' style='width: 100%;'>
+                    <select class='form-control select2' name='docDepartment' id='docDepartment' style='width: 100%;'>
                     <option selected value='$row[DEPARTMENT_UUID]'>$row[DEPARTMENT_NAME]</option>";
 
                         $dept = 'SELECT `DEPARTMENT_UUID`,`DEPARTMENT_NAME` FROM `me_department` WHERE `DEPARTMENT_STATUS` = 1';
@@ -155,30 +173,41 @@
         $stmt = mysqli_stmt_init($db);
         
         if (!mysqli_stmt_prepare($stmt,$sql)) {
-            echo "Error: " . $sql . "" . mysqli_error($stmt);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysqli_error($db);
+            echo json_encode($result);
         }else{
             mysqli_stmt_bind_param($stmt,"s",$name);
             mysqli_stmt_execute($stmt);
             mysqli_stmt_store_result($stmt);
             $resultCheck = mysqli_stmt_num_rows($stmt);
                 if ($resultCheck > 0) {
-                    echo "name already taken!";
+                    $result = [];
+                    $result['status'] = "error";
+                    $result['message'] = "Name Already Taken!";
+                    echo json_encode($result);
                 }else{
                     $sql = "INSERT INTO `me_doctors`(`DOCTOR_UUID`,`DOCTOR_NAME`,`DOCTOR_MOBILE`,`DOCTOR_TYPE`, `STAFF_ID`) VALUES (?,?,?,?,?)";
                     mysqli_stmt_execute($stmt);
                 
                     if (!mysqli_stmt_prepare($stmt,$sql)) {
-                        echo "Error: " . $sql . "" . mysqli_error($stmt);
+                        $result = [];
+                        $result['status'] = "error";
+                        $result['message'] = mysqli_error($stmt);
+                        echo json_encode($result);
                     }else{
                         mysqli_stmt_bind_param($stmt,"sssss",$uuid,$name,$mobile,$type,$by);
                         mysqli_stmt_execute($stmt);
-                        echo "New Visiting Doctor Added Successfully";
+                        $result = [];
+                        $result['status'] = "success";
+                        $result['message'] = $name." Record Created Successfully";
+                        echo json_encode($result);
                     }			
                 }
             }
         mysqli_stmt_close($stmt);
         mysqli_close($db);
-
     }
     // Edit Visiting Doctor Query
     if ($q == 'EDIT_VT_DOCTOR') {
@@ -188,9 +217,15 @@
         
         if(mysqli_query($db, "UPDATE `me_doctors` SET `DOCTOR_NAME`='$name', `DOCTOR_MOBILE`='$mobile' WHERE `DOCTOR_UUID` = '$uuid'"))
         {
-            echo 'Doctor Updated Successfully';
+            $result = [];
+            $result['status'] = "success";
+            $result['message'] = "Visiting Doctor Updated Successfully";
+            echo json_encode($result);
         } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysqli_error($db);
+            echo json_encode($result);
         }	
     }
     // Get Visiting Doctor By Id
@@ -268,17 +303,29 @@
     // Update Doctor Status 
     if ($q == 'STATUS_DOCTOR') {
         if(mysqli_query($db, "UPDATE `me_doctors` SET `DOCTOR_STATUS`= '$val' WHERE `DOCTOR_UUID` = '$id'")) {
-            echo 'Status Updated successfully';
+            $result = [];
+            $result['status'] = "success";
+            $result['message'] = "Doctor Status Updated Successfully";
+            echo json_encode($result);
         } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysqli_error($db);
+            echo json_encode($result);
         }
     }
     // Doctor Delete Query
     if($q == 'DELETE_DOCTOR') {
         if(mysqli_query($db, "DELETE FROM `me_doctors` WHERE `DOCTOR_UUID` ='$id'")) {
-            echo '<script>window.location = "../doctors.php?action=deleted";</script>';
+            $result = [];
+            $result['status'] = "success";
+            $result['message'] = "Doctor Deleted Successfully";
+            echo json_encode($result);
         } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysqli_error($db);
+            echo json_encode($result);
         }
     }
 ?>

@@ -47,7 +47,7 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label>Service</label>
-              <select class="form-control select2bs4" name="service" id="service" onchange="serviceChange(this)" required style="width: 100%;">
+              <select class="form-control  select2" name="service" id="service" onchange="serviceChange(this)" required style="width: 100%;">
                 <option disabled selected value="0">Select Title</option>
                 <?php
                   $service = 'SELECT `SERVICE_UUID`,`SERVICE_NAME`,`SERVICE_RATE` FROM `me_general_service` WHERE `SERVICE_STATUS` = 1';
@@ -94,7 +94,7 @@
       </div>
       <form action="add_slip.php">
         <div class="modal-body">
-          <select class="form-control select2bs4" name="type" id="type" style="width: 100%;" required>
+          <select class="form-control  select2" name="type" id="type" style="width: 100%;" required>
             <option value="" selected disabled>SELECT SLIP TYPE</option>
             <option value="OUTDOOR">OUTDOOR PATIENT SLIP</option>
             <option value="INDOOR">INDOOR PATIENT SLIP</option>
@@ -102,7 +102,7 @@
           </select>
           <div id="select">
             <br>
-            <select class="form-control select2bs4" name="subType" id="subType" style="width: 100%;">
+            <select class="form-control  select2" name="subType" id="subType" style="width: 100%;">
               <option value="" selected disabled>SELECT INDOOR TYPE</option>
               <option value="GYNEACOLOGY_PATIENT">GYNEACOLOGY PATIENT</option>
               <option value="GENERAL_SURGERY_PATIENT">GENERAL SURGERY PATIENT</option>
@@ -134,7 +134,7 @@
           <div class="col-md-12">
             <div class="col-12 mb-2">
               <label>Report Type</label>
-              <select class="form-control select2bs4" name="type" id="reportType" style="width: 100%;" required>
+              <select class="form-control  select2" name="type" id="reportType" style="width: 100%;" required>
                 <option value="" selected disabled>Select Report Type</option>
                 <option value="DAILY">Daily Report</option>
                 <option value="DATE_RANGE">B/W Dates Report</option>
@@ -229,7 +229,7 @@
       </div>
       <form action="patient_slip.php">
         <div class="modal-body">
-          <select class="form-control select2bs4" name="patType" id="patType" style="width: 100%;" required>
+          <select class="form-control  select2" name="patType" id="patType" style="width: 100%;" required>
             <option value="" selected disabled>SELECT SLIP TYPE</option>
             <option value="OUTDOOR">OUTDOOR PATIENT SLIP</option>
             <option value="INDOOR">INDOOR PATIENT SLIP</option>
@@ -237,7 +237,7 @@
           </select>
           <div id="patSelect">
             <br>
-            <select class="form-control select2bs4" name="patSubType" id="patSubType" style="width: 100%;">
+            <select class="form-control  select2" name="patSubType" id="patSubType" style="width: 100%;">
               <option value="" selected disabled>SELECT INDOOR TYPE</option>
               <option value="GYNEACOLOGY_PATIENT">GYNEACOLOGY PATIENT</option>
               <option value="GENERAL_SURGERY_PATIENT">GENERAL SURGERY PATIENT</option>
@@ -285,7 +285,7 @@
               </div>
               <div class="form-group col-md-6">
                 <label>Patient Gender</label>
-                <select class="form-control select2bs4" name="patientGender" id="patientGender" style="width: 100%;">
+                <select class="form-control  select2" name="patientGender" id="patientGender" style="width: 100%;">
                   <option selected="selected" disabled>Select Gender</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>

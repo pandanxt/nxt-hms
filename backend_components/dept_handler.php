@@ -16,23 +16,35 @@
         $sql = "SELECT * FROM `me_department` WHERE `DEPARTMENT_NAME` = ?";
         $stmt = mysqli_stmt_init($db);
         if (!mysqli_stmt_prepare($stmt,$sql)) {
-            echo "Error: " . $sql . "" . mysqli_error($stmt);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysqli_error($db);
+            echo json_encode($result);
         }else{
             mysqli_stmt_bind_param($stmt,"s",$name);
             mysqli_stmt_execute($stmt);
             mysqli_stmt_store_result($stmt);
             $resultCheck = mysqli_stmt_num_rows($stmt);
                 if ($resultCheck > 0) {
-                    echo "name already taken!";
+                    $result = [];
+                    $result['status'] = "error";
+                    $result['message'] = "Name Already Taken!";
+                    echo json_encode($result);
                 }else{
                     $sql = "INSERT INTO `me_department`(`DEPARTMENT_UUID`,`DEPARTMENT_NAME`, `STAFF_ID`) VALUES (?,?,?)";
                     mysqli_stmt_execute($stmt);
                     if (!mysqli_stmt_prepare($stmt,$sql)) {
-                        echo "Error: " . $sql . "" . mysqli_error($stmt);
+                        $result = [];
+                        $result['status'] = "error";
+                        $result['message'] = mysqli_error($db);
+                        echo json_encode($result);
                     }else{
                         mysqli_stmt_bind_param($stmt,"sss",$uid,$name,$by);
                         mysqli_stmt_execute($stmt);
-                        echo "New Department Saved Successfully";
+                        $result = [];
+                        $result['status'] = "success";
+                        $result['message'] = $name." Saved Successfully";
+                        echo json_encode($result);
                     }			
                 }
             }
@@ -42,9 +54,15 @@
     // Department Status Update 
     if ($q == 'STATUS_DEPT') {
         if(mysqli_query($db, "UPDATE `me_department` SET `DEPARTMENT_STATUS`= '$val' WHERE `DEPARTMENT_UUID` = '$id'")) {
-            echo 'Form Has been submitted successfully';
+            $result = [];
+            $result['status'] = "success";
+            $result['message'] = "Department Status Updated";
+            echo json_encode($result);
         } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysqli_error($db);
+            echo json_encode($result);
         }
     }
     // Update  Department Query
@@ -54,17 +72,29 @@
 
         if(mysqli_query($db, "UPDATE `me_department` SET `DEPARTMENT_NAME`='$name' WHERE `DEPARTMENT_UUID` = '$uuid'"))
         {
-            echo 'Department Updated Successfully';
+            $result = [];
+            $result['status'] = "success";
+            $result['message'] = "Department Updated Successfully";
+            echo json_encode($result);
         } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysqli_error($db);
+            echo json_encode($result);
         }	
     }
     // Delete Department Query
     if($q == 'DELETE_DEPT') {
         if(mysqli_query($db, "DELETE FROM `me_department` WHERE `DEPARTMENT_UUID` ='$id'")) {
-            echo '<script>window.location = "../dept.php?action=deleted";</script>';
+            $result = [];
+            $result['status'] = "success";
+            $result['message'] = "Department Deleted Successfully";
+            echo json_encode($result);
         } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysqli_error($db);
+            echo json_encode($result);
         }
     }
     // Get Room by Id

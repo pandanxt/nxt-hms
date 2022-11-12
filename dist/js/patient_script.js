@@ -135,7 +135,10 @@ function softDeletePatient(soft) {
     $.ajax({
       type: "POST",
       url: `backend_components/slip_handler.php?q=SOFT_DELETE_PATIENT&id=${delId}&val=${val}`,
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
         $(function () {
           var Toast = Swal.mixin({
             toast: true,
@@ -144,8 +147,8 @@ function softDeletePatient(soft) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'success',
-            title: 'Patient Soft Deleted Successfully.'
+            icon: res.status,
+            title: res.message
           });
           autoRefresh();
         });
@@ -164,7 +167,10 @@ function deletePatient(str) {
     $.ajax({
       type: "POST",
       url: `backend_components/slip_handler.php?q=DELETE_PATIENT&id=${delId}`,
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
         $(function () {
           var Toast = Swal.mixin({
             toast: true,
@@ -173,8 +179,8 @@ function deletePatient(str) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'error',
-            title: 'Patient Record Deleted Successfully.'
+            icon: res.status,
+            title: res.message
           });
           autoRefresh();
         });

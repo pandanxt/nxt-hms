@@ -17,24 +17,37 @@
         $sql = "SELECT * FROM `me_room` WHERE `ROOM_NAME` = ?";
         $stmt = mysqli_stmt_init($db);
         if (!mysqli_stmt_prepare($stmt,$sql)) {
-            echo "Error: " . $sql . "" . mysqli_error($stmt);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysqli_error($stmt);
+            echo json_encode($result);
         }else{
             mysqli_stmt_bind_param($stmt,"s",$name);
             mysqli_stmt_execute($stmt);
             mysqli_stmt_store_result($stmt);
             $resultCheck = mysqli_stmt_num_rows($stmt);
                 if ($resultCheck > 0) {
-                    echo "name already taken!";
+                    $result = [];
+                    $result['status'] = "error";
+                    $result['message'] = "Name Already Taken!";
+                    echo json_encode($result);
+                    // echo "name already taken!";
                 }else{
                     $sql = "INSERT INTO `me_room`(`ROOM_UUID`, `ROOM_NAME`, `ROOM_RATE`, `STAFF_ID`) VALUES (?,?,?,?)";
                     mysqli_stmt_execute($stmt);
                 
                     if (!mysqli_stmt_prepare($stmt,$sql)) {
-                        echo "Error: " . $sql . "" . mysqli_error($stmt);
+                        $result = [];
+                        $result['status'] = "error";
+                        $result['message'] = mysqli_error($stmt);
+                        echo json_encode($result);
                     }else{
                         mysqli_stmt_bind_param($stmt,"ssss",$uid,$name,$rate,$by);
                         mysqli_stmt_execute($stmt);
-                        echo "New Room Saved Successfully";
+                        $result = [];
+                        $result['status'] = "success";
+                        $result['message'] = "New Room Saved Successfully";
+                        echo json_encode($result);
                     }			
                 }
             }
@@ -45,9 +58,15 @@
     // Update Room Status
     if ($q == 'STATUS_ROOM') {
         if(mysqli_query($db, "UPDATE `me_room` SET `ROOM_STATUS`= '$val' WHERE `ROOM_UUID` = '$id'")) {
-            echo 'Room Status Updated Successfully';
+            $result = [];
+            $result['status'] = "success";
+            $result['message'] = "Room Status Updated Successfully";
+            echo json_encode($result);
         } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysqli_error($db);
+            echo json_encode($result);
         }
     }
     // Edit Room Query
@@ -58,17 +77,29 @@
         
         if(mysqli_query($db, "UPDATE `me_room` SET `ROOM_NAME`='$name',`ROOM_RATE`='$rate' WHERE `ROOM_UUID` = '$uuid'"))
         {
-            echo 'Room Updated Successfully';
+            $result = [];
+            $result['status'] = "success";
+            $result['message'] = "Room Updated Successfully";
+            echo json_encode($result);
         } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
-        }	
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysqli_error($db);
+            echo json_encode($result);
+        }
     }
     // Delete Room Query
     if($q == 'DELETE_ROOM') {
         if(mysqli_query($db, "DELETE FROM `me_room` WHERE `ROOM_UUID` ='$id'")) {
-            echo '<script>window.location = "../room.php?action=deleted";</script>';
+            $result = [];
+            $result['status'] = "success";
+            $result['message'] = "Room Deleted Successfully";
+            echo json_encode($result);
         } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysqli_error($db);
+            echo json_encode($result);
         }
     }
     // Get Room by Id

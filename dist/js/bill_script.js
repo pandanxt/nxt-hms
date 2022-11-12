@@ -62,12 +62,12 @@ function getFee(fee) {
 }
 // Get Monitor Total
 function getMonTotal() {
-  let monChargeOne = document.getElementById("monChargeOne").value; 
+  let monChargeOne = document.getElementById("monChargeOne").value;
   document.getElementById("monChargeTwo").value = monChargeOne * 1200;
 }
 // Get Indoor Monitor Total
 function getIndoorMonTotal() {
-  let monChargeIndoorOne = document.getElementById("monChargeIndoorOne").value; 
+  let monChargeIndoorOne = document.getElementById("monChargeIndoorOne").value;
   document.getElementById("monChargeIndoorTwo").value = monChargeIndoorOne * 1200;
 }
 // Private Room Charges

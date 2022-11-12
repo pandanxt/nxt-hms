@@ -23,7 +23,10 @@ $(document).ready(function ($) {
       type: "POST",
       url: "backend_components/service_handler.php?q=ADD_SERVICE",
       data: $(this).serialize(), // get all form field value in serialize form
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
         let el = document.querySelector("#close-button");
         el.click();
         $(function () {
@@ -34,8 +37,8 @@ $(document).ready(function ($) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'success',
-            title: 'New Service Successfully Saved.'
+            icon: res.status,
+            title: res.message
           });
           autoRefresh();
         });
@@ -63,7 +66,10 @@ $(document).ready(function ($) {
       type: "POST",
       url: "backend_components/service_handler.php?q=EDIT_SERVICE",
       data: $(this).serialize(), // get all form field value in serialize form
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
         let el = document.querySelector("#close-button");
         el.click();
         $(function () {
@@ -74,8 +80,8 @@ $(document).ready(function ($) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'success',
-            title: 'Service Updated Successfully.'
+            icon: res.status,
+            title: res.message
           });
           autoRefresh();
         });
@@ -92,7 +98,10 @@ function handleStatus(status) {
     $.ajax({
       type: "POST",
       url: `backend_components/service_handler.php?q=STATUS_SERVICE&id=${status.dataset.uuid}&val=${val}`,
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
         $(function () {
           var Toast = Swal.mixin({
             toast: true,
@@ -101,35 +110,14 @@ function handleStatus(status) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'success',
-            title: 'Service Status Updated.'
+            icon: res.status,
+            title: res.message
           });
         });
       }
     });
     return false;
-  } else {
-    $(function () {
-      var Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 1000
-      });
-      Toast.fire({
-        icon: 'error',
-        title: 'Something Went Wrong.'
-      });
-      autoRefresh();
-    });
-    return false;
-  }
-}
-// Auto Refresh Function
-function autoRefresh() {
-  setTimeout(() => {
-    window.location = window.location.href;
-  }, 1000);
+  } else { return false; }
 }
 // Get Service By Id
 function getService(str) {
