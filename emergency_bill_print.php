@@ -107,7 +107,7 @@
             if (!empty($bill_row['SHORT_STAY'])) {
           ?>
           <tr>
-            <td class="right-chars">&nbsp;Short Stay <small>(Above 1st Hour)</small></td>
+            <td class="right-chars">&nbsp;Short Stay</td>
             <td class="right-chars">&nbsp;<?php echo $bill_row['SHORT_STAY']; ?></td>
           </tr>
           <?php

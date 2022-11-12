@@ -23,11 +23,11 @@
         </a>
       </li>
       <!------Create Bill Icon------>
-      <li class="nav-item d-none d-sm-inline-block">
+      <!-- <li class="nav-item d-none d-sm-inline-block">
         <a type="button" data-toggle="modal" data-target="#modal-bill" class="dropdown-item nav-link">
           <i class="fas fa-plus"></i> Bills
         </a>
-      </li>
+      </li> -->
       <!------Patient Bill Icon------>
       <li class="nav-item d-none d-sm-inline-block">
         <a type="button" href="bill_records.php" class="dropdown-item nav-link">
@@ -44,7 +44,7 @@
     <!------Right Navbar Links------>
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a type="button" class="dropdown-item nav-link" data-widget="navbar-search" href="javascript:void(0);" role="button">
           <i class="fas fa-search"></i>
         </a>
@@ -63,7 +63,7 @@
             </div>
           </form>
         </div>
-      </li>
+      </li> -->
       <!-- ./Profile Box -->
       <li class="nav-item dropdown user-menu">
         <?php

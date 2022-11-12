@@ -477,7 +477,7 @@
                 </div>
                 <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                   <div class="form-group col-md-4">
-                    <label>Short Stay <small>(After One Hour)</small></label>
+                    <label>Short Stay</label>
                     <input type="number" name="shortStay" id="shortStay" placeholder="Short Stay" class="form-control"/>
                   </div>
                   <div class="form-group col-md-4">
