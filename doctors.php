@@ -132,7 +132,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Department</label>
-                    <select class="form-control select2bs4" name="department" id="department" style="width: 100%;">
+                    <select class="form-control select2" name="department" id="department" style="width: 100%;">
                     <option disabled selected>Select Department</option>
                       <?php
                         $dept = 'SELECT `DEPARTMENT_UUID`,`DEPARTMENT_NAME` FROM `me_department` WHERE `DEPARTMENT_STATUS` = 1';

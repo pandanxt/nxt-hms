@@ -55,7 +55,7 @@
                 <div class="col-md-12" style="display:flex;">
                     <div class="form-group col-md-6">
                     <label>Patient Gender</label>
-                    <select class="form-control select2bs4" name="gender" id="gender" required style="width: 100%;">
+                    <select class="form-control select2" name="gender" id="gender" required style="width: 100%;">
                         <option selected="selected" value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="other">Other</option>
@@ -86,7 +86,7 @@
                   <?php if ($type != 'EMERGENCY') {?>
                   <div class="form-group col-md-6">
                     <label>Department</label>
-                    <select class="form-control select2bs4" id="dept" name="dept" style="width: 100%;" required onchange="showDoctor(this.value)">
+                    <select class="form-control select2" id="dept" name="dept" style="width: 100%;" required onchange="showDoctor(this.value)">
                     <option disabled selected value="">---- Select Department ----</option>
                         <?php
                         $dept = 'SELECT `DEPARTMENT_UUID`, `DEPARTMENT_NAME` FROM `me_department` WHERE `DEPARTMENT_STATUS` = "1"';
@@ -102,7 +102,7 @@
                   <?php } ?>
                   <div class="form-group col-md-6" id="meDoc">
                     <label>Consultant Name</label>
-                      <select class="form-control select2bs4" name="doctor" style="width: 100%;" id="doctor" required>
+                      <select class="form-control select2" name="doctor" style="width: 100%;" id="doctor" required>
                           <option disabled selected value="">---- Select Consultant Name ----</option>
                           <?php
                           $doctor = 'SELECT `DOCTOR_UUID`, `DOCTOR_NAME` FROM `me_doctors` WHERE `DOCTOR_TYPE` = "medeast" AND `DOCTOR_STATUS` = "1"';

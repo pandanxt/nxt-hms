@@ -238,7 +238,7 @@
                   <div class="form-group col-md-12">
                       <label>Private Room Charges</label>
                       <div style="display:flex;">
-                        <select class="form-control select2bs4"  style="width:50%;" name="prChargeOne" id="prChargeOne" onchange="getPrTotal()" style="width: 100%;">
+                        <select class="form-control select2"  style="width:50%;" name="prChargeOne" id="prChargeOne" onchange="getPrTotal()" style="width: 100%;">
                           <option value="0" selected="selected">Select Private Room Charges</option>
                           <?php
                             $room = 'SELECT `ROOM_UUID`, `ROOM_NAME`,`ROOM_RATE` FROM `me_room` WHERE `ROOM_STATUS` = 1';
@@ -343,7 +343,7 @@
                   </div>
                   <div class="form-group col-md-4">
                     <label>I/V Line (In/Out)</label>
-                    <select class="form-control select2bs4" name="ivLine" id="ivLine" style="width: 100%;">
+                    <select class="form-control select2" name="ivLine" id="ivLine" style="width: 100%;">
                       <option value="0" selected="selected">Select</option>
                       <option value="250">In - 250</option>
                       <option value="150">Out - 150</option>
@@ -367,7 +367,7 @@
                   </div>
                   <div class="form-group col-md-4">
                     <label>Drips</label>
-                    <select class="form-control select2bs4" name="drip" id="drip" style="width: 100%;">
+                    <select class="form-control select2" name="drip" id="drip" style="width: 100%;">
                       <option value="0" selected="selected">Select</option>
                       <option value="400">100ml - 400</option>
                       <option value="700">500ml - 700</option>
@@ -392,7 +392,7 @@
                 <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                   <div class="form-group col-md-4">
                     <label>Foley Catheter</label>
-                    <select class="form-control select2bs4" name="foleyCath" id="foleyCath" style="width: 100%;">
+                    <select class="form-control select2" name="foleyCath" id="foleyCath" style="width: 100%;">
                       <option value="0" selected="selected">Attached / Removed</option>
                       <option value="1200">Attached - 1200</option>
                       <option value="500">Removed - 400</option>
@@ -460,7 +460,7 @@
                 <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                   <div class="form-group col-md-4">
                     <label>Infusion + Antibiotic</label>
-                    <select class="form-control select2bs4" name="infusionAntibiotic" id="infusionAntibiotic" style="width: 100%;">
+                    <select class="form-control select2" name="infusionAntibiotic" id="infusionAntibiotic" style="width: 100%;">
                       <option value="0" selected="selected">100ml/500ml</option>
                       <option value="400">100ml - 400</option>
                       <option value="700">500ml - 700</option>
@@ -486,7 +486,7 @@
                   </div>
                   <div class="form-group col-md-4">
                     <label>Dressing</label>
-                    <select class="form-control select2bs4" name="dressing" id="dressing" style="width: 100%;">
+                    <select class="form-control select2" name="dressing" id="dressing" style="width: 100%;">
                       <option value="0" selected="selected">Upto 3 Inch or More</option>
                       <option value="300">Dressing Small - 300</option>
                       <option value="600">Dressing Large - 600</option>
@@ -521,7 +521,7 @@
                   </div>
                   <div class="form-group col-md-4">
                     <label>Ascitic</label>
-                    <select class="form-control select2bs4" name="ascitic" id="ascitic" style="width: 100%;">
+                    <select class="form-control select2" name="ascitic" id="ascitic" style="width: 100%;">
                       <option value="0" selected="selected">Select Ascitic</option>
                       <option value="500">Therapeutic - 500</option>
                       <option value="3500">Diagnostic - 3500</option>
@@ -531,7 +531,7 @@
                 <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                   <div class="form-group col-md-5">
                     <label>Pleural Fuid</label>
-                    <select class="form-control select2bs4" name="pleuralFuid" id="pleuralFuid" style="width: 100%;">
+                    <select class="form-control select2" name="pleuralFuid" id="pleuralFuid" style="width: 100%;">
                       <option value="0" selected="selected">Select Pleural Fuid</option>
                       <option value="3500">Therapeutic - 3500</option>
                       <option value="1500">TAP Diagnostic - 1500</option>

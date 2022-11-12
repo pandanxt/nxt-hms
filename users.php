@@ -153,7 +153,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Permission</label>
-                    <select class="form-control select2bs4" name="role" id="role" style="width: 100%;">
+                    <select class="form-control select2" name="role" id="role" style="width: 100%;">
                       <option selected="selected" value="admin">Admin</option>
                       <option value="user">Staff</option>
                     </select>
