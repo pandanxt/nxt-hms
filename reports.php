@@ -6,6 +6,11 @@
   $docShare = (isset($_GET['docShare']) ? $_GET['docShare'] : '');
   $hosShare = (isset($_GET['hosShare']) ? $_GET['hosShare'] : '');
   $recShare = (isset($_GET['recShare']) ? $_GET['recShare'] : '');
+  $sDate = substr($dateRange, 0, 10);
+  $eDate = substr($dateRange,13);
+
+  $startDate=date_format(date_create($sDate),"Y-m-d");
+  $endDate=date_format(date_create($eDate),"Y-m-d");
 
   if (isset($_SESSION['uuid'])) {
   include('backend_components/connection.php');
@@ -19,7 +24,18 @@
       <div class="row">
         <div class="col-md-10 offset-md-1 mt-4">
         <div class="callout callout-info">
-          <h5><i class="fas fa-filter"></i><?php echo $reportVal = ($type == 'DAILY') ? 'Daily Report Filter' : 'Monthly Report Filter' ; ?></h5>
+          <h5><i class="fas fa-filter"></i>
+          <?php 
+            if($type=='DAILY'){
+              echo"Daily Report Filter";
+            }else if($type=='DATE_RANGE'){
+              echo"Date Range Report Filter";
+            }
+            // else if($type=='MONTH'){
+            //   echo"Monthly Report Filter";
+            // }
+          ?>
+          </h5>
             <div class="row col-12">
               <div class="col-3">
                 <p>Hospital's Share : <b><span><?php echo $hosShare; ?> Percent</span></b></p>
@@ -61,32 +77,34 @@
                     ( (SUM(`SLIP_FEE`)*1.0)* '$hosShare')/100 AS `TOTAL_AMOUNT_PAID_TO_CLINIC`, 
                     ( ( (SUM(`SLIP_FEE`)*1.0)* '$hosShare')/100) - ( ( (SUM(`SLIP_FEE`)*1.0)* '$recShare')/100) AS `RECEPTION_SHARE` 
                     FROM `me_slip` LEFT JOIN `me_doctors` ON `me_slip`.`SLIP_DOCTOR` = `me_doctors`.`DOCTOR_UUID` 
-                    WHERE `SLIP_DOCTOR` IS NOT NULL AND `SLIP_TYPE` = 'OUTDOOR' AND CAST(`SLIP_DATE_TIME` AS Date) = current_date GROUP BY `SLIP_DOCTOR`, CAST(`SLIP_DATE_TIME` AS DATE)";
+                    WHERE `SLIP_DOCTOR` IS NOT NULL AND `SLIP_TYPE` = 'OUTDOOR' 
+                    AND CAST(`SLIP_DATE_TIME` AS Date) = current_date GROUP BY `SLIP_DOCTOR`, CAST(`SLIP_DATE_TIME` AS DATE)";
                   
                   }else if ($type == 'DATE_RANGE') {
 
-                    $reportSql ='SELECT CAST(`SLIP_DATE_TIME` AS DATE) AS DAILY, `me_doctors`.`DOCTOR_NAME` AS `CONSULTANT_NAME`, `me_doctors`.`DOCTOR_TYPE`,
+                    $reportSql ="SELECT CAST(`SLIP_DATE_TIME` AS DATE) AS `DAILY`, `me_doctors`.`DOCTOR_NAME` AS `CONSULTANT_NAME`, `me_doctors`.`DOCTOR_TYPE`,
                     COUNT(`SLIP_UUID`) AS `TOTAL_NO_OF_PATIENT`, 
-                    ((SUM(`SLIP_FEE`)*1.0)*60)/100 AS `TOTAL_AMOUNT_PAID_TO_DOCTOR`, 
-                    ((SUM(`SLIP_FEE`)*1.0)*40)/100 AS `TOTAL_AMOUNT_PAID_TO_CLINIC`, 
-                    (((SUM(`SLIP_FEE`)*1.0)*40)/100) - (((SUM(`SLIP_FEE`)*1.0)*1.5)/100) AS `RECEPTION_SHARE` 
+                    ( (SUM(`SLIP_FEE`)*1.0 )* '$docShare')/100 AS `TOTAL_AMOUNT_PAID_TO_DOCTOR`, 
+                    ((SUM(`SLIP_FEE`)*1.0)* '$hosShare')/100 AS `TOTAL_AMOUNT_PAID_TO_CLINIC`, 
+                    (((SUM(`SLIP_FEE`)*1.0)* '$hosShare')/100) - (((SUM(`SLIP_FEE`)*1.0)* '$recShare')/100) AS `RECEPTION_SHARE` 
                     FROM `me_slip` LEFT JOIN `me_doctors` ON `me_slip`.`SLIP_DOCTOR` = `me_doctors`.`DOCTOR_UUID` 
-                    WHERE `SLIP_DOCTOR` IS NOT NULL AND `SLIP_TYPE` = "OUTDOOR" AND CAST(`SLIP_DATE_TIME` AS DATE) 
-                    BETWEEN "2022-10-03" AND "2022-10-05" GROUP BY `SLIP_DOCTOR`, CAST(`SLIP_DATE_TIME` AS DATE)';
+                    WHERE `SLIP_DOCTOR` IS NOT NULL AND `SLIP_TYPE` = 'OUTDOOR' 
+                    AND CAST(`SLIP_DATE_TIME` AS DATE) BETWEEN '$startDate' AND '$endDate' GROUP BY `SLIP_DOCTOR`, CAST(`SLIP_DATE_TIME` AS DATE)";
 
-                  }else if ($type == 'MONTH') {
-                    
-                    $reportSql ='SELECT MONTHNAME(STR_TO_DATE(MONTH(`SLIP_DATE_TIME`), "%m")) AS `MONTH`,
-                    Extract(MONTH FROM `SLIP_DATE_TIME`) AS `MONTH_NUMBER`,`me_doctors`.`DOCTOR_NAME` AS `CONSULTANT_NAME`,
-                    count(`SLIP_UUID`) AS `TOTAL_NO_OF_PATIENT`,
-                    ((SUM(`SLIP_FEE`)*1.0)*70)/100 AS `TOTAL_AMOUNT_PAID_TO_DOCTOR`,
-                    ((SUM(`SLIP_FEE`)*1.0)*30)/100 AS `TOTAL_AMOUNT_PAID_TO_CLINIC`, 
-                    ( ((SUM(`SLIP_FEE`)*1.0)*30)/100) - ((SUM(`SLIP_FEE`)*1.0)*1.25)/100 AS `RECEPTION_SHARE`
-                    FROM `me_slip` LEFT JOIN `me_doctors` ON `me_slip`.`SLIP_DOCTOR` = `me_doctors`.`DOCTOR_UUID` 
-                    WHERE `SLIP_DOCTOR` IS NOT NULL AND `SLIP_TYPE` = "OUTDOOR" AND MONTHNAME(STR_TO_DATE(MONTH(`SLIP_DATE_TIME`), "%m")) LIKE "Oct"
-                    GROUP BY `SLIP_DOCTOR`,CAST(`SLIP_DATE_TIME` AS DATE)';
-                                      
                   }
+                  // else if ($type == 'MONTH') {
+                    
+                  //   $reportSql ="SELECT MONTHNAME ( STR_TO_DATE (MONTH(`SLIP_DATE_TIME`), "%m")) AS `MONTH`,
+                  //   Extract(MONTH FROM `SLIP_DATE_TIME`) AS `MONTH_NUMBER`,`me_doctors`.`DOCTOR_NAME` AS `CONSULTANT_NAME`,
+                  //   count(`SLIP_UUID`) AS `TOTAL_NO_OF_PATIENT`,
+                  //   ((SUM(`SLIP_FEE`)*1.0)*70)/100 AS `TOTAL_AMOUNT_PAID_TO_DOCTOR`,
+                  //   ((SUM(`SLIP_FEE`)*1.0)*30)/100 AS `TOTAL_AMOUNT_PAID_TO_CLINIC`, 
+                  //   ( ((SUM(`SLIP_FEE`)*1.0)*30)/100) - ((SUM(`SLIP_FEE`)*1.0)*1.25)/100 AS `RECEPTION_SHARE`
+                  //   FROM `me_slip` LEFT JOIN `me_doctors` ON `me_slip`.`SLIP_DOCTOR` = `me_doctors`.`DOCTOR_UUID` 
+                  //   WHERE `SLIP_DOCTOR` IS NOT NULL AND `SLIP_TYPE` = "OUTDOOR" AND MONTHNAME(STR_TO_DATE(MONTH(`SLIP_DATE_TIME`), "%m")) LIKE "Oct"
+                  //   GROUP BY `SLIP_DOCTOR`,CAST(`SLIP_DATE_TIME` AS DATE)";
+                                      
+                  // }
                     $querySql = mysqli_query($db,$reportSql);
                     while($rs = mysqli_fetch_array($querySql))
                     { 

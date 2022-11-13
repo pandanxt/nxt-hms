@@ -138,7 +138,7 @@
                 <option value="" selected disabled>Select Report Type</option>
                 <option value="DAILY">Daily Report</option>
                 <option value="DATE_RANGE">B/W Dates Report</option>
-                <option value="MONTH">Month Report</option>
+                <!-- <option value="MONTH">Month Report</option> -->
               </select>
             </div>
             <div class="col-12" id="dateRange">
@@ -336,9 +336,7 @@
     </div>
   </div>
 </div>
-
 <!-- User Profile Related Popups -->
-
 <!-- View User Model Popup Ends Here -->
 <div class="modal fade" id="view-user">
   <div class="modal-dialog">
@@ -355,7 +353,6 @@
     </div>
   </div>
 </div>
-
 <!-- Update User Model Popup Here -->
 <div class="modal fade" id="edit-user">
   <div class="modal-dialog">
@@ -381,7 +378,6 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
-
 <!-- Update User Password Model Popup Here -->
 <div class="modal fade" id="pass-user">
   <div class="modal-dialog">
