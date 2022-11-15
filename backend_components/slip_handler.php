@@ -564,6 +564,44 @@
         }
         echo "</tbody>";
     }
+    // Get Slip History Query
+    if ($q == 'GET_SERVICE_SLIP') {
+        $service = "SELECT *, `USER_NAME` FROM `me_service_slip` INNER JOIN `me_user` WHERE `me_service_slip`.`STAFF_ID` = `me_user`.`USER_UUID`
+        AND `me_service_slip`.`SLIP_REFERENCE_UUID` = '$id'";
+        $serviceResult = mysqli_query($db, $service) or die (mysqli_error($db));
+        echo "<thead>
+        <tr style='font-size: 12px;'>
+          <th>Service Name</th>
+          <th>Service Fee</th>
+          <th>Date / Staff</th>
+          <th>Option</th>
+        </tr>
+        </thead>
+        <tbody>";
+        while ($serviceRow = mysqli_fetch_array($serviceResult)) {
+            echo "<tr style='font-size: 12px;'>
+                <td>$serviceRow[SLIP_SERVICE_NAME]</td>
+                <td>
+                    <b>Rate:</b> $serviceRow[SLIP_SERVICE_TOTAL]</br>
+                    <b>Discount:</b> $serviceRow[SLIP_SERVICE_DISCOUNT]</br>
+                    <b>Total:</b> $serviceRow[SLIP_SERVICE_RATE]
+                </td>
+                <td>$serviceRow[SLIP_DATE_TIME]</br>$serviceRow[USER_NAME]</td>
+                <td>
+                    <a href='javascript:void(0)' onclick='printMiniSlipRecord(this);' data-uuid='$serviceRow[SLIP_UUID]' data-type='SERVICE_SLIP' style='color:green;'>
+                      <i class='fas fa-wallet'></i> Slip Print
+                    </a>";
+                    if ($_SESSION['role'] == "admin") { 
+                        echo "<br>
+                        <a onClick='deleteServiceSlip(this)' data-uuid='$serviceRow[SLIP_UUID]' href='javascript:void(0);' style='color:red;'>
+                            <i class='fas fa-trash'></i> Delete Slip
+                        </a>";
+                    }
+                echo "</td>
+            </tr>";
+        }
+        echo "</tbody>";
+    }
     //GET PATIENT BY ID Query
     if ($q == 'GET_PATIENT_BY_ID') {
         $patientSql="SELECT * FROM `me_patient` WHERE `me_patient`.`PATIENT_MR_ID` = '$id'";

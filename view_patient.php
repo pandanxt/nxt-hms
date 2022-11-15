@@ -123,24 +123,40 @@
                                         echo "<tr style='font-size: 12px;'>
                                         <td>$slip_row[SLIP_MRID]";
                                           if ($difference->d <= 7) {
-                                              $followUp = "SELECT * FROM `me_followup_slip` WHERE `SLIP_REFERENCE_UUID` = ?";
-                                              $stmt = mysqli_stmt_init($db);
-                                              if (mysqli_stmt_prepare($stmt,$followUp)) {
-                                                mysqli_stmt_bind_param($stmt,"s",$slip_row['SLIP_UUID']);
-                                                mysqli_stmt_execute($stmt);
-                                                mysqli_stmt_store_result($stmt);
-                                                $resultCheck = mysqli_stmt_num_rows($stmt);
-                                                if ($resultCheck == 0) {
-                                                  echo "<br><a href='javascript:void(0);' onclick='getSlipId(this);' data-uuid='$slip_row[SLIP_UUID]' data-type='$slip_row[SLIP_TYPE]' data-toggle='modal' data-target='#generate-followup'>
-                                                    <i class='fas fa-plus'></i> FollowUp Slip
-                                                  </a>";
-                                                }
+                                            $followUp = "SELECT * FROM `me_followup_slip` WHERE `SLIP_REFERENCE_UUID` = ?";
+                                            $stmt = mysqli_stmt_init($db);
+                                            if (mysqli_stmt_prepare($stmt,$followUp)) {
+                                              mysqli_stmt_bind_param($stmt,"s",$slip_row['SLIP_UUID']);
+                                              mysqli_stmt_execute($stmt);
+                                              mysqli_stmt_store_result($stmt);
+                                              $resultCheck = mysqli_stmt_num_rows($stmt);
+                                              if ($resultCheck == 0 && $slip_row['SLIP_TYPE'] == 'OUTDOOR') {
+                                                echo "<br><a href='javascript:void(0);' onclick='getSlipId(this);' data-uuid='$slip_row[SLIP_UUID]' data-type='$slip_row[SLIP_TYPE]' data-toggle='modal' data-target='#generate-followup'>
+                                                  <i class='fas fa-plus'></i> FollowUp Slip
+                                                </a>";
                                               }
-                                            echo "<br><a href='javascript:void(0);' onclick='getSlipId(this);' data-uuid='$slip_row[SLIP_UUID]' data-type='$slip_row[SLIP_TYPE]' data-toggle='modal' data-target='#generate-service'>
-                                              <i class='fas fa-plus'></i> Service Slip
-                                            </a>";
+                                            }
                                           }
-                                        echo "</td>
+                                          $printFollowUp = "SELECT `SLIP_UUID` FROM `me_followup_slip` WHERE `SLIP_REFERENCE_UUID` = '$slip_row[SLIP_UUID]'";
+                                          $followSql = mysqli_query($db, $printFollowUp) or die (mysqli_error($db));
+                                          $folResult = mysqli_fetch_array($followSql);
+                                            if ($folResult > 0) {
+                                              echo "<br><a href='javascript:void(0)' onclick='printMiniSlipRecord(this);' data-uuid='$folResult[SLIP_UUID]' data-type='FOLLOWUP_SLIP' style='color:green;'>
+                                                <i class='fas fa-wallet'></i> FollowUp Print
+                                              </a>";
+                                            }
+                                          $serviceRecord = "SELECT `SLIP_UUID` FROM `me_service_slip` WHERE `SLIP_REFERENCE_UUID` = '$slip_row[SLIP_UUID]'";
+                                          $serviceSql = mysqli_query($db, $serviceRecord) or die (mysqli_error($db));
+                                          $serResult = mysqli_fetch_array($serviceSql);
+                                            if ($serResult > 0) {
+                                              echo "<br><a href='javascript:void(0);' onclick='viewService(this);' data-uuid='$slip_row[SLIP_UUID]' data-toggle='modal' data-target='#view-service' style='color:green;'>
+                                                <i class='fas fa-sticky-note'></i> Service Print
+                                              </a>";
+                                            }
+                                          echo "<br><a href='javascript:void(0);' onclick='getSlipId(this);' data-uuid='$slip_row[SLIP_UUID]' data-type='$slip_row[SLIP_TYPE]' data-toggle='modal' data-target='#generate-service'>
+                                            <i class='fas fa-plus'></i> Service Slip
+                                          </a>
+                                        </td>
                                         <td><b>$slip_row[SLIP_TYPE]</b>
                                           <br><a href='javascript:void(0)' onclick='printSlipRecord(this);' data-uuid='$slip_row[SLIP_UUID]' data-type='$slip_row[SLIP_TYPE]' style='color:green;'>
                                           <i class='fas fa-wallet'></i> Print Slip

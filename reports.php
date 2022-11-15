@@ -31,9 +31,6 @@
             }else if($type=='DATE_RANGE'){
               echo"Date Range Report Filter";
             }
-            // else if($type=='MONTH'){
-            //   echo"Monthly Report Filter";
-            // }
           ?>
           </h5>
             <div class="row col-12">
@@ -92,19 +89,7 @@
                     AND CAST(`SLIP_DATE_TIME` AS DATE) BETWEEN '$startDate' AND '$endDate' GROUP BY `SLIP_DOCTOR`, CAST(`SLIP_DATE_TIME` AS DATE)";
 
                   }
-                  // else if ($type == 'MONTH') {
-                    
-                  //   $reportSql ="SELECT MONTHNAME ( STR_TO_DATE (MONTH(`SLIP_DATE_TIME`), "%m")) AS `MONTH`,
-                  //   Extract(MONTH FROM `SLIP_DATE_TIME`) AS `MONTH_NUMBER`,`me_doctors`.`DOCTOR_NAME` AS `CONSULTANT_NAME`,
-                  //   count(`SLIP_UUID`) AS `TOTAL_NO_OF_PATIENT`,
-                  //   ((SUM(`SLIP_FEE`)*1.0)*70)/100 AS `TOTAL_AMOUNT_PAID_TO_DOCTOR`,
-                  //   ((SUM(`SLIP_FEE`)*1.0)*30)/100 AS `TOTAL_AMOUNT_PAID_TO_CLINIC`, 
-                  //   ( ((SUM(`SLIP_FEE`)*1.0)*30)/100) - ((SUM(`SLIP_FEE`)*1.0)*1.25)/100 AS `RECEPTION_SHARE`
-                  //   FROM `me_slip` LEFT JOIN `me_doctors` ON `me_slip`.`SLIP_DOCTOR` = `me_doctors`.`DOCTOR_UUID` 
-                  //   WHERE `SLIP_DOCTOR` IS NOT NULL AND `SLIP_TYPE` = "OUTDOOR" AND MONTHNAME(STR_TO_DATE(MONTH(`SLIP_DATE_TIME`), "%m")) LIKE "Oct"
-                  //   GROUP BY `SLIP_DOCTOR`,CAST(`SLIP_DATE_TIME` AS DATE)";
-                                      
-                  // }
+                  
                     $querySql = mysqli_query($db,$reportSql);
                     while($rs = mysqli_fetch_array($querySql))
                     { 

@@ -74,13 +74,9 @@
                                 </a>";
                             }   
                             if ($_SESSION['role'] == "admin") {  
-                            // echo "<br>
-                            // <a href='indoor_bill.php?id=$rs[BILL_UUID]'>
-                            //   <i class='fas fa-edit'></i> Edit
-                            // </a>
-                            echo "<br><a onClick='deleteBill(this)' data-billId='$rs[BILL_UUID]' data-slipId='$rs[BILL_SLIP_UUID]' href='javascript:void(0);' style='color:red;'>
+                              echo "<br><a onClick='deleteBill(this)' data-billId='$rs[BILL_UUID]' data-slipId='$rs[BILL_SLIP_UUID]' href='javascript:void(0);' style='color:red;'>
                                 <i class='fas fa-trash'></i> Delete
-                            </a>";
+                              </a>";
                             }
                         echo "</td>
                         </tr>"; 

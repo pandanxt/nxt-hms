@@ -315,6 +315,20 @@ function viewHistory(str) {
   xmlhttp.open("GET", `backend_components/slip_handler.php?q=GET_SLIP_HISTORY&id=${uuid}&val=${type}`, true);
   xmlhttp.send();
 }
+// Service Slip Record
+function viewService(str) {
+  let uuid = str.getAttribute("data-uuid");
+
+  if (uuid == "") { return; }
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("serviceSlipTable").innerHTML = this.responseText;
+    }
+  }
+  xmlhttp.open("GET", `backend_components/slip_handler.php?q=GET_SERVICE_SLIP&id=${uuid}`, true);
+  xmlhttp.send();
+}
 // Get Slip Id to Assign to slipId Variable
 function getSlipId(id) { slipId = id.getAttribute("data-uuid"); }
 // Get Discount Function
