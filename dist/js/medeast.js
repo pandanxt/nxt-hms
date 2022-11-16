@@ -294,6 +294,7 @@ function deleteSlip(str) {
             title: res.message
           });
         });
+        autoRefresh();
       }
     });
   } else {

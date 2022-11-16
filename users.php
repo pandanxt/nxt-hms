@@ -88,7 +88,7 @@
                             </a>";
                             if ($_SESSION['uuid'] != $rs['USER_UUID']) { 
                             echo "<br>
-                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/user_handler.php?q=DELETE_USER&id=$rs[USER_UUID]' style='color:red;'>
+                            <a href='javascript:void(0);' onClick='deleteUser(this)' data-uuid='$rs[USER_UUID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
                             </a>";
                             }

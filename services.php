@@ -71,14 +71,14 @@
                             <b>On</b>: $rs[SERVICE_DATE_TIME]
                         </td>
                         <td style='display:flex;'>
-                            <a href='javascript:void(0);' onclick='getService(this);' data-uuid='$rs[SERVICE_UUID]' data-toggle='modal' data-target='#view-service' style='color:green;'>
+                            <a href='javascript:void(0);' onclick='getService(this);' data-uuid='$rs[SERVICE_UUID]' data-toggle='modal' data-target='#display-service' style='color:green;'>
                               <i class='fas fa-info-circle'></i> Details
                             </a>
                             <br>
                             <a href='javascript:void(0);' onclick='editService(this);' data-uuid='$rs[SERVICE_UUID]' data-toggle='modal' data-target='#edit-service'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
-                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/service_handler.php?q=DELETE_SERVICE&id=$rs[SERVICE_UUID]' style='color:red;'>
+                            <a href='javascript:void(0);' onClick='deleteService(this)' data-uuid='$rs[SERVICE_UUID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
                             </a>
                         </td>
@@ -145,7 +145,7 @@
   <!-- **
   *  View User Model Popup Ends Here 
   ** -->
-  <div class="modal fade" id="view-service">
+  <div class="modal fade" id="display-service">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">

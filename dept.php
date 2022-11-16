@@ -77,7 +77,7 @@
                             <a href='javascript:void(0);' onclick='editDept(this);' data-uuid='$rs[DEPARTMENT_UUID]' data-toggle='modal' data-target='#edit-dept'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
-                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/dept_handler.php?q=DELETE_DEPT&id=$rs[DEPARTMENT_UUID]' style='color:red;'>
+                            <a href='javascript:void(0);' onClick='deleteDept(this)' data-uuid='$rs[DEPARTMENT_UUID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
                             </a>
                         </td>

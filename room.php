@@ -78,7 +78,7 @@
                             <a href='javascript:void(0);' onclick='editRoom(this);' data-uuid='$rs[ROOM_UUID]' data-toggle='modal' data-target='#edit-room'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
-                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/room_handler.php?q=DELETE_ROOM&id=$rs[ROOM_UUID]' style='color:red;'>
+                            <a href='javascript:void(0);' onClick='deleteRoom(this)' data-uuid='$rs[ROOM_UUID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
                             </a>
                         </td>

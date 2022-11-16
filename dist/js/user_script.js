@@ -82,3 +82,37 @@ function handleStatus(status) {
     return false;
   } else { return false; }
 }
+
+// Delete User
+function deleteUser(str) {
+  let uuid = str.getAttribute("data-uuid");
+  if (uuid == "") { return; }
+  let checkConfirm = confirm('Please confirm deletion');
+  if (checkConfirm) {
+    // ajax
+    $.ajax({
+      type: "POST",
+      url: `backend_components/user_handler.php?q=DELETE_USER&id=${uuid}`,
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1000
+          });
+          Toast.fire({
+            icon: res.status,
+            title: res.message
+          });
+        });
+        autoRefresh();
+      }
+    });
+  } else {
+    return;
+  }
+}

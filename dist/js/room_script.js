@@ -146,3 +146,37 @@ function editRoom(str) {
   xmlHttp.open("GET", `backend_components/room_handler.php?q=EDIT_ROOM_BY_ID&id=${uuid}`, true);
   xmlHttp.send();
 }
+
+// Delete Room
+function deleteRoom(str) {
+  let uuid = str.getAttribute("data-uuid");
+  if (uuid == "") { return; }
+  let checkConfirm = confirm('Please confirm deletion');
+  if (checkConfirm) {
+    // ajax
+    $.ajax({
+      type: "POST",
+      url: `backend_components/room_handler.php?q=DELETE_ROOM&id=${uuid}`,
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1000
+          });
+          Toast.fire({
+            icon: res.status,
+            title: res.message
+          });
+        });
+        autoRefresh();
+      }
+    });
+  } else {
+    return;
+  }
+}

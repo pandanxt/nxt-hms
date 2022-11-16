@@ -133,7 +133,6 @@
                     <div class='row'><label>Name:</label> &nbsp;<p> $row[USER_NAME]</p></div>
                     <div class='row'><label>Email:</label> &nbsp;<p> $row[USER_EMAIL]</p></div>";
 
-                    if ($_SESSION['role'] == "admin") {  
                     echo "<div class='row'>
                     <label>Options: </label>
                     &nbsp;";
@@ -155,13 +154,13 @@
                     <a href='javascript:void(0);' onclick='editUser(this);' data-uuid='$row[USER_UUID]' data-toggle='modal' data-target='#edit-user'>
                         <i class='fas fa-edit'></i>
                     </a>";
-                    if ($_SESSION['uuid'] != $row['USER_UUID']) { 
-                    echo "&nbsp;
-                    <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/user_handler.php?q=DELETE_USER&id=$row[USER_UUID]' style='color:red;'><i class='fas fa-trash'></i></a>";
+                    if ($_SESSION['uuid'] != $row['USER_UUID'] || $_SESSION['role'] == "admin") { 
+                        echo "&nbsp;
+                        <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/user_handler.php?q=DELETE_USER&id=$row[USER_UUID]' style='color:red;'><i class='fas fa-trash'></i></a>";
                     }
                     echo "</div>";
                     
-                }
+                
 
                 echo "</div>
                 </div>

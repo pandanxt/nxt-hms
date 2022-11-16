@@ -227,36 +227,38 @@ function editVisitor(str) {
 }
 // Delete Doctor
 function deleteDoctor(str) {
-    let confirm = window.confirm("Please confirm deletion!");
-    if (confirm) {
-        let uuid = str.getAttribute("data-uuid");
-        if (uuid == "") { return; }
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = function (res) {
-            if (this.readyState == 4 && this.status == 200) {
-                // success: function (res) {
-                res = JSON.parse(res);
-                console.log(res);
-                $(function () {
-                    var Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 1000
-                    });
-                    Toast.fire({
-                        icon: res.status,
-                        title: res.message
-                    });
-                    autoRefresh();
-                });
-                // }
-            }
+    let uuid = str.getAttribute("data-uuid");
+    if (uuid == "") { return; }
+    let checkConfirm = confirm('Please confirm deletion');
+    if (checkConfirm) {
+      // ajax
+      $.ajax({
+        type: "POST",
+        url: `backend_components/doctor_handler.php?q=DELETE_DOCTOR&id=${uuid}`,
+        success: function (res) {
+          res = JSON.parse(res);
+          console.log(res);
+  
+          $(function () {
+            var Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 1000
+            });
+            Toast.fire({
+              icon: res.status,
+              title: res.message
+            });
+          });
+          autoRefresh();
         }
-        xmlHttp.open("GET", `backend_components/doctor_handler.php?q=DELETE_DOCTOR&id=${uuid}`, true);
-        xmlHttp.send();
+      });
+    } else {
+      return;
     }
-}
+  }
+
 // Update Doctor Status
 function handleStatus(status) {
     if (status.value !== null && status.value != '') {

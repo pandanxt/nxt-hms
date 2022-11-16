@@ -99,13 +99,14 @@
         </ul>
       </li>
       <!--./Setting Box -->
-      <?php if (isset($_SESSION['uuid']) && $_SESSION['role'] == "admin") {  ?>
+      
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="javascript:void(0);">
           <i class="fas fa-cog"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">Settings</span>
+          <?php if (isset($_SESSION['uuid']) && $_SESSION['role'] == "admin") {  ?>
           <div class="dropdown-divider"></div>
           <a href="doctors.php" class="dropdown-item">
             Medeast Doctors <span class="float-right text-muted text-sm"><i class="fas fa-user-md"></i></span>
@@ -130,6 +131,7 @@
           <a href="users.php" class="dropdown-item">
              Users <span class="float-right text-muted text-sm"><i class="fas fa-users"></i></span>
           </a>
+          <?php } ?> 
           <div class="dropdown-divider"></div>
           <a href="javascript:void(0);" class="dropdown-item" onclick="editUser(this);" data-uuid="<?php echo $_SESSION['uuid']; ?>" data-toggle="modal" data-target="#edit-user">
              Edit Profile <span class="float-right text-muted text-sm"><i class="fas fa-user-edit"></i></span>
@@ -144,7 +146,7 @@
           </a>                
         </div>
       </li>
-      <?php } ?> 
+      
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="javascript:void(0);" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
