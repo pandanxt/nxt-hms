@@ -7,8 +7,7 @@
     $val = (isset($_GET['val']) ? $_GET['val'] : '');
     // Connection File
     include "connection.php";
-    
-    // Add Medeast Doctor Query
+    // Add Doctor Query
     if($q == 'ADD_DOCTOR') {
         $uid = mysqli_real_escape_string($db, $_POST['uuId']);
         $name = mysqli_real_escape_string($db, $_POST['name']);
@@ -18,7 +17,6 @@
 
         $sql = "SELECT * FROM `me_doctors` WHERE `DOCTOR_NAME` = ?";
         $stmt = mysqli_stmt_init($db);
-            
         if (!mysqli_stmt_prepare($stmt,$sql)) {
             echo "Error: " . $sql . "" . mysqli_error($stmt);
         }else{
@@ -26,27 +24,24 @@
             mysqli_stmt_execute($stmt);
             mysqli_stmt_store_result($stmt);
             $resultCheck = mysqli_stmt_num_rows($stmt);
-                
                 if ($resultCheck > 0) {
                     echo "name or mobile number already taken!";
                 }else{
-                        $sql = "INSERT INTO `me_doctors`(`DOCTOR_UUID`, `DOCTOR_NAME`, `DOCTOR_MOBILE`, `DOCTOR_DEPARTMENT`, `STAFF_ID`) VALUES (?,?,?,?,?)";
+                    $sql = "INSERT INTO `me_doctors`(`DOCTOR_UUID`, `DOCTOR_NAME`, `DOCTOR_MOBILE`, `DOCTOR_DEPARTMENT`, `STAFF_ID`) VALUES (?,?,?,?,?)";
+                    mysqli_stmt_execute($stmt);
+                    if (!mysqli_stmt_prepare($stmt,$sql)) {
+                        echo "Error: " . $sql . "" . mysqli_error($stmt);
+                    }else{
+                        mysqli_stmt_bind_param($stmt,"sssss",$uid,$name,$mobile,$department,$by);
                         mysqli_stmt_execute($stmt);
-                    
-                        if (!mysqli_stmt_prepare($stmt,$sql)) {
-                            echo "Error: " . $sql . "" . mysqli_error($stmt);
-                        }else{
-                            mysqli_stmt_bind_param($stmt,"sssss",$uid,$name,$mobile,$department,$by);
-                            mysqli_stmt_execute($stmt);
-                            echo "Form Has been submitted successfully";
-                        }			
-                    }
+                        echo "Form Has been submitted successfully";
+                    }			
+                }
             }
         mysqli_stmt_close($stmt);
         mysqli_close($db);
     }
-
-    // Update Medeast Doctor Query
+    // Edit Doctor Query
     if ($q == 'EDIT_DOCTOR') {
         $uuid = mysqli_real_escape_string($db, $_POST['uuid']);
         $name = mysqli_real_escape_string($db, $_POST['docName']);
@@ -60,9 +55,8 @@
             echo "Error: " . $sql . "" . mysqli_error($db);
         }	
     }
-
-    // Get Medeast Doctor by Id
-    if ($q == 'GET-DOCTOR-BY-ID') { 
+    // Get Doctor by Id
+    if ($q == 'GET_DOCTOR_BY_ID') { 
 
         $user = "SELECT *,`DEPARTMENT_NAME` FROM `me_doctors` INNER JOIN `me_department` WHERE  `me_doctors`.`DOCTOR_DEPARTMENT` = `me_department`.`DEPARTMENT_UUID` AND `DOCTOR_UUID` = '$id'";
         $result = mysqli_query($db, $user) or die (mysqli_error($db));
@@ -107,9 +101,8 @@
             }
         }
     }
-
-    // Edit Medeast Doctor by Id
-    if ($q == 'EDIT-DOCTOR-BY-ID') { 
+    // Edit Doctor by Id
+    if ($q == 'EDIT_DOCTOR_BY_ID') { 
     
         $user = "SELECT *, `DEPARTMENT_NAME` FROM `me_doctors` INNER JOIN `me_department` WHERE `me_doctors`.`DOCTOR_DEPARTMENT` = `me_department`.`DEPARTMENT_UUID` AND `DOCTOR_UUID` = '$id'";
         $result = mysqli_query($db, $user) or die (mysqli_error($db));
@@ -149,10 +142,8 @@
                 </div>";
                 }
             }
-    }   
-
+    }  
     // VISITING DOCTOR HANDLER
-
     // Add Visiting Doctor Query
     if($q == 'ADD_VT_DOCTOR') {
         $uuid = mysqli_real_escape_string($db, $_POST['uuId']);
@@ -170,28 +161,26 @@
             mysqli_stmt_execute($stmt);
             mysqli_stmt_store_result($stmt);
             $resultCheck = mysqli_stmt_num_rows($stmt);
-                
                 if ($resultCheck > 0) {
                     echo "name already taken!";
                 }else{
-                        $sql = "INSERT INTO `me_doctors`(`DOCTOR_UUID`,`DOCTOR_NAME`,`DOCTOR_MOBILE`,`DOCTOR_TYPE`, `STAFF_ID`) VALUES (?,?,?,?,?)";
+                    $sql = "INSERT INTO `me_doctors`(`DOCTOR_UUID`,`DOCTOR_NAME`,`DOCTOR_MOBILE`,`DOCTOR_TYPE`, `STAFF_ID`) VALUES (?,?,?,?,?)";
+                    mysqli_stmt_execute($stmt);
+                
+                    if (!mysqli_stmt_prepare($stmt,$sql)) {
+                        echo "Error: " . $sql . "" . mysqli_error($stmt);
+                    }else{
+                        mysqli_stmt_bind_param($stmt,"sssss",$uuid,$name,$mobile,$type,$by);
                         mysqli_stmt_execute($stmt);
-                    
-                        if (!mysqli_stmt_prepare($stmt,$sql)) {
-                            echo "Error: " . $sql . "" . mysqli_error($stmt);
-                        }else{
-                            mysqli_stmt_bind_param($stmt,"sssss",$uuid,$name,$mobile,$type,$by);
-                            mysqli_stmt_execute($stmt);
-                            echo "New Visiting Doctor Added Successfully";
-                        }			
-                    }
+                        echo "New Visiting Doctor Added Successfully";
+                    }			
+                }
             }
         mysqli_stmt_close($stmt);
         mysqli_close($db);
 
     }
-
-    // Update Visiting Doctor Query
+    // Edit Visiting Doctor Query
     if ($q == 'EDIT_VT_DOCTOR') {
         $uuid = mysqli_real_escape_string($db, $_POST['uuid']);
         $name = mysqli_real_escape_string($db, $_POST['vtEtName']);
@@ -204,7 +193,6 @@
             echo "Error: " . $sql . "" . mysqli_error($db);
         }	
     }
-
     // Get Visiting Doctor By Id
     if ($q == 'GET_VT_DOCTOR_BY_ID') { 
 
@@ -250,7 +238,6 @@
             }
         }
     }
-
     // Edit Visiting Doctor By Id
     if ($q == 'EDIT_VT_DOCTOR_BY_ID') { 
 
@@ -278,8 +265,7 @@
                 }
             }
     }
-
-    // Medeast Doctor Status Update 
+    // Update Doctor Status 
     if ($q == 'STATUS_DOCTOR') {
         if(mysqli_query($db, "UPDATE `me_doctors` SET `DOCTOR_STATUS`= '$val' WHERE `DOCTOR_UUID` = '$id'")) {
             echo 'Status Updated successfully';
@@ -287,24 +273,12 @@
             echo "Error: " . $sql . "" . mysqli_error($db);
         }
     }
-
-    // Medeast Delete Query
+    // Doctor Delete Query
     if($q == 'DELETE_DOCTOR') {
         if(mysqli_query($db, "DELETE FROM `me_doctors` WHERE `DOCTOR_UUID` ='$id'")) {
-            // echo 'User Deleted Successfully';
             echo '<script>window.location = "../doctors.php?action=deleted";</script>';
         } else {
             echo "Error: " . $sql . "" . mysqli_error($db);
         }
     }
-
-    // // Medeast Delete Query
-    // if($q == 'DELETE_DOCTOR') {
-    //     if(mysqli_query($db, "DELETE FROM `me_doctors` WHERE `DOCTOR_UUID` ='$id'")) {
-    //         // echo 'User Deleted Successfully';
-    //         echo '<script>window.location = "../visiting-doctors.php?action=deleted";</script>';
-    //     } else {
-    //         echo "Error: " . $sql . "" . mysqli_error($db);
-    //     }
-    // }
 ?>

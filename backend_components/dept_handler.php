@@ -7,8 +7,7 @@
     $val = (isset($_GET['val']) ? $_GET['val'] : '');
     // Connection File
     include "connection.php";
-
-    // Add Medeast Department Query
+    // Add Department Query
     if($q == 'ADD_DEPT') {
         $uid = mysqli_real_escape_string($db, $_POST['uuId']);
         $name = mysqli_real_escape_string($db, $_POST['name']);
@@ -16,7 +15,6 @@
 
         $sql = "SELECT * FROM `me_department` WHERE `DEPARTMENT_NAME` = ?";
         $stmt = mysqli_stmt_init($db);
-          
         if (!mysqli_stmt_prepare($stmt,$sql)) {
             echo "Error: " . $sql . "" . mysqli_error($stmt);
         }else{
@@ -24,27 +22,24 @@
             mysqli_stmt_execute($stmt);
             mysqli_stmt_store_result($stmt);
             $resultCheck = mysqli_stmt_num_rows($stmt);
-                
                 if ($resultCheck > 0) {
                     echo "name already taken!";
                 }else{
-                        $sql = "INSERT INTO `me_department`(`DEPARTMENT_UUID`,`DEPARTMENT_NAME`, `STAFF_ID`) VALUES (?,?,?)";
+                    $sql = "INSERT INTO `me_department`(`DEPARTMENT_UUID`,`DEPARTMENT_NAME`, `STAFF_ID`) VALUES (?,?,?)";
+                    mysqli_stmt_execute($stmt);
+                    if (!mysqli_stmt_prepare($stmt,$sql)) {
+                        echo "Error: " . $sql . "" . mysqli_error($stmt);
+                    }else{
+                        mysqli_stmt_bind_param($stmt,"sss",$uid,$name,$by);
                         mysqli_stmt_execute($stmt);
-                    
-                        if (!mysqli_stmt_prepare($stmt,$sql)) {
-                            echo "Error: " . $sql . "" . mysqli_error($stmt);
-                        }else{
-                            mysqli_stmt_bind_param($stmt,"sss",$uid,$name,$by);
-                            mysqli_stmt_execute($stmt);
-                            echo "New Department Saved Successfully";
-                        }			
-                    }
+                        echo "New Department Saved Successfully";
+                    }			
+                }
             }
         mysqli_stmt_close($stmt);
         mysqli_close($db);
     } 
-    
-    // Medeast Doctor Status Update 
+    // Department Status Update 
     if ($q == 'STATUS_DEPT') {
         if(mysqli_query($db, "UPDATE `me_department` SET `DEPARTMENT_STATUS`= '$val' WHERE `DEPARTMENT_UUID` = '$id'")) {
             echo 'Form Has been submitted successfully';
@@ -52,12 +47,11 @@
             echo "Error: " . $sql . "" . mysqli_error($db);
         }
     }
-
-    // Update Medeast Dept Query
+    // Update  Department Query
     if ($q == 'EDIT_DEPT') {
         $uuid = mysqli_real_escape_string($db, $_POST['uuid']);
         $name = mysqli_real_escape_string($db, $_POST['deptName']);
-        
+
         if(mysqli_query($db, "UPDATE `me_department` SET `DEPARTMENT_NAME`='$name' WHERE `DEPARTMENT_UUID` = '$uuid'"))
         {
             echo 'Department Updated Successfully';
@@ -65,19 +59,16 @@
             echo "Error: " . $sql . "" . mysqli_error($db);
         }	
     }
-
-    // Medeast Delete Query
+    // Delete Department Query
     if($q == 'DELETE_DEPT') {
         if(mysqli_query($db, "DELETE FROM `me_department` WHERE `DEPARTMENT_UUID` ='$id'")) {
-            // echo 'User Deleted Successfully';
             echo '<script>window.location = "../dept.php?action=deleted";</script>';
         } else {
             echo "Error: " . $sql . "" . mysqli_error($db);
         }
     }
-
-    // Get Medeast Room by Id
-    if ($q == 'GET-DEPT-BY-ID') { 
+    // Get Room by Id
+    if ($q == 'GET_DEPT_BY_ID') { 
 
         $user = "SELECT * FROM `me_department` WHERE `DEPARTMENT_UUID` = '$id'";
         $result = mysqli_query($db, $user) or die (mysqli_error($db));
@@ -120,9 +111,8 @@
             }
         }
     }
-
-    // Edit Medeast User by Id
-    if ($q == 'EDIT-DEPT-BY-ID') { 
+    // Edit Department by Id
+    if ($q == 'EDIT_DEPT_BY_ID') { 
     
         $user = "SELECT * FROM `me_department` WHERE `DEPARTMENT_UUID` = '$id'";
         $result = mysqli_query($db, $user) or die (mysqli_error($db));

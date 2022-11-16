@@ -42,7 +42,7 @@
 
             <div class="card">
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="example1" class="table table-bordered table-striped table-hover">
                   <thead>
                   <tr style='font-size: 14px;'>
                     <th>Full Name</th>
@@ -85,11 +85,14 @@
                             <br>
                             <a href='javascript:void(0);' onclick='editUser(this);' data-uuid='$rs[USER_UUID]' data-toggle='modal' data-target='#edit-user'>
                               <i class='fas fa-edit'></i> Edit
-                            </a><br>
+                            </a>";
+                            if ($_SESSION['uuid'] != $rs['USER_UUID']) { 
+                            echo "<br>
                             <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/user_handler.php?q=DELETE_USER&id=$rs[USER_UUID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
-                            </a>
-                        </td>
+                            </a>";
+                            }
+                        echo "</td>
                         </tr>"; 
                       }
                   ?>
@@ -165,85 +168,6 @@
             <button type="submit" name="submit" class="btn btn-primary">Save</button>
           </div>
         </form>
-      </div>
-      <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-  </div>
-
-  <!-- **
-  *  View User Model Popup Ends Here 
-  ** -->
-  <div class="modal fade" id="view-user">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i> Medeast User</h4>
-          <button onclick="autoRefresh()" type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <span id="err-msg" style="display: none"></span>
-        <div class="modal-body" id="viewUser">
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- **
-  *  Update User Model Popup Here 
-  ** -->
-  <div class="modal fade" id="edit-user">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i> Medeast User</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <span id="err-msg" style="display: none"></span>
-        <form action='javascript:void(0)' method='post' id='editUser'>
-          <div class='modal-body' id='editForm'>
-          </div>
-          <div class='modal-footer justify-content-between'>
-              <button type='button' class='btn btn-default' data-dismiss='modal'>Cancel</button>
-              <button type='submit' name='submit' class='btn btn-primary'>Save</button>
-          </div>
-        </form>
-        </div>
-      </div>
-      <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-  </div>
-
-  <!-- **
-  *  Update User Password Model Popup Here 
-  ** -->
-  <div class="modal fade" id="pass-user">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i>Update Password</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <span id="err-msg" style="display: none"></span>
-        <form action='javascript:void(0)' method='post' id='passUser'>
-          <div class='modal-body'>
-            <div class="form-group">
-              <label>Password</label>
-              <input type="password" class="form-control" name="userpassword" id="userpassword" placeholder="Enter Strong Password ..." pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-            </div>
-          </div>
-          <div class='modal-footer justify-content-between'>
-              <button type='button' class='btn btn-default' data-dismiss='modal'>Cancel</button>
-              <button type='submit' name='submit' class='btn btn-primary'>Save</button>
-          </div>
-        </form>
-        </div>
       </div>
       <!-- /.modal-content -->
     </div>

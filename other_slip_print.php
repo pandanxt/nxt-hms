@@ -2,7 +2,8 @@
  // Session Start
  session_start();
  $sid = (isset($_GET['sid']) ? $_GET['sid'] : '');
- $stype = (isset($_GET['type']) ? $_GET['type'] : '');
+ $slip = (isset($_GET['type']) ? $_GET['type'] : '');
+//  $slip = (isset($_GET['slip']) ? $_GET['slip'] : '');
 
 if (isset($_SESSION['uuid'])) {  
   // Connection File
@@ -15,23 +16,42 @@ if (isset($_SESSION['uuid'])) {
   include('components/sidebar.php');
 
     if($sid) {
-       // Query to get Outdoor Slip Details
-       if ($stype == 'FOLLOWUP_SLIP') {
-            $slipQuery ="SELECT `a`.*,`b`.`SLIP_MRID`,`b`.`SLIP_NAME`,`b`.`SLIP_MOBILE`,`b`.`SLIP_DEPARTMENT`,`b`.`SLIP_DOCTOR`,`b`.`SLIP_TYPE`,`b`.`SLIP_SUB_TYPE`,`c`.`USER_NAME`,`d`.`DOCTOR_NAME`, `e`.* , `f`.`DEPARTMENT_NAME` FROM `me_followup_slip` AS `a`  
-            INNER JOIN `me_slip` AS `b` ON `b`.`SLIP_UUID` = `a`.`SLIP_REFERENCE_UUID`
-            INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID` 
-            INNER JOIN `me_doctors` AS `d` ON `d`.`DOCTOR_UUID` = `b`.`SLIP_DOCTOR`
-            INNER JOIN `me_department` AS `f` ON `f`.`DEPARTMENT_UUID` = `b`.`SLIP_DEPARTMENT` 
-            INNER JOIN `me_patient` AS `e` ON `e`.`PATIENT_MR_ID` = `b`.`SLIP_MRID` 
-            WHERE `a`.`SLIP_UUID` = '$sid'";
-        }else if($stype == 'SERVICE_SLIP') {
-            $slipQuery ="SELECT `a`.*,`b`.`SLIP_MRID`,`b`.`SLIP_NAME`,`b`.`SLIP_MOBILE`,`b`.`SLIP_DEPARTMENT`,`b`.`SLIP_DOCTOR`,`b`.`SLIP_TYPE`,`b`.`SLIP_SUB_TYPE`,`c`.`USER_NAME`,`d`.`DOCTOR_NAME`, `e`.*, `f`.`DEPARTMENT_NAME` FROM `me_service_slip` AS `a`  
-            INNER JOIN `me_slip` AS `b` ON `b`.`SLIP_UUID` = `a`.`SLIP_REFERENCE_UUID`
-            INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID` 
-            INNER JOIN `me_doctors` AS `d` ON `d`.`DOCTOR_UUID` = `b`.`SLIP_DOCTOR` 
-            INNER JOIN `me_department` AS `f` ON `f`.`DEPARTMENT_UUID` = `b`.`SLIP_DEPARTMENT`
-            INNER JOIN `me_patient` AS `e` ON `e`.`PATIENT_MR_ID` = `b`.`SLIP_MRID` 
-            WHERE `a`.`SLIP_UUID` = '$sid'";
+        // Query to get Outdoor Slip Details
+        if ($slip == 'FOLLOWUP_SLIP') {
+            // if($type == 'OUTDOOR' || $type == 'INTDOOR'){
+            //     $slipQuery ="SELECT `a`.*,`b`.`SLIP_MRID`,`b`.`SLIP_NAME`,`b`.`SLIP_MOBILE`,`b`.`SLIP_DEPARTMENT`,`b`.`SLIP_DOCTOR`,`b`.`SLIP_TYPE`,`b`.`SLIP_SUB_TYPE`,`c`.`USER_NAME`,`d`.`DOCTOR_NAME`, `e`.* , `f`.`DEPARTMENT_NAME` FROM `me_followup_slip` AS `a`  
+            //     INNER JOIN `me_slip` AS `b` ON `b`.`SLIP_UUID` = `a`.`SLIP_REFERENCE_UUID`
+            //     INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID` 
+            //     INNER JOIN `me_doctors` AS `d` ON `d`.`DOCTOR_UUID` = `b`.`SLIP_DOCTOR`
+            //     INNER JOIN `me_department` AS `f` ON `f`.`DEPARTMENT_UUID` = `b`.`SLIP_DEPARTMENT` 
+            //     INNER JOIN `me_patient` AS `e` ON `e`.`PATIENT_MR_ID` = `b`.`SLIP_MRID` 
+            //     WHERE `a`.`SLIP_UUID` = '$sid'";
+            // }else{
+                $slipQuery ="SELECT `a`.*,`b`.`SLIP_MRID`,`b`.`SLIP_NAME`,`b`.`SLIP_MOBILE`,`b`.`SLIP_DOCTOR`,`b`.`SLIP_TYPE`,`b`.`SLIP_SUB_TYPE`,`c`.`USER_NAME`,`d`.`DOCTOR_NAME`, `e`.*  FROM `me_followup_slip` AS `a`  
+                INNER JOIN `me_slip` AS `b` ON `b`.`SLIP_UUID` = `a`.`SLIP_REFERENCE_UUID`
+                INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID` 
+                INNER JOIN `me_doctors` AS `d` ON `d`.`DOCTOR_UUID` = `b`.`SLIP_DOCTOR`
+                INNER JOIN `me_patient` AS `e` ON `e`.`PATIENT_MR_ID` = `b`.`SLIP_MRID` 
+                WHERE `a`.`SLIP_UUID` = '$sid'";
+            // }
+            
+        }else if($slip == 'SERVICE_SLIP') {
+            // if($type == 'OUTDOOR' || $type == 'INTDOOR'){
+            //     $slipQuery ="SELECT `a`.*,`b`.`SLIP_MRID`,`b`.`SLIP_NAME`,`b`.`SLIP_MOBILE`,`b`.`SLIP_DEPARTMENT`,`b`.`SLIP_DOCTOR`,`b`.`SLIP_TYPE`,`b`.`SLIP_SUB_TYPE`,`c`.`USER_NAME`,`d`.`DOCTOR_NAME`, `e`.*, `f`.`DEPARTMENT_NAME` FROM `me_service_slip` AS `a`  
+            //     INNER JOIN `me_slip` AS `b` ON `b`.`SLIP_UUID` = `a`.`SLIP_REFERENCE_UUID`
+            //     INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID` 
+            //     INNER JOIN `me_doctors` AS `d` ON `d`.`DOCTOR_UUID` = `b`.`SLIP_DOCTOR` 
+            //     INNER JOIN `me_department` AS `f` ON `f`.`DEPARTMENT_UUID` = `b`.`SLIP_DEPARTMENT`
+            //     INNER JOIN `me_patient` AS `e` ON `e`.`PATIENT_MR_ID` = `b`.`SLIP_MRID` 
+            //     WHERE `a`.`SLIP_UUID` = '$sid'";
+            // }else{
+                $slipQuery ="SELECT `a`.*,`b`.`SLIP_MRID`,`b`.`SLIP_NAME`,`b`.`SLIP_MOBILE`,`b`.`SLIP_DOCTOR`,`b`.`SLIP_TYPE`,`b`.`SLIP_SUB_TYPE`,`c`.`USER_NAME`,`d`.`DOCTOR_NAME`, `e`.* FROM `me_service_slip` AS `a`  
+                INNER JOIN `me_slip` AS `b` ON `b`.`SLIP_UUID` = `a`.`SLIP_REFERENCE_UUID`
+                INNER JOIN `me_user` AS `c` ON `c`.`USER_UUID` = `a`.`STAFF_ID` 
+                INNER JOIN `me_doctors` AS `d` ON `d`.`DOCTOR_UUID` = `b`.`SLIP_DOCTOR` 
+                INNER JOIN `me_patient` AS `e` ON `e`.`PATIENT_MR_ID` = `b`.`SLIP_MRID` 
+                WHERE `a`.`SLIP_UUID` = '$sid'";
+            // }
         }
     
     $sql = mysqli_query($db,$slipQuery);
@@ -42,18 +62,18 @@ if (isset($_SESSION['uuid'])) {
     $name = $slip_row['SLIP_NAME'];
     $phone = $slip_row['SLIP_MOBILE'];
     $type = $slip_row['SLIP_TYPE'];
-    if ($type != 'EMERGENCY') {
-        $dept = $slip_row['DEPARTMENT_NAME'];
-    }
+    // if ($type != 'EMERGENCY') {
+    //     $dept = $slip_row['DEPARTMENT_NAME'];
+    // }
     $doctor = $slip_row['DOCTOR_NAME'];
     $gender = $slip_row['PATIENT_GENDER'];
     $address = $slip_row['PATIENT_ADDRESS'];
     $age = $slip_row['PATIENT_AGE'];
     $date = $slip_row['SLIP_DATE_TIME'];
-    if ($stype == 'FOLLOWUP_SLIP') {
+    if ($slip == 'FOLLOWUP_SLIP') {
         $fee = $slip_row['SLIP_FEE'];
     }
-    if ($stype == 'SERVICE_SLIP') {
+    if ($slip == 'SERVICE_SLIP') {
         $fee = $slip_row['SLIP_SERVICE_RATE'];
         $discount = $slip_row['SLIP_SERVICE_DISCOUNT'];
         $total = $slip_row['SLIP_SERVICE_TOTAL'];
@@ -70,13 +90,13 @@ if (isset($_SESSION['uuid'])) {
         <div class="orderNo">Slip ID# <b><?php echo $slipId; ?></b></div>
         <div class="headerSubTitle"><?php echo $date; ?></div>
         <div><img class="titleLogo" src="dist/img/hospital-logo.png" alt="Medeast Hospital Logo"></div>
-        <div id="date">C-1 Commercial Office Block, Paragon City, Lahore.</div>
+        <div id="date">C-1 Commercial Office Block,</br> Paragon City, Lahore.</div>
         <div id="date">042 37165549, 0320 4707070, 0300 4133102</div>
         <div class="headerSubTitle mt-2 mb-2">
         <?php 
-            if ($stype == 'FOLLOWUP_SLIP') {
+            if ($slip == 'FOLLOWUP_SLIP') {
                 echo 'Follow Up Slip';
-            }else if ($stype == 'SERVICE_SLIP') {
+            }else if ($slip == 'SERVICE_SLIP') {
                 echo 'Service Slip';
             }
         ?>
@@ -91,12 +111,12 @@ if (isset($_SESSION['uuid'])) {
                 <td style=" padding:0 !important;">&nbsp;<small>Phone</small></td>
                 <td class="right-chars">&nbsp;<b><?php echo $phone; ?></b></td>
             </tr>
-            <?php if ($type != "EMERGENCY") { ?>
-            <tr>
+            <?php //if ($type != "EMERGENCY") { ?>
+            <!-- <tr>
                 <td style=" padding:0 !important;">&nbsp;<small>Department</small></td>
-                <td class="right-chars">&nbsp;<b><?php echo $dept; ?></b></td>
-            </tr>
-            <?php } ?>
+                <td class="right-chars">&nbsp;<b><?php //echo $dept; ?></b></td>
+            </tr> -->
+            <?php //} ?>
             <tr>
                 <td style=" padding:0 !important;">&nbsp;<small>Doctor</small></td>
                 <td class="right-chars">&nbsp;<b><?php echo $doctor; ?></b></td>
@@ -107,7 +127,7 @@ if (isset($_SESSION['uuid'])) {
             </tr>
         </table>
         <?php 
-            if ($stype == 'FOLLOWUP_SLIP') {
+            if ($slip == 'FOLLOWUP_SLIP') {
         ?>
                 <div class="flex">
             <div class="totals">
@@ -130,7 +150,7 @@ if (isset($_SESSION['uuid'])) {
    
         <?php
             }
-            if ($stype == 'SERVICE_SLIP') {
+            if ($slip == 'SERVICE_SLIP') {
         ?>
             <div class="flex">
             <div class="totals">
