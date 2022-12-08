@@ -57,6 +57,7 @@
               <table id="example1" class="table table-bordered table-striped table-hover">
                 <thead>
                   <tr style='font-size: 14px;text-align:center;'>
+                    <?php if ($type == 'DATE_RANGE') { echo '<th>Date</th>'; } ?>
                     <th>Consultant </br> Name</th>
                     <th>Total Number </br> of Patient</th>
                     <th>Total Amount </br> Paid to Doctor</th>
@@ -94,8 +95,9 @@
                     while($rs = mysqli_fetch_array($querySql))
                     { 
                         $recTotal = $rs['TOTAL_AMOUNT_PAID_TO_CLINIC'] - $rs['RECEPTION_SHARE'];
-                        echo "<tr style='font-size: 12px;'>
-                        <td>$rs[CONSULTANT_NAME]</td>
+                        echo "<tr style='font-size: 12px;'>";
+                        if ($type == 'DATE_RANGE') { echo "<td>$rs[DAILY]</td>"; }
+                        echo "<td>$rs[CONSULTANT_NAME]</td>
                         <td>$rs[TOTAL_NO_OF_PATIENT]</td>
                         <td>$rs[TOTAL_AMOUNT_PAID_TO_DOCTOR]</td>
                         <td>$rs[TOTAL_AMOUNT_PAID_TO_CLINIC]</td>
