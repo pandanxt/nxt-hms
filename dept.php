@@ -4,8 +4,8 @@
   if (isset($_SESSION['uuid'])) {
   // Connection File
   include('backend_components/connection.php');
-  // Table Header File
-  include('components/table_header.php');
+  // File Header
+  include('components/file_header.php');
   // Navbar File
   include('components/navbar.php');
   // Sidebar File
@@ -77,7 +77,7 @@
                             <a href='javascript:void(0);' onclick='editDept(this);' data-uuid='$rs[DEPARTMENT_UUID]' data-toggle='modal' data-target='#edit-dept'>
                               <i class='fas fa-edit'></i> Edit
                             </a><br>
-                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/dept_handler.php?q=DELETE_DEPT&id=$rs[DEPARTMENT_UUID]' style='color:red;'>
+                            <a href='javascript:void(0);' onClick='deleteDept(this)' data-uuid='$rs[DEPARTMENT_UUID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
                             </a>
                         </td>
@@ -164,7 +164,7 @@
         </div>
         <span id="err-msg" style="display: none"></span>
         <form action='javascript:void(0)' method='post' id='editDept'>
-          <div class='modal-body' id='editForm'>
+          <div class='modal-body' id='editDeptForm'>
           </div>
           <div class='modal-footer justify-content-between'>
               <button type='button' class='btn btn-default' data-dismiss='modal'>Cancel</button>
@@ -183,9 +183,8 @@
     // Footer File 
     include ('components/footer.php');
     echo '</div>';
-    // Table Script File
-    include('components/table_script.php');  
-
+    // REQUIRED SCRIPTS 
+    include('components/file_footer.php');  
   }else{
     echo '<script type="text/javascript">window.location = "login.php";</script>';
   } 

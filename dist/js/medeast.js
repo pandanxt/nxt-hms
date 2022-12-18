@@ -26,7 +26,7 @@ function display_c7() {
 }
 display_c7(); // Clock Function Call
 // Reset Model Data
-function setPopModel() { document.getElementById("editBody").innerHTML = ""; }
+// function setPopModel() { document.getElementById("editBody").innerHTML = ""; }
 // Slip Type and Subtype Model Popup Function 
 $(function () {
   $('#select').hide();
@@ -50,6 +50,19 @@ $(function () {
     if (this.options[this.selectedIndex].value == 'INDOOR') {
       $('#patSelect').show();
       $('#patSubType').prop('required', true);
+    }
+  });
+});
+// Report Filter Model Popup Function 
+$(function () {
+  $('#dateRange').hide();
+  $('#reservation').prop('required', false);
+  $('#reportType').change(function () {
+    $('#dateRange').hide();
+    $('#reservation').prop('required', false);
+    if (this.options[this.selectedIndex].value == 'DATE_RANGE') {
+      $('#dateRange').show();
+      $('#reservation').prop('required', true);
     }
   });
 });
@@ -112,10 +125,14 @@ $(document).ready(function ($) {
       type: "POST",
       url: "backend_components/doctor_handler.php?q=ADD_VT_DOCTOR",
       data: $(this).serialize(), // get all form field value in serialize form
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
         let el = document.querySelector("#cancel");
         el.click();
         updateDoctor();
+
         $(function () {
           var Toast = Swal.mixin({
             toast: true,
@@ -124,9 +141,10 @@ $(document).ready(function ($) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'success',
-            title: 'New Visitor Doctor Successfully Saved.'
+            icon: res.status,
+            title: res.message
           });
+          autoRefresh();
         });
       }
     });
@@ -145,7 +163,7 @@ function printSlipRecord(sid) {
 }
 // Edit Slip Model View
 function editSlip(str) {
-  console.log("clicked Id: ", str.getAttribute("data-uuid"), str.getAttribute("data-type"), str.getAttribute("data-subtype"));
+  console.log("clicked Id: ", str.getAttribute("data-uuid"), str.getAttribute("data-type"));
   let uuid = str.getAttribute("data-uuid");
   let type = str.getAttribute("data-type");
   if (uuid == "" || type == "") { return; }
@@ -153,10 +171,9 @@ function editSlip(str) {
   xmlhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       document.getElementById("editSlipForm").innerHTML = this.responseText;
-      console.log("Response From Doctor By Id: ", this.responseText);
     }
   }
-  xmlhttp.open("GET", `backend_components/slip_handler.php?q=EDIT-SLIP-BY-ID&id=${uuid}&val=${type}`, true);
+  xmlhttp.open("GET", `backend_components/slip_handler.php?q=EDIT_SLIP_BY_ID&id=${uuid}&val=${type}`, true);
   xmlhttp.send();
 }
 // Ajax Call for Editing Patient Slip Query
@@ -165,19 +182,12 @@ $(document).ready(function ($) {
   $('#editSlip').submit(function (e) {
     e.preventDefault();
     $("#err-msg").hide();
-    //mrid required
     var mrid = $("input#editMrid").val();
-    //name required
     var name = $("input#editName").val();
-    //mobile required
     var mobile = $("input#editPhone").val();
-    //dept required
     var dept = $("input#editDept").val();
-    //doc required
     var doc = $("input#editDoctor").val();
-    //fee required
     var fee = $("input#editFee").val();
-    //procedure required
     var procedure = $("input#editProcedure").val();
 
     if (mrid == "" || name == "" || mobile == "" || dept == "" || doc == "" || fee == "" || procedure == "") {
@@ -196,9 +206,13 @@ $(document).ready(function ($) {
       type: "POST",
       url: "backend_components/slip_handler.php?q=EDIT_SLIP",
       data: $(this).serialize(), // get all form field value in serialize form
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
         let el = document.querySelector("#close-button");
         el.click();
+
         $(function () {
           var Toast = Swal.mixin({
             toast: true,
@@ -207,11 +221,12 @@ $(document).ready(function ($) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'success',
-            title: 'Slip Record Updated Successfully.'
+            icon: res.status,
+            title: res.message
           });
           autoRefresh();
         });
+
       }
     });
   });
@@ -229,7 +244,10 @@ function softDeleteSlip(soft) {
     $.ajax({
       type: "POST",
       url: `backend_components/slip_handler.php?q=SOFT_DELETE_SLIP&id=${slipId}&val=${val}`,
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
         $(function () {
           var Toast = Swal.mixin({
             toast: true,
@@ -238,8 +256,8 @@ function softDeleteSlip(soft) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'success',
-            title: 'Slip Soft Deleted Successfully.'
+            icon: res.status,
+            title: res.message
           });
           autoRefresh();
         });
@@ -260,7 +278,10 @@ function deleteSlip(str) {
     $.ajax({
       type: "POST",
       url: `backend_components/slip_handler.php?q=DELETE_SLIP&id=${slipId}`,
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
         $(function () {
           var Toast = Swal.mixin({
             toast: true,
@@ -269,11 +290,11 @@ function deleteSlip(str) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'error',
-            title: 'Slip Record Deleted Successfully.'
+            icon: res.status,
+            title: res.message
           });
-          autoRefresh();
         });
+        autoRefresh();
       }
     });
   } else {
@@ -293,6 +314,20 @@ function viewHistory(str) {
     }
   }
   xmlhttp.open("GET", `backend_components/slip_handler.php?q=GET_SLIP_HISTORY&id=${uuid}&val=${type}`, true);
+  xmlhttp.send();
+}
+// Service Slip Record
+function viewService(str) {
+  let uuid = str.getAttribute("data-uuid");
+
+  if (uuid == "") { return; }
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("serviceSlipTable").innerHTML = this.responseText;
+    }
+  }
+  xmlhttp.open("GET", `backend_components/slip_handler.php?q=GET_SERVICE_SLIP&id=${uuid}`, true);
   xmlhttp.send();
 }
 // Get Slip Id to Assign to slipId Variable
@@ -414,7 +449,7 @@ function deleteFollowSlip(str) {
       url: `backend_components/slip_handler.php?q=DELETE_FOLLOW_SLIP&id=${slipId}`,
       success: function (res) {
         //parse json
-        // res = JSON.parse(res);   
+        res = JSON.parse(res);
         $(function () {
           var Toast = Swal.mixin({
             toast: true,
@@ -423,8 +458,8 @@ function deleteFollowSlip(str) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'error',
-            title: 'FollowUp Slip Record Deleted Successfully.'
+            icon: res.status,
+            title: res.message
           });
           autoRefresh();
         });
@@ -445,7 +480,10 @@ function deleteServiceSlip(str) {
     $.ajax({
       type: "POST",
       url: `backend_components/slip_handler.php?q=DELETE_SERVICE_SLIP&id=${slipId}`,
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
         $(function () {
           var Toast = Swal.mixin({
             toast: true,
@@ -454,8 +492,8 @@ function deleteServiceSlip(str) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'error',
-            title: 'Service Slip Record Deleted Successfully.'
+            icon: res.status,
+            title: res.message
           });
           autoRefresh();
         });
@@ -474,12 +512,6 @@ function printMiniSlipRecord(sid) {
   let id = sid.getAttribute("data-uuid");
   let type = sid.getAttribute("data-type");
   printMiniSlip(id, type);
-}
-// Auto Refresh Function 
-function autoRefresh() {
-  setTimeout(() => {
-    window.location = window.location.href;
-  }, 1000);
 }
 
 // ****************************
@@ -589,7 +621,10 @@ $(document).ready(function ($) {
       type: "POST",
       url: "backend_components/user_handler.php?q=EDIT_USER",
       data: $(this).serialize(), // get all form field value in serialize form
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
         let el = document.querySelector("#close-button");
         el.click();
         $(function () {
@@ -600,8 +635,8 @@ $(document).ready(function ($) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'success',
-            title: 'User Updated Successfully.'
+            icon: res.status,
+            title: res.message
           });
           autoRefresh();
         });
@@ -625,7 +660,10 @@ $(document).ready(function ($) {
       type: "POST",
       url: `backend_components/user_handler.php?q=UPDATE_PASSWORD&id=${passUuid}`,
       data: $(this).serialize(), // get all form field value in serialize form
-      success: function () {
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+
         let el = document.querySelector("#close-button");
         el.click();
         $(function () {
@@ -636,8 +674,8 @@ $(document).ready(function ($) {
             timer: 1000
           });
           Toast.fire({
-            icon: 'success',
-            title: 'Password Updated Successfully.'
+            icon: res.status,
+            title: res.message
           });
           autoRefresh();
         });
@@ -684,4 +722,11 @@ function editPass(str) {
   }
   xmlHttp.open("GET", `backend_components/user_handler.php?q=GET_USER_BY_ID&id=${uuid}`, true);
   xmlHttp.send();
-} 
+}
+
+// Auto Refresh Function 
+function autoRefresh() {
+  setTimeout(() => {
+    window.location = window.location.href;
+  }, 1000);
+}

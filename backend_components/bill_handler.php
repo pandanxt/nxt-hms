@@ -32,13 +32,13 @@
     $opCharge = (!empty($_POST['opCharge'])) ? mysqli_real_escape_string($db, $_POST['opCharge']) : 0;
 
     $conCharge = (!empty($_POST['conCharge'])) ? mysqli_real_escape_string($db, $_POST['conCharge']) : 0;  
-    $moCharge = (!empty($_POST['moCharge'])) ? mysqli_real_escape_string($db, $_POST['moCharge']) : 0;
+    $moCharge = (!empty($_POST['moChargeTwo'])) ? mysqli_real_escape_string($db, $_POST['moChargeTwo']) : 0;
     $prCharge = (!empty($_POST['prCharge'])) ? mysqli_real_escape_string($db, $_POST['prCharge']) : 0;
 
     // General Illness Form Serials
     $oxCharge = (!empty($_POST['oxCharge'])) ? mysqli_real_escape_string($db, $_POST['oxCharge']) : 0;  
-    $nurCharge = (!empty($_POST['nurCharge'])) ? mysqli_real_escape_string($db, $_POST['nurCharge']) : 0;
-    $monCharge = (!empty($_POST['monCharge'])) ? mysqli_real_escape_string($db, $_POST['monCharge']) : 0;
+    $nursingCharge = (!empty($_POST['nursingCharge'])) ? mysqli_real_escape_string($db, $_POST['nursingCharge']) : 0;
+    $monChargeIndoorTwo = (!empty($_POST['monChargeIndoorTwo'])) ? mysqli_real_escape_string($db, $_POST['monChargeIndoorTwo']) : 0;
    
     $other1 = (!empty($_POST['other1'])) ? mysqli_real_escape_string($db, $_POST['other1']) : 0;
     $otherText1 = (!empty($_POST['otherText1'])) ? mysqli_real_escape_string($db, $_POST['otherText1']) : NULL;
@@ -149,7 +149,7 @@
                     $opCharge, $chargeLR, $pedCharge, 
                     $prCharge, $nurCharge, $nurStCharge,
                     $moCharge, $conCharge, $ctg, $rrCharge, 
-                    $monCharge, $oxCharge, $nurCharge,
+                    $monChargeIndoorTwo, $oxCharge, $nursingCharge,
                     $otherText1, $other1, $otherText2, $other2, 
                     $otherText3, $other3, $otherText4, $other4, $otherText5, 
                     $other5, $otherText6, $other6);
@@ -160,7 +160,7 @@
                       {
                         $result = [];
                         $result['status'] = "success";
-                        $result['message'] = "Patient bill against slip created successfully.";
+                        $result['message'] = "Indoor Patient Bill Created Successfully.";
                         $result['data'] = [];
                         $result['data']['id'] = $billId;
                         $result['data']['type'] = "INDOOR_BILL";
@@ -194,7 +194,7 @@
     $finalBill = mysqli_real_escape_string($db, $_POST['finalBill']);
     $staffId = mysqli_real_escape_string($db, $_POST['staffId']);
 
-    $moCharge = (!empty($_POST['moCharge'])) ? mysqli_real_escape_string($db, $_POST['moCharge']) : 0;  
+    $moCharge = (!empty($_POST['moChargeEmrc'])) ? mysqli_real_escape_string($db, $_POST['moChargeEmrc']) : 0;  
     $injectionIM = (!empty($_POST['injectionIM'])) ? mysqli_real_escape_string($db, $_POST['injectionIM']) : 0;
     $injectionIV = (!empty($_POST['injectionIV'])) ? mysqli_real_escape_string($db, $_POST['injectionIV']) : 0;
     $ivLine = (!empty($_POST['ivLine'])) ? mysqli_real_escape_string($db, $_POST['ivLine']) : 0;
@@ -345,7 +345,7 @@
                       {
                         $result = [];
                         $result['status'] = "success";
-                        $result['message'] = "Patient bill against slip created successfully.";
+                        $result['message'] = "Emergency Patient Bill Created Successfully.";
                         $result['data'] = [];
                         $result['data']['id'] = $billId;
                         $result['data']['type'] = "EMERGENCY_BILL";
@@ -373,10 +373,17 @@
       $updateSql ="UPDATE `me_slip` SET `SLIP_STATUS`= 1 WHERE `SLIP_UUID` = '$val'";
       if($querySql = mysqli_query($db,$updateSql))
       {
-        echo 'Form Has been submitted successfully';
+        $result = [];
+        $result['status'] = "success";
+        $result['message'] = "Bill Deleted Successfully.";
+        echo json_encode($result);
       }
     } else {
-        echo "Error: " . $sql . "" . mysqli_error($db);
+      $result = [];
+      $result['status'] = "error";
+      $result['message'] = mysqli_error($db);
+      echo json_encode($result);
     }
+    // exit();
   }  
   ?>

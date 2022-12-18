@@ -256,7 +256,7 @@
                     echo "<div class='col-md-12' style='display:flex;'>
                     <div class='form-group col-md-6'>
                         <label>Department</label>
-                        <select class='form-control select2bs4' id='editDept' name='editDept' style='width: 100%;' onchange='showDoctor(this.value)'>
+                        <select class='form-control select2' id='editDept' name='editDept' style='width: 100%;' onchange='showDoctor(this.value)'>
                         <option disabled selected value=''>---- Select Department ----</option>
                         <option selected value='$dept_id'><b>$dept_name</b></option>";
                         $dept = 'SELECT `DEPARTMENT_UUID`, `DEPARTMENT_NAME` FROM `me_department` WHERE `DEPARTMENT_STATUS` = "1"';
@@ -274,7 +274,7 @@
                     <div class='form-group col-md-12' id='meDoc'>";
                 }
                     echo "<label>Consultant Name</label>
-                    <select class='form-control select2bs4' name='editDoctor' style='width: 100%;' id='doctor'>
+                    <select class='form-control select2' name='editDoctor' style='width: 100%;' id='doctor'>
                         <option disabled value=''>---- Select Consultant Name ----</option>
                         <option selected value='$doc_id'><b>$doc_name</b></option>";
                         $doctor = 'SELECT `DOCTOR_UUID`, `DOCTOR_NAME` FROM `me_doctors` WHERE `DOCTOR_TYPE` = "medeast" AND `DOCTOR_STATUS` = "1"';
@@ -346,7 +346,11 @@
                     exit();
                 }
             }else{
-                echo "Error: " . $sql . "" . mysqli_error($db);
+                $result = [];
+                $result['status'] = "error";
+                $result['message'] = mysql_error();
+                echo json_encode($result);
+                exit();
             }	
         }else {
             if(mysqli_query($db, "UPDATE `me_slip` SET `SLIP_NAME`='$name',`SLIP_MOBILE`='$phone',`SLIP_DOCTOR`='$doc',`SLIP_FEE`='$fee',`SLIP_PROCEDURE`='$procedure',`STAFF_ID` ='$staffId' WHERE `SLIP_UUID` = '$uuid'"))
@@ -369,24 +373,42 @@
                     echo json_encode($result);
                     exit();
                 }
-            }else{echo "Error: " . $sql . "" . mysqli_error($db);}	
+            }else{
+                $result = [];
+                $result['status'] = "error";
+                $result['message'] = mysql_error();
+                echo json_encode($result);
+                exit();
+            }	
         }
     }
     // Soft Delete Slip Query
     if($q == 'SOFT_DELETE_SLIP') {
         if(mysqli_query($db, "UPDATE `me_slip` SET `SLIP_DELETE` = '$val' WHERE `SLIP_UUID` ='$id'")) {
-            echo 'Soft Slip Deleted Successfully'; 
+            $result = [];
+            $result['status'] = "success";
+            $result['message'] = "Slip Deleted Successfully.";
+            echo json_encode($result);
         } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysql_error();
+            echo json_encode($result);
         }
     }
     // Delete Slip Query
     if($q == 'DELETE_SLIP') {
         if(mysqli_query($db, "DELETE FROM `me_slip` WHERE `SLIP_UUID` ='$id'")) {
-            echo 'Hard Slip Deleted successfully';
+            $result = [];
+            $result['status'] = "success";
+            $result['message'] = "Slip Deleted Successfully.";
+            echo json_encode($result);
         } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
-        }
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysql_error();
+            echo json_encode($result);
+        } 
     }
     //  Get Doctor List
     if ($q == 'GET_DOCTOR') {
@@ -483,17 +505,29 @@
     // Delete Follow Up Slip Query
     if($q == 'DELETE_FOLLOW_SLIP') {
         if(mysqli_query($db, "DELETE FROM `me_followup_slip` WHERE `SLIP_UUID` ='$id'")) {
-            echo 'Form Has been submitted successfully';
+            $result = [];
+            $result['status'] = "success";
+            $result['message'] = "FollowUp Slip Deleted Successfully.";
+            echo json_encode($result);
         } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysql_error();
+            echo json_encode($result);
         }
     }
     // Delete Service Slip Query
     if($q == 'DELETE_SERVICE_SLIP') {
         if(mysqli_query($db, "DELETE FROM `me_service_slip` WHERE `SLIP_UUID` ='$id'")) {
-            echo 'Form Has been submitted successfully';
+            $result = [];
+            $result['status'] = "success";
+            $result['message'] = "Service Slip Deleted Successfully.";
+            echo json_encode($result);
         } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysql_error();
+            echo json_encode($result);
         }
     }
     // Get Slip History Query
@@ -513,7 +547,6 @@
         $result = mysqli_query($db, $history) or die (mysqli_error($db));
         echo "<thead>
         <tr style='font-size: 12px;'>
-          <th>No#</th>
           <th>Name/Mobile</th>";
           if ($val != 'EMERGENCY') {echo "<th>Department/Doctor</th>";}else {echo "<th>Doctor</th>";}
           if ($val == 'OUTDOOR') {echo "<th>Fee</th>";}else if ($val == 'INDOOR') {echo "<th>Procedure</th>";}
@@ -523,11 +556,48 @@
         <tbody>";
         while ($row = mysqli_fetch_array($result)) {
             echo "<tr style='font-size: 12px;'>
-            <td>$row[SLIP_ID]</td>
             <td>$row[SLIP_NAME]</br>$row[SLIP_MOBILE]</td>";
             if($val != 'EMERGENCY'){echo"<td>$row[DEPARTMENT_NAME]</br>$row[DOCTOR_NAME]</td>";}else{echo"<td>$row[DOCTOR_NAME]</td>";}
             if($val == 'OUTDOOR'){echo "<td>$row[SLIP_FEE]</td>";}else if($val == 'INDOOR'){echo "<td>$row[SLIP_PROCEDURE]</td>";}
             echo "<td>$row[USER_NAME]</br>$row[SLIP_DATE_TIME]</td>
+            </tr>";
+        }
+        echo "</tbody>";
+    }
+    // Get Slip History Query
+    if ($q == 'GET_SERVICE_SLIP') {
+        $service = "SELECT *, `USER_NAME` FROM `me_service_slip` INNER JOIN `me_user` WHERE `me_service_slip`.`STAFF_ID` = `me_user`.`USER_UUID`
+        AND `me_service_slip`.`SLIP_REFERENCE_UUID` = '$id'";
+        $serviceResult = mysqli_query($db, $service) or die (mysqli_error($db));
+        echo "<thead>
+        <tr style='font-size: 12px;'>
+          <th>Service Name</th>
+          <th>Service Fee</th>
+          <th>Date / Staff</th>
+          <th>Option</th>
+        </tr>
+        </thead>
+        <tbody>";
+        while ($serviceRow = mysqli_fetch_array($serviceResult)) {
+            echo "<tr style='font-size: 12px;'>
+                <td>$serviceRow[SLIP_SERVICE_NAME]</td>
+                <td>
+                    <b>Rate:</b> $serviceRow[SLIP_SERVICE_TOTAL]</br>
+                    <b>Discount:</b> $serviceRow[SLIP_SERVICE_DISCOUNT]</br>
+                    <b>Total:</b> $serviceRow[SLIP_SERVICE_RATE]
+                </td>
+                <td>$serviceRow[SLIP_DATE_TIME]</br>$serviceRow[USER_NAME]</td>
+                <td>
+                    <a href='javascript:void(0)' onclick='printMiniSlipRecord(this);' data-uuid='$serviceRow[SLIP_UUID]' data-type='SERVICE_SLIP' style='color:green;'>
+                      <i class='fas fa-wallet'></i> Slip Print
+                    </a>";
+                    if ($_SESSION['role'] == "admin") { 
+                        echo "<br>
+                        <a onClick='deleteServiceSlip(this)' data-uuid='$serviceRow[SLIP_UUID]' href='javascript:void(0);' style='color:red;'>
+                            <i class='fas fa-trash'></i> Delete Slip
+                        </a>";
+                    }
+                echo "</td>
             </tr>";
         }
         echo "</tbody>";
@@ -551,7 +621,7 @@
             <div class='col-md-12' style='display:flex;'>
                 <div class='form-group col-md-6'>
                     <label>Gender</label>
-                    <select class='form-control select2bs4' name='gender' id='gender' style='width: 100%;'>
+                    <select class='form-control select2' name='gender' id='gender' style='width: 100%;'>
                         <option selected='selected' value='$response[PATIENT_GENDER]'>$response[PATIENT_GENDER]</option>
                         <option value='male'>Male</option>
                         <option value='female'>Female</option>
@@ -601,23 +671,41 @@
                 exit();
             }
         }else{
-            echo "Error: " . $sql . "" . mysqli_error($db);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysql_error();
+            echo json_encode($result);
+            exit();
         }	
     }
     // Soft Delete Patient Query
     if($q == 'SOFT_DELETE_PATIENT') {
         if(mysqli_query($db, "UPDATE `me_patient` SET `PATIENT_DELETE` = '$val' WHERE `PATIENT_MR_ID` ='$id'")) {
-            echo 'Soft Patient Deleted Successfully'; 
+            $result = [];
+            $result['status'] = "success";
+            $result['message'] = "Patient Record Deleted Successfully!";
+            echo json_encode($result);
         } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysql_error();
+            echo json_encode($result);
+            exit();
         }
     }
     // Delete Patient Query
     if($q == 'DELETE_PATIENT') {
         if(mysqli_query($db, "DELETE FROM `me_patient` WHERE `PATIENT_MR_ID` ='$id'")) {
-            echo 'Hard Patient Deleted successfully';
+            $result = [];
+            $result['status'] = "success";
+            $result['message'] = "Patient Record Deleted Successfully!";
+            echo json_encode($result);
         } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysql_error();
+            echo json_encode($result);
+            exit();
         }
     }
     // Add Patient Query

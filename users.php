@@ -4,8 +4,8 @@
   if (isset($_SESSION['uuid'])) {
   // Connection File
   include('backend_components/connection.php');
-  // Table Header File
-  include('components/table_header.php');
+  // File Header
+  include('components/file_header.php');
   // Navbar File
   include('components/navbar.php');
   // Sidebar File
@@ -88,7 +88,7 @@
                             </a>";
                             if ($_SESSION['uuid'] != $rs['USER_UUID']) { 
                             echo "<br>
-                            <a onClick=\"javascript: return confirm('Please confirm deletion');\" href='backend_components/user_handler.php?q=DELETE_USER&id=$rs[USER_UUID]' style='color:red;'>
+                            <a href='javascript:void(0);' onClick='deleteUser(this)' data-uuid='$rs[USER_UUID]' style='color:red;'>
                               <i class='fas fa-trash'></i> Delete
                             </a>";
                             }
@@ -153,7 +153,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Permission</label>
-                    <select class="form-control select2bs4" name="role" id="role" style="width: 100%;">
+                    <select class="form-control select2" name="role" id="role" style="width: 100%;">
                       <option selected="selected" value="admin">Admin</option>
                       <option value="user">Staff</option>
                     </select>
@@ -179,9 +179,8 @@
   // Footer File
   include ('components/footer.php');
   echo '</div>';
-  // Table Script
-  include('components/table_script.php');
-
+  // REQUIRED SCRIPTS 
+  include('components/file_footer.php');
 }else{
   echo '<script type="text/javascript">window.location = "login.php";</script>';
 }

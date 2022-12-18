@@ -2,36 +2,10 @@
   // Session Start
   session_start();
   if (isset($_SESSION['uuid'])) { 
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MedEast | Healthcare</title>
-  <link rel="icon" type="image/png" href="dist/img/medeast-logo-icon.png">
-
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/adminlte.min.css">
-  <!-- SweetAlert2 -->
-  <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
-  <!-- Field Style -->
-  <link rel="stylesheet" href="dist/css/field-style.css">
-  <!-- jQuery -->
-  <script src="plugins/jquery/jquery.min.js"></script>
-</head>
-<body class="hold-transition sidebar-mini">
-<!-- Medeast JS -->
-<script src="dist/js/medeast.js"></script>  
-<div class="wrapper">
-
-<?php
   // Connection File
   include('backend_components/connection.php');
+  // File Header
+  include('components/file_header.php');
   // Navbar File 
   include('components/navbar.php'); 
   // Main Sidebar Container
@@ -179,53 +153,16 @@
     </div>
     <!-- /.content -->
   </div>
-
-<?php
-  // Main Footer 
-  include('components/footer.php'); 
-?>
+  <!-- // Main Footer  -->
+  <?php include('components/footer.php'); ?>
   <!-- /. Main Footer -->
 </div>
 <!-- ./wrapper -->
+<?php
+  // REQUIRED SCRIPTS 
+  include('components/file_footer.php');
 
-<!-- REQUIRED SCRIPTS -->
-<!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="dist/js/adminlte.min.js"></script>
-<!-- SweetAlert2 -->
-<script src="plugins/sweetalert2/sweetalert2.min.js"></script>
-<script>  
-  const urlParams = new URLSearchParams(window.location.search);
-  var action = urlParams.get('login');
-
-  $(function() {
-    var Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000
-    });
-
-    if (action == "success") {
-      Toast.fire({
-        icon: 'success',
-        title: 'Logged In Successfully!'
-      })
-    }    
-    if (action == "sqlerror") {
-      Toast.fire({
-        icon: 'error',
-        title: 'Something Went Wrong. Try Again!'
-      })
-    }
-  });
-</script>
-</body>
-</html>
-
-<?php 
-}else{
-  echo '<script type="text/javascript">window.location = "login.php";</script>';
-} 
+  }else{
+    echo '<script type="text/javascript">window.location = "login.php";</script>';
+  } 
 ?>

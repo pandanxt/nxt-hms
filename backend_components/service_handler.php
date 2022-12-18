@@ -17,24 +17,36 @@
         $sql = "SELECT * FROM `me_general_service` WHERE `SERVICE_NAME` = ?";
         $stmt = mysqli_stmt_init($db);
         if (!mysqli_stmt_prepare($stmt,$sql)) {
-            echo "Error: " . $sql . "" . mysqli_error($stmt);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysqli_error($stmt);
+            echo json_encode($result);
         }else{
             mysqli_stmt_bind_param($stmt,"s",$name);
             mysqli_stmt_execute($stmt);
             mysqli_stmt_store_result($stmt);
             $resultCheck = mysqli_stmt_num_rows($stmt);
                 if ($resultCheck > 0) {
-                    echo "name already taken!";
+                    $result = [];
+                    $result['status'] = "error";
+                    $result['message'] = "Name Already Taken!";
+                    echo json_encode($result);
                 }else{
                     $sql = "INSERT INTO `me_general_service`(`SERVICE_UUID`, `SERVICE_NAME`, `SERVICE_RATE`, `STAFF_ID`) VALUES (?,?,?,?)";
                     mysqli_stmt_execute($stmt);
                 
                     if (!mysqli_stmt_prepare($stmt,$sql)) {
-                        echo "Error: " . $sql . "" . mysqli_error($stmt);
+                        $result = [];
+                        $result['status'] = "error";
+                        $result['message'] = mysqli_error($stmt);
+                        echo json_encode($result);
                     }else{
                         mysqli_stmt_bind_param($stmt,"ssss",$uid,$name,$rate,$by);
                         mysqli_stmt_execute($stmt);
-                        echo "New Service Saved Successfully";
+                        $result = [];
+                        $result['status'] = "success";
+                        $result['message'] = "New Service Saved Successfully";
+                        echo json_encode($result);
                     }			
                 }
             }
@@ -45,9 +57,15 @@
     // Update Service Status 
     if ($q == 'STATUS_SERVICE') {
         if(mysqli_query($db, "UPDATE `me_general_service` SET `SERVICE_STATUS`= '$val' WHERE `SERVICE_UUID` = '$id'")) {
-            echo 'Service Status Updated Successfully';
+            $result = [];
+            $result['status'] = "success";
+            $result['message'] = "Service Status Updated Successfully";
+            echo json_encode($result);
         } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysqli_error($db);
+            echo json_encode($result);
         }
     }
     // Edit Service Query
@@ -57,18 +75,30 @@
         $rate = mysqli_real_escape_string($db, $_POST['serRate']);
         if(mysqli_query($db, "UPDATE `me_general_service` SET `SERVICE_NAME`='$name',`SERVICE_RATE`='$rate' WHERE `SERVICE_UUID` = '$uuid'"))
         {
-            echo 'Service Updated Successfully';
+            $result = [];
+            $result['status'] = "success";
+            $result['message'] = "Service Updated Successfully";
+            echo json_encode($result);
         } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysqli_error($db);
+            echo json_encode($result);
         }	
     }
     // Delete Service Query
     if($q == 'DELETE_SERVICE') {
         if(mysqli_query($db, "DELETE FROM `me_general_service` WHERE `SERVICE_UUID` ='$id'")) {
-            echo '<script>window.location = "../services.php?action=deleted";</script>';
+            $result = [];
+            $result['status'] = "success";
+            $result['message'] = "Service Deleted Successfully";
+            echo json_encode($result);
         } else {
-            echo "Error: " . $sql . "" . mysqli_error($db);
-        }
+            $result = [];
+            $result['status'] = "error";
+            $result['message'] = mysqli_error($db);
+            echo json_encode($result);
+        }	
     }
     // Get SERVICE by Id
     if ($q == 'GET_SERVICE_BY_ID') { 

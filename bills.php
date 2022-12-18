@@ -7,7 +7,8 @@
   
   if (isset($_SESSION['uuid'])) {
     include('backend_components/connection.php'); 
-    include('components/form_header.php'); 
+    // File Header
+    include('components/file_header.php');
     include('components/navbar.php'); 
     include('components/sidebar.php'); 
 ?>
@@ -109,14 +110,14 @@
                         <label>Nursing Charges</label>
                         <div style="display:flex;">
                           <input type="number" style="width:40%;" name="nurChargeOne" class="form-control" id="nurChargeOne" value="0" onchange="getNurTotal()" placeholder="No. of Days"/>
-                          <input type="number" style="width:60%;" name="nurCharge" class="form-control" id="nurCharge" placeholder="Total Charges" readonly/>
+                          <input type="number" style="width:60%;" name="nursingCharge" class="form-control" id="nursingCharge" placeholder="Total Charges" readonly/>
                         </div>
                       </div>
                       <div class="form-group col-md-4">
                         <label>Monitoring Charges</label>
                         <div style="display:flex;">
-                          <input type="number" style="width:40%;" name="monChargeOne" class="form-control" id="monChargeOne" value="0" onchange="getMonTotal()" placeholder="No. of Days"/>
-                          <input type="number" style="width:60%;" name="monCharge" class="form-control" id="monCharge"  placeholder="Total Charges" readonly/>
+                          <input type="number" style="width:40%;" name="monChargeIndoorOne" class="form-control" id="monChargeIndoorOne" value="0" onchange="getIndoorMonTotal()" placeholder="No. of Days"/>
+                          <input type="number" style="width:60%;" name="monChargeIndoorTwo" class="form-control" id="monChargeIndoorTwo"  placeholder="Total Charges" readonly/>
                         </div>
                       </div>
                     </div>
@@ -226,7 +227,7 @@
                       <label>Medical Officer Charges(Per day)</label>
                         <div style="display:flex;">
                           <input type="number" style="width:40%;" name="moChargeOne" class="form-control" id="moChargeOne" value="0" onchange="getMoTotal()" placeholder="No. of Days"/>
-                          <input type="number" style="width:60%;" name="moCharge" class="form-control" id="moCharge"  placeholder="Total Charges" readonly/>
+                          <input type="number" style="width:60%;" name="moChargeTwo" class="form-control" id="moChargeTwo"  placeholder="Total Charges" readonly/>
                         </div>
                     </div>
                   </div>
@@ -237,7 +238,7 @@
                   <div class="form-group col-md-12">
                       <label>Private Room Charges</label>
                       <div style="display:flex;">
-                        <select class="form-control select2bs4"  style="width:50%;" name="prChargeOne" id="prChargeOne" onchange="getPrTotal()" style="width: 100%;">
+                        <select class="form-control select2"  style="width:50%;" name="prChargeOne" id="prChargeOne" onchange="getPrTotal()" style="width: 100%;">
                           <option value="0" selected="selected">Select Private Room Charges</option>
                           <?php
                             $room = 'SELECT `ROOM_UUID`, `ROOM_NAME`,`ROOM_RATE` FROM `me_room` WHERE `ROOM_STATUS` = 1';
@@ -334,7 +335,7 @@
                 <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                   <div class="form-group col-md-4">
                     <label>ER Slip / MO Fee</label>
-                    <input type="number" name="moCharge" id="moCharge" placeholder="Charges-500" class="form-control"/>
+                    <input type="number" name="moChargeEmrc" id="moChargeEmrc" placeholder="Charges-500" class="form-control"/>
                   </div>
                   <div class="form-group col-md-4">
                     <label>Injection I/M</label>
@@ -342,7 +343,7 @@
                   </div>
                   <div class="form-group col-md-4">
                     <label>I/V Line (In/Out)</label>
-                    <select class="form-control select2bs4" name="ivLine" id="ivLine" style="width: 100%;">
+                    <select class="form-control select2" name="ivLine" id="ivLine" style="width: 100%;">
                       <option value="0" selected="selected">Select</option>
                       <option value="250">In - 250</option>
                       <option value="150">Out - 150</option>
@@ -366,7 +367,7 @@
                   </div>
                   <div class="form-group col-md-4">
                     <label>Drips</label>
-                    <select class="form-control select2bs4" name="drip" id="drip" style="width: 100%;">
+                    <select class="form-control select2" name="drip" id="drip" style="width: 100%;">
                       <option value="0" selected="selected">Select</option>
                       <option value="400">100ml - 400</option>
                       <option value="700">500ml - 700</option>
@@ -391,10 +392,10 @@
                 <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                   <div class="form-group col-md-4">
                     <label>Foley Catheter</label>
-                    <select class="form-control select2bs4" name="foleyCath" id="foleyCath" style="width: 100%;">
+                    <select class="form-control select2" name="foleyCath" id="foleyCath" style="width: 100%;">
                       <option value="0" selected="selected">Attached / Removed</option>
                       <option value="1200">Attached - 1200</option>
-                      <option value="500">Removed - 400</option>
+                      <option value="400">Removed - 400</option>
                     </select>
                   </div>
                   <div class="form-group col-md-4">
@@ -459,7 +460,7 @@
                 <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                   <div class="form-group col-md-4">
                     <label>Infusion + Antibiotic</label>
-                    <select class="form-control select2bs4" name="infusionAntibiotic" id="infusionAntibiotic" style="width: 100%;">
+                    <select class="form-control select2" name="infusionAntibiotic" id="infusionAntibiotic" style="width: 100%;">
                       <option value="0" selected="selected">100ml/500ml</option>
                       <option value="400">100ml - 400</option>
                       <option value="700">500ml - 700</option>
@@ -476,7 +477,7 @@
                 </div>
                 <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                   <div class="form-group col-md-4">
-                    <label>Short Stay <small>(After One Hour)</small></label>
+                    <label>Short Stay</label>
                     <input type="number" name="shortStay" id="shortStay" placeholder="Short Stay" class="form-control"/>
                   </div>
                   <div class="form-group col-md-4">
@@ -485,7 +486,7 @@
                   </div>
                   <div class="form-group col-md-4">
                     <label>Dressing</label>
-                    <select class="form-control select2bs4" name="dressing" id="dressing" style="width: 100%;">
+                    <select class="form-control select2" name="dressing" id="dressing" style="width: 100%;">
                       <option value="0" selected="selected">Upto 3 Inch or More</option>
                       <option value="300">Dressing Small - 300</option>
                       <option value="600">Dressing Large - 600</option>
@@ -520,7 +521,7 @@
                   </div>
                   <div class="form-group col-md-4">
                     <label>Ascitic</label>
-                    <select class="form-control select2bs4" name="ascitic" id="ascitic" style="width: 100%;">
+                    <select class="form-control select2" name="ascitic" id="ascitic" style="width: 100%;">
                       <option value="0" selected="selected">Select Ascitic</option>
                       <option value="500">Therapeutic - 500</option>
                       <option value="3500">Diagnostic - 3500</option>
@@ -530,7 +531,7 @@
                 <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                   <div class="form-group col-md-5">
                     <label>Pleural Fuid</label>
-                    <select class="form-control select2bs4" name="pleuralFuid" id="pleuralFuid" style="width: 100%;">
+                    <select class="form-control select2" name="pleuralFuid" id="pleuralFuid" style="width: 100%;">
                       <option value="0" selected="selected">Select Pleural Fuid</option>
                       <option value="3500">Therapeutic - 3500</option>
                       <option value="1500">TAP Diagnostic - 1500</option>
@@ -627,7 +628,8 @@
 <?php
  include('components/footer.php'); 
  echo '</div>';
- include('components/form_script.php'); 
+ // REQUIRED SCRIPTS 
+ include('components/file_footer.php'); 
 }else{
   echo '<script type="text/javascript">window.location = "login.php";</script>';
 }

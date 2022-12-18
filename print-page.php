@@ -42,7 +42,8 @@
         $subType = $slip_row['SLIP_SUB_TYPE'];
         $staff = $slip_row['USER_NAME'];
     
-        include('components/form_header.php');
+        // File Header
+        include('components/file_header.php');
 ?>
         <!-- START RECEIPT -->
             <div class="receipt">
@@ -149,7 +150,8 @@
  </script>
  <?php
  echo '</div>';
- include('components/form_script.php');
+ // REQUIRED SCRIPTS 
+ include('components/file_footer.php');
  }
 }else{
   echo '<script type="text/javascript">window.location = "login.php";</script>';

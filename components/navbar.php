@@ -23,11 +23,11 @@
         </a>
       </li>
       <!------Create Bill Icon------>
-      <li class="nav-item d-none d-sm-inline-block">
+      <!-- <li class="nav-item d-none d-sm-inline-block">
         <a type="button" data-toggle="modal" data-target="#modal-bill" class="dropdown-item nav-link">
           <i class="fas fa-plus"></i> Bills
         </a>
-      </li>
+      </li> -->
       <!------Patient Bill Icon------>
       <li class="nav-item d-none d-sm-inline-block">
         <a type="button" href="bill_records.php" class="dropdown-item nav-link">
@@ -41,11 +41,10 @@
         </a>
       </li>
     </ul> 
-      
     <!------Right Navbar Links------>
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a type="button" class="dropdown-item nav-link" data-widget="navbar-search" href="javascript:void(0);" role="button">
           <i class="fas fa-search"></i>
         </a>
@@ -64,7 +63,7 @@
             </div>
           </form>
         </div>
-      </li>
+      </li> -->
       <!-- ./Profile Box -->
       <li class="nav-item dropdown user-menu">
         <?php
@@ -100,13 +99,14 @@
         </ul>
       </li>
       <!--./Setting Box -->
-      <?php if (isset($_SESSION['uuid']) && $_SESSION['role'] == "admin") {  ?>
+      
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="javascript:void(0);">
           <i class="fas fa-cog"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">Settings</span>
+          <?php if (isset($_SESSION['uuid']) && $_SESSION['role'] == "admin") {  ?>
           <div class="dropdown-divider"></div>
           <a href="doctors.php" class="dropdown-item">
             Medeast Doctors <span class="float-right text-muted text-sm"><i class="fas fa-user-md"></i></span>
@@ -131,6 +131,7 @@
           <a href="users.php" class="dropdown-item">
              Users <span class="float-right text-muted text-sm"><i class="fas fa-users"></i></span>
           </a>
+          <?php } ?> 
           <div class="dropdown-divider"></div>
           <a href="javascript:void(0);" class="dropdown-item" onclick="editUser(this);" data-uuid="<?php echo $_SESSION['uuid']; ?>" data-toggle="modal" data-target="#edit-user">
              Edit Profile <span class="float-right text-muted text-sm"><i class="fas fa-user-edit"></i></span>
@@ -145,7 +146,7 @@
           </a>                
         </div>
       </li>
-      <?php } ?> 
+      
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="javascript:void(0);" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
