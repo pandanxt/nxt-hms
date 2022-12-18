@@ -37,7 +37,7 @@
 
     // General Illness Form Serials
     $oxCharge = (!empty($_POST['oxCharge'])) ? mysqli_real_escape_string($db, $_POST['oxCharge']) : 0;  
-    $nurCharge = (!empty($_POST['nurCharge'])) ? mysqli_real_escape_string($db, $_POST['nurCharge']) : 0;
+    $nursingCharge = (!empty($_POST['nursingCharge'])) ? mysqli_real_escape_string($db, $_POST['nursingCharge']) : 0;
     $monChargeIndoorTwo = (!empty($_POST['monChargeIndoorTwo'])) ? mysqli_real_escape_string($db, $_POST['monChargeIndoorTwo']) : 0;
    
     $other1 = (!empty($_POST['other1'])) ? mysqli_real_escape_string($db, $_POST['other1']) : 0;
@@ -149,7 +149,7 @@
                     $opCharge, $chargeLR, $pedCharge, 
                     $prCharge, $nurCharge, $nurStCharge,
                     $moCharge, $conCharge, $ctg, $rrCharge, 
-                    $monChargeIndoorTwo, $oxCharge, $nurCharge,
+                    $monChargeIndoorTwo, $oxCharge, $nursingCharge,
                     $otherText1, $other1, $otherText2, $other2, 
                     $otherText3, $other3, $otherText4, $other4, $otherText5, 
                     $other5, $otherText6, $other6);

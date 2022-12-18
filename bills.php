@@ -110,7 +110,7 @@
                         <label>Nursing Charges</label>
                         <div style="display:flex;">
                           <input type="number" style="width:40%;" name="nurChargeOne" class="form-control" id="nurChargeOne" value="0" onchange="getNurTotal()" placeholder="No. of Days"/>
-                          <input type="number" style="width:60%;" name="nurCharge" class="form-control" id="nurCharge" placeholder="Total Charges" readonly/>
+                          <input type="number" style="width:60%;" name="nursingCharge" class="form-control" id="nursingCharge" placeholder="Total Charges" readonly/>
                         </div>
                       </div>
                       <div class="form-group col-md-4">
@@ -395,7 +395,7 @@
                     <select class="form-control select2" name="foleyCath" id="foleyCath" style="width: 100%;">
                       <option value="0" selected="selected">Attached / Removed</option>
                       <option value="1200">Attached - 1200</option>
-                      <option value="500">Removed - 400</option>
+                      <option value="400">Removed - 400</option>
                     </select>
                   </div>
                   <div class="form-group col-md-4">

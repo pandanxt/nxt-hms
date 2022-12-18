@@ -35,7 +35,7 @@ function genIllnessTotal() {
   let moCharge = document.getElementById("moChargeTwo").value;
   let monCharge = document.getElementById("monChargeIndoorTwo").value;
   let oxCharge = document.getElementById("oxCharge").value;
-  let nurCharge = document.getElementById("nurCharge").value;
+  let nursingCharge = document.getElementById("nursingCharge").value;
   let conCharge = document.getElementById("conCharge").value;
 
   let other1 = document.getElementById("other1").value;
@@ -45,7 +45,7 @@ function genIllnessTotal() {
   let other5 = document.getElementById("other5").value;
   let other6 = document.getElementById("other6").value;
 
-  let totalBill = +prCharge + +moCharge + +monCharge + +oxCharge + +nurCharge + +conCharge + +other1 + +other2 + +other3 + +other4 + +other5 + +other6;
+  let totalBill = +prCharge + +moCharge + +monCharge + +oxCharge + +nursingCharge + +conCharge + +other1 + +other2 + +other3 + +other4 + +other5 + +other6;
   document.getElementById("totalBill").value = totalBill;
 }
 // Get Fee Function
@@ -79,7 +79,7 @@ function getPrTotal() {
 // Get Nursery Total
 function getNurTotal() {
   let nurChargeOne = document.getElementById("nurChargeOne").value;
-  document.getElementById("nurCharge").value = nurChargeOne * 1000;
+  document.getElementById("nursingCharge").value = nurChargeOne * 1000;
 }
 // Get Oxygen Total
 function getOxTotal() {
@@ -113,7 +113,7 @@ function getStitchOutTotal() {
 }
 // Emergency Calculate Total Script
 function calculateEmergencyTotal() {
-  let moCharge = document.getElementById("moChargeEmrc").value;
+  let moChargeEmrc = document.getElementById("moChargeEmrc").value;
   let injectionIM = document.getElementById("injectionIM").value;
   let injectionIV = document.getElementById("injectionIV").value;
   let ivLine = document.getElementById("ivLine").value;
@@ -154,7 +154,7 @@ function calculateEmergencyTotal() {
   let other11 = document.getElementById("other11").value;
   let other12 = document.getElementById("other12").value;
 
-  let totalBill = +moCharge + +injectionIM + +injectionIV + +ivLine + +infusionAntibiotic + +stitchInTotal + +stitchOutTotal + +bsf + +shortStay + +bp + +ecg + +drip + +venofar + +stomachWash + +foleyCath + +ctg + +dressing + +nebulization + +monChargeTwo + +enema + +bloodTransfusion + +ett + +ascitic + +pleuralFuid + +lumberPuncture + +other1 + +other2 + +other3 + +other4 + +other5 + +other6 + +other7 + +other8 + +other9 + +other10 + +other11 + +other12;
+  let totalBill = +moChargeEmrc+ +injectionIM+ +injectionIV+ +ivLine+ +infusionAntibiotic+ +stitchInTotal+ +stitchOutTotal+ +bsf+ +shortStay+ +bp+ +ecg+ +drip+ +venofar+ +stomachWash+ +foleyCath+ +ctg+ +dressing+ +nebulization+ +monChargeTwo+ +enema+ +bloodTransfusion+ +ett+ +ascitic+ +pleuralFuid+ +lumberPuncture+ +other1+ +other2+ +other3+ +other4+ +other5+ +other6+ +other7+ +other8+ +other9+ +other10+ +other11+ +other12;
   document.getElementById("totalBill").value = totalBill;
 }
 // Get genFinal Discount Function

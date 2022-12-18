@@ -79,15 +79,15 @@
                   
                   }else if ($type == 'DATE_RANGE') {
 
-                    $reportSql ="SELECT CAST(`SLIP_DATE_TIME` AS DATE) AS `DAILY`, `me_doctors`.`DOCTOR_NAME` AS `CONSULTANT_NAME`, `me_doctors`.`DOCTOR_TYPE`,
+                    $reportSql ="SELECT `me_doctors`.`DOCTOR_NAME` AS `CONSULTANT_NAME`, `me_doctors`.`DOCTOR_TYPE`,
                     COUNT(`SLIP_UUID`) AS `TOTAL_NO_OF_PATIENT`, 
                     ( (SUM(`SLIP_FEE`)*1.0 )* '$docShare')/100 AS `TOTAL_AMOUNT_PAID_TO_DOCTOR`, 
                     ((SUM(`SLIP_FEE`)*1.0)* '$hosShare')/100 AS `TOTAL_AMOUNT_PAID_TO_CLINIC`, 
                     (((SUM(`SLIP_FEE`)*1.0)* '$hosShare')/100) - (((SUM(`SLIP_FEE`)*1.0)* '$recShare')/100) AS `RECEPTION_SHARE` 
                     FROM `me_slip` LEFT JOIN `me_doctors` ON `me_slip`.`SLIP_DOCTOR` = `me_doctors`.`DOCTOR_UUID` 
                     WHERE `SLIP_DOCTOR` IS NOT NULL AND `SLIP_TYPE` = 'OUTDOOR' 
-                    AND CAST(`SLIP_DATE_TIME` AS DATE) BETWEEN '$startDate' AND '$endDate' GROUP BY `SLIP_DOCTOR`, CAST(`SLIP_DATE_TIME` AS DATE)";
-
+                    AND CAST(`SLIP_DATE_TIME` AS DATE) BETWEEN '$startDate' AND '$endDate' GROUP BY `SLIP_DOCTOR`";
+                  
                   }
                   
                     $querySql = mysqli_query($db,$reportSql);
