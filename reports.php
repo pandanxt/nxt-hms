@@ -57,7 +57,6 @@
               <table id="example1" class="table table-bordered table-striped table-hover">
                 <thead>
                   <tr style='font-size: 14px;text-align:center;'>
-                    <?php if ($type == 'DATE_RANGE') { echo '<th>Date</th>'; } ?>
                     <th>Consultant </br> Name</th>
                     <th>Total Number </br> of Patient</th>
                     <th>Total Amount </br> Paid to Doctor</th>
@@ -80,24 +79,23 @@
                   
                   }else if ($type == 'DATE_RANGE') {
 
-                    $reportSql ="SELECT CAST(`SLIP_DATE_TIME` AS DATE) AS `DAILY`, `me_doctors`.`DOCTOR_NAME` AS `CONSULTANT_NAME`, `me_doctors`.`DOCTOR_TYPE`,
+                    $reportSql ="SELECT `me_doctors`.`DOCTOR_NAME` AS `CONSULTANT_NAME`, `me_doctors`.`DOCTOR_TYPE`,
                     COUNT(`SLIP_UUID`) AS `TOTAL_NO_OF_PATIENT`, 
                     ( (SUM(`SLIP_FEE`)*1.0 )* '$docShare')/100 AS `TOTAL_AMOUNT_PAID_TO_DOCTOR`, 
                     ((SUM(`SLIP_FEE`)*1.0)* '$hosShare')/100 AS `TOTAL_AMOUNT_PAID_TO_CLINIC`, 
                     (((SUM(`SLIP_FEE`)*1.0)* '$hosShare')/100) - (((SUM(`SLIP_FEE`)*1.0)* '$recShare')/100) AS `RECEPTION_SHARE` 
                     FROM `me_slip` LEFT JOIN `me_doctors` ON `me_slip`.`SLIP_DOCTOR` = `me_doctors`.`DOCTOR_UUID` 
                     WHERE `SLIP_DOCTOR` IS NOT NULL AND `SLIP_TYPE` = 'OUTDOOR' 
-                    AND CAST(`SLIP_DATE_TIME` AS DATE) BETWEEN '$startDate' AND '$endDate' GROUP BY `SLIP_DOCTOR`, CAST(`SLIP_DATE_TIME` AS DATE)";
-
+                    AND CAST(`SLIP_DATE_TIME` AS DATE) BETWEEN '$startDate' AND '$endDate' GROUP BY `SLIP_DOCTOR`";
+                  
                   }
                   
                     $querySql = mysqli_query($db,$reportSql);
                     while($rs = mysqli_fetch_array($querySql))
                     { 
                         $recTotal = $rs['TOTAL_AMOUNT_PAID_TO_CLINIC'] - $rs['RECEPTION_SHARE'];
-                        echo "<tr style='font-size: 12px;'>";
-                        if ($type == 'DATE_RANGE') { echo "<td>$rs[DAILY]</td>"; }
-                        echo "<td>$rs[CONSULTANT_NAME]</td>
+                        echo "<tr style='font-size: 12px;'>
+                        <td>$rs[CONSULTANT_NAME]</td>
                         <td>$rs[TOTAL_NO_OF_PATIENT]</td>
                         <td>$rs[TOTAL_AMOUNT_PAID_TO_DOCTOR]</td>
                         <td>$rs[TOTAL_AMOUNT_PAID_TO_CLINIC]</td>
