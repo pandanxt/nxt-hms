@@ -64,7 +64,7 @@ if (isset($_SESSION['uuid'])) {
         <div class="headerSubTitle mt-2 mb-2">
             <?php
                 if ($type == 'INDOOR' && $subType == 'GYNEACOLOGY_PATIENT') {
-                    echo 'Gyneacology Slip';
+                    echo 'Gynea/Obs Slip';
                 }else if ($type == 'INDOOR' && $subType == 'GENERAL_SURGERY_PATIENT') {
                     echo 'General Surgery Slip';
                 }else if ($type == 'INDOOR' && $subType == 'GENERAL_ILLNESS_PATIENT') {

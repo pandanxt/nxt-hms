@@ -198,15 +198,15 @@
                   <?php if ($subtype == "GYNEACOLOGY_PATIENT" || $subtype == "GENERAL_SURGERY_PATIENT") { ?>
                   <div class="col-md-12" style="display:flex;margin:0;padding:0;">
                     <div class="form-group col-md-4">
-                      <label>Nursury Charges</label>
+                      <label>Nursery Charges</label>
                       <input type="number" name="nurCharge" id="nurCharge" placeholder="Rate is 8,000" class="form-control"/>
                     </div>
                     <div class="form-group col-md-4">
-                      <label>Nursury Staff Charges</label>
+                      <label>Nursery Staff Charges</label>
                       <input type="number" name="nurStCharge" class="form-control" id="nurStCharge" placeholder="Rate is 1500"/>
                     </div>
                     <div class="form-group col-md-4">
-                      <label>Operation Charges</label>
+                      <label>Theatre Charges</label>
                       <input type="number" name="opCharge" class="form-control" id="opCharge" placeholder="Rate is 10,000"/>
                     </div>
                   </div>

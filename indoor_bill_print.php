@@ -56,7 +56,7 @@
                     <?php 
                     if ($bill_row['SLIP_TYPE'] == 'INDOOR') {
                       if ($bill_row['SLIP_SUB_TYPE'] == 'GYNEACOLOGY_PATIENT') {
-                        echo "INDOOR GYNEACOLOGY BILL";
+                        echo "INDOOR GYNAE/OBS BILL";
                       }else if ($bill_row['SLIP_SUB_TYPE'] == 'GENERAL_SURGERY_PATIENT') {
                         echo "INDOOR GENERAL SURGERY BILL";
                       }else if ($bill_row['SLIP_SUB_TYPE'] == 'GENERAL_ILLNESS_PATIENT') {
@@ -99,7 +99,7 @@
                         <h4><b>Total Fee :</b> PKR - <?php echo $bill_row['BILL_TOTAL']; ?></h4><br>   
                       <?php } 
                      }else { ?>
-                      <p><b>Admit Dates :</b> <?php echo $bill_row['ADMISSION_DATE_TIME']; ?> - <?php echo $bill_row['DISCHARGE_DATE_TIME']; ?></p>
+                      <p><b>Admission Dates :</b> <?php echo $bill_row['ADMISSION_DATE_TIME']; ?> - <?php echo $bill_row['DISCHARGE_DATE_TIME']; ?></p>
                       <p><b>Consultant :</b> <?php echo $bill_row['DOCTOR_NAME']; ?></p>
                       <p><b>Staff :</b> <?php echo $bill_row['USER_NAME']; ?></p>
                     <?php } ?>
@@ -147,7 +147,7 @@
                           if (!empty($bill_row['OPERATION_CHARGE'])) {
                       ?>
                       <tr>
-                        <td>Operation Charges</td>
+                        <td>Theatre Charges</td>
                         <td><?php echo $bill_row['OPERATION_CHARGE']; ?></td>
                       </tr>
                       <?php
@@ -171,7 +171,7 @@
                           if (!empty($bill_row['NURSURY_CHARGE'])) {
                       ?>
                       <tr>
-                        <td>Nursury Charges</td>
+                        <td>Nursery Charges</td>
                         <td><?php echo $bill_row['NURSURY_CHARGE']; ?></td>
                       </tr>
                       <?php
@@ -179,7 +179,7 @@
                           if (!empty($bill_row['NURSURY_STAFF_CHARGE'])) {
                       ?>
                       <tr>
-                        <td>Nursury Staff Charges</td>
+                        <td>Nursery Staff Charges</td>
                         <td><?php echo $bill_row['NURSURY_STAFF_CHARGE']; ?></td>
                       </tr>
                       <?php

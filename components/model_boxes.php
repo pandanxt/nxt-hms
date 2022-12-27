@@ -104,7 +104,7 @@
             <br>
             <select class="form-control  select2" name="subType" id="subType" style="width: 100%;">
               <option value="" selected disabled>SELECT INDOOR TYPE</option>
-              <option value="GYNEACOLOGY_PATIENT">GYNEACOLOGY PATIENT</option>
+              <option value="GYNEACOLOGY_PATIENT">GYNAE/OBS PATIENT</option>
               <option value="GENERAL_SURGERY_PATIENT">GENERAL SURGERY PATIENT</option>
               <option value="GENERAL_ILLNESS_PATIENT">GENERAL ILLNESS PATIENT</option>
               <option value="EYE_PATIENT">EYE PATIENT</option>
@@ -256,7 +256,7 @@
             <br>
             <select class="form-control  select2" name="patSubType" id="patSubType" style="width: 100%;">
               <option value="" selected disabled>SELECT INDOOR TYPE</option>
-              <option value="GYNEACOLOGY_PATIENT">GYNEACOLOGY PATIENT</option>
+              <option value="GYNEACOLOGY_PATIENT">GYNAE/OBS PATIENT</option>
               <option value="GENERAL_SURGERY_PATIENT">GENERAL SURGERY PATIENT</option>
               <option value="GENERAL_ILLNESS_PATIENT">GENERAL ILLNESS PATIENT</option>
               <option value="EYE_PATIENT">EYE PATIENT</option>
