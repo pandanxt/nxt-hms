@@ -119,16 +119,24 @@
               </div>
               <div class="col-md-6">
                 <div class="col-md-12" style="display:flex;">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label>Mobile No#</label>
                         <input type="tel" name="phone" id="phone" class="form-control" placeholder="Enter Mobile No. without '-' " required>
                     </div>
                     <?php if ($type == 'OUTDOOR') {?>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label>Consultant Fee</label>
                         <input type="number" name="fee" id="fee" class="form-control" placeholder="Enter Consultant Fee" required>
                     </div>
                     <?php }?>
+                    <div class="form-group col-md-4">
+                        <label>Disposal</label>
+                        <select class="form-control select2" name="disposal" id="disposal" required>
+                          <option value="OPD">OPD</option>
+                          <option value="Admission">Admission</option>
+                          <option value="Death">Death</option>
+                        </select>
+                    </div>
                 </div>
                 <?php if ($type == 'INDOOR') {?>
                 <div class="form-group col-md-12">

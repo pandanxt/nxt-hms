@@ -37,6 +37,7 @@ if (isset($_SESSION['uuid'])) {
     $mrId = $slip_row['SLIP_MRID'];
     $name = $slip_row['SLIP_NAME'];
     $phone = $slip_row['SLIP_MOBILE'];
+    $disposal = $slip_row['SLIP_DISPOSAL'];
     if ($stype != 'EMERGENCY') {
         $dept = $slip_row['DEPARTMENT_NAME'];
     }
@@ -101,6 +102,10 @@ if (isset($_SESSION['uuid'])) {
             <tr>
                 <td style=" padding:0 !important;">&nbsp;<small>Age</small></td>
                 <td class="right-chars">&nbsp;<b><?php echo $age." yrs - ".$gender; ?></b></td>
+            </tr>
+            <tr>
+                <td style=" padding:0 !important;">&nbsp;<small>Disposal</small></td>
+                <td class="right-chars">&nbsp;<b><?php echo $disposal ?></b></td>
             </tr>
         </table>
         <?php if ($type == "OUTDOOR") { ?>
