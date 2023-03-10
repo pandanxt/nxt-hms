@@ -361,7 +361,8 @@ body
   top: -10px;
   left: 15px;
   font-size: small;
-  color: #0056b3;
+  /* color: #0056b3; */
+  color: #000000;
   background-color:#fff !important;
   padding:0 5px 0 5px;
 }

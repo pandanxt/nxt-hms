@@ -185,16 +185,18 @@ $(document).ready(function ($) {
     var mrid = $("input#editMrid").val();
     var name = $("input#editName").val();
     var mobile = $("input#editPhone").val();
+    var disposal = $("input#editDisposal").val();
     var dept = $("input#editDept").val();
     var doc = $("input#editDoctor").val();
     var fee = $("input#editFee").val();
     var procedure = $("input#editProcedure").val();
 
-    if (mrid == "" || name == "" || mobile == "" || dept == "" || doc == "" || fee == "" || procedure == "") {
+    if (mrid == "" || name == "" || mobile == "" || disposal == "" || dept == "" || doc == "" || fee == "" || procedure == "") {
       $("#err-msg").fadeIn().text("Required Fields.");
       $("input#editMrid").focus();
       $("input#editName").focus();
       $("input#editPhone").focus();
+      $("input#editDisposal").focus();
       $("input#editDept").focus();
       $("input#editDoctor").focus();
       $("input#editFee").focus();
@@ -730,3 +732,74 @@ function autoRefresh() {
     window.location = window.location.href;
   }, 1000);
 }
+
+// Ajax Call for BackUp Request 
+$(document).ready(function ($) {
+  $('#dataBackup').submit(function (e) {
+    e.preventDefault();
+    $("#err-msg").hide();
+    let slipBackup = $("input#slipBackup").is(":checked");
+    let billBackup = $("input#billBackup").is(":checked");
+    let patientBackup = $("input#patientBackup").is(":checked");
+    let departmentBackup = $("input#departmentBackup").is(":checked");
+    let doctorBackup = $("input#doctorBackup").is(":checked");
+    let roomBackup = $("input#roomBackup").is(":checked");
+    let serviceBackup = $("input#serviceBackup").is(":checked");
+    let serviceSlipBackup = $("input#serviceSlipBackup").is(":checked");
+    let followUpBackup = $("input#followUpBackup").is(":checked");
+    if (
+      slipBackup == false && 
+      billBackup == false && 
+      patientBackup == false && 
+      departmentBackup == false && 
+      doctorBackup == false && 
+      roomBackup == false &&
+      serviceBackup == false && 
+      serviceSlipBackup == false && 
+      followUpBackup == false) {
+      console.log('No Table Selected for Backup');
+      $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1000
+          });
+          Toast.fire({
+            icon: 'error',
+            title: 'No Table Selected for Backup'
+          });
+        });
+      return false;
+    }
+    // ajax
+    $.ajax({
+      type: "POST",
+      url: "backend_components/backup_handler.php?q=BACKUP_TABLE",
+      data: $(this).serialize(), // get all form field value in serialize form
+      success: function (res) {
+        // res = JSON.parse(res);
+        console.log(res);
+
+        let el = document.querySelector("#cancel");
+        el.click();
+        // updateDoctor();
+
+        // $(function () {
+        //   var Toast = Swal.mixin({
+        //     toast: true,
+        //     position: 'top-end',
+        //     showConfirmButton: false,
+        //     timer: 1000
+        //   });
+        //   Toast.fire({
+        //     icon: res.status,
+        //     title: res.message
+        //   });
+          // autoRefresh();
+        // });
+      }
+    });
+  });
+  return false;
+});

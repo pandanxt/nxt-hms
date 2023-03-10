@@ -370,6 +370,93 @@
     </div>
   </div>
 </div>
+<!-- Data Backup Model Popup Here -->
+<div class="modal fade" id="data-backup">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><i class="nav-icon fas fa-table"></i> MedEast Record BackUp</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <span id="err-msg" style="display: none"></span>
+      <form action='javascript:void(0)' method='post' id='dataBackup'>
+        <div class='modal-body' style='padding-left:0px; padding-right: 0px;'>
+          <div class="col-12 row">
+            <div class="col-4">
+                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                  <input type="checkbox" class="custom-control-input" id="slipBackup" name="slipBackup">
+                  <label class="custom-control-label" for="slipBackup">Slip BackUp</label>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                  <input type="checkbox" class="custom-control-input" id="billBackup" name="billBackup">
+                  <label class="custom-control-label" for="billBackup">Bill BackUp</label>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                  <input type="checkbox" class="custom-control-input" id="patientBackup" name="patientBackup">
+                  <label class="custom-control-label" for="patientBackup">Patient BackUp</label>
+                </div>
+            </div>
+          </div>
+          <hr />
+          <div class="col-12 row">
+            <div class="col-4">
+              <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                <input type="checkbox" class="custom-control-input" id="departmentBackup" name="departmentBackup">
+                <label class="custom-control-label" for="departmentBackup">Department BackUp</label>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                <input type="checkbox" class="custom-control-input" id="doctorBackup" name="doctorBackup">
+                <label class="custom-control-label" for="doctorBackup">Doctor BackUp</label>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                <input type="checkbox" class="custom-control-input" id="roomBackup" name="roomBackup">
+                <label class="custom-control-label" for="roomBackup">Room BackUp</label>
+              </div>
+            </div>
+          </div>
+          <hr />
+          <div class="col-12 row">
+            <div class="col-4">
+              <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                <input type="checkbox" class="custom-control-input" id="serviceBackup" name="serviceBackup">
+                <label class="custom-control-label" for="serviceBackup">Services BackUp</label>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                <input type="checkbox" class="custom-control-input" id="serviceSlipBackup" name="serviceSlipBackup">
+                <label class="custom-control-label" for="serviceSlipBackup">Service Slip BackUp</label>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                <input type="checkbox" class="custom-control-input" id="followUpBackup" name="followUpBackup">
+                <label class="custom-control-label" for="followUpBackup">FollowUp Slip BackUp</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class='modal-footer justify-content-between'>
+            <button type='button' class='btn btn-default' data-dismiss='modal'>Cancel</button>
+            <button type='submit' name='submit' class='btn btn-primary'>Save</button>
+        </div>
+      </form>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
 <!-- Update User Model Popup Here -->
 <div class="modal fade" id="edit-user">
   <div class="modal-dialog">

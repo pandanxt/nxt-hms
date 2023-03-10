@@ -131,6 +131,10 @@
           <a href="users.php" class="dropdown-item">
              Users <span class="float-right text-muted text-sm"><i class="fas fa-users"></i></span>
           </a>
+          <div class="dropdown-divider"></div>
+          <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#data-backup">
+             Back Up <span class="float-right text-muted text-sm"><i class="fas fa-table"></i></span>
+          </a>
           <?php } ?> 
           <div class="dropdown-divider"></div>
           <a href="javascript:void(0);" class="dropdown-item" onclick="editUser(this);" data-uuid="<?php echo $_SESSION['uuid']; ?>" data-toggle="modal" data-target="#edit-user">
