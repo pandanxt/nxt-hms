@@ -255,14 +255,14 @@ body.tempusdominus-bootstrap-datetimepicker-widget-day-click {
   display: inline-block;
   border: solid transparent;
   border-width: 0 0 7px 7px;
-  border-bottom-color: #007bff;
+  border-bottom-color: #25653f;
   border-top-color: rgba(0, 0, 0, 0.2);
   position: absolute;
   bottom: 4px;
   right: 4px;
 }
 .bootstrap-datetimepicker-widget table td.active, .bootstrap-datetimepicker-widget table td.active:hover {
-  background-color: #007bff;
+  background-color: #25653f;
   color: #fff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
@@ -288,7 +288,7 @@ body.tempusdominus-bootstrap-datetimepicker-widget-day-click {
   background: #e9ecef;
 }
 .bootstrap-datetimepicker-widget table td span.active {
-  background-color: #007bff;
+  background-color: #25653f;
   color: #fff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
@@ -305,8 +305,8 @@ body.tempusdominus-bootstrap-datetimepicker-widget-day-click {
   line-height: 27px;
 }
 .bootstrap-datetimepicker-widget .timepicker .timepicker-picker a.btn {
-  color: #007bff;
-  color: var(--blue, #007bff);
+  color: #25653f;
+  color: var(--blue, #25653f);
 }
 .bootstrap-datetimepicker-widget .timepicker .timepicker-picker a.btn:hover {
   color: #0056b3;
