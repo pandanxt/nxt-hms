@@ -34,7 +34,7 @@
                 <div class="row">
                   <div class="col-md-12">
                     <h2 class="page-header">
-                      <img src="dist/img/medeast-logo-icon.png" alt="MedEast Logo"/><b> MEDEAST HOSPITAL</b>
+                      <img src="dist/img/medeast-logo-icon.png" alt="NXT HealthCare Logo"/><b> NXT HealthCare</b>
                       <small class="float-right" style="font-size:12px;">Slip Date: <?php echo $bill_row['BILL_DATE_TIME']; ?></small>
                     </h2>
                     <div class="float-right" style="margin-top: -125px;">

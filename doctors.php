@@ -52,7 +52,7 @@
                   </thead>
                   <tbody>
                   <?php
-                      $sql ="SELECT *,`DEPARTMENT_NAME`, `USER_NAME` FROM `me_doctors` INNER JOIN `me_user` INNER JOIN `me_department` WHERE `me_doctors`.`STAFF_ID` = `me_user`.`USER_UUID` AND `me_doctors`.`DOCTOR_DEPARTMENT` = `me_department`.`DEPARTMENT_UUID` AND `me_doctors`.`DOCTOR_TYPE` = 'medeast'";
+                      $sql ="SELECT *,`DEPARTMENT_NAME`, `USER_NAME` FROM `me_doctors` INNER JOIN `me_user` INNER JOIN `me_department` WHERE `me_doctors`.`STAFF_ID` = `me_user`.`USER_UUID` AND `me_doctors`.`DOCTOR_DEPARTMENT` = `me_department`.`DEPARTMENT_UUID` AND `me_doctors`.`DOCTOR_TYPE` = 'register'";
                       $qsql = mysqli_query($db,$sql);
                       while($rs = mysqli_fetch_array($qsql))
                       { 
@@ -110,7 +110,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i> Medeast Doctor</h4>
+          <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i> Doctor</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -167,7 +167,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i> Medeast Doctor</h4>
+          <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i> Doctor</h4>
           <button onclick="autoRefresh()" type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -186,7 +186,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i> Medeast Doctor</h4>
+          <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i> Doctor</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
             <span aria-hidden="true">&times;</span>
           </button>

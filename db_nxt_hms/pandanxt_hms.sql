@@ -79,7 +79,7 @@ CREATE TABLE `me_doctors` (
   `DOCTOR_DEPARTMENT` varchar(20) DEFAULT NULL,
   `DOCTOR_STATUS` int(10) NOT NULL DEFAULT 1,
   `DOCTOR_DATE_TIME` datetime NOT NULL DEFAULT current_timestamp(),
-  `DOCTOR_TYPE` varchar(10) NOT NULL DEFAULT 'medeast',
+  `DOCTOR_TYPE` varchar(10) NOT NULL DEFAULT 'nxt',
   `STAFF_ID` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

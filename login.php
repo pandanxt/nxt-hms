@@ -8,7 +8,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MedEast | Healthcare</title>
+  <title>MAAN | MEDICAL</title>
   <link rel="icon" type="image/png" href="dist/img/medeast-logo-icon.png">
 
 <!-- Google Font: Source Sans Pro -->
@@ -29,7 +29,7 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-            <img style="width:12rem;" src="dist/img/medeast-logo-main.png" alt="Medeast Logo">
+            <img style="width:20rem;height:6rem" src="dist/img/hospital-logo.png" alt="MAAN Medical Logo">
     </div>
     <div class="card-body">
       <form action="javascript:void(0)" method="post" enctype="multipart/form-data" id="loginRequest">
@@ -66,9 +66,9 @@
         </div>
       </form>
 
-      <p class="mb-1">
+      <!-- <p class="mb-1">
         <a href="forgot-password.html">I forgot my password</a>
-      </p>
+      </p> -->
     </div>
     <!-- /.card-body -->
   </div>
@@ -82,7 +82,7 @@
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
-<!-- MedEast for Form and Time|Date -->
+<!-- NXT for Form and Time|Date -->
 <script src="dist/js/medeast.js"></script>
 <!-- SweetAlert2 -->
 <script src="plugins/sweetalert2/sweetalert2.min.js"></script>

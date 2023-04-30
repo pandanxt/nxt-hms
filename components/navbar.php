@@ -109,7 +109,7 @@
           <?php if (isset($_SESSION['uuid']) && $_SESSION['role'] == "admin") {  ?>
           <div class="dropdown-divider"></div>
           <a href="doctors.php" class="dropdown-item">
-            Medeast Doctors <span class="float-right text-muted text-sm"><i class="fas fa-user-md"></i></span>
+            Register Doctors <span class="float-right text-muted text-sm"><i class="fas fa-user-md"></i></span>
           </a>
           <div class="dropdown-divider"></div>
           <a href="visiting-doctors.php" class="dropdown-item">
@@ -131,10 +131,10 @@
           <a href="users.php" class="dropdown-item">
              Users <span class="float-right text-muted text-sm"><i class="fas fa-users"></i></span>
           </a>
-          <div class="dropdown-divider"></div>
+          <!-- <div class="dropdown-divider"></div>
           <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#data-backup">
              Back Up <span class="float-right text-muted text-sm"><i class="fas fa-table"></i></span>
-          </a>
+          </a> -->
           <?php } ?> 
           <div class="dropdown-divider"></div>
           <a href="javascript:void(0);" class="dropdown-item" onclick="editUser(this);" data-uuid="<?php echo $_SESSION['uuid']; ?>" data-toggle="modal" data-target="#edit-user">

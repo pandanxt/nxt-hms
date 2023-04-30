@@ -129,8 +129,6 @@ $(document).ready(function ($) {
         res = JSON.parse(res);
         console.log(res);
 
-        let el = document.querySelector("#cancel");
-        el.click();
         updateDoctor();
 
         $(function () {
@@ -144,7 +142,17 @@ $(document).ready(function ($) {
             icon: res.status,
             title: res.message
           });
-          autoRefresh();
+        });
+       
+        let vtDoctorForm = $("visitorDoctor");
+        let vtDoctorPopup = $("visitor-doctor");
+        let vtName = $("vtName");
+        let vtMobile = $("vtMobile");
+          
+        vtDoctorForm.submit(function(event) {
+          event.preventDefault(); // prevent default form submission behavior
+          vtDoctorPopup.hide(); // close the popup box
+          vtName.val(""); // clear the input field
         });
       }
     });

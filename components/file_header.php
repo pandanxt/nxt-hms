@@ -4,7 +4,7 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MedEast | Healthcare</title>
+  <title>NXT | Healthcare</title>
   <link rel="icon" type="image/png" href="dist/img/medeast-logo-icon.png">
  
   <!-- Google Font: Source Sans Pro -->
@@ -47,6 +47,6 @@
 
 </head>
 <body class="hold-transition sidebar-mini">
-<!-- Medeast JS -->
+<!-- nxt JS -->
 <script src="dist/js/medeast.js"></script>
 <div class="wrapper">

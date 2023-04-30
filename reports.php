@@ -60,7 +60,7 @@
                     <th>Consultant </br> Name</th>
                     <th>Total Number </br> of Patient</th>
                     <th>Total Amount </br> Paid to Doctor</th>
-                    <th>Total Amount </br> Paid to MedEast</th>
+                    <th>Total Amount </br> Paid to MAAN Medical Complex</th>
                     <th>Reception </br> Share</th>
                   </tr>
                 </thead>

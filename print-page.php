@@ -55,15 +55,15 @@
                 <?php echo $date; ?>
                 </div>
                 <div class="headerTitle">
-                Medeast Hospital
+                MAAN Medical & Gynaecological Complex
                 </div>
                 <?php echo '<div class="headerSubTitle">'.$type.'</div>'; ?>
-                <div id="date">
+                <!-- <div id="date">
                 C-1 Commercial Office Block, Paragon City, Lahore.
                 </div>
                 <div id="date">
                 0300 4133102, 0320 4707070, 042 37165549
-                </div>
+                </div> -->
                 <table class="table table-bordered" style="font-size: 16px;padding: 0rem !important;margin-bottom: 0px;">
                     <tr>
                         <td class="right-chars"><img style="width:20px;margin-left:15px;" src="dist/img/name-icon.png"> <?php echo $name; ?></td>
@@ -131,7 +131,7 @@
                 Keep your slip!
                 </div>
                 <div class="keepItBody">
-                Computerized generated slip, no need of signature or stamp. Bring this original slip when revisiting MEDEAST Hospital.
+                Computerized generated slip, no need of signature or stamp. Bring this original slip when revisiting MAAN Medical & Gynaecological Complex.
                 </div>
                 <div style="display:flex;">
                     <div class="staffFooter">

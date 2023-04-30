@@ -95,7 +95,7 @@ $(document).ready(function ($) {
 });
 // Ajax Call for Adding New Visiting Doctor 
 $(document).ready(function ($) {
-    $('#visitorDoctor').submit(function (e) {
+    $('#addVisitorDoctor').submit(function (e) {
         e.preventDefault();
         $("#err-msg").hide();
         var dname = $("input#vtName").val();

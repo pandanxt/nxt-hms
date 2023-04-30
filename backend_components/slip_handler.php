@@ -244,7 +244,7 @@
                     echo "<div class='col-md-12 ml-2' style='display:flex;'>
                         <label for='switchList' class='mt-2'>Switch List: </label>&nbsp;
                         <select class='form-default' name='switchList' id='switchList' onchange='switchDocList(this.value);'>
-                        <option value='me'>MedEast Doctors</option>
+                        <option value='me'>Register Doctors</option>
                         <option value='vt'>Visiting Doctors</option>
                         </select>
                         <div class='ml-2 mt-2'>
@@ -279,7 +279,7 @@
                     <select class='form-control select2' name='editDoctor' style='width: 100%;' id='doctor'>
                         <option disabled value=''>---- Select Consultant Name ----</option>
                         <option selected value='$doc_id'><b>$doc_name</b></option>";
-                        $doctor = 'SELECT `DOCTOR_UUID`, `DOCTOR_NAME` FROM `me_doctors` WHERE `DOCTOR_TYPE` = "medeast" AND `DOCTOR_STATUS` = "1"';
+                        $doctor = 'SELECT `DOCTOR_UUID`, `DOCTOR_NAME` FROM `me_doctors` WHERE `DOCTOR_TYPE` = "register" AND `DOCTOR_STATUS` = "1"';
                         $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
                             while ($row = mysqli_fetch_array($result)) {
                             $id = $row['DOCTOR_UUID'];  
@@ -416,7 +416,7 @@
     if ($q == 'GET_DOCTOR') {
         echo '<option disabled selected value="">---- Select Consultant Name ----</option>';
         if ($id == 'me') {
-            $doctor = "SELECT `DOCTOR_UUID`, `DOCTOR_NAME` FROM `me_doctors` WHERE `DOCTOR_TYPE` = 'medeast' AND `DOCTOR_STATUS` = 1";
+            $doctor = "SELECT `DOCTOR_UUID`, `DOCTOR_NAME` FROM `me_doctors` WHERE `DOCTOR_TYPE` = 'register' AND `DOCTOR_STATUS` = 1";
             $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
             while ($row = mysqli_fetch_array($result)) {
                 $id = $row['DOCTOR_UUID'];  
@@ -437,7 +437,7 @@
     if ($q == 'GET_DOCTOR_BY_DEPT') {
         echo '<option disabled selected value="">---- Select Consultant Name ----</option>';
         if ($id == 'me') {
-            $doctor = "SELECT `DOCTOR_UUID`, `DOCTOR_NAME` FROM `me_doctors` WHERE `DOCTOR_DEPARTMENT` = '$val' AND `DOCTOR_TYPE` = 'medeast' AND `DOCTOR_STATUS` = 1";
+            $doctor = "SELECT `DOCTOR_UUID`, `DOCTOR_NAME` FROM `me_doctors` WHERE `DOCTOR_DEPARTMENT` = '$val' AND `DOCTOR_TYPE` = 'register' AND `DOCTOR_STATUS` = 1";
             $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
             while ($row = mysqli_fetch_array($result)) {
                 $id = $row['DOCTOR_UUID'];  

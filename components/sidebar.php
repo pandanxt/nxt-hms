@@ -1,8 +1,8 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="javascript:void(0);" class="brand-link">
-      <img src="dist/img/medeast-logo-icon.png" alt="MedEast Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">MedEast Healthcare</span>
+      <img src="dist/img/medeast-logo-icon.png" alt="MAAN MEDICAL" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">MAAN MEDICAL</span>
     </a>
     <!-- Sidebar -->
     <div class="sidebar">
@@ -55,7 +55,7 @@
                 <p>Patients</p>
                 </a>
             </li>
-            <!------Medeast Reports------>
+            <!------NXT Reports------>
             <li class="nav-item">
               <a type="button" class="dropdown-item nav-link" data-toggle="modal" data-target="#modal-report" href="javascript:void(0);">
                 <i class="nav-icon fa fa-chart-pie"></i>

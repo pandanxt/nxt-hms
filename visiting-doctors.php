@@ -107,7 +107,7 @@
           </button>
         </div>
         <span id="err-msg" style="display: none"></span>
-        <form action="javascript:void(0)" method="post" id="visitorDoctor">
+        <form action="javascript:void(0)" method="post" id="addVisitorDoctor">
         <div class="modal-body">
               <div class="row">
                 <div class="col-md-6">
@@ -143,7 +143,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i> Medeast Doctor</h4>
+          <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i> Doctor</h4>
           <button onclick="autoRefresh()" type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -161,7 +161,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i> Medeast Doctor</h4>
+          <h4 class="modal-title"><i class="nav-icon fas fa-user-md"></i> Doctor</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-button">
             <span aria-hidden="true">&times;</span>
           </button>

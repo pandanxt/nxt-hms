@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `me-medeast`
+-- Database: `me-nxt`
 --
 
 -- --------------------------------------------------------
@@ -103,7 +103,7 @@ CREATE TABLE `me_doctors` (
   `DOCTOR_DEPARTMENT` varchar(20) DEFAULT NULL,
   `DOCTOR_STATUS` int(10) NOT NULL DEFAULT 1,
   `DOCTOR_DATE_TIME` datetime NOT NULL DEFAULT current_timestamp(),
-  `DOCTOR_TYPE` varchar(10) NOT NULL DEFAULT 'medeast',
+  `DOCTOR_TYPE` varchar(10) NOT NULL DEFAULT 'nxt',
   `STAFF_ID` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -112,7 +112,7 @@ CREATE TABLE `me_doctors` (
 --
 
 INSERT INTO `me_doctors` (`DOCTOR_UUID`, `DOCTOR_NAME`, `DOCTOR_MOBILE`, `DOCTOR_DEPARTMENT`, `DOCTOR_STATUS`, `DOCTOR_DATE_TIME`, `DOCTOR_TYPE`, `STAFF_ID`) VALUES
-('DOC5999-10232022', 'Doctor Test One', '03214253974', 'DEP3680-10232022', 1, '2022-10-23 23:44:45', 'medeast', 'USR5235-10232022'),
+('DOC5999-10232022', 'Doctor Test One', '03214253974', 'DEP3680-10232022', 1, '2022-10-23 23:44:45', 'nxt', 'USR5235-10232022'),
 ('DOC6993-10232022', 'Dr Visiting Doctor', '03234169956', NULL, 1, '2022-10-23 23:48:01', 'visitor', 'USR5235-10232022');
 
 -- --------------------------------------------------------

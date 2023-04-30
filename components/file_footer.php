@@ -43,8 +43,8 @@
 <script src="dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
-<!-- MedEast for Form and Time|Date -->
-<!-- <script src="dist/js/medeast.js"></script> -->
+<!-- NXT for Form and Time|Date -->
+<!-- <script src="dist/js/NXT.js"></script> -->
 <script>
     // <!-- Page specific script -->
     // Date Time Picker Fields

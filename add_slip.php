@@ -71,7 +71,7 @@
                   <div class="col-md-6">
                     <label for="switchList">Switch List: </label>
                     <select name="switchList" id="switchList" onchange="switchDocList(this.value);">
-                      <option value="me">MedEast Doctors</option>
+                      <option value="me">Register Doctors</option>
                       <option value="vt">Visiting Doctors</option>
                     </select>
                   </div>
@@ -105,7 +105,7 @@
                       <select class="form-control select2" name="doctor" style="width: 100%;" id="doctor" required>
                           <option disabled selected value="">---- Select Consultant Name ----</option>
                           <?php
-                          $doctor = 'SELECT `DOCTOR_UUID`, `DOCTOR_NAME` FROM `me_doctors` WHERE `DOCTOR_TYPE` = "medeast" AND `DOCTOR_STATUS` = "1"';
+                          $doctor = 'SELECT `DOCTOR_UUID`, `DOCTOR_NAME` FROM `me_doctors` WHERE `DOCTOR_TYPE` = "register" AND `DOCTOR_STATUS` = "1"';
                           $result = mysqli_query($db, $doctor) or die (mysqli_error($db));
                               while ($row = mysqli_fetch_array($result)) {
                               $id = $row['DOCTOR_UUID'];  

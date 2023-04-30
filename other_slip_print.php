@@ -70,9 +70,9 @@ if (isset($_SESSION['uuid'])) {
         <div class="orderNo mb-0">MR ID# <b><?php echo $mrId; ?></b></div>
         <!-- <div class="orderNo">Slip ID# <b><?php //echo $slipId; ?></b></div> -->
         <div class="headerSubTitle"><?php echo $date; ?></div>
-        <div><img class="titleLogo" src="dist/img/hospital-logo.png" alt="Medeast Hospital Logo"></div>
-        <div id="date">C-1 Commercial Office Block,</br> Paragon City, Lahore.</div>
-        <div id="date">042 37165549, 0320 4707070, 0300 4133102</div>
+        <div><img class="titleLogo" src="dist/img/hospital-logo.png" alt="MAAN Medical Logo"></div>
+        <!-- <div id="date">C-1 Commercial Office Block,</br> Paragon City, Lahore.</div>
+        <div id="date">042 37165549, 0320 4707070, 0300 4133102</div> -->
         <div class="headerSubTitle mt-2 mb-2">
         <?php 
             if ($slip == 'FOLLOWUP_SLIP') {
@@ -153,7 +153,7 @@ if (isset($_SESSION['uuid'])) {
           }
         ?>
         <div class="keepIt mt-2">Keep your slip!</div>
-        <div class="keepItBody">Computer generated Receipt, Does not require signature or stamp. Bring this original receipt when revisiting MEDEAST.</div>
+        <div class="keepItBody">Computer generated Receipt, Does not require signature or stamp. Bring this original receipt when revisiting MAAN Medical & Gynaecological Complex.</div>
         <br>
         <div style="display:flex;">
             <div class="staffFooter">staff# <span><?php echo $staff; ?></span></div>
