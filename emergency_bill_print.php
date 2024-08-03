@@ -25,7 +25,7 @@
       <div class="headerSubTitle"><?php echo $bill_row['BILL_DATE_TIME']; ?></div>
       <div><img class="titleLogo" src="dist/img/hospital-logo.png" alt="Medeast Hospital Logo"></div>
       <div id="date">C-1 Commercial Office Block,</br> Paragon City, Lahore.</div>
-      <div id="date">042 37165549, 0320 4707070, 0300 4133102</div>
+      <div id="date">042 37165549, 0320 9707070, 0300 4133102</div>
       <div class="headerSubTitle mt-2 mb-2"><?php echo 'Emergency Bill'; ?></div>
       <div class="col-sm-12">
         <small>Patient Name# <b><?php echo $bill_row['BILL_NAME']; ?></b></small><br>

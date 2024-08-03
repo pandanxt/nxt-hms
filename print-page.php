@@ -62,7 +62,7 @@
                 C-1 Commercial Office Block, Paragon City, Lahore.
                 </div>
                 <div id="date">
-                0300 4133102, 0320 4707070, 042 37165549
+                0300 4133102, 0320 9707070, 042 37165549
                 </div>
                 <table class="table table-bordered" style="font-size: 16px;padding: 0rem !important;margin-bottom: 0px;">
                     <tr>

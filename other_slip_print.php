@@ -9,7 +9,7 @@ if (isset($_SESSION['uuid'])) {
   // Connection File
   include('backend_components/connection.php');
   // File Header
-  include('components/file_header.php');;
+  include('components/file_header.php');
   // Navbar File
   include('components/navbar.php');
   // Sidbar File
@@ -72,7 +72,7 @@ if (isset($_SESSION['uuid'])) {
         <div class="headerSubTitle"><?php echo $date; ?></div>
         <div><img class="titleLogo" src="dist/img/hospital-logo.png" alt="Medeast Hospital Logo"></div>
         <div id="date">C-1 Commercial Office Block,</br> Paragon City, Lahore.</div>
-        <div id="date">042 37165549, 0320 4707070, 0300 4133102</div>
+        <div id="date">042 37165549, 0320 9707070, 0300 4133102</div>
         <div class="headerSubTitle mt-2 mb-2">
         <?php 
             if ($slip == 'FOLLOWUP_SLIP') {

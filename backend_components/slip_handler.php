@@ -24,11 +24,13 @@
         if ($type == 'INDOOR') {
             $dept = mysqli_real_escape_string($db, $_POST['dept']);
             $fee = 0;
+            $discount = 0;
             $procedure = mysqli_real_escape_string($db, $_POST['procedure']);
             $subType = mysqli_real_escape_string($db, $_POST['subType']);
         // Post Type Outdoor Variables 
         }else if ($type == 'OUTDOOR') {
             $fee = mysqli_real_escape_string($db, $_POST['fee']);
+            $discount = mysqli_real_escape_string($db, $_POST['discount']);
             $dept = mysqli_real_escape_string($db, $_POST['dept']);
             $procedure = NULL;
             $subType = NULL;
@@ -36,6 +38,7 @@
         }else if ($type == 'EMERGENCY') {
             $dept = NULL;
             $fee = 0;
+            $discount = 0;
             $procedure = NULL;
             $subType = NULL;
         }  
@@ -60,8 +63,8 @@
                 // If Patient Query is executed
                 if (mysqli_stmt_execute($stmt)){
                     // Slip Insert Query
-                    $slipQuery = "INSERT INTO `me_slip`(`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`,`SLIP_DISPOSAL`, `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `SLIP_SUB_TYPE`, `STAFF_ID`) 
-                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+                    $slipQuery = "INSERT INTO `me_slip`(`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`,`SLIP_DISPOSAL`, `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_DISCOUNT`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `SLIP_SUB_TYPE`, `STAFF_ID`) 
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
                     // Check if DB and Query is correct
                     if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
                         $result = [];
@@ -71,18 +74,18 @@
                         exit();
                     }else{
                         // If SQL Query and DB is correct then bind parameters to the Query
-                        mysqli_stmt_bind_param($stmt,"ssssssssssss", $slipId,$patId,$name,$phone,$disposal,$dept,$doctor,$fee,$procedure,$type,$subType,$by);
+                        mysqli_stmt_bind_param($stmt,"sssssssssssss", $slipId,$patId,$name,$phone,$disposal,$dept,$doctor,$fee,$discount,$procedure,$type,$subType,$by);
                         // If Slip Query is executed
                         if (mysqli_stmt_execute($stmt)) {
                             // History Insert Query and Parameters
                             if ($type == 'EMERGENCY') {
                                 $historyQuery = "INSERT INTO `me_slip_history`
-                                (`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`,`SLIP_DISPOSAL`, `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
-                                VALUES ('$slipId','$patId','$name','$phone','$disposal',NULL,'$doctor',$fee,'$procedure','$type','$by')";
+                                (`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`,`SLIP_DISPOSAL`, `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_DISCOUNT`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
+                                VALUES ('$slipId','$patId','$name','$phone','$disposal',NULL,'$doctor',$fee, $discount,'$procedure','$type','$by')";
                             }else {
                                 $historyQuery = "INSERT INTO `me_slip_history`
-                                (`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`,`SLIP_DISPOSAL`, `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
-                                VALUES ('$slipId','$patId','$name','$phone','$disposal','$dept','$doctor',$fee,'$procedure','$type','$by')";
+                                (`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`,`SLIP_DISPOSAL`, `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_DISCOUNT`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
+                                VALUES ('$slipId','$patId','$name','$phone','$disposal','$dept','$doctor',$fee,$discount,'$procedure','$type','$by')";
                             }
                             // Check If History Query is executed
                             if (mysqli_query($db, $historyQuery)){
@@ -124,11 +127,13 @@
         if ($type == 'INDOOR') {
             $dept = mysqli_real_escape_string($db, $_POST['dept']);
             $fee = 0;
+            $discount = 0;
             $procedure = mysqli_real_escape_string($db, $_POST['procedure']);
             $subType = mysqli_real_escape_string($db, $_POST['subType']);
         // Post Type Outdoor Variables 
         }else if ($type == 'OUTDOOR') {
             $fee = mysqli_real_escape_string($db, $_POST['fee']);
+            $discount = mysqli_real_escape_string($db, $_POST['discount']);
             $dept = mysqli_real_escape_string($db, $_POST['dept']);
             $procedure = NULL;
             $subType = NULL;
@@ -136,6 +141,7 @@
         }else if ($type == 'EMERGENCY') {
             $dept = NULL;
             $fee = 0;
+            $discount = 0;
             $procedure = NULL;
             $subType = NULL;
         }  
@@ -147,8 +153,8 @@
             {
             // If Patient Query is executed
                 // Slip Insert Query
-                $slipQuery = "INSERT INTO `me_slip`(`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE` ,`SLIP_DISPOSAL` , `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `SLIP_SUB_TYPE`, `STAFF_ID`) 
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+                $slipQuery = "INSERT INTO `me_slip`(`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE` ,`SLIP_DISPOSAL` , `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_DISCOUNT`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `SLIP_SUB_TYPE`, `STAFF_ID`) 
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 // Check if DB and Query is correct
                 if (!mysqli_stmt_prepare($stmt,$slipQuery)) {
                     $result = [];
@@ -158,18 +164,18 @@
                     exit();
                 }else{
                     // If SQL Query and DB is correct then bind parameters to the Query
-                    mysqli_stmt_bind_param($stmt,"ssssssssssss", $slipId,$patId,$name,$phone,$disposal,$dept,$doctor,$fee,$procedure,$type,$subType,$by);
+                    mysqli_stmt_bind_param($stmt,"sssssssssssss", $slipId,$patId,$name,$phone,$disposal,$dept,$doctor,$fee,$discount,$procedure,$type,$subType,$by);
                     // If Slip Query is executed
                     if (mysqli_stmt_execute($stmt)) {
                         // History Insert Query and Parameters
                         if ($type == 'EMERGENCY') {
                             $historyQuery = "INSERT INTO `me_slip_history`
-                            (`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`,`SLIP_DISPOSAL` , `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
-                            VALUES ('$slipId','$patId','$name','$phone','$disposal',NULL,'$doctor',$fee,'$procedure','$type','$by')";
+                            (`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`,`SLIP_DISPOSAL` , `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_DISCOUNT`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
+                            VALUES ('$slipId','$patId','$name','$phone','$disposal',NULL,'$doctor', $fee, $discount,'$procedure','$type','$by')";
                         }else {
                             $historyQuery = "INSERT INTO `me_slip_history`
-                            (`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`,`SLIP_DISPOSAL` , `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
-                            VALUES ('$slipId','$patId','$name','$phone','$disposal','$dept','$doctor',$fee,'$procedure','$type','$by')";
+                            (`SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`,`SLIP_DISPOSAL` , `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_DISCOUNT`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
+                            VALUES ('$slipId','$patId','$name','$phone','$disposal','$dept','$doctor', $fee, $discount,'$procedure','$type','$by')";
                         }
                         // Check If History Query is executed
                         if (mysqli_query($db, $historyQuery)){
@@ -217,6 +223,7 @@
                 $mrid = $slip_data['SLIP_MRID'];
                 $uuid = $slip_data['SLIP_UUID'];
                 $name = $slip_data['SLIP_NAME'];
+                $disposal = $slip_data['SLIP_DISPOSAL'];
                 $mobile = $slip_data['SLIP_MOBILE'];
                 if ($val == 'OUTDOOR' || $val == 'INDOOR') {
                     $dept_id = $slip_data['SLIP_DEPARTMENT'];
@@ -225,19 +232,29 @@
                 $doc_id = $slip_data['SLIP_DOCTOR'];
                 $doc_name = $slip_data['DOCTOR_NAME'];
                 $fee = $slip_data['SLIP_FEE'];
+                $discount = $slip_data['SLIP_DISCOUNT'];
                 if ($val == 'INDOOR') {
                     $procedure = $slip_data['SLIP_PROCEDURE'];
                 }
             }  
             echo "<div class='row'>
                 <div class='col-md-12' style='display:flex;'>
-                <div class='form-group col-md-6'>
+                <div class='form-group col-md-4'>
                     <label>Patient MR-ID #</label>
                     <input type='text' name='editMrid' id='editMrid' value='$mrid' class='form-control' readonly>
                 </div>
-                <div class='form-group col-md-6'>
+                <div class='form-group col-md-4'>
                     <label>Patient Name</label>
                     <input type='text' name='editName' id='editName' value='$name' class='form-control' placeholder='Enter Patient Name Here ...'>
+                </div>
+                <div class='form-group col-md-4'>
+                    <label>Disposal</label>
+                    <select class='form-control select2' name='editDisposal' id='editDisposal' required>
+                      <option value='$disposal' selected>$disposal</option>
+                      <option value='OPD'>OPD</option>
+                      <option value='Admission'>Admission</option>
+                      <option value='Death'>Death</option>
+                    </select>
                 </div>
                 </div>";
                 if ($val == 'OUTDOOR') {
@@ -290,14 +307,18 @@
                 </div>
                 </div>
                 <div class='col-md-12' style='display:flex;'>
-                <div class='form-group col-md-6'>
+                <div class='form-group col-md-4'>
                     <label>Mobile No#</label>
-                    <input type='tel' name='editPhone' id='editPhone' value='$mobile' class='form-control' placeholder='Enter Mobile No. without - '>
+                    <input type='tel' name='editPhone' id='editPhone' value='$mobile' class='form-control' placeholder='Enter without - '>
                 </div>";
                 if ($val == 'OUTDOOR') {
-                echo "<div class='form-group col-md-6'>
+                echo "<div class='form-group col-md-4'>
                     <label>Consultant Fee</label>
-                    <input type='number' name='editFee' id='editFee' value='$fee' class='form-control' placeholder='Enter Consultant Fee'>
+                    <input type='number' name='editFee' id='editFee' value='$fee' class='form-control' placeholder='Enter Fee'>
+                </div>
+                <div class='form-group col-md-4'>
+                    <label>Discount</label>
+                    <input type='number' name='editDiscount' id='editDiscount' value='$discount' class='form-control' placeholder='Enter Discount'>
                 </div>";
                 }
                 echo "</div>";
@@ -319,19 +340,23 @@
         $mrid = mysqli_real_escape_string($db, $_POST['editMrid']);
         $name = mysqli_real_escape_string($db, $_POST['editName']);
         $phone = mysqli_real_escape_string($db, $_POST['editPhone']);
+        $disposal = mysqli_real_escape_string($db, $_POST['editDisposal']);
         $type = mysqli_real_escape_string($db, $_POST['slipType']);
         $doc = mysqli_real_escape_string($db, $_POST['editDoctor']);
         $staffId = mysqli_real_escape_string($db, $_POST['editStaff']);
         if($type=='OUTDOOR'||$type=='INDOOR'){$dept=mysqli_real_escape_string($db,$_POST['editDept']);}else{$dept=NULL;}
-        if($type=='OUTDOOR'){$fee=mysqli_real_escape_string($db,$_POST['editFee']);}else{$fee=0;}
+        if($type=='OUTDOOR'){
+            $fee=mysqli_real_escape_string($db,$_POST['editFee']);
+            $discount=mysqli_real_escape_string($db,$_POST['editDiscount']);
+        }else{$fee=0;}
         if($type=='INDOOR'){$procedure=mysqli_real_escape_string($db,$_POST['editProcedure']);}else{$procedure=NULL;}
         
         if ($type == 'INDOOR' || $type == 'OUTDOOR') {
-            if(mysqli_query($db, "UPDATE `me_slip` SET `SLIP_NAME`='$name',`SLIP_MOBILE`='$phone',`SLIP_DEPARTMENT`='$dept',`SLIP_DOCTOR`='$doc',`SLIP_FEE`='$fee',`SLIP_PROCEDURE`='$procedure',`STAFF_ID` ='$staffId' WHERE `SLIP_UUID` = '$uuid'"))
+            if(mysqli_query($db, "UPDATE `me_slip` SET `SLIP_NAME`='$name',`SLIP_MOBILE`='$phone',`SLIP_DISPOSAL` = '$disposal',`SLIP_DEPARTMENT`='$dept',`SLIP_DOCTOR`='$doc',`SLIP_FEE`='$fee',`SLIP_DISCOUNT`='$discount',`SLIP_PROCEDURE`='$procedure',`STAFF_ID` ='$staffId' WHERE `SLIP_UUID` = '$uuid'"))
             {
                 $historyQuery = "INSERT INTO `me_slip_history`(
-                `SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`, `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
-                VALUES ('$uuid','$mrid','$name','$phone','$dept','$doc','$fee','$procedure','$type','$staffId')";
+                `SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`, `SLIP_DISPOSAL`, `SLIP_DEPARTMENT`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_DISCOUNT`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
+                VALUES ('$uuid','$mrid','$name','$phone','$disposal','$dept','$doc','$fee','$discount','$procedure','$type','$staffId')";
                 if (mysqli_query($db, $historyQuery)){
                     $result = [];
                     $result['status'] = "success";
@@ -355,11 +380,11 @@
                 exit();
             }	
         }else {
-            if(mysqli_query($db, "UPDATE `me_slip` SET `SLIP_NAME`='$name',`SLIP_MOBILE`='$phone',`SLIP_DOCTOR`='$doc',`SLIP_FEE`='$fee',`SLIP_PROCEDURE`='$procedure',`STAFF_ID` ='$staffId' WHERE `SLIP_UUID` = '$uuid'"))
+            if(mysqli_query($db, "UPDATE `me_slip` SET `SLIP_NAME`='$name',`SLIP_MOBILE`='$phone',`SLIP_DOCTOR`='$doc',`SLIP_FEE`='$fee',`SLIP_DISCOUNT`='$discount',`SLIP_PROCEDURE`='$procedure',`STAFF_ID` ='$staffId' WHERE `SLIP_UUID` = '$uuid'"))
             {
                 $historyQuery = "INSERT INTO `me_slip_history`(
-                `SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
-                VALUES ('$uuid','$mrid','$name','$phone','$doc','$fee','$procedure','$type','$staffId')";
+                `SLIP_UUID`, `SLIP_MRID`, `SLIP_NAME`, `SLIP_MOBILE`, `SLIP_DOCTOR`, `SLIP_FEE`, `SLIP_DISCOUNT`, `SLIP_PROCEDURE`, `SLIP_TYPE`, `STAFF_ID`) 
+                VALUES ('$uuid','$mrid','$name','$phone','$doc','$fee', '$discount','$procedure','$type','$staffId')";
                 if (mysqli_query($db, $historyQuery)){
                     $result = [];
                     $result['status'] = "success";

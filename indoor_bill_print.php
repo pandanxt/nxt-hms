@@ -44,7 +44,7 @@
                       </div>
                       <div style="display:flex;">
                         <div style="margin:15px 10px;font-size:30px;"><i class="fas fa-phone"></i></div> 
-                        <div style="font-size:15px;">0300 4133102 <br>0320 4707070 <br>042 37165549</div>
+                        <div style="font-size:15px;">0300 4133102 <br>0320 9707070 <br>042 37165549</div>
                       </div>
                     </div>
                   </div>

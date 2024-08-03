@@ -47,6 +47,7 @@ if (isset($_SESSION['uuid'])) {
     $age = $slip_row['PATIENT_AGE'];
     $date = $slip_row['SLIP_DATE_TIME'];
     $fee = $slip_row['SLIP_FEE'];
+    $discount = $slip_row['SLIP_DISCOUNT'];
     $procedure = $slip_row['SLIP_PROCEDURE'];
     $type = $slip_row['SLIP_TYPE'];
     $subType = $slip_row['SLIP_SUB_TYPE'];
@@ -61,7 +62,7 @@ if (isset($_SESSION['uuid'])) {
         <div class="headerSubTitle"><?php echo $date; ?></div>
         <div><img class="titleLogo" src="dist/img/hospital-logo.png" alt="Medeast Hospital Logo"></div>
         <div id="date">C-1 Commercial Office Block,</br> Paragon City, Lahore.</div>
-        <div id="date">042 37165549, 0320 4707070, 0300 4133102</div>
+        <div id="date">042 37165549, 0320 9707070, 0300 4133102</div>
         <div class="headerSubTitle mt-2 mb-2">
             <?php
                 if ($type == 'INDOOR' && $subType == 'GYNEACOLOGY_PATIENT') {
@@ -121,8 +122,12 @@ if (isset($_SESSION['uuid'])) {
                         <div class="col3"><b class="nxt">&#8360;-<?php echo $fee; ?></b></div>
                     </div>
                     <div class="row">
+                        <div class="col2"><b>Discount: </b></div>
+                        <div class="col3"><b class="nxt">&#8360;-<?php echo $discount; ?></b></div>
+                    </div>
+                    <div class="row">
                         <div class="col2"><b>Payable: </b></div>
-                        <div class="col3"><b class="nxt">&#8360;-<?php echo $fee; ?></b></div>
+                        <div class="col3"><b class="nxt">&#8360;-<?php echo $fee - $discount; ?></b></div>
                     </div>
                 </div>
             </div>

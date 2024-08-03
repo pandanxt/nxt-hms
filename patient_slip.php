@@ -104,17 +104,21 @@
               </div>
               <div class="col-md-6">
                 <div class="col-md-12" style="display:flex;">
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label>Mobile No#</label>
-                        <input type="tel" name="phone" id="phone" class="form-control" placeholder="Enter Mobile No. without '-' " required>
+                        <input type="tel" name="phone" id="phone" class="form-control" placeholder="Enter without '-' " required>
                     </div>
                     <?php if ($type == 'OUTDOOR') {?>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label>Consultant Fee</label>
-                        <input type="number" name="fee" id="fee" class="form-control" placeholder="Enter Const Fee" required>
+                        <input type="number" name="fee" id="fee" class="form-control" placeholder="Enter Fee" required>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Discount</label>
+                        <input type="number" name="discount" id="discount" class="form-control" placeholder="Enter Discount" required>
                     </div>
                     <?php }?>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label>Disposal</label>
                         <select class="form-control select2" name="disposal" id="disposal" required>
                           <option value="OPD">OPD</option>
