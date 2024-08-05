@@ -27,6 +27,13 @@
                 <p>Create Slip</p>
                 </a>
             </li>
+            <!------Create Patient Bill------>
+            <li class="nav-item">
+              <a type="button" href="emr_bill.php" class="dropdown-item nav-link">
+                <i class="nav-icon fa fa-clipboard"></i>
+                <p>Create EMR Bill</p>
+                </a>
+            </li>
             <!------Patient Slip Record------>
             <li class="nav-item">
               <a type="button" href="slips.php" class="dropdown-item nav-link">

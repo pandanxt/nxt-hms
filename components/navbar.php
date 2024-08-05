@@ -16,6 +16,12 @@
           <i class="fas fa-plus"></i> Slips
         </a>
       </li>
+       <!------Create Slip Icon------>
+       <li class="nav-item d-none d-sm-inline-block">
+        <a type="button" class="dropdown-item nav-link" href="emr_bill.php">
+          <i class="fas fa-plus"></i> Emergency Bill
+        </a>
+      </li>
       <!------View Slip Icon------>
       <li class="nav-item d-none d-sm-inline-block">
         <a type="button" href="slips.php" class="dropdown-item nav-link">

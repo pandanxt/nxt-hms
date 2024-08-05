@@ -1,8 +1,16 @@
+let data, slipId, serviceName, list = 'me';
+
 // Add unique Id for New Bill
 let uuid = (new Date()).getTime() + Math.trunc(365 * Math.random());
 let today = new Date().toLocaleDateString();
 let unique_id = today.length = 7 ? `${String(uuid).slice(-4)}-${today.replaceAll('/', '')}` : `${String(uuid).slice(-3)}-${today.replaceAll('/', '')}`;
 if (document.getElementById("billId")) { document.getElementById("billId").value = `BID${unique_id}`; }
+
+// Add unique Id for New Slip and visiting doctor
+let patient_id = today.length = 7 ? `${today.replaceAll('/', '')}${String(uuid).slice(-4)}-MRD` : `${today.replaceAll('/', '')}${String(uuid).slice(-3)}-MRD`;
+
+if (document.getElementById("patId")) { document.getElementById("patId").value = patient_id; }
+if (document.getElementById("slipId")) { document.getElementById("slipId").value = `SLP${unique_id}`; }
 //Get Surgery Total       
 function genSurgeryTotal() {
   let adCharge = document.getElementById("adCharge").value;
@@ -154,7 +162,7 @@ function calculateEmergencyTotal() {
   let other11 = document.getElementById("other11").value;
   let other12 = document.getElementById("other12").value;
 
-  let totalBill = +moChargeEmrc+ +injectionIM+ +injectionIV+ +ivLine+ +infusionAntibiotic+ +stitchInTotal+ +stitchOutTotal+ +bsf+ +shortStay+ +bp+ +ecg+ +drip+ +venofar+ +stomachWash+ +foleyCath+ +ctg+ +dressing+ +nebulization+ +monChargeTwo+ +enema+ +bloodTransfusion+ +ett+ +ascitic+ +pleuralFuid+ +lumberPuncture+ +other1+ +other2+ +other3+ +other4+ +other5+ +other6+ +other7+ +other8+ +other9+ +other10+ +other11+ +other12;
+  let totalBill = +moChargeEmrc + +injectionIM + +injectionIV + +ivLine + +infusionAntibiotic + +stitchInTotal + +stitchOutTotal + +bsf + +shortStay + +bp + +ecg + +drip + +venofar + +stomachWash + +foleyCath + +ctg + +dressing + +nebulization + +monChargeTwo + +enema + +bloodTransfusion + +ett + +ascitic + +pleuralFuid + +lumberPuncture + +other1 + +other2 + +other3 + +other4 + +other5 + +other6 + +other7 + +other8 + +other9 + +other10 + +other11 + +other12;
   document.getElementById("totalBill").value = totalBill;
 }
 // Get genFinal Discount Function
@@ -219,6 +227,62 @@ $(document).ready(function ($) {
   });
   return false;
 });
+
+// ADD EMERGENCY BILL AJAX CALL
+$(document).ready(function ($) {
+  $('#addStandAloneEmergencyBill').submit(function (e) {
+    e.preventDefault();
+    $("#err-msg").hide();
+    console.log('bill Submit Preprocessor', $(this).serialize());
+    let slipId = $("input#slipId").val();
+    let billId = $("input#billId").val();
+    let mrId = $("input#patId").val();
+    let name = $("input#name").val();
+    let phone = $("input#phone").val();
+    let age = $("input#age").val();
+    let gender = $("input#gender").val();
+    let doctor = $("input#doctor").val();
+    let disposal = $("input#disposal").val();
+
+    if (name == "" || slipId == "" || phone == "" || mrId == "" || billId == "" || age == "" || gender == "" || doctor == "" || disposal == "") {
+      $("#err-msg").fadeIn().text("Required Field.");
+      $("input#slipId").focus();
+      $("input#billId").focus();
+      $("input#patId").focus();
+      $("input#name").focus();
+      $("input#phone").focus();
+      $("input#age").focus();
+      $("input#gender").focus();
+      $("input#doctor").focus();
+      $("input#disposal").focus();
+      return false;
+    }
+    $.ajax({
+      type: "POST",
+      url: "backend_components/bill_handler.php?q=ADD_STANDALONE_EMERGENCY_BILL",
+      data: $(this).serialize(), // get all form field value in serialize form
+      success: function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+        $(function () {
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1000
+          });
+          Toast.fire({
+            icon: res.status,
+            title: res.message
+          });
+          printBill(res.data['id'], res.data['type']);
+        });
+      }
+    });
+  });
+  return false;
+});
+
 // ADD INDOOR BILL AJAX CALL
 $(document).ready(function ($) {
   $('#addIndoorBill').submit(function (e) {
